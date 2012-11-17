@@ -5,6 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
+
+
+/*-------------------------------INSTRUCTIONS---------------------------------*/
+/* Do not use any strings for KEYS that have spaces in them                   */
+/* To view and edit in real time go to View>Add>Robot Preferences             */
+/* To add more listings from SmartDashboard, enable editing mode              */
+/* and then disable editing mode. Then double click on the fields you want    */
+/* NOTE: KEYS cannot be edited after saving                                   */
+/*----------------------------------------------------------------------------*/
+
+
 package edu.wpi.first.wpilibj.templates;
 
 
@@ -26,10 +38,11 @@ public class RobotTemplate extends IterativeRobot {
     Preferences preferences;
     
     public void robotInit() {
-//        preferences.getInstance().putString("Test", "Hello World");
-//        preferences.getInstance().putBoolean("Bool", true);
-//        preferences.getInstance().putInt("Int", 512);
-//        preferences.getInstance().save();
+        preferences.getInstance().putString("Test", "Hello World");
+        preferences.getInstance().putBoolean("Bool", true);
+        preferences.getInstance().putInt("Int", 512);
+        preferences.getInstance().save();
+//       preferences.getInstance().
     }
 
     /**
@@ -44,7 +57,8 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void teleopPeriodic() {
         System.out.println("Keys: " + preferences.getInstance().getKeys());
-        System.out.println(preferences.getInstance().getString("Test", "If this is showing up then nothing was found at that key"));
+//        System.out.println(preferences.getInstance().getString("Test", "If this is showing up then nothing was found at that key"));
+        
     }
     
 }
