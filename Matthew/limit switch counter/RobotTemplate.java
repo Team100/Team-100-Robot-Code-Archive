@@ -21,39 +21,29 @@ public class RobotTemplate extends IterativeRobot {
     private final Joystick joystick;
     private final Joystick joystick2;
     private final JoystickButton button1;
-    private final Victor vic1;
+    private final Jaguar jag1;
     private final Jaguar jag2;
-    //private final Servo servo;
+    private final Servo servo;
     //private final RobotDrive drive;
-    //private final AnalogChannel pot;
-    private final AnalogTrigger lightsensor;
+    private final AnalogChannel pot;
     private final DigitalInput toggleA;
     private final DigitalInput toggleB;
-    private final AnalogChannel lightsensor1;
     private final Counter counter;
-    private boolean firsttime;
     private int count;
 
     public RobotTemplate() {
         joystick = new Joystick(1);
         joystick2 = new Joystick(2);
-        vic1 = new Victor (1);
+        jag1 = new Jaguar(1);
         jag2 = new Jaguar(2);
-        //servo = new Servo(1);
-        //drive = new RobotDrive(vic1, jag2);
-        //pot = new AnalogChannel(1);
+        servo = new Servo(3);
+       // drive = new RobotDrive(jag1, jag2);
+        pot = new AnalogChannel(1);
         toggleA = new DigitalInput(1);
         toggleB = new DigitalInput(2);
         button1 = new JoystickButton (joystick, 1);
-        lightsensor = new AnalogTrigger (1);
-        lightsensor1 = new AnalogChannel (1);
-        counter = new Counter (lightsensor);
-        firsttime = true;
+        counter = new Counter(toggleA);
         count = 0;
-        lightsensor.setLimitsVoltage(2.9, 3.9);
-        /* One sensor's approx. voltage for white binder paper: 0.2 Aprrox. for dark marker line on the paper: 3.7.
-          Another sensor's approx. voltage for white binder paper: 2.3 Approx for dark marker line on the paper: 4.55
-         However, the voltage levels change depending on the sensor and the darkness of the marker */
     }//end constructor
 
     /**
@@ -71,34 +61,19 @@ public class RobotTemplate extends IterativeRobot {
         //don't put anything in here either
     }//end autonomousPeriodic()
 
-    public void disabledInit()    {
-        counter.reset();
-        counter.start();
-        counter.stop();
-        System.out.println("disabledinit was called");
-        //this section might not be necessary
-    }
-
-    public void teleopInit()   {
+    /**
+     * This function is called periodically during operator control
+     */
+    public void teleopInit() {
         counter.start();
         counter.reset();
         count = counter.get();
         System.out.println(count);
-        firsttime = true;
         System.out.println("teleopinit was called");
     }
-    /**
-     * This function is called periodically during operator control
-     */
     public void teleopPeriodic() {
 
-        if(firsttime)
-        {
-            counter.reset();
-            firsttime = false;
-        }
-
-        int newcount = counter.get();
+ int newcount = counter.get();
 
         if(count != newcount)
         {
@@ -106,21 +81,17 @@ public class RobotTemplate extends IterativeRobot {
             count = newcount;
         }
 
-    SmartDashboard.putDouble("Analog Channel Voltage is", lightsensor1.getVoltage());
     SmartDashboard.putInt("Count is", newcount);
 
+    /*Please note that there is a major amount of "bounce" when the limit switch is pressed.
+      The switch will count around 15 for every press (though it probably depends on the switch.
+      This can be reduced (if not eliminated) by adding a capacitor. */
 
-    SmartDashboard.putBoolean("Analog Trigger state is" , lightsensor.getTriggerState());
-    /* "false" means that it is light, "true" means that it is dark. */
 
-//    if(lightsensor.getTriggerState() == false)
-//        drive.arcadeDrive(joystick);
-//    else
-//        drive.stopMotor();
 
-    if(button1.get())
-        counter.reset();
+
 
 
    }//end teleopPeriodic()
 }//end RobotTemplate
+
