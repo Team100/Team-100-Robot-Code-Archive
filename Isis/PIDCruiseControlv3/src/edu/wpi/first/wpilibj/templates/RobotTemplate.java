@@ -34,8 +34,10 @@ public class RobotTemplate extends IterativeRobot {
     private double prevTime = 0.0; //in s; previous sample of time elapsed
     private double prevError = 0.0; //previous difference btwn currInstVeloc and kVelocSetpt
     private double prevWeightedInstVeloc = 0.0;
+    private double prevDeltaDist = 0.0;
     private double goalDist = 0.0; //accumulated desired distances (products of kVelocSetpt & loopPeriod)
     private double filtDist = 0.0; //accumulated deltas between currDist & prevDist
+    private double output = 0.0;
     //Quality metrics
     private double numOscills = 0.0; //number of oscillations in velocity
     private double maxVeloc = 0.0; // max recorded inst veloc
@@ -46,12 +48,12 @@ public class RobotTemplate extends IterativeRobot {
     private double kDesPeriod = 0.02; //desired loop period
     private double kVelocSetpt = 0.0; //desired or goal velocity
     private double kMaxDuration = 10.0; 
-    private double kP = 0.1; //0.1 works fine
-    private double kI = 1.0; //1.0 works fine
-    private double kD = 0.0; //0.0 works fine
+    private double kMaxOutput = 0.5;
+    private double kMinOutput = 0.05;
+    private double kP = 0.01; 
+    private double kI = 0.0; 
+    private double kD = 10.0; 
     //Constants
-    private final double kMaxOutput = 1.0;
-    private final double kMinOutput = 0.05;
     private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
     
@@ -68,9 +70,12 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putDouble("kTolerance", 0.01);
         SmartDashboard.putDouble("kDesPeriod", 0.02);
         SmartDashboard.putDouble("kMaxDuration", 10.0);
-        SmartDashboard.putDouble("kP", 0.1);
-        SmartDashboard.putDouble("kI",1.0);
-        SmartDashboard.putDouble("kD",0.0);
+        SmartDashboard.putDouble("kMaxOutput", 0.5);
+        SmartDashboard.putDouble("kMinOutput", 0.05);
+        SmartDashboard.putDouble("filtWeight", 0.0);
+        SmartDashboard.putDouble("kP", 0.01);
+        SmartDashboard.putDouble("kI",0.0);
+        SmartDashboard.putDouble("kD",10.0);
     }//end robotInit()
 
     public void autonomousInit() {
@@ -94,8 +99,10 @@ public class RobotTemplate extends IterativeRobot {
         prevTime = 0.0; 
         prevError = 0.0;
         prevWeightedInstVeloc = 0.0;
+        prevDeltaDist = 0.0;
         goalDist = 0.0;
         filtDist = 0.0;
+        output = 0.0;
         //Quality metric resets
         numOscills = 0.0; 
         maxVeloc = 0.0; 
@@ -126,15 +133,19 @@ public class RobotTemplate extends IterativeRobot {
         //check for updated values
         kVelocSetpt = SmartDashboard.getDouble("Velocity_Setpoint", 0.0);
         kTolerance = SmartDashboard.getDouble("kTolerance", 0.01);
-        kP = SmartDashboard.getDouble("kP", 0.1);
-        kI = SmartDashboard.getDouble("kI", 1.0);
-        kD = SmartDashboard.getDouble("kd", 0.0);
+        double filtWeight = SmartDashboard.getDouble("filtWeight", 0.0);
+        kMaxOutput = SmartDashboard.getDouble("kMaxOutput", 0.5);
+        kMinOutput = SmartDashboard.getDouble("kMinOutput", 0.05);
+        kP = SmartDashboard.getDouble("kP", 0.01);
+        kI = SmartDashboard.getDouble("kI", 0.0);
+        kD = SmartDashboard.getDouble("kd", 10.0);
         
         //calculate instantaneous velocity
         double currDist = encoderRight.getRaw() / kGearRatio;
-        double deltaDist = currDist - prevDist;
-        filtDist += deltaDist;
-        double currInstVeloc = deltaDist / loopPeriod;
+        double currDeltaDist = currDist - prevDist;
+        currDeltaDist = (currDeltaDist + filtWeight*prevDeltaDist)/(1.0 + filtWeight);
+        filtDist += currDeltaDist;
+        double currInstVeloc = currDeltaDist / loopPeriod;
         double error = kVelocSetpt - currInstVeloc;
         totalError += Math.abs(error*loopPeriod);
         if (currInstVeloc > kVelocSetpt - kTolerance && converge == 0.0) {
@@ -158,7 +169,7 @@ public class RobotTemplate extends IterativeRobot {
        
         //compute the output
         double currWeightedInstVeloc = currInstVeloc/loopPeriod;
-        double output = kP * error + kI * totalDistError - kD * (currWeightedInstVeloc - prevWeightedInstVeloc);
+        output += kP * error + kI * totalDistError - kD * (currWeightedInstVeloc - prevWeightedInstVeloc);
         
         //limit to one directiion of motion, eliminate deadband
         if (output > kMaxOutput) {
@@ -182,12 +193,12 @@ public class RobotTemplate extends IterativeRobot {
         
         //print to SmartDashboard
         SmartDashboard.putDouble("Total_error", totalError);
-//        SmartDashboard.putDouble("encoderLeft_Raw", encoderLeft.getRaw());
+//       SmartDashboard.putDouble("encoderLeft_Raw", encoderLeft.getRaw());
 //        SmartDashboard.putDouble("encoderRight_Raw", encoderRight.getRaw());
         SmartDashboard.putDouble("Distance", filtDist);
 //        SmartDashboard.putDouble("Actual_VelocSetpt", kVelocSetpt);
         SmartDashboard.putDouble("InstVeloc", currInstVeloc);
-//        SmartDashboard.putDouble("loopPeriod", loopPeriod);
+        SmartDashboard.putDouble("loopPeriod", loopPeriod);
         SmartDashboard.putDouble("goalDist", goalDist);
         SmartDashboard.putDouble("totalDistError", totalDistError);
         SmartDashboard.putDouble("numOscills", numOscills);
@@ -197,6 +208,7 @@ public class RobotTemplate extends IterativeRobot {
     
         //print to console
         System.out.println(kVelocSetpt + ", " + kTolerance + ", " + kDesPeriod);
+        System.out.println(kP + ", " + kI + ", " + kD);
         
         //setup for next loop
         prevDist = filtDist;
@@ -205,6 +217,7 @@ public class RobotTemplate extends IterativeRobot {
         prevDeriv = currDeriv;
         prevInstVeloc = currInstVeloc;
         prevWeightedInstVeloc = currWeightedInstVeloc;
+        prevDeltaDist = currDeltaDist;
         
     }//end autonomousContinuous()
 
