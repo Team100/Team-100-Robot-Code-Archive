@@ -50,9 +50,9 @@ public class RobotTemplate extends IterativeRobot {
     private double kMaxDuration = 10.0; 
     private double kMaxOutput = 0.5;
     private double kMinOutput = 0.05;
-    private double kP = 0.01; 
+    private double kP = 0.04; 
     private double kI = 0.0; 
-    private double kD = 10.0; 
+    private double kD = 0.001; 
     //Constants
     private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
@@ -73,9 +73,9 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putDouble("kMaxOutput", 0.5);
         SmartDashboard.putDouble("kMinOutput", 0.05);
         SmartDashboard.putDouble("filtWeight", 0.0);
-        SmartDashboard.putDouble("kP", 0.01);
+        SmartDashboard.putDouble("kP", 0.04);
         SmartDashboard.putDouble("kI",0.0);
-        SmartDashboard.putDouble("kD",10.0);
+        SmartDashboard.putDouble("kD",0.001);
     }//end robotInit()
 
     public void autonomousInit() {
@@ -136,9 +136,9 @@ public class RobotTemplate extends IterativeRobot {
         double filtWeight = SmartDashboard.getDouble("filtWeight", 0.0);
         kMaxOutput = SmartDashboard.getDouble("kMaxOutput", 0.5);
         kMinOutput = SmartDashboard.getDouble("kMinOutput", 0.05);
-        kP = SmartDashboard.getDouble("kP", 0.01);
+        kP = SmartDashboard.getDouble("kP", 0.04);
         kI = SmartDashboard.getDouble("kI", 0.0);
-        kD = SmartDashboard.getDouble("kd", 10.0);
+        kD = SmartDashboard.getDouble("kD", 0.001);
         
         //calculate instantaneous velocity
         double currDist = encoderRight.getRaw() / kGearRatio;
