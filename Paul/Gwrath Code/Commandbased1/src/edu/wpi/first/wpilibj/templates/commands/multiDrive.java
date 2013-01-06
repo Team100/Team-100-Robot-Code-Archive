@@ -15,7 +15,6 @@ public class multiDrive extends CommandBase {
         driveChooser.addDefault("Tank Drive", "tank");
         driveChooser.addObject("One Joystick Arcade Drive", "arcade1");
         driveChooser.addObject("Two Joystick Arcade Drive", "arcade2");
-        driveChooser.addObject("Gyro Drive Forward", "gyro");
         SmartDashboard.putData("Drive Mode", driveChooser);
     }
 
