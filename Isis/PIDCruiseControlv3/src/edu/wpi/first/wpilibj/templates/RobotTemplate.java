@@ -73,6 +73,7 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putDouble("kMaxOutput", 0.5);
         SmartDashboard.putDouble("kMinOutput", 0.05);
         SmartDashboard.putDouble("filtWeight", 0.0);
+        SmartDashboard.putDouble("rightOffset", 0.0);
         SmartDashboard.putDouble("kP", 0.04);
         SmartDashboard.putDouble("kI",0.0);
         SmartDashboard.putDouble("kD",0.001);
@@ -141,7 +142,7 @@ public class RobotTemplate extends IterativeRobot {
         kD = SmartDashboard.getDouble("kD", 0.001);
         
         //calculate instantaneous velocity
-        double currDist = encoderRight.getRaw() / kGearRatio;
+        double currDist = encoderLeft.getRaw() / kGearRatio;
         double currDeltaDist = currDist - prevDist;
         currDeltaDist = (currDeltaDist + filtWeight*prevDeltaDist)/(1.0 + filtWeight);
         filtDist += currDeltaDist;
@@ -188,13 +189,19 @@ public class RobotTemplate extends IterativeRobot {
         }
              
         //Move!
+        if (output > kMinOutput){
+            //1.104
+            double rightOffset = SmartDashboard.getDouble("rightOffset", 0.0);
+            jaguarRight.set(rightOffset*output);
+        } else {
+            jaguarRight.set(output);
+        }
         jaguarLeft.set(output);
-        jaguarRight.set(output);
         
         //print to SmartDashboard
         SmartDashboard.putDouble("Total_error", totalError);
-//       SmartDashboard.putDouble("encoderLeft_Raw", encoderLeft.getRaw());
-//        SmartDashboard.putDouble("encoderRight_Raw", encoderRight.getRaw());
+        SmartDashboard.putDouble("encoderLeft_Raw", encoderLeft.getRaw());
+        SmartDashboard.putDouble("encoderRight_Raw", encoderRight.getRaw());
         SmartDashboard.putDouble("Distance", filtDist);
 //        SmartDashboard.putDouble("Actual_VelocSetpt", kVelocSetpt);
         SmartDashboard.putDouble("InstVeloc", currInstVeloc);

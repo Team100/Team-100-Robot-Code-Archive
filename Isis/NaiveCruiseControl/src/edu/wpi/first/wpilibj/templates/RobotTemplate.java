@@ -138,8 +138,14 @@ public class RobotTemplate extends IterativeRobot {
         }
 
         //Move!
+        if (output > kMinOutput){
+            //1.104
+            double rightOffset = SmartDashboard.getDouble("rightOffset", 0.0);
+            jaguarRight.set(rightOffset*output);
+        } else {
+            jaguarRight.set(output);
+        }
         jaguarLeft.set(output);
-        jaguarRight.set(output);
         SmartDashboard.putDouble("Output", output);
 
         //Gather data for number of oscillations in output and max currInstVeloc
