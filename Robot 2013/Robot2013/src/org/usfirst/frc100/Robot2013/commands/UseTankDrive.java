@@ -30,10 +30,13 @@ public class  UseTankDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Robot.driveTrain.resetSensors();
+        Robot.driveTrain.startSensors();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        Robot.driveTrain.tankDrive(Robot.oi.getDriver().getX(), Robot.oi.getDriver().getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
