@@ -103,13 +103,29 @@ public class DriveTrain extends Subsystem {
         if (error>1) {
             error=1;
         }
+        if (error<-1){
+            error=-1;
+        }
+        if (error<.5&&error>-.5){
+            if (error<0){
+                error=-.5;
+            }
+            else {
+                error=.5;
+            }
+        }
+        if (angleError<1&&angleError>-1){
+            error=0;
+        }
         SmartDashboard.putNumber("Error:", error);
+        SmartDashboard.putNumber("Angle Error:", angleError);
         if((gyro.getAngle()<targetAngle-1)||(gyro.getAngle()>targetAngle+1)){
             ljag1.set(speed*error);
             rjag1.set(speed*error);
             ljag2.set(speed*error);
             rjag2.set(speed*error);
             putdata();
+            SmartDashboard.putNumber("Speed:", ljag1.get());
             return false;
         }
         else {
