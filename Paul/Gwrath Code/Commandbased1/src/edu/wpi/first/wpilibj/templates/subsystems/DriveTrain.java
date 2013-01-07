@@ -1,9 +1,9 @@
 //Subsystem controlling the drivetrain
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 
 public class DriveTrain extends Subsystem {
@@ -89,7 +89,9 @@ public class DriveTrain extends Subsystem {
             putdata();
             return false;
         }
-        else return true;
+        else {
+            return true;
+        }
     }
 
     public boolean autodriveturn (double targetAngle){
@@ -98,8 +100,10 @@ public class DriveTrain extends Subsystem {
         double speed=.5;
         double angleError=targetAngle-gyro.getAngle();
         double error=angleError/angleErrorConstant;
-        if (error>1) error=1;
-        //SmartDashboard.putDouble("Error:", error);
+        if (error>1) {
+            error=1;
+        }
+        SmartDashboard.putNumber("Error:", error);
         if((gyro.getAngle()<targetAngle-1)||(gyro.getAngle()>targetAngle+1)){
             ljag1.set(speed*error);
             rjag1.set(speed*error);
@@ -108,7 +112,9 @@ public class DriveTrain extends Subsystem {
             putdata();
             return false;
         }
-        else return true;
+        else {
+            return true;
+        }
     }
 
     public void resetgyro (){
@@ -137,8 +143,8 @@ public class DriveTrain extends Subsystem {
 
     public void putdata(){
         //Puts all data to smartdashboard
-        //SmartDashboard.putDouble("Gyro value:", gyro.getAngle());
-        //SmartDashboard.putDouble("Left encoder value:", leftEncoder.getDistance());
-        //SmartDashboard.putDouble("Right encoder value:", rightEncoder.getDistance());
+        SmartDashboard.putNumber("Gyro value:", gyro.getAngle());
+        SmartDashboard.putNumber("Left encoder value:", leftEncoder.getDistance());
+        SmartDashboard.putNumber("Right encoder value:", rightEncoder.getDistance());
     }
 }
