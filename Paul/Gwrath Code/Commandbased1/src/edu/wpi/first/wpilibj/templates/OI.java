@@ -1,36 +1,36 @@
 //Declares/initializes all of the operator inputs
 package edu.wpi.first.wpilibj.templates;
 
-import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.buttons.*;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    public static final Joystick leftJoystick = new Joystick(RobotMap.leftjoystick);
-    public static final Joystick rightJoystick = new Joystick(RobotMap.rightjoystick);
-    public static final JoystickButton leftButton1 = new JoystickButton(leftJoystick, RobotMap.leftjoystickbutton1);
-    public static final JoystickButton leftButton2 = new JoystickButton(leftJoystick, RobotMap.leftjoystickbutton2);
-    public static final JoystickButton rightButton1 = new JoystickButton(rightJoystick, RobotMap.rightjoystickbutton1);
-    public static final JoystickButton rightButton2 = new JoystickButton(rightJoystick, RobotMap.rightjoystickbutton2);
+    Joystick leftJoystick = new Joystick(RobotMap.leftjoystick);
+    Joystick rightJoystick = new Joystick(RobotMap.rightjoystick);
+    JoystickButton leftButton1 = new JoystickButton(leftJoystick, RobotMap.leftjoystickbutton1);
+    JoystickButton leftButton2 = new JoystickButton(leftJoystick, RobotMap.leftjoystickbutton2);
+    JoystickButton rightButton1 = new JoystickButton(rightJoystick, RobotMap.rightjoystickbutton1);
+    JoystickButton rightButton2 = new JoystickButton(rightJoystick, RobotMap.rightjoystickbutton2);
 
-    public static Joystick getLeftJoystick(){
+    public Joystick getLeftJoystick(){
         return leftJoystick;
     }
-    public static Joystick getRightJoystick(){
+    public Joystick getRightJoystick(){
         return rightJoystick;
     }
-    public static JoystickButton getLeftButton1(){
+    public JoystickButton getLeftButton1(){
         return leftButton1;
     }
-    public static JoystickButton getLeftButton2(){
+    public JoystickButton getLeftButton2(){
         return leftButton2;
     }
-    public static JoystickButton getRightButton1(){
+    public JoystickButton getRightButton1(){
         return rightButton1;
     }
-    public static JoystickButton getRightButton2(){
+    public JoystickButton getRightButton2(){
         return rightButton2;
     }
 
@@ -68,4 +68,3 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 }
-

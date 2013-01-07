@@ -25,7 +25,7 @@ public class RobotTemplate extends IterativeRobot {
     }
 
     public void autonomousInit() {
-        autonomousCommand.start();
+        //autonomousCommand.start();
     }
 
     public void autonomousPeriodic() {
@@ -33,7 +33,7 @@ public class RobotTemplate extends IterativeRobot {
     }
 
     public void teleopInit() {
-        autonomousCommand.cancel();
+        //autonomousCommand.cancel();
         teleopDrive.start();
     }
 

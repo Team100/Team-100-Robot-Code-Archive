@@ -2,18 +2,16 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 public class autonomousTest extends CommandBase {
-
     public autonomousTest() {
         requires(drivetrain);
     }
 
     protected void initialize() {
+        drivetrain.resetsensors();
     }
 
     protected void execute() {
-        drivetrain.resetsensors();
-        drivetrain.autodrivestraight(.5,12);
-        drivetrain.autodriveturn(-90);
+        drivetrain.autodriveturn(90);
     }
 
     protected boolean isFinished() {
