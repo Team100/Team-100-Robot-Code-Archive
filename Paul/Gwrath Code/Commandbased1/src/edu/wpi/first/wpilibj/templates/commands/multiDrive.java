@@ -2,13 +2,10 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.templates.OI;
 
 public class multiDrive extends CommandBase {
 
     public SendableChooser driveChooser;
-
     public multiDrive() {
         requires(drivetrain);
         driveChooser = new SendableChooser();
@@ -23,13 +20,13 @@ public class multiDrive extends CommandBase {
 
     protected void execute() {
         if (driveChooser.getSelected().equals("tank")){
-            drivetrain.tankdrive(OI.getLeftJoystick(), OI.getRightJoystick());
+            drivetrain.tankdrive(oi.getLeftJoystick(), oi.getRightJoystick());
         }
         if (driveChooser.getSelected().equals("arcade1")){
-            drivetrain.arcadedrive1(OI.getLeftJoystick());
+            drivetrain.arcadedrive1(oi.getLeftJoystick());
         }
         if (driveChooser.getSelected().equals("arcade2")){
-            drivetrain.arcadedrive2(OI.getLeftJoystick(), OI.getRightJoystick());
+            drivetrain.arcadedrive2(oi.getLeftJoystick(), oi.getRightJoystick());
         }
         drivetrain.putdata();
     }

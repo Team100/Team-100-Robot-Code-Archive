@@ -8,7 +8,6 @@ public class autonomousTest extends CommandBase {
 
     protected void initialize() {
         drivetrain.resetsensors();
-
     }
 
     protected void execute() {
