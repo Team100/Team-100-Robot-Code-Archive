@@ -1,0 +1,5 @@
+syntax: glob
+j2meclasses
+build
+suite
+resources
