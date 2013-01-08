@@ -28,6 +28,11 @@ public class DriveTrain extends Subsystem {
     }
     public void arcadeDrive(Joystick left, Joystick right){
         drive.arcadeDrive(-right.getX(), -left.getY());
+        /*Yes, both of these are negative for a reason.
+         *If you've worked with Kraken before, you'll know that the motors face in opposite directions,
+         * so, the negatives force it into going the way regular arcade drive works.
+         */
+                
         
     }
 
