@@ -24,7 +24,7 @@ public class RobotTemplate extends IterativeRobot {
         teleopDrive = new multiDrive();
         CommandBase.init();
         SmartDashboard.putData("Teleop", new multiDrive());
-        SmartDashboard.putData("Straight", new autoDrive(24));
+        SmartDashboard.putData("Straight", new autoDrive(48));
         SmartDashboard.putData("Right", new autoTurn(90));        
         SmartDashboard.putData("Left", new autoTurn(-90));        
     }

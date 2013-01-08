@@ -19,8 +19,6 @@ public class DriveTrain extends Subsystem {
     private final Encoder rightEncoder = new Encoder(RobotMap.dio_rightencoderA, RobotMap.dio_rightencoderB);
     private final Encoder leftEncoder = new Encoder(RobotMap.dio_leftencoderA, RobotMap.dio_leftencoderB);
     public SendableChooser numOfJoysticks;
-    //How far the robot overshoots in autodrivestraight:
-    public final double distanceOvershoot=2.5;
     //Constant used to drive straight in autodrivestraight:
     public final double errorConstant=25;
     //How much faster right motors naturally drive than left motors:
@@ -79,13 +77,30 @@ public class DriveTrain extends Subsystem {
         //Both right jaguars are flipped, so give them negative values to move forwards
         //Be sure to reset gyro before using
         //the constant in error needs to be tuned
+        double encoderAve=(leftEncoder.getDistance()+rightEncoder.getDistance())/2;
         double speed=.5;
-        if ((leftEncoder.getDistance()+rightEncoder.getDistance())/2<distance-distanceOvershoot){
-            double error=gyro.getAngle()/errorConstant;
-            ljag1.set(speed-error);
-            rjag1.set(-speed-error+speedOffset);
-            ljag2.set(speed-error);
-            rjag2.set(-speed-error+speedOffset);
+        double distError=(distance-encoderAve)/10;
+        double angleError=gyro.getAngle()/errorConstant;
+        if (distError>1) {
+            distError=1;
+        }
+        if (distError<-1){
+            distError=-1;
+        }
+        if (distError<.5&&distError>-.5){
+            if (distError<0){
+                distError=-.5;
+            }
+            else {
+                distError=.5;
+            }
+        }
+        SmartDashboard.putNumber("Error:", distError);
+        if (encoderAve>distance+1||encoderAve<distance-1){
+            ljag1.set((speed-angleError)*distError);
+            rjag1.set((-speed-angleError+speedOffset)*distError);
+            ljag2.set((speed-angleError)*distError);
+            rjag2.set((-speed-angleError+speedOffset)*distError);
             putdata();
             return false;
         }
@@ -114,18 +129,15 @@ public class DriveTrain extends Subsystem {
                 error=.5;
             }
         }
-        if (angleError<1&&angleError>-1){
-            error=0;
-        }
-        SmartDashboard.putNumber("Error:", error);
-        SmartDashboard.putNumber("Angle Error:", angleError);
+        //SmartDashboard.putNumber("Error:", error);
+        //SmartDashboard.putNumber("Angle Error:", angleError);
         if((gyro.getAngle()<targetAngle-1)||(gyro.getAngle()>targetAngle+1)){
             ljag1.set(speed*error);
             rjag1.set(speed*error);
             ljag2.set(speed*error);
             rjag2.set(speed*error);
             putdata();
-            SmartDashboard.putNumber("Speed:", ljag1.get());
+            //SmartDashboard.putNumber("Speed:", ljag1.get());
             return false;
         }
         else {
