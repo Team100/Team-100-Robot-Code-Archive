@@ -3,6 +3,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 public class autoTurn extends CommandBase {
     int Degrees;
+    boolean isFinished=false;
     public autoTurn(int degrees) {
         requires(drivetrain);
         Degrees=degrees;
@@ -13,11 +14,12 @@ public class autoTurn extends CommandBase {
     }
 
     protected void execute() {
-        drivetrain.autodriveturn(Degrees);
+        while (drivetrain.autodriveturn(Degrees)){}
+        isFinished=true;
     }
 
     protected boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     protected void end() {
