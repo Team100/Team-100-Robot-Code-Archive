@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class PIDBase implements Callable {
     private final Timer timer = new Timer(); //in s (ignore WPIlib docs)
+    private double input = 0.0;
     //Previous value variables
     private double prevInstVeloc = 0.0; //previous instantaneous velocity
     private double prevDeriv = 0.0; //previous difference between above and currInstVeloc
@@ -40,11 +41,17 @@ public class PIDBase implements Callable {
     private double kD = 0.001; 
     //Constants
     private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
-    
-    public PIDBase(double input){
-        
-    }
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
+    
+    public PIDBase(double input_, double kP_, double kI_, double kD_){
+        kP = kP_;
+        kI = kI_;
+        kD = kD_;
+        input = input_;
+        filtWeight = SendablePID.getFiltWeight();
+        
+    }//end PIDBase
+    
     
     public void call(){
         //check if enough time has elapsed
@@ -64,12 +71,8 @@ public class PIDBase implements Callable {
         //check for updated values
         kVelocSetpt = SmartDashboard.getDouble("Velocity_Setpoint", 0.0);
         kTolerance = SmartDashboard.getDouble("kTolerance", 0.01);
-        double filtWeight = SmartDashboard.getDouble("filtWeight", 0.0);
         kMaxOutput = SmartDashboard.getDouble("kMaxOutput", 0.5);
         kMinOutput = SmartDashboard.getDouble("kMinOutput", 0.05);
-        kP = SmartDashboard.getDouble("kP", 0.04);
-        kI = SmartDashboard.getDouble("kI", 0.0);
-        kD = SmartDashboard.getDouble("kD", 0.001);
         
         //calculate instantaneous velocity
         double currDist = encoderLeft.getRaw() / kGearRatio;
