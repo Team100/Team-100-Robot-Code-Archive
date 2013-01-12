@@ -3,6 +3,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 public class autoDrive extends CommandBase {
     int Distance;
+    boolean isFinished=false;
     public autoDrive(int distance) {
         requires(drivetrain);
         Distance=distance;
@@ -13,11 +14,12 @@ public class autoDrive extends CommandBase {
     }
 
     protected void execute() {
-        drivetrain.autodrivestraight(Distance);
+        while (drivetrain.autodrivestraight(Distance)){}
+        isFinished=true;
     }
 
     protected boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     protected void end() {
