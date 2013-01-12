@@ -102,10 +102,10 @@ public class DriveTrain extends Subsystem {
             ljag2.set((speed-angleError)*distError);
             rjag2.set((-speed-angleError+speedOffset)*distError);
             putdata();
-            return false;
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 
@@ -138,10 +138,10 @@ public class DriveTrain extends Subsystem {
             rjag2.set(speed*error);
             putdata();
             //SmartDashboard.putNumber("Speed:", ljag1.get());
-            return false;
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 

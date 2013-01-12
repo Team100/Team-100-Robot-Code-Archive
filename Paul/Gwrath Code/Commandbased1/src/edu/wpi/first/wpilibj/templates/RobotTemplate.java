@@ -11,6 +11,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.commands.*;
 
@@ -18,9 +19,12 @@ public class RobotTemplate extends IterativeRobot {
 
     Command autonomousCommand;
     Command teleopDrive;
+    SendableChooser AutonomousChooser;
 
     public void robotInit() {
-        autonomousCommand = new autonomousTest();
+        AutonomousChooser=new SendableChooser();
+        AutonomousChooser.addDefault("None", "none");
+        AutonomousChooser.addObject("Drive 2 feet", "2");
         teleopDrive = new multiDrive();
         CommandBase.init();
         SmartDashboard.putData("Teleop", new multiDrive());
@@ -30,7 +34,10 @@ public class RobotTemplate extends IterativeRobot {
     }
 
     public void autonomousInit() {
-        //autonomousCommand.start();
+        if (AutonomousChooser.getSelected().equals("2")){
+            autonomousCommand=new autoDrive(24);
+            autonomousCommand.start();
+        }
     }
 
     public void autonomousPeriodic() {
