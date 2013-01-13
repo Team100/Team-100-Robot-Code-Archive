@@ -66,17 +66,17 @@ public class RobotTemplate extends IterativeRobot {
         encoderLeft.setDistancePerPulse(1.0);
         encoderRight.setDistancePerPulse(1.0);
         resetInit();
-        SmartDashboard.putDouble("Velocity_Setpoint", 0.0);
-        SmartDashboard.putDouble("kTolerance", 0.01);
-        SmartDashboard.putDouble("kDesPeriod", 0.02);
-        SmartDashboard.putDouble("kMaxDuration", 10.0);
-        SmartDashboard.putDouble("kMaxOutput", 0.5);
-        SmartDashboard.putDouble("kMinOutput", 0.05);
-        SmartDashboard.putDouble("filtWeight", 0.0);
-        SmartDashboard.putDouble("rightOffset", 0.0);
-        SmartDashboard.putDouble("kP", 0.04);
-        SmartDashboard.putDouble("kI",0.0);
-        SmartDashboard.putDouble("kD",0.001);
+        SmartDashboard.putNumber("Velocity_Setpoint", 0.0);
+        SmartDashboard.putNumber("kTolerance", 0.01);
+        SmartDashboard.putNumber("kDesPeriod", 0.02);
+        SmartDashboard.putNumber("kMaxDuration", 10.0);
+        SmartDashboard.putNumber("kMaxOutput", 0.5);
+        SmartDashboard.putNumber("kMinOutput", 0.05);
+        SmartDashboard.putNumber("filtWeight", 0.0);
+        SmartDashboard.putNumber("rightOffset", 0.0);
+        SmartDashboard.putNumber("kP", 0.04);
+        SmartDashboard.putNumber("kI",0.0);
+        SmartDashboard.putNumber("kD",0.001);
     }//end robotInit()
 
     public void autonomousInit() {
@@ -114,10 +114,10 @@ public class RobotTemplate extends IterativeRobot {
     /**
      * This function is called as often as possible during autonomous
      */
-    public void autonomousContinuous() {
+    public void autonomousPeriodic() {
         //check if enough time has elapsed
-        kDesPeriod = SmartDashboard.getDouble("kDesPeriod", kDesPeriod);
-        kMaxDuration = SmartDashboard.getDouble("kMaxDuration", kMaxDuration);
+        kDesPeriod = SmartDashboard.getNumber("kDesPeriod", kDesPeriod);
+        kMaxDuration = SmartDashboard.getNumber("kMaxDuration", kMaxDuration);
         double currTime = timer.get();
         double loopPeriod = currTime - prevTime;
         if (loopPeriod < kDesPeriod) {
@@ -132,14 +132,14 @@ public class RobotTemplate extends IterativeRobot {
         }
         
         //check for updated values
-        kVelocSetpt = SmartDashboard.getDouble("Velocity_Setpoint", 0.0);
-        kTolerance = SmartDashboard.getDouble("kTolerance", 0.01);
-        double filtWeight = SmartDashboard.getDouble("filtWeight", 0.0);
-        kMaxOutput = SmartDashboard.getDouble("kMaxOutput", 0.5);
-        kMinOutput = SmartDashboard.getDouble("kMinOutput", 0.05);
-        kP = SmartDashboard.getDouble("kP", 0.04);
-        kI = SmartDashboard.getDouble("kI", 0.0);
-        kD = SmartDashboard.getDouble("kD", 0.001);
+        kVelocSetpt = SmartDashboard.getNumber("Velocity_Setpoint", 0.0);
+        kTolerance = SmartDashboard.getNumber("kTolerance", 0.01);
+        double filtWeight = SmartDashboard.getNumber("filtWeight", 0.0);
+        kMaxOutput = SmartDashboard.getNumber("kMaxOutput", 0.5);
+        kMinOutput = SmartDashboard.getNumber("kMinOutput", 0.05);
+        kP = SmartDashboard.getNumber("kP", 0.04);
+        kI = SmartDashboard.getNumber("kI", 0.0);
+        kD = SmartDashboard.getNumber("kD", 0.001);
         
         //calculate instantaneous velocity
         double currDist = encoderLeft.getRaw() / kGearRatio;
@@ -151,7 +151,7 @@ public class RobotTemplate extends IterativeRobot {
         totalError += Math.abs(error*loopPeriod);
         if (currInstVeloc > kVelocSetpt - kTolerance && converge == 0.0) {
             converge = timer.get();
-            SmartDashboard.putDouble("Convergence Time", converge);
+            SmartDashboard.putNumber("Convergence Time", converge);
         } 
         
         
@@ -191,7 +191,7 @@ public class RobotTemplate extends IterativeRobot {
         //Move!
         if (output > kMinOutput){
             //1.104
-            double rightOffset = SmartDashboard.getDouble("rightOffset", 0.0);
+            double rightOffset = SmartDashboard.getNumber("rightOffset", 0.0);
             jaguarRight.set(rightOffset*output);
         } else {
             jaguarRight.set(output);
@@ -199,19 +199,19 @@ public class RobotTemplate extends IterativeRobot {
         jaguarLeft.set(output);
         
         //print to SmartDashboard
-        SmartDashboard.putDouble("Total_error", totalError);
-        SmartDashboard.putDouble("encoderLeft_Raw", encoderLeft.getRaw());
-        SmartDashboard.putDouble("encoderRight_Raw", encoderRight.getRaw());
-        SmartDashboard.putDouble("Distance", filtDist);
-//        SmartDashboard.putDouble("Actual_VelocSetpt", kVelocSetpt);
-        SmartDashboard.putDouble("InstVeloc", currInstVeloc);
-        SmartDashboard.putDouble("loopPeriod", loopPeriod);
-        SmartDashboard.putDouble("goalDist", goalDist);
-        SmartDashboard.putDouble("totalDistError", totalDistError);
-        SmartDashboard.putDouble("numOscills", numOscills);
-        SmartDashboard.putDouble("Error", error);
-        SmartDashboard.putDouble("Output", output);
-        SmartDashboard.putDouble("Max Error", maxVeloc - kVelocSetpt);
+        SmartDashboard.putNumber("Total_error", totalError);
+        SmartDashboard.putNumber("encoderLeft_Raw", encoderLeft.getRaw());
+        SmartDashboard.putNumber("encoderRight_Raw", encoderRight.getRaw());
+        SmartDashboard.putNumber("Distance", filtDist);
+//        SmartDashboard.putNumber("Actual_VelocSetpt", kVelocSetpt);
+        SmartDashboard.putNumber("InstVeloc", currInstVeloc);
+        SmartDashboard.putNumber("loopPeriod", loopPeriod);
+        SmartDashboard.putNumber("goalDist", goalDist);
+        SmartDashboard.putNumber("totalDistError", totalDistError);
+        SmartDashboard.putNumber("numOscills", numOscills);
+        SmartDashboard.putNumber("Error", error);
+        SmartDashboard.putNumber("Output", output);
+        SmartDashboard.putNumber("Max Error", maxVeloc - kVelocSetpt);
     
         //print to console
         System.out.println(kVelocSetpt + ", " + kTolerance + ", " + kDesPeriod);
@@ -226,6 +226,6 @@ public class RobotTemplate extends IterativeRobot {
         prevWeightedInstVeloc = currWeightedInstVeloc;
         prevDeltaDist = currDeltaDist;
         
-    }//end autonomousContinuous()
+    }//end autonomousPeriodic()
 
 }//end robotTemplate()
