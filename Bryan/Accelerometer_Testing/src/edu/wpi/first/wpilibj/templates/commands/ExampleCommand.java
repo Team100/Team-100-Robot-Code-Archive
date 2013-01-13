@@ -1,18 +1,13 @@
 
-import edu.wpi.first.wpilibj.templates.commands.CommandBase;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package edu.wpi.first.wpilibj.templates.commands;
 
 /**
  *
- * @author Student
+ * @author bradmiller
  */
-public class Shoot extends CommandBase {
-    
-    public Shoot() {
+public class ExampleCommand extends CommandBase {
+
+    public ExampleCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

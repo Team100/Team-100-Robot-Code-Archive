@@ -6,8 +6,9 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.templates.subsystems.ThreadCreator;
+
 
 /**
  *
@@ -21,9 +22,11 @@ public class Shooter extends Subsystem {
     private final Encoder encoderRight = new Encoder (2,1);
     private final Jaguar jaguarLeft = new Jaguar(3);
     private final Jaguar jaguarRight = new Jaguar(2);
+    private final Timer timer = new Timer(); //in s (ignore WPIlib docs)
     PIDBase m_PIDInstance;
-    ThreadCreator m_thread;
-    double input = 0.0;
+    SendablePID sendable;
+    private double output = 0.0;
+    
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -32,9 +35,15 @@ public class Shooter extends Subsystem {
     
     
     public void sendPIDInput(){
+        sendable = new SendablePID();
         double input = encoderRight.getRaw();
-        m_PIDInstance = new PIDBase(input);
-        ThreadCreator(input, m_PIDInstance);
-        
+        sendable.activatePID(input);
     }// end runPID()
-}
+    
+    public void sendPIDOutput(){
+        output = sendable.returnOutput();
+        jaguarLeft.set(output);
+        jaguarRight.set(output);
+    }
+    
+}// end Shooter
