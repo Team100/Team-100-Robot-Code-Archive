@@ -2,6 +2,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 public class autonomousTest extends CommandBase {
+    boolean isFinished=false;
     public autonomousTest() {
         requires(drivetrain);
     }
@@ -11,11 +12,14 @@ public class autonomousTest extends CommandBase {
     }
 
     protected void execute() {
+        drivetrain.autodrivestraight(24);
         drivetrain.autodriveturn(90);
+        drivetrain.autodriveturn(-90);
+        isFinished=true;
     }
 
     protected boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     protected void end() {
