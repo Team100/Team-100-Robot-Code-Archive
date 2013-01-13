@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Student
  */
 public class PIDBase implements Callable {
-    private final Timer timer = new Timer(); //in s (ignore WPIlib docs)
+    SendablePID sendable;
     //Previous value variables
+    private double input = 0.0;
     private double prevInstVeloc = 0.0; //previous instantaneous velocity
     private double prevDeriv = 0.0; //previous difference between above and currInstVeloc
     private double prevDist = 0.0; //previous encoder raw count divided by gear ratio
@@ -27,12 +28,12 @@ public class PIDBase implements Callable {
     private double numOscills = 0.0; //number of oscillations in velocity
     private double maxVeloc = 0.0; // max recorded inst veloc
     private double totalError = 0.0; //sum of epsilons between currInstVeloc and kVelocSetpt
-    private double converge = 0.0; //first time achieve within tolerance
     //Tuneables
     private double kTolerance = 0.01; //in velocity, ft/s
     private double kDesPeriod = 0.02; //desired loop period
     private double kVelocSetpt = 0.0; //desired or goal velocity
     private double kMaxDuration = 10.0; 
+    private double kFiltWeight = 0.0;
     private double kMaxOutput = 0.5;
     private double kMinOutput = 0.05;
     private double kP = 0.04; 
@@ -40,48 +41,32 @@ public class PIDBase implements Callable {
     private double kD = 0.001; 
     //Constants
     private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
-    
-    public PIDBase(double input){
-        
-    }
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
     
-    public void call(){
-        //check if enough time has elapsed
-        double currTime = timer.get();
-        double loopPeriod = currTime - prevTime;
-        if (loopPeriod < kDesPeriod) {
-            return;
-        } else if (currTime > kMaxDuration){
-            timer.stop();
-            encoderLeft.stop();
-            encoderRight.stop();
-            jaguarLeft.set(0.0);
-            jaguarRight.set(0.0);
-            return;
-        }
-        
-        //check for updated values
-        kVelocSetpt = SmartDashboard.getDouble("Velocity_Setpoint", 0.0);
-        kTolerance = SmartDashboard.getDouble("kTolerance", 0.01);
-        double filtWeight = SmartDashboard.getDouble("filtWeight", 0.0);
-        kMaxOutput = SmartDashboard.getDouble("kMaxOutput", 0.5);
-        kMinOutput = SmartDashboard.getDouble("kMinOutput", 0.05);
-        kP = SmartDashboard.getDouble("kP", 0.04);
-        kI = SmartDashboard.getDouble("kI", 0.0);
-        kD = SmartDashboard.getDouble("kD", 0.001);
+    public PIDBase(double input_, double kP_, double kI_, double kD_){
+        kP = kP_;
+        kI = kI_;
+        kD = kD_;
+        input = input_;         
+    }// end constructor
+    
+    
+    public void call(double filtWeight, double velocSetpoint, double tolerance, double maxOutput, double minOutput){
+       //check for updated values
+       kFiltWeight = getFiltWeight();
+       kVelocSetpt = velocSetpoint;
+       kTolerance = tolerance;
+       kMaxOutput = maxOutput;
+       kMinOutput = minOutput;
         
         //calculate instantaneous velocity
-        double currDist = encoderLeft.getRaw() / kGearRatio;
+        double currDist = input / kGearRatio;
         double currDeltaDist = currDist - prevDist;
         currDeltaDist = (currDeltaDist + filtWeight*prevDeltaDist)/(1.0 + filtWeight);
         filtDist += currDeltaDist;
         double currInstVeloc = currDeltaDist / loopPeriod;
         double error = kVelocSetpt - currInstVeloc;
         totalError += Math.abs(error*loopPeriod);
-        if (currInstVeloc > kVelocSetpt - kTolerance && converge == 0.0) {
-            converge = timer.get();
-        } 
         
         
         //goal distance is our integral
@@ -120,18 +105,10 @@ public class PIDBase implements Callable {
         //setup for next loop
         prevDist = filtDist;
         prevError = error;
-        prevTime = currTime;
         prevDeriv = currDeriv;
         prevInstVeloc = currInstVeloc;
         prevWeightedInstVeloc = currWeightedInstVeloc;
-        prevDeltaDist = currDeltaDist;
-        
-        returnOutput(output);
-        
+        prevDeltaDist = currDeltaDist;        
     }// end calculate
-    
-    public double returnOutput(double output){
-        return output;
-    }
     
 }// end PIDAlgorithm
