@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><project basedir="." default="help" name="ThreadPoolRobot">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project basedir="." default="help" name="EncoderWork">
 
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
@@ -90,6 +90,4 @@
     For more information on using ant, see http://ant.apache.org.
 
     -->
-	
-
 </project>
