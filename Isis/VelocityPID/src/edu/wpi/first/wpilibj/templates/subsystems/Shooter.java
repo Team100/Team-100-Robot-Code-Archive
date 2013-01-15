@@ -23,8 +23,7 @@ public class Shooter extends Subsystem {
     private final Jaguar jaguarLeft = new Jaguar(3);
     private final Jaguar jaguarRight = new Jaguar(2);
     private final Timer timer = new Timer(); //in s (ignore WPIlib docs)
-    PIDBase m_PIDInstance;
-    SendablePID sendable;
+    PIDOutput write;
     private double output = 0.0;
     
     
@@ -33,17 +32,15 @@ public class Shooter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    
-    public void sendPIDInput(){
-        sendable = new SendablePID();
+    public double sendPIDInput(){
         double input = encoderRight.getRaw();
-        sendable.activatePID(input);
+        return input;
     }// end runPID()
     
-    public void sendPIDOutput(){
-        output = sendable.returnOutput();
+    public void setPIDOutput(){
+        output = write.writePIDOutput();
         jaguarLeft.set(output);
         jaguarRight.set(output);
-    }
+    }//end setPIDOutput
     
 }// end Shooter
