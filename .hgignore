@@ -2,4 +2,7 @@ syntax: glob
 j2meclasses
 build
 suite
-resources
+dist
+private
+*.bak.xml
+*~
