@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotTemplate extends IterativeRobot {
     
     HiTechnicColorSensor colorSensor; // used to sense frisbee color; best if used on bottom of frisbee
-    byte colorVal;
-    byte frisbeeType;
+    int colorVal;
+    int frisbeeType;
     String frisbeeOwner;
     int alliance;
     Jaguar motor1;
@@ -54,17 +54,21 @@ public class RobotTemplate extends IterativeRobot {
         alliance=DriverStation.getInstance().getAlliance().value;
         colorVal = colorSensor.getColor();
         
-        if(colorVal-8%18<=1) //will return true for 8, and 9
+        if(((colorVal+1)%11)>=9) //will return true for 8, and 9
         {
             frisbeeType=0;
         }
-        else if((colorVal-1)%10<=1) //will return true for 1, 2, 11, and 12
+        else if((Math.abs((colorVal-2)%9))<=1) //will return true for 1, 2, 3, 11, and 12
         {
             frisbeeType=1;
         }
         else if(colorVal==17)
         {
             frisbeeType=2;
+        }
+        else if(colorVal==0)
+        {
+            frisbeeType=3;
         }
         else
         {
