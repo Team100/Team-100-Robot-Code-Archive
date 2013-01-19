@@ -4,14 +4,12 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  *
  * @author Student
  */
-public class PIDBase implements Callable {
-    SendablePID sendable;
+public class PIDBase implements Calculate {
+    GetValues getValues;
     //Previous value variables
     private double input = 0.0;
     private double prevInstVeloc = 0.0; //previous instantaneous velocity
@@ -41,28 +39,16 @@ public class PIDBase implements Callable {
     private double kD = 0.001; 
     //Constants
     private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
-    //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
+    //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet    
     
-    public PIDBase(double input_, double kP_, double kI_, double kD_){
-        kP = kP_;
-        kI = kI_;
-        kD = kD_;
-        input = input_;         
-    }// end constructor
-    
-    
-    public void call(double filtWeight, double velocSetpoint, double tolerance, double maxOutput, double minOutput){
+    public void calculate(){
        //check for updated values
-       kFiltWeight = getFiltWeight();
-       kVelocSetpt = velocSetpoint;
-       kTolerance = tolerance;
-       kMaxOutput = maxOutput;
-       kMinOutput = minOutput;
+       setValues();
         
         //calculate instantaneous velocity
         double currDist = input / kGearRatio;
         double currDeltaDist = currDist - prevDist;
-        currDeltaDist = (currDeltaDist + filtWeight*prevDeltaDist)/(1.0 + filtWeight);
+        currDeltaDist = (currDeltaDist + kFiltWeight*prevDeltaDist)/(1.0 + kFiltWeight);
         filtDist += currDeltaDist;
         double currInstVeloc = currDeltaDist / loopPeriod;
         double error = kVelocSetpt - currInstVeloc;
@@ -111,4 +97,46 @@ public class PIDBase implements Callable {
         prevDeltaDist = currDeltaDist;        
     }// end calculate
     
-}// end PIDAlgorithm
+    public double writePIDOutput(){
+        return output;
+    }// end writePIDOutput
+    
+    private void setValues(){
+        setKP();
+        setKI();
+        setKD();
+        setFiltWeight();
+        setVelocSetpt();
+        setTolerance();
+        setDesPeriod();
+    }//end setValues
+    
+    private void setKP(){
+        kP = getValues.getKP();
+    }//end setKP
+    
+    private void setKI(){
+        kI = getValues.getKI();
+    }//end setKI
+    
+    private void setKD(){
+        kD = getValues.getKD();
+    }//end setKD
+    
+    private void setFiltWeight(){
+        kFiltWeight = getValues.getFiltWeight();
+    }//setFiltWeight
+    
+    private void setVelocSetpt(){
+        kVelocSetpt = getValues.getVelocSetpt();
+    }//end setVelocSetpt
+    
+    private void setTolerance(){
+        kTolerance = getValues.getTolerance();
+    }//end setTolerance
+    
+    private void setDesPeriod(){
+        kDesPeriod = getValues.getDesPeriod();
+    }//end setTolerance
+    
+}// end PIDBase

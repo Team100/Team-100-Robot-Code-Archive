@@ -13,21 +13,28 @@ import edu.wpi.first.wpilibj.Timer;
 public class TimedThread implements Runnable {
 
     Callable m_callable;
-    int m_period_ms;
+    int m_period_ms = 10;
 
-    public TimedThread(Callable callable, int period_ms) {
+    public TimedThread(Callable callable) {
         this.m_callable = callable;
-        this.m_period_ms = period_ms;
     }
 
     public void run() {
         while (true) {
             m_callable.call();
-            Timer.delay((double) m_period_ms / 1000.0);
+            int period;
+            synchronized (this) {
+                period = m_period_ms;
+            }
+            Timer.delay((double) period / 1000.0);
         }
     }
 
     public void start() {
         new Thread(this).start();
+    }
+    
+    public synchronized void setPeriod(int period){
+        m_period_ms = period;
     }
 }//end TimedThread
