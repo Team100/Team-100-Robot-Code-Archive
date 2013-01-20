@@ -4,81 +4,78 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
- * @author Student
+ * @author Isis
  */
 public class SendablePID {
 
-    private double m_input = 0.0;
-    private double m_kP = 0.0;
-    private double m_kI = 0.0;
-    private double m_kD = 0.0;
-    private double m_velocSetpt = 0.0;
-    private double m_filtWeight = 0.0;
-    private double m_desPeriod = 0.02;
-    private double m_tolerance = 0.01;
-    private double m_maxOutput = 1.0;
-    private double m_minOutput = 0.05;
-    private double output = 0.0;
+    PIDSource source;
+    PIDOutput output;
     TimedThread thread;
+    PIDBase base;
 
-    public void PIDInit() {
-//        encoderLeft.setReverseDirection(true);
-//        encoderLeft.setDistancePerPulse(1.0);
-//        encoderRight.setDistancePerPulse(1.0);
-        resetInit();
-        SmartDashboard.putNumber("Velocity_Setpoint", 0.0);
-        SmartDashboard.putNumber("kTolerance", 0.01);
-        SmartDashboard.putNumber("kDesPeriod", 0.02);
-        SmartDashboard.putNumber("kMaxOutput", 0.5);
-        SmartDashboard.putNumber("kMinOutput", 0.05);
-        SmartDashboard.putNumber("filtWeight", 0.0);
-        SmartDashboard.putNumber("rightOffset", 1.104);
-        SmartDashboard.putNumber("kP", 0.03);
+    public SendablePID() {
+        PIDInit();
+        Callable callable = new Callable() {
+            public void call() {
+                double input = source.pidGet();
+                setInput(input);
+                getValues();
+                double result = base.calculate();
+                output.pidWrite(result);
+            }
+        };
+        thread = new TimedThread(callable);
+        thread.run();
+    }//end SendablePID
+
+    private void PIDInit() {
+        SmartDashboard.putNumber("kP", 0.0);
         SmartDashboard.putNumber("kI", 0.0);
-        SmartDashboard.putNumber("kD", 0.001);
+        SmartDashboard.putNumber("kD", 0.0);
+        SmartDashboard.putNumber("filtWeight", 0.0);
+        SmartDashboard.putNumber("kTolerance", 0.0);
+        SmartDashboard.putNumber("Period", 0.02);
+        SmartDashboard.putNumber("kMaxOutput", 0.0);
+        SmartDashboard.putNumber("kMinOutput", 0.0);
     }//end PIDInit
 
-    public void resetInit() {
-    }//end resetInit
+    private void setInput(double input){
+        base.setInput(input);
+    }//end setInput
+    
+    public void setDistRatio(double distRatio) {
+        base.setDistRatio(distRatio);
+    }//end setDistRatio
+
+    public void setSetpoint(double setpoint) {
+        base.setSetpoint(setpoint);
+    }//end setSetpoint
 
     public void getValues() {
-        m_kP = SmartDashboard.getNumber("kP", 0.03);
-        m_kI = SmartDashboard.getNumber("kI", 0.0);
-        m_kD = SmartDashboard.getNumber("kD", 0.001);
-        m_velocSetpt = SmartDashboard.getNumber("Velocity_Setpoint", 0.0);
-        m_filtWeight = SmartDashboard.getNumber("filtWeight", 0.0);
-        m_tolerance = SmartDashboard.getNumber("kTolerance", 0.01);
-        m_maxOutput = SmartDashboard.getNumber("kMaxOutput", 1.0);
-        m_minOutput = SmartDashboard.getNumber("kminOutput", 0.05);
-    }
-
-    public void activatePID(double input) {
-        PIDBase base = new PIDBase(m_input, m_kP, m_kI, m_kD);
-        thread.run();
-    }//end activatePID
-
-    public double returnOutput() {
-        output = base.getOutput();
-        return output;
-    }//end returnOutput
-
-    public double getVelocSetpt(){
-         m_velocSetpt = SmartDashboard.getNumber("Velocity_Setpoint", 0.0);
-         return m_velocSetpt;
-    }//end getVelocSetpt
+        base.setKP(SmartDashboard.getNumber("kP", 0.0));
+        base.setKI(SmartDashboard.getNumber("kI", 0.0));
+        base.setKD(SmartDashboard.getNumber("kD", 0.0));
+        base.setFiltWeight(SmartDashboard.getNumber("filtWeight", 0.0));
+        base.setPeriod(checkPeriod(SmartDashboard.getNumber("Period", 0.02)));
+        base.setTolerance(SmartDashboard.getNumber("kTolerance", 0.0));
+        base.setMaxOutput(SmartDashboard.getNumber("kMaxOutput", 0.0));
+        base.setMinOutput(SmartDashboard.getNumber("kminOutput", 0.0));
+    }//end getValues
     
-    public double getDesPeriod() {
-        m_desPeriod = SmartDashboard.getNumber("kDesPeriod", 0.02);
-        return m_desPeriod;
-    }//end getMaxDuration
-
-    public double getFiltWeight() {
-        m_filtWeight = SmartDashboard.getNumber("filtWeight", 0.0);
-        return m_filtWeight;
-    }//getRightOffset
+    private double checkPeriod(double period){
+        if (period == 0.0){
+            return 0.02;
+        }
+        else{
+            return period;
+        }
+    }//end checkPeriod
+    
 }//end SendablePID
 
