@@ -13,8 +13,8 @@ import org.usfirst.frc100.Robot2013.Robot;
 /**
  *
  */
-public class  UsePreciseTankDrive extends Command {
-    public UsePreciseTankDrive() {
+public class  CreepForwardOrBackward extends Command {
+    public CreepForwardOrBackward() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 	
