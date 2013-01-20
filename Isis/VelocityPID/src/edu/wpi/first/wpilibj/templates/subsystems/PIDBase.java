@@ -4,14 +4,11 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  *
- * @author Student
+ * @author Isis
  */
-public class PIDBase implements Callable {
-    SendablePID sendable;
+public class PIDBase {
     //Previous value variables
     private double input = 0.0;
     private double prevInstVeloc = 0.0; //previous instantaneous velocity
@@ -30,7 +27,7 @@ public class PIDBase implements Callable {
     private double totalError = 0.0; //sum of epsilons between currInstVeloc and kVelocSetpt
     //Tuneables
     private double kTolerance = 0.01; //in velocity, ft/s
-    private double kDesPeriod = 0.02; //desired loop period
+    
     private double kVelocSetpt = 0.0; //desired or goal velocity
     private double kMaxDuration = 10.0; 
     private double kFiltWeight = 0.0;
@@ -40,34 +37,23 @@ public class PIDBase implements Callable {
     private double kI = 0.0; 
     private double kD = 0.001; 
     //Constants
-    private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
-    //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
+    private double period = 0.02; //desired loop period
+    private double setpoint = 0.0;
+    private double kDistRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
+    //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet    
     
-    public PIDBase(double input_, double kP_, double kI_, double kD_){
-        kP = kP_;
-        kI = kI_;
-        kD = kD_;
-        input = input_;         
-    }// end constructor
-    
-    
-    public void call(double filtWeight, double velocSetpoint, double tolerance, double maxOutput, double minOutput){
-       //check for updated values
-       kFiltWeight = getFiltWeight();
-       kVelocSetpt = velocSetpoint;
-       kTolerance = tolerance;
-       kMaxOutput = maxOutput;
-       kMinOutput = minOutput;
-        
+    public double calculate(){
+        setpoint = getSetpoint();
+
         //calculate instantaneous velocity
-        double currDist = input / kGearRatio;
+        double currDist = input / kDistRatio;
         double currDeltaDist = currDist - prevDist;
-        currDeltaDist = (currDeltaDist + filtWeight*prevDeltaDist)/(1.0 + filtWeight);
+        currDeltaDist = (currDeltaDist + kFiltWeight * prevDeltaDist) / (1.0 + kFiltWeight);
         filtDist += currDeltaDist;
-        double currInstVeloc = currDeltaDist / loopPeriod;
+        double currInstVeloc = currDeltaDist / period;
         double error = kVelocSetpt - currInstVeloc;
-        totalError += Math.abs(error*loopPeriod);
-        
+        totalError += Math.abs(error * period);
+
         
         //goal distance is our integral
         //don't increase goal distance if kI is unset!
@@ -75,7 +61,7 @@ public class PIDBase implements Callable {
         if (kI == 0.0) {
             totalDistError = 0.0;
         } else {
-            goalDist += kVelocSetpt * loopPeriod;
+            goalDist += kVelocSetpt * period;
             totalDistError = goalDist - filtDist;
             if (kI * totalDistError > kMaxOutput) {
                 totalDistError = kMaxOutput / kI;
@@ -83,7 +69,7 @@ public class PIDBase implements Callable {
         }
        
         //compute the output
-        double currWeightedInstVeloc = currInstVeloc/loopPeriod;
+        double currWeightedInstVeloc = currInstVeloc/period;
         output += kP * error + kI * totalDistError - kD * (currWeightedInstVeloc - prevWeightedInstVeloc);
         
         //limit to one directiion of motion, eliminate deadband
@@ -108,7 +94,60 @@ public class PIDBase implements Callable {
         prevDeriv = currDeriv;
         prevInstVeloc = currInstVeloc;
         prevWeightedInstVeloc = currWeightedInstVeloc;
-        prevDeltaDist = currDeltaDist;        
+        prevDeltaDist = currDeltaDist; 
+        
+        return output;
     }// end calculate
     
-}// end PIDAlgorithm
+    
+    //obtain, set setpoint
+    public synchronized void setSetpoint(double sp){
+        setpoint = sp;
+    }//end setVelocSetpt
+    private synchronized double getSetpoint (){
+        return setpoint;
+    }//end getSetpoint
+    
+    
+    //set distance ratio from subsystem
+    public void setDistRatio(double dr){
+        kDistRatio = dr;
+    }//end setDistRatio
+    
+    
+    //obtain input
+    public void setInput(double in){
+        input = in;
+    }//end setInput
+    
+   
+    //set tuneables
+    public void setKP(double p){
+        kP = p;
+    }//end setKP
+    public void setKI(double i){
+        kI = i;
+    }//end setKI
+    public void setKD(double d){
+        kD = d;
+    }//end setKD
+    public void setFiltWeight(double fw){
+        kFiltWeight = fw;
+    }//setFiltWeight
+    public void setTolerance(double t){
+        kTolerance = t;
+    }//end setTolerance
+    public void setPeriod(double per){
+        if (per == 0.0){
+            return;
+        }
+        period = per;
+    }//end setDesPeriod
+    public void setMaxOutput(double max){
+        kMaxOutput = max;
+    }//end setMaxOutput
+    public void setMinOutput(double min){
+        kMinOutput = min;
+    }//end setMaxOutput
+    
+}// end PIDBase

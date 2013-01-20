@@ -10,7 +10,6 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.lang.Math;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,14 +30,6 @@ public class RobotTemplate extends SimpleRobot {
         timer = new Timer();
     }
     
-    public double absDouble(double a)
-    {
-        if(a<0)
-        {
-            return -a;
-        }
-        return a;
-    }
     /**
      * This function is called once each time the robot enters autonomous mode.
      */
@@ -46,11 +37,12 @@ public class RobotTemplate extends SimpleRobot {
     {
         double sec=0.0;
         double speed=0.0;
+        timer.reset();
         timer.start();
-        while(true)
+        while(isAutonomous())
         {
             sec=timer.get();
-            speed=(absDouble(((sec+3)%4)-2)-1); // 'speed' will accelerate at 1 unit/s^2 than decelerate at -1 unit/s^2
+            speed=(Math.abs(((sec+3)%4)-2)-1); // 'speed' will accelerate at 1 unit/s^2 than decelerate at -1 unit/s^2
             SmartDashboard.putNumber("Timer value", sec);
             bigMotor.set(speed);
             smallMotor.set(speed);
@@ -60,8 +52,15 @@ public class RobotTemplate extends SimpleRobot {
     /**
      * This function is called once each time the robot enters operator control.
      */
-    public void operatorControl() {
-
+    public void operatorControl()
+    {
+        SmartDashboard.putNumber("Big Motor Speed", 1.0);
+        SmartDashboard.putNumber("Small Motor Speed", 1.0);
+        while(isOperatorControl())
+        {
+            bigMotor.set(SmartDashboard.getNumber("Big Motor Speed"));
+            smallMotor.set(SmartDashboard.getNumber("Small Motor Speed"));            
+        }
     }
     
     /**
