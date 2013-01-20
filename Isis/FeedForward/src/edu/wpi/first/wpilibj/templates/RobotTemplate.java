@@ -32,12 +32,19 @@ public class RobotTemplate extends IterativeRobot {
     private final JoystickButton button4 = new JoystickButton(joystick, 4);
     private final JoystickButton button5 = new JoystickButton(joystick, 5);
     private final JoystickButton button6 = new JoystickButton(joystick, 6);
+    private final JoystickButton button7 = new JoystickButton(joystick, 7);
+    private final JoystickButton button8 = new JoystickButton(joystick, 8);
     private final Timer timer = new Timer();
     private double prevDist = 0.0;
     private double prevDist2 = 0.0;
     private double prevTime = 0.0;
     private double prevTime2 = 0.0;
     private final double kGearRatio = 1;
+    
+    public enum JoystickButton
+    {
+        
+    }
     
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
     
