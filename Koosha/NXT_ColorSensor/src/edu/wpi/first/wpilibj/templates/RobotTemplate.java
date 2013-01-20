@@ -58,7 +58,7 @@ public class RobotTemplate extends IterativeRobot {
         {
             frisbeeType=0;
         }
-        else if((Math.abs((colorVal-2)%9))<=1) //will return true for 1, 2, 3, 11, and 12
+        else if((Math.abs((colorVal-2)%8.5))<=1) //will return true for 1, 2, 3, and 11
         {
             frisbeeType=1;
         }
