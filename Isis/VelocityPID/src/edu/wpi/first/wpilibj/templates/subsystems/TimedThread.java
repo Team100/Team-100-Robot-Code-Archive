@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
- * @author Student
+ * @author Isis
  */
 public class TimedThread implements Runnable {
 
