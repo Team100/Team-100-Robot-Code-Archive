@@ -84,7 +84,6 @@ public class OI {
         lowerElevatorButton.whileHeld(new LowerElevator());
         raiseElevatorButton = new JoystickButton(manipulator, 1);
         raiseElevatorButton.whileHeld(new RaiseElevator());
-        
         driverRight = new Joystick(2);
         
         lowGearButton = new JoystickButton(driverRight, 5);
@@ -97,7 +96,6 @@ public class OI {
         preciseTurnButton.whileHeld(new UsePreciseTankDrive());
         creepButton = new JoystickButton(driverRight, 1);
         creepButton.whileHeld(new CreepForwardOrBackward());
-        
         driverLeft = new Joystick(1);
         
 	    
