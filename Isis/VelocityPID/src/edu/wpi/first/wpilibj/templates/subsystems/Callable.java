@@ -6,7 +6,7 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 /**
  *
- * @author Student
+ * @author Isis
  */
 public interface Callable {
     void call();
