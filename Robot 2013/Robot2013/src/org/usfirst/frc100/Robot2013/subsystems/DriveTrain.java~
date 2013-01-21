@@ -8,11 +8,9 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in th future.
 package org.usfirst.frc100.Robot2013.subsystems;
-import org.usfirst.frc100.Robot2013.RobotMap;
-import org.usfirst.frc100.Robot2013.commands.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType; import edu.wpi.first.wpilibj.Encoder.PIDSourceParameter;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc100.Robot2013.RobotMap;
 /**
  *
  */
@@ -41,31 +39,29 @@ public class DriveTrain extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void tankDrive(double x, double y) {
-        if (Math.abs(x) >= 0.95 && Math.abs(y) >= 0.95) {
-            driveStraight( (int) (x / Math.abs(x)), gyro.getAngle());
+    public void tankDrive(double l, double r) {
+        if (Math.abs(l) >= 0.95 && Math.abs(r) >= 0.95) {
+            driveStraight( (int) (l / Math.abs(l)), gyro.getAngle());
         } else {
-            leftA.set(x);
-            leftB.set(x);
-            rightA.set(y);
-            rightB.set(y);
+            left.set(l);
+            right.set(r);
         }
+    }
+    
+    public void arcadedrive(double y, double x){
+        robotDrive.arcadeDrive(y, x);
     }
     
     public void driveStraight(int i, double heading) {
         desiredHeading = convertAngle((int)heading);
-        leftA.set(.8 * i);
-        leftB.set(.8 * i);
-        rightA.set((.8 * i) + (convertAngle((int)gyro.getAngle()) - desiredHeading));
-        rightB.set((.8 * i) + (convertAngle((int)gyro.getAngle()) - desiredHeading));
+        left.set(.8 * i);
+        right.set((.8 * i) + (convertAngle((int)gyro.getAngle()) - desiredHeading));
     }
     
     public void turn90(int i) {
         int heading = convertAngle((int)desiredHeading + (90 * i));
-        leftA.set((convertAngle((int)gyro.getAngle()) - heading) / -90.0);
-        leftB.set((convertAngle((int)gyro.getAngle()) - heading) / -90.0);
-        rightA.set((convertAngle((int)gyro.getAngle()) - heading) / 90.0);
-        rightB.set((convertAngle((int)gyro.getAngle()) - heading) / 90.0);
+        left.set((convertAngle((int)gyro.getAngle()) - heading) / -90.0);
+        right.set((convertAngle((int)gyro.getAngle()) - heading) / 90.0);
     }
     
     public int convertAngle(int i) {

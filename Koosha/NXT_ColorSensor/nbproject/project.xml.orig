@@ -8,7 +8,7 @@
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>Climber</name>
+            <name>NXT_ColorSensor</name>
             <properties>
                 <property-file>${user.home}/.sunspotfrc.properties</property-file>
                 <property-file>build.properties</property-file>
@@ -83,7 +83,11 @@
             <compilation-unit>
                 <package-root>src</package-root>
                 <classpath mode="boot">${sunspot.home}\lib\squawk.jar</classpath>
+<<<<<<< local
+                <classpath mode="compile">${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar</classpath>
+=======
                 <classpath mode="compile">${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar;${sunspot.home}\lib\wpilibj.project\dist\lib\wpilibj.jar</classpath>
+>>>>>>> other
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>
