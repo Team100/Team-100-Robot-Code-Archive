@@ -24,9 +24,9 @@ public class Counter {
         long delay = time(System.currentTimeMillis()) - C_time;//gets the time between the C_time and the
             //what the robots actual current time is
         
-        SmartDashboard.putDouble("Delay", delay);
-        SmartDashboard.putDouble("Current Time", time(System.currentTimeMillis()));
-        SmartDashboard.putDouble("Last Time", C_time);
+        SmartDashboard.putNumber("Delay", delay);
+        SmartDashboard.putNumber("Current Time", time(System.currentTimeMillis()));
+        SmartDashboard.putNumber("Last Time", C_time);
         
         
         C_time  = time(System.currentTimeMillis());//Resets the current time to what it actually is

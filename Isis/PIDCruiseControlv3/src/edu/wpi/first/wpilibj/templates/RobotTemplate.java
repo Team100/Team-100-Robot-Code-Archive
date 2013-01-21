@@ -8,8 +8,8 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotTemplate extends IterativeRobot {
     
     //Objects from robot
-    private final Jaguar jaguarLeft = new Jaguar(3);
-    private final Jaguar jaguarRight = new Jaguar(2);
-    private final Encoder encoderLeft = new Encoder(7, 6);
-    private final Encoder encoderRight = new Encoder(2, 1);
+    private final Victor victorLeft = new Victor(3);
+    private final Victor victorRight = new Victor(2);
+    private final Encoder encoderLeft = new Encoder(7,6);
+    private final Encoder encoderRight = new Encoder(2,1);
     private final Timer timer = new Timer(); //in s (ignore WPIlib docs)
     //Previous value variables
     private double prevInstVeloc = 0.0; //previous instantaneous velocity
@@ -54,7 +54,7 @@ public class RobotTemplate extends IterativeRobot {
     private double kI = 0.0; 
     private double kD = 0.001; 
     //Constants
-    private final double kGearRatio = 250 * 4 * (27.0 / 13.0) * (0.5 * 3.14159) / 2;
+    private final double kGearRatio = 250 * 4 * (30.0 / 18.0) * (2*4.0 * 3.14159)/12;
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
     
     /**
@@ -85,8 +85,8 @@ public class RobotTemplate extends IterativeRobot {
 
     private void resetInit() {
         //Robot object resets
-        jaguarLeft.set(0.0);
-        jaguarRight.set(0.0);
+        victorLeft.set(0.0);
+        victorRight.set(0.0);
         encoderLeft.reset();
         encoderRight.reset();
         encoderLeft.start();
@@ -126,8 +126,8 @@ public class RobotTemplate extends IterativeRobot {
             timer.stop();
             encoderLeft.stop();
             encoderRight.stop();
-            jaguarLeft.set(0.0);
-            jaguarRight.set(0.0);
+            victorLeft.set(0.0);
+            victorRight.set(0.0);
             return;
         }
         
@@ -192,11 +192,11 @@ public class RobotTemplate extends IterativeRobot {
         if (output > kMinOutput){
             //1.104
             double rightOffset = SmartDashboard.getNumber("rightOffset", 0.0);
-            jaguarRight.set(rightOffset*output);
+            victorRight.set(rightOffset*output);
         } else {
-            jaguarRight.set(output);
+            victorRight.set(output);
         }
-        jaguarLeft.set(output);
+        victorLeft.set(output);
         
         //print to SmartDashboard
         SmartDashboard.putNumber("Total_error", totalError);
