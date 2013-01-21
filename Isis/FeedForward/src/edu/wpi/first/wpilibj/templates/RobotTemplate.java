@@ -39,12 +39,12 @@ public class RobotTemplate extends IterativeRobot {
     private double prevDist2 = 0.0;
     private double prevTime = 0.0;
     private double prevTime2 = 0.0;
-    private final double kGearRatio = 1;
-    
-    public enum JoystickButton
-    {
-        
-    }
+    private double leftSpeed = 0.0;
+    private double rightSpeed = 0.0;
+    private boolean isPressed = false;
+    private final double kTicksPerRevolution = 1000;
+    private final double kGearRatio = 18.0/30.0;
+    private final double kCircumference = (7.5*Math.PI)/12.0; // in feet
     
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet
     
@@ -57,6 +57,12 @@ public class RobotTemplate extends IterativeRobot {
         resetInit();
     }//end robotInit()
 
+    public void disabledInit()
+    {
+        SmartDashboard.putNumber("Left Speed", leftSpeed=0.0);
+        SmartDashboard.putNumber("Right Speed", rightSpeed=0.0);
+    }
+    
     private void resetInit() {
         encoderLeft.reset();
         encoderRight.reset();
@@ -71,7 +77,7 @@ public class RobotTemplate extends IterativeRobot {
     }
     
     public void teleopPeriodic() {
-        double output = SmartDashboard.getNumber("Victor_output", 0.0);
+        //double output = SmartDashboard.getNumber("Victor_output", 0.0);
         double currTime = timer.get();
         double loopPeriod = currTime - prevTime;        
         double currDist = encoderRight.getRaw() / kGearRatio;
@@ -84,15 +90,98 @@ public class RobotTemplate extends IterativeRobot {
         double currInstVeloc2 = deltaDist2 / loopPeriod2;
         SmartDashboard.putNumber("currInstVeloc", currInstVeloc);
         SmartDashboard.putNumber("currInstVeloc2", currInstVeloc2);
-        System.out.println("output: " + output);
-        victorLeft.set(output);
-        victorRight.set(output);
+        SmartDashboard.putNumber("Get Left Raw", encoderLeft.getRaw()); // 1440 ticks
+        SmartDashboard.putNumber("Get Right Raw", encoderRight.getRaw()); // 1000 ticks
+        //System.out.println("output: " + output);
+        //victorLeft.set(output);
+        //victorRight.set(output);
         prevDist = currDist;
         prevDist2 = currDist2;
         prevTime = currTime;
         prevTime2 = currTime2;
         SmartDashboard.putNumber("Battery voltage:",  DriverStation.getInstance().getBatteryVoltage());
         
+        if(button1.get())
+        {
+            if(!isPressed)
+            {
+                leftSpeed=0.0;
+                isPressed=true;
+            }
+        }
+        else if(button2.get())
+        {
+            if(!isPressed)
+            {
+                rightSpeed=0.0;
+                isPressed=true;
+            }
+        }
+        else if(button3.get())
+        {
+            if(!isPressed)
+            {
+                rightSpeed=1.0;
+                isPressed=true;
+            }
+        }
+        else if(button4.get())
+        {
+            if(!isPressed)
+            {
+                leftSpeed=0.0;
+                isPressed=true;
+            }
+        }
+        else if(button5.get())
+        {
+            if(!isPressed)
+            {
+                leftSpeed+=0.1;
+                isPressed=true;
+            }
+        }
+        else if(button6.get())
+        {
+            if(!isPressed)
+            {
+                rightSpeed+=0.1;
+                isPressed=true;
+            }
+        }
+        else if(button7.get())
+        {
+            if(!isPressed)
+            {
+                leftSpeed-=0.1;
+                isPressed=true;
+            }
+        }
+        else if(button8.get())
+        {
+            if(!isPressed)
+            {
+                rightSpeed-=0.1;
+                isPressed=true;
+            }
+        }
+        else
+        {
+            isPressed=false;
+        }
+        
+        if(Math.abs(leftSpeed)>1.0)
+        {
+            leftSpeed=0.0;
+        }
+        if(Math.abs(rightSpeed)>1.0)
+        {
+            rightSpeed=0.0;
+        }
+        SmartDashboard.putNumber("Left Speed", leftSpeed);
+        SmartDashboard.putNumber("Right Speed", rightSpeed);
+        victorLeft.set(leftSpeed);
+        victorRight.set(rightSpeed);
     }//end teleopPeriodic()
     
 }
