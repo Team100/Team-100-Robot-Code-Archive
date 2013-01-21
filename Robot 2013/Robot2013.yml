@@ -475,50 +475,6 @@ Children:
           name: Input Channel (Analog)
           validators: [AnalogInput]
           value: '3'
-    - Name: ClimberAngleEncoder
-      Base: Quadrature Encoder
-      Children: []
-      Properties:
-        Channel B Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id001
-          default: '1'
-          name: Channel B Module (Digital)
-          validators: *id002
-          value: '1'
-        Channel A Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id003
-          default: '1'
-          name: Channel A Module (Digital)
-          validators: *id004
-          value: '1'
-        PID Source: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id005
-          default: kRate
-          name: PID Source
-          validators: null
-          value: kRate
-        Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 1.0}
-        Encoding Type: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id006
-          default: k4X
-          name: Encoding Type
-          validators: null
-          value: k4X
-        Channel B Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id007
-          default: '1'
-          name: Channel B Channel (Digital)
-          validators: *id008
-          value: '12'
-        Channel A Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id009
-          default: '1'
-          name: Channel A Channel (Digital)
-          validators: *id010
-          value: '11'
-        Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
-          name: Reverse Direction, validators: null, value: false}
     - Name: Compressor
       Base: Compressor
       Children: []
@@ -576,7 +532,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id023
           value: '6'
-    - Name: ShooterEncoder
+    - Name: ShooterEncoder 1
       Base: Digital Input
       Children: []
       Properties:
@@ -592,6 +548,50 @@ Children:
           name: Input Module (Digital)
           validators: *id027
           value: '1'
+    - Name: ShooterEncoder 2
+      Base: Quadrature Encoder
+      Children: []
+      Properties:
+        Channel B Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id001
+          default: '1'
+          name: Channel B Module (Digital)
+          validators: *id002
+          value: '1'
+        Channel A Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id003
+          default: '1'
+          name: Channel A Module (Digital)
+          validators: *id004
+          value: '1'
+        PID Source: !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id005
+          default: kRate
+          name: PID Source
+          validators: null
+          value: kRate
+        Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
+          name: Distance Per Pulse, validators: null, value: 1.0}
+        Encoding Type: !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id006
+          default: k4X
+          name: Encoding Type
+          validators: null
+          value: k4X
+        Channel B Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id007
+          default: '1'
+          name: Channel B Channel (Digital)
+          validators: *id008
+          value: '11'
+        Channel A Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id009
+          default: '1'
+          name: Channel A Channel (Digital)
+          validators: *id010
+          value: '8'
+        Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
+          name: Reverse Direction, validators: null, value: false}
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: Shoot}
@@ -1050,6 +1050,6 @@ Properties:
     validators: null, value: 100}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
-  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\WHS-Robotics\NetBeansProjects',
+  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Daniel\NetBeansProjects',
     extension: null, folder: true, name: Java Project Directory, validators: null,
     value: 'C:\Users\WHS-Robotics\Documents\GoogleCodeRepo\Robot 2013'}
