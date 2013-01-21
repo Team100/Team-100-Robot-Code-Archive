@@ -79,7 +79,6 @@ public class Climber extends Subsystem {
     public boolean getUpperLimit(){
         return topClimberSwitch.get();
     }
-
     public boolean getTiltForwardLimit() {
         //Change this number!
         return (climberAnglePot.getValue()>60);
