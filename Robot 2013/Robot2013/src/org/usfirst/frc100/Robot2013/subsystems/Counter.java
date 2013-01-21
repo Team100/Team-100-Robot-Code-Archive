@@ -27,7 +27,6 @@ public class Counter {
         SmartDashboard.putNumber("Delay", delay);
         SmartDashboard.putNumber("Current Time", time(System.currentTimeMillis()));
         SmartDashboard.putNumber("Last Time", C_time);
-        System.out.println("hi");
         
         C_time  = time(System.currentTimeMillis());//Resets the current time to what it actually is
     }
