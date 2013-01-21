@@ -576,7 +576,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id023
           value: '6'
-    - Name: Digital Input 1
+    - Name: ShooterEncoder
       Base: Digital Input
       Children: []
       Properties:
