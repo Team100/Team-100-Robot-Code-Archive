@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -26,6 +28,7 @@ import javax.swing.SwingUtilities;
 public class Team100Camera extends StaticWidget{
 
     public static final String NAME = "Team 100 Camera";
+    
         
     public static Boolean firstcamera = true;
 
@@ -78,28 +81,48 @@ public int count = 0;
         
         
         @Override
-        public void run() {
-            
-            
-            
-            
-            
-            
+        public void run() { 
             WPIImage image;
             while (!destroyed) {
                 if (cam == null) {
-                    cam = new WPICamera("10.1.0.11");    
-                }
-                if (cam2 == null){
-                    cam2 = new WPICamera("10.1.0.12");               
+                    cam = new WPICamera("10.1.0.11"); 
+                    System.out.println("CAMERA 1 SET");
                 }
                 
+                
+                if (cam2 == null){
+                    cam2 = new WPICamera("10.1.0.12"); 
+                    System.out.println("CAMERA 2 SET");
+                    
+                }
                 try {
                     if(firstcamera){
-                        image = cam.getNewImage(5.0);
+
+                        cam.collect = true;
+                        cam2.collect = false;
+                        
+                       if(cam.badConnection){
+                           System.out.println("Bad Connection - Resetting Camera");
+                            cam.dispose();
+                            cam = new WPICamera("10.1.0.11");          
+                        }  
+                        image = cam.getNewImage();
                              
                     }else{
-                        image = cam2.getNewImage(5.0);
+                        if(cam2 == null){
+                            cam2 = new WPICamera("10.1.0.12");
+                            
+                        }
+                        cam.collect = false;
+                        cam2.collect = true;     
+
+                        if(cam2.badConnection){
+                            System.out.println("Bad Connection - Resetting Camera");
+                            cam2.dispose();
+                            cam2 = new WPICamera("10.1.0.12"); 
+                        }  
+
+                        image = cam2.getNewImage();        
                     }         
                     
                     if (image instanceof WPIColorImage) {
@@ -113,14 +136,14 @@ public int count = 0;
                 } catch (final Exception e) {
                     e.printStackTrace();
                     cam.dispose();
+                    cam2.dispose();
                     cam = null;
+                    cam2 = null;
+                    
+                    System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
                     
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                    }
                     
                 }
             }
@@ -224,7 +247,7 @@ public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera 
 
     
     public static void SwitchCamera(){
-        firstcamera = !firstcamera;      
+        firstcamera = !firstcamera;    
     }
 
 }
