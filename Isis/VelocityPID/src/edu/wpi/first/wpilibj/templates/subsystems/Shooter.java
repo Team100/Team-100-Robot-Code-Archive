@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.templates.commands.Shoot;
 
 /**
  *
@@ -20,14 +22,11 @@ public class Shooter extends Subsystem {
 
     private final Encoder encoderLeft = new Encoder(7,6);
     private final Encoder encoderRight = new Encoder (2,1);
-    private final Jaguar jaguarLeft = new Jaguar(3);
-    private final Jaguar jaguarRight = new Jaguar(2);
-    private SendablePID sendable = new SendablePID();
-    private final double kDistRatio = 0.0;
+    private final Victor motorFront = new Victor(3);
+    private final Victor motorBack = new Victor(2);
     
-    public Shooter(){
-        sendable.setDistRatio(kDistRatio);
-    }//end Shooter
+    private final double kDistRatio = 1000 / ((18.0/30.0)*7.5/12.0*3.14159);
+    //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet    
     
     PIDSource source = new PIDSource(){
         public double pidGet(){
@@ -37,10 +36,11 @@ public class Shooter extends Subsystem {
     
     PIDOutput output = new PIDOutput(){
         public void pidWrite(double output){
-            jaguarLeft.set(output);
-            jaguarRight.set(output);
+            motorFront.set(output);
+            motorBack.set(output);
         }
     }; //end anonym class PIDOutput
+    private SendablePID sendable = new SendablePID(source, output, kDistRatio);
     
     public void setSetpoint(double setpoint){
         sendable.setSetpoint(setpoint);
@@ -49,6 +49,7 @@ public class Shooter extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new Shoot());
     }//end initDefaultCommand
     
 }// end Shooter
