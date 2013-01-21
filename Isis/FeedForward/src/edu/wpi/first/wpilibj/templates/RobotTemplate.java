@@ -41,7 +41,7 @@ public class RobotTemplate extends IterativeRobot {
     private double prevTime2 = 0.0;
     private final double kGearRatio = 1;
     
-    public enum JoystickButton
+
     {
         
     }
@@ -90,7 +90,7 @@ public class RobotTemplate extends IterativeRobot {
         prevDist = currDist;
         prevDist2 = currDist2;
         prevTime = currTime;
-        prevTime2 = currTime2;
+        prevTime2 = currTime2; 
         SmartDashboard.putNumber("Battery voltage:",  DriverStation.getInstance().getBatteryVoltage());
         
     }//end teleopPeriodic()
