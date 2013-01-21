@@ -23,13 +23,12 @@ public class  TeleopDrive extends Command {
         driveChooser.addDefault("Tank Drive", "tank");
         driveChooser.addObject("One Joystick Arcade Drive", "arcade1");
         driveChooser.addObject("Two Joystick Arcade Drive", "arcade2");
+        driveChooser.addObject("Creep", "creep");
         driveChooser.addObject("None", "none");
         SmartDashboard.putData("Drive Mode", driveChooser);
     }
-
     protected void initialize() {
     }
-
     protected void execute() {
         if (driveChooser.getSelected().equals("tank")){
             Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getY());
@@ -40,18 +39,18 @@ public class  TeleopDrive extends Command {
         if (driveChooser.getSelected().equals("arcade2")){
             Robot.driveTrain.arcadedrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getX());
         }
+        if (driveChooser.getSelected().equals("creep")){
+            Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY()/3, Robot.oi.getDriverRight().getY()/3);
+        }
         if (driveChooser.getSelected().equals("none")){
             Robot.driveTrain.tankDrive(0, 0);
         }
     }
-
     protected boolean isFinished() {
         return false;
     }
-
     protected void end() {
     }
-
     protected void interrupted() {
     }
 }

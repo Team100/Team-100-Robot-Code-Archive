@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wpi.first.wpilibj.templates;
+package org.usfirst.frc100.Robot2013;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Sam
  */
-public class Counter {
+public class ElapsedTime {
     
     private long C_time = 0;//Current time
     private long O_time = 0;//Original time
     
-    public Counter(long times){//Contructor expects the current time of the robot
+    public ElapsedTime(long times){//Contructor expects the current time of the robot
         C_time = time(times); // Sets the current time to the time given, this number often changes
         O_time = time(times); // Sets the original time to the time given, this number never changes
     }
@@ -27,7 +27,6 @@ public class Counter {
         SmartDashboard.putNumber("Delay", delay);
         SmartDashboard.putNumber("Current Time", time(System.currentTimeMillis()));
         SmartDashboard.putNumber("Last Time", C_time);
-        
         
         C_time  = time(System.currentTimeMillis());//Resets the current time to what it actually is
     }

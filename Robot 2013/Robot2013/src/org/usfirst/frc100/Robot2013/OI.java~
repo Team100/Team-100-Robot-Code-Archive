@@ -81,7 +81,7 @@ public class OI {
         climbButton = new JoystickButton(manipulator, 3);
         climbButton.whenPressed(new Climb());
         lowerElevatorButton = new JoystickButton(manipulator, 2);
-        lowerElevatorButton.whileHeld(new RaiseElevator());
+        lowerElevatorButton.whileHeld(new LowerElevator());
         raiseElevatorButton = new JoystickButton(manipulator, 1);
         raiseElevatorButton.whileHeld(new RaiseElevator());
         driverRight = new Joystick(2);
