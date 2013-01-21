@@ -1,0 +1,8 @@
+syntax: glob
+j2meclasses
+build
+suite
+dist
+private
+*.bak.xml
+*~
