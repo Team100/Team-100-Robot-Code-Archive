@@ -30,6 +30,7 @@ public class  TeleopDrive extends Command {
     protected void initialize() {
     }
     protected void execute() {
+        Robot.driveTrain.preferencesTest();
         if (driveChooser.getSelected().equals("tank")){
             Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getY());
         }
