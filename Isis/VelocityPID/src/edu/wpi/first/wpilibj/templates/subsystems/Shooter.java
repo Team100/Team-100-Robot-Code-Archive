@@ -5,7 +5,6 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Victor;
@@ -25,17 +24,18 @@ public class Shooter extends Subsystem {
     private final Victor motorFront = new Victor(3);
     private final Victor motorBack = new Victor(2);
     
-    private final double kDistRatio = 1000 / ((18.0/30.0)*7.5/12.0*3.14159);
+    private final double kDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet    
     
     PIDSource source = new PIDSource(){
         public double pidGet(){
-            return (encoderRight.getRaw()+ encoderLeft.getRaw())/2;
+            return encoderLeft.getRaw()/2;
         }
     }; //end anonym class PIDSource
     
     PIDOutput output = new PIDOutput(){
         public void pidWrite(double output){
+            System.out.println(output);
             motorFront.set(output);
             motorBack.set(output);
         }

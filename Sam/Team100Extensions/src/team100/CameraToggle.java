@@ -40,10 +40,10 @@ public class CameraToggle extends StaticWidget
       public void actionPerformed(ActionEvent ae) {
         Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         Team100Camera.SwitchCamera();
-        if ((focusOwner instanceof JTextField)) {
-              
-          }
-          ((JTextField)focusOwner).postActionEvent();
+        System.out.println("________________");
+        System.out.println("SWITCHING CAMERA");
+        System.out.println("________________");
+
       }
     });
   }

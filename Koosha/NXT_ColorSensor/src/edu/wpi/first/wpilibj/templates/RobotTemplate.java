@@ -26,6 +26,7 @@ public class RobotTemplate extends IterativeRobot {
     String frisbeeOwner;
     int alliance;
     Jaguar motor1;
+    Timer timer;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -37,6 +38,7 @@ public class RobotTemplate extends IterativeRobot {
         frisbeeType=3; //0->red, 1->blue, 2->white, 3->default
         frisbeeOwner="Unknown";
         motor1 = new Jaguar(2);
+        timer = new Timer();
     }
 
     /**
@@ -92,7 +94,8 @@ public class RobotTemplate extends IterativeRobot {
             frisbeeOwner="Unknown";
         }
         
-        motor1.set(0.5);
+        motor1.set(1.0);
+        SmartDashboard.putNumber("LOOK HERE!", timer.get());
         SmartDashboard.putNumber("Color Sensor Value", colorVal);
         SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().name);
         SmartDashboard.putNumber("Alliance Value", alliance);

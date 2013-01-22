@@ -102,4 +102,14 @@ public class DriveTrain extends Subsystem {
     public Gyro getGyro() {
         return gyro;
     }
+    
+    public void shiftUp() {
+        leftShifter.set(DoubleSolenoid.Value.kForward);
+        rightShifter.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void shiftDown() {
+        leftShifter.set(DoubleSolenoid.Value.kReverse);
+        rightShifter.set(DoubleSolenoid.Value.kReverse);
+    }
 }
