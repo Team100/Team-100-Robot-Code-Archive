@@ -6,8 +6,8 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -56,7 +56,9 @@ public class SendablePID {
         m_base.setKI(SmartDashboard.getNumber("kI", 0.0));
         m_base.setKD(SmartDashboard.getNumber("kD", 0.0));
         m_base.setMaxOutput(SmartDashboard.getNumber("kMaxOutput", 0.0));
-        m_base.setMinOutput(SmartDashboard.getNumber("kminOutput", 0.0));
+        m_base.setMinOutput(SmartDashboard.getNumber("kMinOutput", 0.0));
+        System.out.println(SmartDashboard.getNumber("kP", 0.0) + " " + SmartDashboard.getNumber("kI", 0.0) + " " + SmartDashboard.getNumber("kD", 0.0));
+        System.out.println(SmartDashboard.getNumber("kMaxOutput", 0.0) + " " + SmartDashboard.getNumber("kMinOutput", 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {
