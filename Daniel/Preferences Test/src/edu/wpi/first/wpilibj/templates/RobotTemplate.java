@@ -35,13 +35,12 @@ public class RobotTemplate extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    Preferences preferences;
     
     public void robotInit() {
-        preferences.getInstance().putString("Test", "Hello World");
-        preferences.getInstance().putBoolean("Bool", true);
-        preferences.getInstance().putInt("Int", 512);
-        preferences.getInstance().save();
+        Preferences.getInstance().putString("Test", "Hello World");
+        Preferences.getInstance().putBoolean("Bool", true);
+        Preferences.getInstance().putInt("Int", 512);
+        Preferences.getInstance().save();
 //       preferences.getInstance().
     }
 
@@ -56,8 +55,8 @@ public class RobotTemplate extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        System.out.println("Keys: " + preferences.getInstance().getKeys());
-//        System.out.println(preferences.getInstance().getString("Test", "If this is showing up then nothing was found at that key"));
+        System.out.println("Keys: " + Preferences.getInstance().getKeys());
+        System.out.println(Preferences.getInstance().getString("Test", "If this is showing up then nothing was found at that key"));
         
     }
     
