@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.templates.commands.Shoot;
 public class RobotTemplate extends IterativeRobot {
 
     //Command autonomousCommand;
-    Shoot shoot;
+    Command shoot;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -58,6 +58,7 @@ public class RobotTemplate extends IterativeRobot {
         // this line or comment it out.
         //autonomousCommand.cancel();
         shoot = new Shoot();
+        shoot.start();
     }
 
     /**
