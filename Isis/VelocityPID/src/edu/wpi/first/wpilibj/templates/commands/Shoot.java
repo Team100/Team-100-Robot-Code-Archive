@@ -20,13 +20,12 @@ public class Shoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shooter.setSetpoint(20.0);
-        System.out.println("init");
+        SmartDashboard.putNumber("Setpoint", 0.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        System.out.println("execute");
+        shooter.setSetpoint(SmartDashboard.getNumber("Setpoint", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()

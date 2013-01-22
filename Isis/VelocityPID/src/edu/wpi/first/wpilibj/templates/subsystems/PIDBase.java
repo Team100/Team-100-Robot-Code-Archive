@@ -4,6 +4,8 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author Isis
@@ -31,11 +33,14 @@ public class PIDBase {
     
     public double calculate(double period){
         double goalVeloc = getSetpoint();
-
+        SmartDashboard.putNumber("kDistRatio", kDistRatio);
+        
         //calculate instantaneous velocity
         double currDist = input / kDistRatio;
+        SmartDashboard.putNumber("currDist", currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
+        SmartDashboard.putNumber("instVeloc", instVeloc);
         double error = goalVeloc - instVeloc;
         
         //goalVeloc distance is our integral
