@@ -36,10 +36,14 @@ public class PIDBase {
         SmartDashboard.putNumber("kDistRatio", kDistRatio);
         
         //calculate instantaneous velocity
+        System.out.println("input: " + input);
+        System.out.println("kDistRatio: " + kDistRatio);
         double currDist = input / kDistRatio;
+        System.out.println("currDist: " + currDist);
         SmartDashboard.putNumber("currDist", currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
+        System.out.println("instVeloc: " + instVeloc);
         SmartDashboard.putNumber("instVeloc", instVeloc);
         double error = goalVeloc - instVeloc;
         
@@ -84,6 +88,9 @@ public class PIDBase {
     }//end getSetpoint 
    
     //set tuneables
+    public void setInput(double put){
+        input = put;
+    }//
     public void setKP(double p){
         kP = p;
     }//end setKP
