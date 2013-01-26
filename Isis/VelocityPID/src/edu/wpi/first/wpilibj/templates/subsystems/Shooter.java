@@ -5,11 +5,11 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.commands.Shoot;
 
 /**
@@ -25,12 +25,23 @@ public class Shooter extends Subsystem {
     private final Victor motorFront = new Victor(3);
     private final Victor motorBack = new Victor(2);
     
-    private final double kDistRatio = 1000 / ((18.0/30.0)*7.5/12.0*3.14159);
+    private final double kDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     //encoder ticks*(quadrature)*gearRatio*circumference*conversion to feet    
+    
+    public Shooter(){
+        encoderLeft.setReverseDirection(true);
+        encoderRight.setReverseDirection(true);
+        encoderLeft.reset();
+        encoderRight.reset();
+        encoderLeft.start();
+        encoderRight.start();
+    }
     
     PIDSource source = new PIDSource(){
         public double pidGet(){
-            return (encoderRight.getRaw()+ encoderLeft.getRaw())/2;
+            SmartDashboard.putNumber("encoderLeft_raw", encoderLeft.getRaw());
+            SmartDashboard.putNumber("encoderRight_raw", encoderRight.getRaw());
+            return encoderLeft.getRaw();
         }
     }; //end anonym class PIDSource
     
