@@ -8,10 +8,9 @@
 package edu.wpi.first.wpilibj.templates;
 
 
+import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.networktables.NetworkTableProvider;
-import edu.wpi.first.wpilibj.networktables2.NetworkTableNode;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
@@ -23,14 +22,15 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
  */
 public class NetworkTableRobot extends IterativeRobot {
     
-    //public NetworkTableNode node1;
-    //public NetworkTableProvider provider1;
-    //public NetworkTable table;
+    public static NetworkTable tableau;
+    public static NetworkTable table;
     Timer timer;
     private double countQ = 0.0;
     private double countA = 0.0;
     private double countS = 0.0;
     private double countZ = 0.0;
+    private double genericDouble;
+    private int seed;
     
     
     /**
@@ -39,9 +39,8 @@ public class NetworkTableRobot extends IterativeRobot {
      */
     public void robotInit()
     {
-        //node1 = new NetworkTableNode();
-        //provider1 = new NetworkTableProvider(node1);
-        //table = new NetworkTable("C:\Users\Student\Documents\GoogleCodeRepo\Koosha", provider1);
+        tableau = NetworkTable.getTable("tableauInteligent");
+        table = NetworkTable.getTable("SmartDashboard");
         timer = new Timer();
     }
 
@@ -51,11 +50,30 @@ public class NetworkTableRobot extends IterativeRobot {
         timer.reset();
     }
     
+    public void autonomousInit()
+    {
+        genericDouble = 9.8765432109876543210;
+        seed = 168;
+        timer.start();
+    }
+    
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
-
+    public void autonomousPeriodic()
+    {
+        if(timer.get()>=1.0)
+        {
+            seed = (int) (MathUtils.pow(seed-seed%100,2) + MathUtils.pow(seed%100-seed%10,2) + MathUtils.pow(seed%10,2));
+            timer.reset();
+        }
+        SmartDashboard.putNumber("Generic Double", genericDouble);
+        SmartDashboard.putNumber("Generic Double part 2",(genericDouble*1000)%1.0);
+        SmartDashboard.putNumber("???", seed);
+        SmartDashboard.putNumber("pow", MathUtils.pow(3, 2));
+        System.out.println(genericDouble);
+        table.putNumber("GenericDouble3.0",genericDouble);
+        tableau.putNumber("Generic Double2.0", genericDouble);
     }
 
     /**
