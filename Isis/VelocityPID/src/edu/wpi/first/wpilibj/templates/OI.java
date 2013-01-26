@@ -47,6 +47,7 @@ public class OI {
     Button button =  new JoystickButton(joystick,1);
     
     public OI() {
+        button.whenPressed(new Shoot());
     }
 }
 
