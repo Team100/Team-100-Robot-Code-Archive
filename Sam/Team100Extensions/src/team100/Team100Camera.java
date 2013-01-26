@@ -97,31 +97,14 @@ public int count = 0;
                     //when this is false no images are pulled and that camera does not use any bandwidth
                     //the cameras have a buffer that will empty when switched to; if this buffer is filled up
                     //the connection to the camera will break and the widget will automatically recreate it
-                    if(firstcamera){
-                        
+                    if(firstcamera){    
                         cam.collect = true;
-                        cam2.collect = false;
-                        
-                       if(cam.badConnection){//Code probably obsolete
-                           System.out.println("Bad Connection - Resetting Camera");
-                           System.out.println("Code is not obsolete");
-                            cam.dispose();
-                            cam = new WPICamera(camIP.getSaveValue());          
-                        }  
+                        cam2.collect = false;  
                         image = cam.getNewImage();
                              
                     }else{
-                        
                         cam.collect = false;
                         cam2.collect = true;     
-
-                        if(cam2.badConnection){//Code probably obsolete
-                            System.out.println("Bad Connection - Resetting Camera");
-                            System.out.println("Code is not obsolete");
-                            cam2.dispose();
-                            cam2 = new WPICamera(cam2IP.getSaveValue()); 
-                        }  
-
                         image = cam2.getNewImage();        
                     }         
                     
@@ -142,7 +125,6 @@ public int count = 0;
                     
                     System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
                     System.out.println("This was most likely caused by the camera emptying it's buffer");
-                    System.out.println("Bad Connection reset code above is obsolete");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
 
@@ -257,8 +239,8 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
         if(firstcamera){//draws a crosshair 1/3 size of the screen in the center of the screen 
             int w = rawImage.getWidth();
             int h = rawImage.getHeight();
-            rawImage.drawLine(new WPIPoint(w/2,h/3), new WPIPoint(w/2,h*2/3), WPIColor.BLACK, 2);
-            rawImage.drawLine(new WPIPoint(h/3,h/2), new WPIPoint(h*2/3,h/2), WPIColor.BLACK, 2);
+            rawImage.drawLine(new WPIPoint(w/2,h/3), new WPIPoint(w/2,2*h/3), WPIColor.BLACK, 2);
+            rawImage.drawLine(new WPIPoint(w/3,h/2), new WPIPoint(2*w/3,h/2), WPIColor.BLACK, 2);
         }
         return rawImage;
     }
