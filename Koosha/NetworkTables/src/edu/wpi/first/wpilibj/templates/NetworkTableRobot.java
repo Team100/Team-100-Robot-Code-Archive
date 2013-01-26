@@ -52,7 +52,8 @@ public class NetworkTableRobot extends IterativeRobot {
     
     public void autonomousInit()
     {
-        genericDouble = 9.8765432109876543210;
+        genericDouble = 9.876543210987654;
+        SmartDashboard.putNumber("Editable", genericDouble);
         seed = 168;
         timer.start();
     }
@@ -64,16 +65,17 @@ public class NetworkTableRobot extends IterativeRobot {
     {
         if(timer.get()>=1.0)
         {
-            seed = (int) (MathUtils.pow(seed-seed%100,2) + MathUtils.pow(seed%100-seed%10,2) + MathUtils.pow(seed%10,2));
+            seed = (int) (MathUtils.pow(Math.floor(seed/100),2) + MathUtils.pow(Math.floor((seed/10)%10),2) + MathUtils.pow(seed%10,2));
             timer.reset();
         }
         SmartDashboard.putNumber("Generic Double", genericDouble);
-        SmartDashboard.putNumber("Generic Double part 2",(genericDouble*1000)%1.0);
         SmartDashboard.putNumber("???", seed);
-        SmartDashboard.putNumber("pow", MathUtils.pow(3, 2));
         System.out.println(genericDouble);
-        table.putNumber("GenericDouble3.0",genericDouble);
-        tableau.putNumber("Generic Double2.0", genericDouble);
+        table.putNumber("Generic Double3.0",genericDouble); // Open TableViewer and set Local host to the IP adress of the robot (10.1.0.2)
+        tableau.putNumber("Generic Double2.0", genericDouble); // Open TableViewer and set Local host to the IP adress of the robot (10.1.0.2)
+        
+        SmartDashboard.putNumber("SmartDashboard Rebound", SmartDashboard.getNumber("Editable"));
+        SmartDashboard.putNumber("Network Rebound", table.getNumber("Editable"));
     }
 
     /**
