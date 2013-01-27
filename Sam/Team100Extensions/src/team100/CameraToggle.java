@@ -1,23 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package team100;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
 import edu.wpi.first.smartdashboard.properties.StringProperty;
-import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
 import javax.swing.JButton;
-import javax.swing.JTextField;
 
 /**
- *
  * @author Sam
  */
 public class CameraToggle extends StaticWidget
@@ -35,23 +26,16 @@ public class CameraToggle extends StaticWidget
     add(this.button, 0);
 
     this.button.setFocusable(false);
-    this.button.addActionListener(new ActionListener()
-    {
+    this.button.addActionListener(new ActionListener(){
         @Override
       public void actionPerformed(ActionEvent ae) {
-        Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         Team100Camera.SwitchCamera();
         System.out.println("SWITCHING CAMERA");
-
       }
     });
   }
 
     @Override
-  public void propertyChanged(Property property)
-  {
-    if (property == this.label) {
-          this.button.setText((String)this.label.getValue());
-      }
-  }
+    public void propertyChanged(Property property){}
+  
 }
