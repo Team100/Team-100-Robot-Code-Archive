@@ -63,4 +63,22 @@ public class Shooter extends Subsystem {
         setDefaultCommand(new Shoot());
     }//end initDefaultCommand
     
+    public void disable(){
+        sendable.disable();
+        encoderLeft.setReverseDirection(true);
+        encoderRight.setReverseDirection(true);
+        encoderLeft.reset();
+        encoderRight.reset();
+    }//end disable
+    
+    public void enable(){
+        encoderLeft.setReverseDirection(true);
+        encoderRight.setReverseDirection(true);
+        encoderLeft.reset();
+        encoderRight.reset();
+        encoderLeft.start();
+        encoderRight.start();
+        sendable.enable();
+    }//end enable
+    
 }// end Shooter

@@ -56,7 +56,7 @@ public class SendablePID {
     public void getValues() {
         m_base.setKP(SmartDashboard.getNumber("kP", 0.0)/100.0);
         m_base.setKI(SmartDashboard.getNumber("kI", 0.0));
-        m_base.setKD(SmartDashboard.getNumber("kD", 0.0));
+        m_base.setKD(SmartDashboard.getNumber("kD", 0.0)/100.0);
         m_base.setMaxOutput(SmartDashboard.getNumber("kMaxOutput", 0.0));
         m_base.setMinOutput(SmartDashboard.getNumber("kMinOutput", 0.0));
 //        System.out.println(SmartDashboard.getNumber("kP", 0.0)/100.0 + " " + SmartDashboard.getNumber("kI", 0.0) + " " + SmartDashboard.getNumber("kD", 0.0));
@@ -66,6 +66,14 @@ public class SendablePID {
     public void setSetpoint(double setpoint) {
         m_base.setSetpoint(setpoint);
     }//end setSetpoint
+    
+    public void enable(){
+        m_base.enable();
+    }//end enable
+    
+    public void disable(){
+        m_base.disable();
+    }//end disable
       
 }//end SendablePID
 
