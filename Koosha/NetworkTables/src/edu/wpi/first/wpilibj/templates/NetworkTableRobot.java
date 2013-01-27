@@ -8,9 +8,10 @@
 package edu.wpi.first.wpilibj.templates;
 
 
-import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.networktables.NetworkTableProvider;
+import edu.wpi.first.wpilibj.networktables2.NetworkTableNode;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
@@ -22,15 +23,14 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
  */
 public class NetworkTableRobot extends IterativeRobot {
     
-    public static NetworkTable tableau;
-    public static NetworkTable table;
+    //public NetworkTableNode node1;
+    //public NetworkTableProvider provider1;
+    //public NetworkTable table;
     Timer timer;
     private double countQ = 0.0;
     private double countA = 0.0;
     private double countS = 0.0;
     private double countZ = 0.0;
-    private double genericDouble;
-    private int seed;
     
     
     /**
@@ -39,8 +39,9 @@ public class NetworkTableRobot extends IterativeRobot {
      */
     public void robotInit()
     {
-        tableau = NetworkTable.getTable("tableauInteligent");
-        table = NetworkTable.getTable("SmartDashboard");
+        //node1 = new NetworkTableNode();
+        //provider1 = new NetworkTableProvider(node1);
+        //table = new NetworkTable("C:\Users\Student\Documents\GoogleCodeRepo\Koosha", provider1);
         timer = new Timer();
     }
 
@@ -50,32 +51,11 @@ public class NetworkTableRobot extends IterativeRobot {
         timer.reset();
     }
     
-    public void autonomousInit()
-    {
-        genericDouble = 9.876543210987654;
-        SmartDashboard.putNumber("Editable", genericDouble);
-        seed = 168;
-        timer.start();
-    }
-    
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic()
-    {
-        if(timer.get()>=1.0)
-        {
-            seed = (int) (MathUtils.pow(Math.floor(seed/100),2) + MathUtils.pow(Math.floor((seed/10)%10),2) + MathUtils.pow(seed%10,2));
-            timer.reset();
-        }
-        SmartDashboard.putNumber("Generic Double", genericDouble);
-        SmartDashboard.putNumber("???", seed);
-        System.out.println(genericDouble);
-        table.putNumber("Generic Double3.0",genericDouble); // Open TableViewer and set Local host to the IP adress of the robot (10.1.0.2)
-        tableau.putNumber("Generic Double2.0", genericDouble); // Open TableViewer and set Local host to the IP adress of the robot (10.1.0.2)
-        
-        SmartDashboard.putNumber("SmartDashboard Rebound", SmartDashboard.getNumber("Editable"));
-        SmartDashboard.putNumber("Network Rebound", table.getNumber("Editable"));
+    public void autonomousPeriodic() {
+
     }
 
     /**

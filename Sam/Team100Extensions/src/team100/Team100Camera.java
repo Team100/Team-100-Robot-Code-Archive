@@ -10,24 +10,25 @@ import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.IPAddressProperty;
 import edu.wpi.first.smartdashboard.properties.Property;
 import edu.wpi.first.wpijavacv.WPICamera;
-import edu.wpi.first.wpijavacv.WPIColor;
 import edu.wpi.first.wpijavacv.WPIColorImage;
 import edu.wpi.first.wpijavacv.WPIGrayscaleImage;
 import edu.wpi.first.wpijavacv.WPIImage;
-import edu.wpi.first.wpijavacv.WPIPoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
- * Based of WPICameraExtension by Greg Granito
- * @author Sam Bunk
+ *
+ * @author Greg Granito
  */
 public class Team100Camera extends StaticWidget{
 
     public static final String NAME = "Team 100 Camera";
+    
         
     public static Boolean firstcamera = true;
 
@@ -84,27 +85,43 @@ public int count = 0;
             WPIImage image;
             while (!destroyed) {
                 if (cam == null) {
-                    cam = new WPICamera(camIP.getSaveValue()); 
+                    cam = new WPICamera("10.1.0.11"); 
                     System.out.println("CAMERA 1 SET");
-                } 
+                }
+                
+                
                 if (cam2 == null){
-                    cam2 = new WPICamera(cam2IP.getSaveValue()); 
+                    cam2 = new WPICamera("10.1.0.12"); 
                     System.out.println("CAMERA 2 SET");
                     
                 }
                 try {
-                    //collect tells the grabber if it should grab images or not
-                    //when this is false no images are pulled and that camera does not use any bandwidth
-                    //the cameras have a buffer that will empty when switched to; if this buffer is filled up
-                    //the connection to the camera will break and the widget will automatically recreate it
-                    if(firstcamera){    
+                    if(firstcamera){
+
                         cam.collect = true;
-                        cam2.collect = false;  
+                        cam2.collect = false;
+                        
+                       if(cam.badConnection){
+                           System.out.println("Bad Connection - Resetting Camera");
+                            cam.dispose();
+                            cam = new WPICamera("10.1.0.11");          
+                        }  
                         image = cam.getNewImage();
                              
                     }else{
+                        if(cam2 == null){
+                            cam2 = new WPICamera("10.1.0.12");
+                            
+                        }
                         cam.collect = false;
                         cam2.collect = true;     
+
+                        if(cam2.badConnection){
+                            System.out.println("Bad Connection - Resetting Camera");
+                            cam2.dispose();
+                            cam2 = new WPICamera("10.1.0.12"); 
+                        }  
+
                         image = cam2.getNewImage();        
                     }         
                     
@@ -124,12 +141,13 @@ public int count = 0;
                     cam2 = null;
                     
                     System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
-                    System.out.println("This was most likely caused by the camera emptying it's buffer");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
-
+                    
+                    
                 }
             }
+
         }
 
         @Override
@@ -146,15 +164,16 @@ public int count = 0;
     
     DashboardPrefs prefs = (DashboardPrefs) DashboardPrefs.getInstance();
     
-public final IPAddressProperty camIP = new IPAddressProperty(this, "Camera 1 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 11});
-public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 12});
-
+    //public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera IP Address", new int[]{10, (DashboardPrefs.getInstance().team.getValue() / 100), (DashboardPrefs.getInstance().team.getValue() % 100), 20});
+public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 11});
     @Override
     public void init() {
         setPreferredSize(new Dimension(100, 100));
         bgThread.start();
         gcThread.start();
-        revalidate();        
+        revalidate();
+        //DashboardFrame.getInstance().getPanel().repaint(getBounds());
+        
         
         DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 frame.repaint();
@@ -163,44 +182,28 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
 
     @Override
     public void propertyChanged(Property property) {
-        if (property == camIP) {
-            System.out.println("camIP Property changed");
+        if (property == ipProperty) {
             if (cam != null) {
                 cam.dispose();
             }
             try {
-                cam = new WPICamera(camIP.getSaveValue());
-                System.out.println("camIP IP has been updated");
+                cam = new WPICamera(ipProperty.getSaveValue());
             } catch (Exception e) {
                 e.printStackTrace();
                 drawnImage = null;
                 setPreferredSize(new Dimension(100, 100));
-                revalidate();                
+                revalidate();
+                //DashboardFrame.getInstance().getPanel().repaint(getBounds());
+                
                 
                 DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 
                 frame.repaint();
+                
+                
             }
         }
-        if (property == cam2IP) {
-            System.out.println("cam2IP Property changed");
-            if (cam2 != null) {
-                cam2.dispose();
-            }
-            try {
-                cam2 = new WPICamera(cam2IP.getSaveValue());
-                System.out.println("cam2IP IP has been updated");
-            } catch (Exception e) {
-                e.printStackTrace();
-                drawnImage = null;
-                setPreferredSize(new Dimension(100, 100));
-                revalidate();                
-                
-                DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
-                
-                frame.repaint();
-            }
-        }
+
     }
 
     @Override
@@ -211,7 +214,6 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
             cam.dispose();
         }
         super.disconnect();
-        System.out.println("DISCONNECTING");
     }
 
     @Override
@@ -236,12 +238,6 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
     }
 
     public WPIImage processImage(WPIColorImage rawImage) {
-        if(firstcamera){//draws a crosshair 1/3 size of the screen in the center of the screen 
-            int w = rawImage.getWidth();
-            int h = rawImage.getHeight();
-            rawImage.drawLine(new WPIPoint(w/2,h/3), new WPIPoint(w/2,2*h/3), WPIColor.BLACK, 2);
-            rawImage.drawLine(new WPIPoint(w/3,h/2), new WPIPoint(2*w/3,h/2), WPIColor.BLACK, 2);
-        }
         return rawImage;
     }
 
