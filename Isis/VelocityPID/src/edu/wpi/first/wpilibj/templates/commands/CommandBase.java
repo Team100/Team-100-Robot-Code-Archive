@@ -27,8 +27,16 @@ public abstract class CommandBase extends Command {
         oi = new OI();
 
         // Show what command your subsystem is running on the SmartDashboard
-    }
+    }//end init
 
+    public static void disable(){
+        shooter.disable();
+    }//end disable
+    
+    public static void enable(){
+        shooter.enable();
+    }//end enable
+    
     public CommandBase(String name) {
         super(name);
     }
