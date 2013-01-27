@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -40,9 +41,7 @@ public class CameraToggle extends StaticWidget
       public void actionPerformed(ActionEvent ae) {
         Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         Team100Camera.SwitchCamera();
-        System.out.println("________________");
         System.out.println("SWITCHING CAMERA");
-        System.out.println("________________");
 
       }
     });
