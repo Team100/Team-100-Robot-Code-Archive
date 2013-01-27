@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package team100;
 
 import edu.wpi.first.smartdashboard.gui.*;
@@ -18,17 +14,12 @@ import javax.swing.SwingUtilities;
 public class Team100Camera extends StaticWidget{
 
     public static final String NAME = "Team 100 Camera";
-      
     public static Boolean firstcamera = true;
-    
-
 
     public class GCThread extends Thread {
 
         boolean destroyed = false;
-        
-        
-        
+
         public void Team100Camera(){
            
         }
@@ -48,7 +39,10 @@ public class Team100Camera extends StaticWidget{
             interrupt();
         }
     }
-public int count = 0;
+
+    /**
+     * Thread contains all image retrieval from the camera objects. Uses firstcamera boolean to decide which camera should be used.
+     */
     public class BGThread extends Thread {
         
 
@@ -223,6 +217,8 @@ NetworkTable table;
     }
 
     /**
+     * Draw the crosshair on the image. Default position is the center of the screen but can be changed with the NetworkTable.
+     * Crosshair_XPos and Crosshair_YPos are the keys that this looks for.
      * @param rawImage
      * @return
      */
@@ -238,10 +234,19 @@ NetworkTable table;
         return rawImage;
     }
 
+    
+    /**
+     * 
+     * @param rawImage
+     * @return
+     */
     public WPIImage processImage(WPIGrayscaleImage rawImage) {
         return rawImage;
     }
 
+    /**
+     * Switches the camera boolean.
+     */
     public static void SwitchCamera(){
         firstcamera = !firstcamera;    
     }
