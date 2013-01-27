@@ -38,7 +38,11 @@ public class RobotTemplate extends IterativeRobot {
         // Initialize all subsystems
         CommandBase.init();
     }
-
+    
+    public void disabledInit(){
+        CommandBase.disable();
+    }
+    
     public void autonomousInit() {
         // schedule the autonomous command (example)
         //autonomousCommand.start();
@@ -58,6 +62,7 @@ public class RobotTemplate extends IterativeRobot {
         // this line or comment it out.
         //autonomousCommand.cancel();
         shoot = new Shoot();
+        CommandBase.enable();
     }
 
     /**
