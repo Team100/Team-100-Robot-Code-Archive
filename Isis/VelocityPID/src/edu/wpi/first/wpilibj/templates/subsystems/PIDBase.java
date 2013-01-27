@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class PIDBase {
     private boolean enabled = true;
+    private String name;
     //Previous value variables
     private double input = 0.0;
     private double prevDist = 0.0; //previous encoder raw count divided by gear ratio
@@ -36,10 +37,15 @@ public class PIDBase {
         output = 0.0;
     }//end resetValues
 
-    public PIDBase(double distRatio){
+    public PIDBase(double distRatio, String key){
         kDistRatio = distRatio;
+        name = key;
     }//end constructor
 
+    private String dashboardName(String key) {
+        return key + "_" + name;
+    }//end dashboardName
+    
     public double calculate(double period){
         System.out.println("Enabled? " + enabled);
         if (!enabled) {
@@ -48,18 +54,12 @@ public class PIDBase {
         }
 
         double goalVeloc = getSetpoint();
-        //SmartDashboard.putNumber("kDistRatio", kDistRatio);
 
         //calculate instantaneous velocity
-       // System.out.println("input: " + input);
-        //System.out.println("kDistRatio: " + kDistRatio);
         double currDist = input / kDistRatio;
-        System.out.println("currDist: " + currDist);
-        //SmartDashboard.putNumber("currDist", currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
-        System.out.println("instVeloc: " + instVeloc);
-        SmartDashboard.putNumber("instVeloc", instVeloc);
+        SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
         double error = goalVeloc - instVeloc;
 
         //goalVeloc distance is our integral
