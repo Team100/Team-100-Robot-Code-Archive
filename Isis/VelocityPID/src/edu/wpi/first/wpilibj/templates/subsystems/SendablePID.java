@@ -19,9 +19,15 @@ public class SendablePID {
     private final PIDOutput m_output;
     private final TimedThread m_thread;
     private final PIDBase m_base;
+    private final String m_name;
 
-    public SendablePID(PIDSource source, PIDOutput output, double distRatio) {
-        m_base = new PIDBase(distRatio);
+    private String dashboardName(String key) {
+        return key + "_" + m_name;
+    }//end dashboardName
+    
+    public SendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
+        m_base = new PIDBase(distRatio, name);
+        m_name = name;
         PIDInit();
         m_source = source;
         m_output = output;
@@ -36,7 +42,7 @@ public class SendablePID {
                 m_base.setInput(input);
                 getValues();
                 double result = m_base.calculate(timer.get());
-                SmartDashboard.putNumber("Output", result);
+                SmartDashboard.putNumber(dashboardName("Output"), result);
                 timer.reset();
                 m_output.pidWrite(result);
             }
@@ -46,26 +52,32 @@ public class SendablePID {
     }//end SendablePID
 
     private void PIDInit() {
-        SmartDashboard.putNumber("kP", 0.0);
-        SmartDashboard.putNumber("kI", 0.0);
-        SmartDashboard.putNumber("kD", 0.0);
-        SmartDashboard.putNumber("kMaxOutput", 0.0);
-        SmartDashboard.putNumber("kMinOutput", 0.0);
+        SmartDashboard.putNumber(dashboardName("kP"), 0.0);
+        SmartDashboard.putNumber(dashboardName("kI"), 0.0);
+        SmartDashboard.putNumber(dashboardName("kD"), 0.0);
+        SmartDashboard.putNumber(dashboardName("kMaxOutput"), 0.0);
+        SmartDashboard.putNumber(dashboardName("kMinOutput"), 0.0);
     }//end PIDInit
 
     public void getValues() {
-        m_base.setKP(SmartDashboard.getNumber("kP", 0.0)/100.0);
-        m_base.setKI(SmartDashboard.getNumber("kI", 0.0));
-        m_base.setKD(SmartDashboard.getNumber("kD", 0.0));
-        m_base.setMaxOutput(SmartDashboard.getNumber("kMaxOutput", 0.0));
-        m_base.setMinOutput(SmartDashboard.getNumber("kMinOutput", 0.0));
-//        System.out.println(SmartDashboard.getNumber("kP", 0.0)/100.0 + " " + SmartDashboard.getNumber("kI", 0.0) + " " + SmartDashboard.getNumber("kD", 0.0));
-//        System.out.println(SmartDashboard.getNumber("kMaxOutput", 0.0) + " " + SmartDashboard.getNumber("kMinOutput", 0.0));
+        m_base.setKP(SmartDashboard.getNumber(dashboardName("kP"), 0.0)/100.0);
+        m_base.setKI(SmartDashboard.getNumber(dashboardName("kI"), 0.0));
+        m_base.setKD(SmartDashboard.getNumber(dashboardName("kD"), 0.0)/100.0);
+        m_base.setMaxOutput(SmartDashboard.getNumber(dashboardName("kMaxOutput"), 0.0));
+        m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMinOutput"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {
         m_base.setSetpoint(setpoint);
     }//end setSetpoint
+    
+    public void enable(){
+        m_base.enable();
+    }//end enable
+    
+    public void disable(){
+        m_base.disable();
+    }//end disable
       
 }//end SendablePID
 
