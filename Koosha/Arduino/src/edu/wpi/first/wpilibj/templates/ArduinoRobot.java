@@ -8,8 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 
-import edu.wpi.first.wpilibj.DriverStationLCD;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,7 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ArduinoRobot extends IterativeRobot {
     
     Multiplexer arduino;
-    boolean success;
+    boolean success = false;
+    ADXL345_I2C accel;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -31,6 +31,7 @@ public class ArduinoRobot extends IterativeRobot {
     public void robotInit()
     {
         arduino = new Multiplexer();
+        accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k2G);
     }
 
     /**
@@ -39,20 +40,23 @@ public class ArduinoRobot extends IterativeRobot {
     public void autonomousPeriodic() {
 
     }
-    
-    public void teleopInit()
-    {
-        success = false;
-    }
-    
+
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic()
     {
-        SmartDashboard.putBoolean("Arduino is on=", arduino.readArduino());
-        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6, 1, "test");
-        DriverStationLCD.getInstance().updateLCD();
+        success = arduino.readArduino();
+        SmartDashboard.putBoolean("Arduino is on=", success);
+        SmartDashboard.putNumber("Accel Values", accel.getAccelerations().XAxis);
+        if(success)
+        {
+            SmartDashboard.putBoolean("Imaginary Input", arduino.getInput(15));
+            SmartDashboard.putBoolean("LED Input", arduino.getInput(13));
+            SmartDashboard.putBoolean("Input 12", arduino.getInput(12));
+            SmartDashboard.putBoolean("Input 5", arduino.getInput(5));
+        }
+        
     }
     
     /**
