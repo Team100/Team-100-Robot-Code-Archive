@@ -18,11 +18,13 @@ public class Multiplexer extends SensorBase
     private byte loByte;
     private boolean successful;
     
+    private Timer timer;
     private I2C m_I2C;
     
     public Multiplexer()
     {
         m_I2C = new I2C(DigitalModule.getInstance(kDigitalModule), kAddress);
+        timer = new Timer();
     }
      
 /*
@@ -32,11 +34,13 @@ public class Multiplexer extends SensorBase
  */
     public boolean readArduino()
     {
-        byte[] buffer = {0,0,0};
+        byte[] buffer = {0,0};
         
         successful = !m_I2C.transaction(null, 0, buffer, 2); // doesn't send anything and recieves 2 bytes of data; successful==true if transaction is succesful
-        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "success=" + successful + "buffer=" + buffer);
-        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "buffer=" + buffer);
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "                     ");
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "                     ");
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "success=" + successful);
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "buffer=" + buffer[1] + ", " + buffer[0]);
         DriverStationLCD.getInstance().updateLCD();
         hiByte = buffer[1];
         loByte = buffer[0];
@@ -51,26 +55,32 @@ public class Multiplexer extends SensorBase
  * param 2: a bool varible to hold the sucess of the function
  * return: value of the specified digital input
  */
-    public boolean getInput(int channelID, boolean[] success)
+    public boolean getInput(int channelID)
     {
         byte temp;
         
+        if(timer.get()>2.0)
+        {
+            DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3, 1, "                     ");
+            timer.stop();
+            timer.reset();
+        }
+        
         if(Math.abs(channelID-(13/2))-(13/2)>0) // returns true if less than zero or greater than thirteen
         {
-            DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "ERROR; invalid ID must be between 0 and 13");
-            success[0] = false;
+            timer.start();
+            DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3, 1, "Invalid ID");
+            DriverStationLCD.getInstance().updateLCD();
             return false;
         }
         else if(channelID < 8)
         {
             temp = (byte) (loByte & (1 << channelID));
-            success[0] = false;
             return temp!=0;
         }
         else
         {
             temp = (byte) (hiByte & (1 << channelID-8));
-            success[0] = false;
             return temp!=0;
         }
     }
