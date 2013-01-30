@@ -29,7 +29,7 @@ void loop()
   temp=1;
   for(i=13; i>=8; i--)
   {
-    temp=temp*2; 
+    temp=temp*2;
     temp+=digitalRead(i);
   }
   hiByte=temp;
