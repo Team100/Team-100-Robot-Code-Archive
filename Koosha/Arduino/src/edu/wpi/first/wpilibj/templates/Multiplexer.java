@@ -51,8 +51,8 @@ public class Multiplexer extends SensorBase
     
 /*
  * reads the value of the digital input of the specified channel
+ * requires that the readArudiono() method has already been called
  * param 1: the channel to be read
- * param 2: a bool varible to hold the sucess of the function
  * return: value of the specified digital input
  */
     public boolean getInput(int channelID)
@@ -62,6 +62,7 @@ public class Multiplexer extends SensorBase
         if(timer.get()>2.0)
         {
             DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3, 1, "                     ");
+            DriverStationLCD.getInstance().updateLCD();
             timer.stop();
             timer.reset();
         }
