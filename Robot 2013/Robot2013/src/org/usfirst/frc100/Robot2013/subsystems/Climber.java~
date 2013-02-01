@@ -36,10 +36,6 @@ public class Climber extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void start() {
-        compressor.start();
-    }
-    
     public void raiseElevator(){
         if (!getUpperLimit()){
             climberMotor.set(1);
@@ -92,5 +88,4 @@ public class Climber extends Subsystem {
         //Change this number!
         return (climberAnglePot.getValue()<30);
     }
-    
 }
