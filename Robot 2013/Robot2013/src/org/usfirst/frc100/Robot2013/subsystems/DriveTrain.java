@@ -103,12 +103,12 @@ public class DriveTrain extends Subsystem {
     }
     
     public void shiftUp() {
-        leftShifter.set(DoubleSolenoid.Value.kForward);
-        rightShifter.set(DoubleSolenoid.Value.kForward);
+       // leftShifter.set(DoubleSolenoid.Value.kForward);
+       // rightShifter.set(DoubleSolenoid.Value.kForward);
     }
     
     public void shiftDown() {
-        leftShifter.set(DoubleSolenoid.Value.kReverse);
-        rightShifter.set(DoubleSolenoid.Value.kReverse);
+       // leftShifter.set(DoubleSolenoid.Value.kReverse);
+       // rightShifter.set(DoubleSolenoid.Value.kReverse);
     }
 }
