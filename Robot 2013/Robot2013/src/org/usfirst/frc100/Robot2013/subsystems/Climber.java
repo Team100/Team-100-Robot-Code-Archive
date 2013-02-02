@@ -44,6 +44,19 @@ public class Climber extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void manualControl(double d){
+        climberMotor.set(0);
+        if (topClimberSwitch.get()&&d<0){
+            climberMotor.set(d);
+        }
+        if (bottomClimberSwitch.get()&&d>0){
+            climberMotor.set(d);
+        }
+        if(!topClimberSwitch.get()&&!bottomClimberSwitch.get()){
+            climberMotor.set(d);
+        }
+    }
+    
     public void raiseElevator(){
         if (!getUpperLimit()){
             climberMotor.set(elevatorSpeed);
@@ -69,7 +82,7 @@ public class Climber extends Subsystem {
     public boolean getUpperLimit(){
         return topClimberSwitch.get();
     }
-
+    
     public void homingSequence() {
         if (homeUp){
             while (!getUpperLimit()){
