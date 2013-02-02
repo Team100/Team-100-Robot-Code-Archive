@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,7 +28,6 @@ public class RobotTemplate extends IterativeRobot {
     private Joystick leftJoystick = new Joystick(1);
     private Joystick rightJoystick = new Joystick(2);
     private SendableChooser driveChooser, joystickChooser, robotChooser;
-    boolean initialized=false;
     
     
     public void robotInit() {
@@ -58,15 +56,16 @@ public class RobotTemplate extends IterativeRobot {
         
     }
     
+    
+    public void teleopInit()
+    {
+        assignRobot();
+    }
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-       
-        if (initialized==false){
-            assignRobot();
-            initialized=true;
-        }
         if (driveChooser.getSelected().equals("tank")){
             if (joystickChooser.getSelected().equals("two")){
                 drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
