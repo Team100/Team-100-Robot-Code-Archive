@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wpi.first.wpilibj.templates.subsystems;
+package edu.wpi.first.wpilibj.templates.subsystems.PIDBundle;
 
+import edu.wpi.first.wpilibj.templates.subsystems.PIDBundle.Callable;
+import edu.wpi.first.wpilibj.templates.subsystems.PIDBundle.PIDBase;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
