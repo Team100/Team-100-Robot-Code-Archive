@@ -1,11 +1,16 @@
 
 package edu.wpi.first.wpilibj.templates.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author bradmiller
  */
-public class DriveWithJoysticks extends CommandBase {
+public class DriveWithJoysticks extends CommandBase
+{
+    private double left;
+    private double right;
 
     public DriveWithJoysticks()
     {
@@ -14,13 +19,37 @@ public class DriveWithJoysticks extends CommandBase {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize()
+    {
+        left = 0.0;
+        right = 0.0;
+        driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        driveTrain.tankDrive(oi.logitech.getY(), oi.logitech.getThrottle());
+        left = oi.logitech.getY();
+        right = oi.logitech.getThrottle();
+        
+        if(oi.button8.get())
+        {
+            driveTrain.tankDrive(0.5*left, 0.5*right);
+        }
+        else
+        {
+            driveTrain.tankDrive(left, right);
+        }
+        
+        if(oi.button4.get())
+        {
+            driveTrain.resetGyro();
+        }
+        
+        driveTrain.debugDriveTrain();
+        SmartDashboard.putNumber("Left Joystick", oi.logitech.getY());
+        SmartDashboard.putNumber("Right Joystick", oi.logitech.getThrottle());
+        SmartDashboard.putBoolean("Button 8", oi.button8.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()

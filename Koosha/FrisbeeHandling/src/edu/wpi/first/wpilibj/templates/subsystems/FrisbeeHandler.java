@@ -27,6 +27,11 @@ public class FrisbeeHandler extends Subsystem
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void setBeltMotor(double s)
+    {
+        beltMotor.set(s);
+    }
+    
     public boolean getFrisbeeHook()
     {
         return CommandBase.arduino.getInput(RobotMap.kFrisbeeHook);
