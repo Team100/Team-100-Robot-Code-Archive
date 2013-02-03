@@ -8,10 +8,9 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in th future.
 package org.usfirst.frc100.Robot2013.subsystems;
-import org.usfirst.frc100.Robot2013.RobotMap;
-import org.usfirst.frc100.Robot2013.commands.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc100.Robot2013.RobotMap;
 /**
  *
  */

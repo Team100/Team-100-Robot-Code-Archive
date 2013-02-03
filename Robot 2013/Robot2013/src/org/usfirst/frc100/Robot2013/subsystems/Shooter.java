@@ -35,4 +35,10 @@ public class Shooter extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    //add PID to this:
+    public void manualControl(double front, double back){
+        shooterMotorFront.set(front);
+        shooterMotorRear.set(back);
+    }
 }

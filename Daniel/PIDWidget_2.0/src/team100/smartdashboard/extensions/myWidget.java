@@ -8,6 +8,7 @@ import edu.wpi.first.smartdashboard.gui.DashboardFrame;
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.IntegerProperty;
 import edu.wpi.first.smartdashboard.properties.Property;
+import edu.wpi.first.smartdashboard.properties.StringProperty;
 import edu.wpi.first.wpilibj.networktables.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -79,12 +80,14 @@ public class myWidget extends StaticWidget {
     JPanel m_chartPanel;
     public final IntegerProperty bufferSize;
     paintingThread thready;
+    public final StringProperty tablePath;
 
     public myWidget() {
 
         thready = new paintingThread();
-        bufferSize = new IntegerProperty(this, "Buffer Size (samples)", 500);
-        table = NetworkTable.getTable("PIDExtension");
+        bufferSize = new IntegerProperty(this, "Buffer Size (samples)", 2000);
+        tablePath = new StringProperty(this, "Table Path", "PIDExtension");
+        table = NetworkTable.getTable(tablePath.getValue());
 
         //JLabels
         pLabel = new JLabel("P");
@@ -347,7 +350,15 @@ public class myWidget extends StaticWidget {
     }
 
     @Override
-    public void propertyChanged(Property prprt) {
+    public void propertyChanged(Property p) {
+        if(p == bufferSize) {
+            while(m_data.getItemCount() > bufferSize.getValue()) {
+                m_data.remove(0);
+            }
+        } else if (p == tablePath) {
+            table = NetworkTable.getTable(tablePath.getValue());
+        }
+        
     }
 
     @Override
@@ -357,7 +368,7 @@ public class myWidget extends StaticWidget {
         g.drawRect(0, 0, size.width - 1, size.height - 1);
        //g.drawOval((int)table.getNumber("time"), (int)table.getNumber("velocity"), 5, 5);
         m_data.add(table.getNumber("time"), table.getNumber("velocity"));
-        if(m_data.getItemCount() > 2000) {
+        if(m_data.getItemCount() > bufferSize.getValue()) {
             m_data.remove(0);
         }
         yAxis.setRange(table.getNumber("velocity") - 2.0, table.getNumber("velocity") + 2.0);
