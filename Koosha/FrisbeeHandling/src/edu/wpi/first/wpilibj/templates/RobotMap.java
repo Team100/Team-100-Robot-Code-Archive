@@ -16,11 +16,14 @@ public class RobotMap {
     public static final int kRightMotor2 = 3;
     public static final int kLeftMotor1 = 2;
     public static final int kLeftMotor2 = 4;
+    public static final int kBeltMotor = 8;
     
     public static final int kRightEncoder1 = 3;
     public static final int kRightEncoder2 = 4;
     public static final int kLeftEncoder1 = 5;
     public static final int kLeftEncoder2 = 6;
+    
+    public static final int kFrisbeeHook = 3; // on arduino
     
     // If you are using multiple modules, make sure to define both the port
     // number and the module. For example you with a rangefinder:

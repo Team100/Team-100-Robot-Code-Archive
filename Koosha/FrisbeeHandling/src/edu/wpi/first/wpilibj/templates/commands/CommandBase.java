@@ -2,6 +2,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.Multiplexer;
 import edu.wpi.first.wpilibj.templates.OI;
 import edu.wpi.first.wpilibj.templates.subsystems.*;
 
@@ -14,8 +15,10 @@ import edu.wpi.first.wpilibj.templates.subsystems.*;
 public abstract class CommandBase extends Command {
 
     public static OI oi;
+    public static Multiplexer arduino;
+    
     // Create a single static instance of all of your subsystems
-    public static final FrisbeeHandler exampleSubsystem = new FrisbeeHandler();
+    public static final FrisbeeHandler frisbeeHandler = new FrisbeeHandler();
     public static DriveTrain driveTrain;
 
     public static void init() {
@@ -27,9 +30,11 @@ public abstract class CommandBase extends Command {
         driveTrain = new DriveTrain();
         
         oi = new OI();
+        arduino = new Multiplexer();
+        arduino.readArduino();
 
         // Show what command your subsystem is running on the SmartDashboard
-        SmartDashboard.putData(exampleSubsystem);
+        SmartDashboard.putData(frisbeeHandler);
     }
 
     public CommandBase(String name) {
