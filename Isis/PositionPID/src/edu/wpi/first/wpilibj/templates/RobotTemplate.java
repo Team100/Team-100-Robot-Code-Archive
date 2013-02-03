@@ -58,6 +58,7 @@ public class RobotTemplate extends IterativeRobot {
         // this line or comment it out.
         //autonomousCommand.cancel();
         climb = new Climb();
+        climb.start();
     }
 
     /**

@@ -21,6 +21,7 @@ public class Climb extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         SmartDashboard.putNumber("Setpoint", 0.0);
+        System.out.println("Setpoint added");
     }
 
     // Called repeatedly when this Command is scheduled to run
