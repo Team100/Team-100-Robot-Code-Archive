@@ -4,6 +4,8 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems.PIDBundle;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author Isis
@@ -16,7 +18,9 @@ public class PIDBase {
     private double prevDist = 0.0; 
     private double totalDistError = 0.0; 
     private double output = 0.0;
+    private double filtDist = 0.0;
     //Tuneables
+    private double kMaxVeloc = 1.0;
     private double kMaxOutput = 0.5;
     private double kMinOutput = 0.05;
     private double kP = 0.0;
@@ -25,7 +29,7 @@ public class PIDBase {
     //Constants
     private double setpoint = 0.0;
     private double kDistRatio;
-    private double kDesPeriod = 0.02;
+    private double kDeadband = 0.05;
 
     private void resetValues(){
         input = 0.0;
@@ -53,11 +57,23 @@ public class PIDBase {
 
         //calculate instantaneous velocity
         double currDist = input / kDistRatio;
+        SmartDashboard.putNumber(dashboardName("currDist"), currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
-        double distError = goalDist - currDist;
-        totalDistError += goalDist - currDist;
-
+        SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
+        
+        //rectangular motion profile
+        if (goalDist - filtDist > kMaxVeloc * period) {
+            filtDist += kMaxVeloc * period;
+        } else if (goalDist - filtDist < -kMaxVeloc * period) {
+            filtDist -= kMaxVeloc * period;
+        } else {
+            filtDist = goalDist;
+        }
+        double distError = filtDist - currDist;
+        totalDistError += distError / period;
+        SmartDashboard.putNumber(dashboardName("distError"), distError);
+        
         //capping our integral
         //don't increase totalDistError if kI is unset!
         if (kI != 0.0){
@@ -71,26 +87,30 @@ public class PIDBase {
         } else if (kI == 0.0){
             totalDistError = 0.0;
         }        
-
         
         //compute the output
-        output = kP * distError + kI * totalDistError - kD*(instVeloc - deltaDist/kDesPeriod);
-        //instVeloc should be velocSetpt?
+        output = kP * distError + kI * totalDistError - kD*(instVeloc);
 
-        //limit to one directiion of motion, eliminate deadband
-        if (output > kMaxOutput) {
-            output = kMaxOutput;
-        } else if (output < kMinOutput) {
-            output = kMinOutput;
+        //limit to one direction of motion, eliminate deadband
+        if (output > 0.0) {
+            output = output + kDeadband;
+            if (output > kMaxOutput) {
+                output = kMaxOutput;
+            }
+        } else if (output < 0.0) {
+            output = output - kDeadband;
+            if (output < kMinOutput) {
+                output = kMinOutput;
+            }
         }
-
+            
         //setup for next loop
         prevDist = currDist;
 
         return output;
     }// end calculate
 
-
+    
     //obtain, set setpoint
     public synchronized void setSetpoint(double sp){
         setpoint = sp;
@@ -99,6 +119,7 @@ public class PIDBase {
         return setpoint;
     }//end getSetpoint
 
+    
     //check enable/disable of robot
     public void disable(){
         enabled = false;
@@ -130,5 +151,8 @@ public class PIDBase {
     public void setMinOutput(double min){
         kMinOutput = min;
     }//end setMaxOutput
+    public void setMaxVeloc(double vel){
+        kMaxVeloc = vel;
+    }//end setMaxVeloc
 
 }// end PIDBase
