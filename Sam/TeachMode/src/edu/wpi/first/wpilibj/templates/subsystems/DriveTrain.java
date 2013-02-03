@@ -5,7 +5,6 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.templates.commands.TankDrive;
 
@@ -30,7 +29,7 @@ public class DriveTrain extends Subsystem{
         if(!reproducing){
             leftjag.set(left);
             rightjag.set(right);
-        }else{
+        }else{            
             leftjag.set(reproleft);
             rightjag.set(reproright);
         }

@@ -37,8 +37,8 @@ public class PyramidLevel extends Widget{
     public void init() {
         setPreferredSize(new Dimension(250, 250));
         try {
-            pyramid = ImageIO.read(new File("C:/Users/Student/Documents/NetBeansProjects/CustomSDWidgets/src/team100/SDextension/pyramid.png"));
-            robot = ImageIO.read(new File("C:/Users/Student/Documents/NetBeansProjects/CustomSDWidgets/src/team100/SDextension/pyrbot.png"));
+            pyramid = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/pyramid.png"));
+            robot = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/pyrbot.png"));
         } catch (IOException ex) {
         }
     }
@@ -61,7 +61,7 @@ public class PyramidLevel extends Widget{
             g.drawImage(robot, size.width*3/10, size.height*1/4, size.width*1/5, size.height*1/4, this);
         }
         if (value==3){
-            g.drawImage(robot,size.width*4/10, 0, size.height*1/5, size.height*1/4, this);
+            g.drawImage(robot,size.width*4/10, 0, size.height*1/5, size.width*1/4, this);
         }
     }
 }
