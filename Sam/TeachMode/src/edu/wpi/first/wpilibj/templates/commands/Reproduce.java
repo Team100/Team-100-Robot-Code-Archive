@@ -52,8 +52,10 @@ public class Reproduce extends CommandBase{
     }
 
     protected void end() {
+        autoMemory.Reproduce(0,0);
         DriveTrain.reproleft = 0;
         DriveTrain.reproright = 0;
+        DriveTrain.reproducing = false;
         position = 0;
         SmartDashboard.putBoolean("Reproducing", false);
     }
