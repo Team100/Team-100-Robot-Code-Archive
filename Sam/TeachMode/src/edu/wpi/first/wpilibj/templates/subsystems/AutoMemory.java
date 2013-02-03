@@ -4,12 +4,15 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.OI;
 import java.util.Vector;
+import com.sun.squawk.microedition.io.FileConnection;
+import java.io.IOException;
+import java.io.OutputStream;
+import javax.microedition.io.Connector;
+
 
 /**
  *
@@ -19,6 +22,7 @@ public class AutoMemory extends Subsystem{
     
     Vector LeftMemory;
     Vector RightMemory;
+    
     
     public AutoMemory(){
     }
@@ -34,7 +38,6 @@ public class AutoMemory extends Subsystem{
     }
     
     public void stopCollection(){
-        //Write to a file
     }
     
     public Vector RequestLeft(){
@@ -50,46 +53,44 @@ public class AutoMemory extends Subsystem{
     }
     
     public void Reproduce(double leftTarget, double rightTarget){
-        //DriveTrain.reproleft = 0.2;
-        //DriveTrain.reproright = 0.2; 
-        pidLeft.setSetpoint(leftTarget);
-        pidRight.setSetpoint(rightTarget);
+        DriveTrain.reproleft = leftTarget;
+        DriveTrain.reproright = rightTarget;
+        SmartDashboard.putNumber("Left Input", leftTarget);
+        SmartDashboard.putNumber("Right Input", rightTarget);
     }
     
     protected void initDefaultCommand() {
     }
     
-    //PID
-    private final double Ratio = 1000 / ((18.0/30.0)*(6/12.0*3.14159));
-    
-    //GIVE DEFAULT VALUES FOR PID
-    
-    PIDSource sourceLeft = new PIDSource(){
-        public double pidGet(){
-            SmartDashboard.putNumber("encoderLeft_raw", OI.left);
-            return OI.left;
+    private void write(String FILE_NAME){
+        FileConnection file = null;
+        try {
+                file = (FileConnection) Connector.open(FILE_NAME, Connector.WRITE);
+
+                file.create();
+
+                OutputStream output = file.openOutputStream();
+                
+                //output.write(bytes);
+        } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (file != null) {
+                    try {
+                        file.close();
+                    } catch (IOException ex) {
+                    }
+                }
         }
-    }; //end anonym class PIDSource
-    PIDOutput outputFront = new PIDOutput(){
-        public void pidWrite(double output){
-            DriveTrain.reproleft = (output);
-        }
-    }; //end anonym class PIDOutput
-    private SendablePID pidLeft = new SendablePID("front",sourceLeft, outputFront, Ratio);
+    
+    }
     
     
-    //shooterBack
-     PIDSource sourceRight = new PIDSource(){
-        public double pidGet(){
-            SmartDashboard.putNumber("encoderRight_raw", OI.right);
-            return OI.right;
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputBack = new PIDOutput(){
-        public void pidWrite(double output){
-             DriveTrain.reproright = output;
-        }
-    }; //end anonym class PIDOutput
-    private SendablePID pidRight = new SendablePID("back",sourceRight, outputBack, Ratio);
+    
+    
+    
+    
+    
+    
     
 }
