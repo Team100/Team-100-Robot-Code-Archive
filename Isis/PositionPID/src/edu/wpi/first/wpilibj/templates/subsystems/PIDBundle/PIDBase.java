@@ -36,6 +36,7 @@ public class PIDBase {
         prevDist = 0.0;
         totalDistError = 0.0;
         output = 0.0;
+        filtDist = 0.0;
     }//end resetValues
 
     public PIDBase(double distRatio, String key){
@@ -94,14 +95,15 @@ public class PIDBase {
         //limit to one direction of motion, eliminate deadband
         if (output > 0.0) {
             output = output + kDeadband;
-            if (output > kMaxOutput) {
-                output = kMaxOutput;
-            }
+
         } else if (output < 0.0) {
             output = output - kDeadband;
-            if (output < kMinOutput) {
-                output = kMinOutput;
-            }
+        }
+        if (output > kMaxOutput) {
+            output = kMaxOutput;
+        }
+        if (output < kMinOutput) {
+            output = kMinOutput;
         }
             
         //setup for next loop

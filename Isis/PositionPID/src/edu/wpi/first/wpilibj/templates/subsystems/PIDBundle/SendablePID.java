@@ -66,7 +66,7 @@ public class SendablePID {
         m_base.setKD(SmartDashboard.getNumber(dashboardName("kD"), 0.0)/100.0);
         m_base.setMaxOutput(SmartDashboard.getNumber(dashboardName("kMaxOutput"), 0.0));
         m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMinOutput"), 0.0));
-        m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMaxVeloc"), 0.0));
+        m_base.setMaxVeloc(SmartDashboard.getNumber(dashboardName("kMaxVeloc"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {

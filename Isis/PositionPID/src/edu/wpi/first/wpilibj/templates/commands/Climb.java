@@ -36,7 +36,7 @@ public class Climb extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        climber.setSetpoint(0.0);
+        //climber.setSetpoint(0.0);
     }
 
     // Called when another command which requires one or more of the same
