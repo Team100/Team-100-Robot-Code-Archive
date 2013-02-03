@@ -11,13 +11,15 @@
 
 package org.usfirst.frc100.Robot2013.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc100.Robot2013.Robot;
 
 /**
  *
  */
 public class Climb extends CommandGroup {
-    
+    boolean firstTime=true;
     public  Climb() {
+        //if elevator starts at bottom add another RaiseElevator here
         addSequential(new LowerElevator());
         addSequential(new RaiseElevator());
         addSequential(new LowerElevator());
@@ -40,5 +42,13 @@ public class Climb extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    }
+    
+    public void execute(){
+        //do not move this to another method
+        if (firstTime){
+            Robot.climber.resetLevel();
+        }
+        firstTime=false;
     }
 }
