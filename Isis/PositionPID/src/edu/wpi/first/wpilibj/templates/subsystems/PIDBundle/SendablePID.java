@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wpi.first.wpilibj.templates.subsystems;
+package edu.wpi.first.wpilibj.templates.subsystems.PIDBundle;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -57,6 +57,7 @@ public class SendablePID {
         SmartDashboard.putNumber(dashboardName("kD"), 0.0);
         SmartDashboard.putNumber(dashboardName("kMaxOutput"), 0.0);
         SmartDashboard.putNumber(dashboardName("kMinOutput"), 0.0);
+        SmartDashboard.putNumber(dashboardName("kMaxVeloc"), 0.0);
     }//end PIDInit
 
     public void getValues() {
@@ -65,6 +66,7 @@ public class SendablePID {
         m_base.setKD(SmartDashboard.getNumber(dashboardName("kD"), 0.0)/100.0);
         m_base.setMaxOutput(SmartDashboard.getNumber(dashboardName("kMaxOutput"), 0.0));
         m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMinOutput"), 0.0));
+        m_base.setMaxVeloc(SmartDashboard.getNumber(dashboardName("kMaxVeloc"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {

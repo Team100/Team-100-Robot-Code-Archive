@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wpi.first.wpilibj.templates.subsystems;
+package edu.wpi.first.wpilibj.templates.subsystems.PIDBundle;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,11 +15,12 @@ public class PIDBase {
     private String name;
     //Previous value variables
     private double input = 0.0;
-    private double prevDist = 0.0; //previous encoder raw count divided by gear ratio
-    private double prevWeightedInstVeloc = 0.0;
-    private double goalDist = 0.0; //accumulated desired distances (products of kVelocSetpt & loopPeriod)
+    private double prevDist = 0.0; 
+    private double totalDistError = 0.0; 
     private double output = 0.0;
+    private double filtDist = 0.0;
     //Tuneables
+    private double kMaxVeloc = 1.0;
     private double kMaxOutput = 0.5;
     private double kMinOutput = 0.05;
     private double kP = 0.0;
@@ -28,13 +29,14 @@ public class PIDBase {
     //Constants
     private double setpoint = 0.0;
     private double kDistRatio;
+    private double kDeadband = 0.05;
 
     private void resetValues(){
         input = 0.0;
         prevDist = 0.0;
-        prevWeightedInstVeloc = 0.0;
-        goalDist = 0.0;
+        totalDistError = 0.0;
         output = 0.0;
+        filtDist = 0.0;
     }//end resetValues
 
     public PIDBase(double distRatio, String key){
@@ -47,53 +49,70 @@ public class PIDBase {
     }//end dashboardName
     
     public double calculate(double period){
-        System.out.println("Enabled? " + enabled);
         if (!enabled) {
             output = 0.0;
             return output;
         }
 
-        double goalVeloc = getSetpoint();
+        double goalDist = getSetpoint();
 
         //calculate instantaneous velocity
         double currDist = input / kDistRatio;
+        SmartDashboard.putNumber(dashboardName("currDist"), currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
         SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
-        double error = goalVeloc - instVeloc;
-
-        //goalVeloc distance is our integral
-        //don't increase goalVeloc distance if kI is unset!
-        double totalDistError;
-        if (kI == 0.0) {
-            totalDistError = 0.0;
+        
+        //rectangular motion profile
+        if (goalDist - filtDist > kMaxVeloc * period) {
+            filtDist += kMaxVeloc * period;
+        } else if (goalDist - filtDist < -kMaxVeloc * period) {
+            filtDist -= kMaxVeloc * period;
         } else {
-            goalDist += goalVeloc * period;
-            totalDistError = goalDist - currDist;
-            if (kI * totalDistError > kMaxOutput) {
-                totalDistError = kMaxOutput / kI;
-            }
+            filtDist = goalDist;
         }
-
+        double distError = filtDist - currDist;
+        totalDistError += distError / period;
+        SmartDashboard.putNumber(dashboardName("distError"), distError);
+        
+        //capping our integral
+        //don't increase totalDistError if kI is unset!
+        if (kI != 0.0){
+            double errorMax = kMaxOutput/kI;
+            if((errorMax < totalDistError) || (kI * totalDistError > kMaxOutput)){
+                totalDistError = errorMax;
+            }
+            if(-errorMax > totalDistError){
+                totalDistError = -errorMax;
+            }
+        } else if (kI == 0.0){
+            totalDistError = 0.0;
+        }        
+        
         //compute the output
-        double currWeightedInstVeloc = instVeloc/period;
-        output += kP * error + kI * totalDistError - kD * (currWeightedInstVeloc - prevWeightedInstVeloc);
+        output = kP * distError + kI * totalDistError - kD*(instVeloc);
 
-        //limit to one directiion of motion, eliminate deadband
+        //limit to one direction of motion, eliminate deadband
+        if (output > 0.0) {
+            output = output + kDeadband;
+
+        } else if (output < 0.0) {
+            output = output - kDeadband;
+        }
         if (output > kMaxOutput) {
             output = kMaxOutput;
-        } else if (output < kMinOutput) {
+        }
+        if (output < kMinOutput) {
             output = kMinOutput;
         }
-
+            
         //setup for next loop
-        prevWeightedInstVeloc = currWeightedInstVeloc;
         prevDist = currDist;
 
         return output;
     }// end calculate
 
-
+    
     //obtain, set setpoint
     public synchronized void setSetpoint(double sp){
         setpoint = sp;
@@ -102,6 +121,7 @@ public class PIDBase {
         return setpoint;
     }//end getSetpoint
 
+    
     //check enable/disable of robot
     public void disable(){
         enabled = false;
@@ -133,5 +153,8 @@ public class PIDBase {
     public void setMinOutput(double min){
         kMinOutput = min;
     }//end setMaxOutput
+    public void setMaxVeloc(double vel){
+        kMaxVeloc = vel;
+    }//end setMaxVeloc
 
 }// end PIDBase
