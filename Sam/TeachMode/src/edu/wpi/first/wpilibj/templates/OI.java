@@ -17,18 +17,16 @@ public class OI {
     Joystick joystick = new Joystick(1);
     Encoder leftEncoder = new Encoder(3,4);
     Encoder rightEncoder = new Encoder(5,6);
-    public static double left;
-    public static double right;
     
-    Button button =  new JoystickButton(joystick,1);
-    Button button2 =  new JoystickButton(joystick,2);
+    Button button =  new JoystickButton(joystick,5);
+    Button button2 =  new JoystickButton(joystick,6);
     
-    public double getLeftEncoder(){
-        return leftEncoder.getRate();
+    public int getLeftEncoder(){
+        return leftEncoder.getRaw();
     }
     
-    public double getRightEncoder(){
-        return rightEncoder.getRate();
+    public int getRightEncoder(){
+        return rightEncoder.getRaw();
     }
     
     public double getJoy1_y1() {
@@ -43,9 +41,6 @@ public class OI {
         //insert all triggered commands here
         button.whileHeld(new Memorize());
         button2.whenPressed(new Reproduce());
-        
-        left = leftEncoder.getRate();
-        right = rightEncoder.getRate();
     }
     
     public void init(){
@@ -55,4 +50,3 @@ public class OI {
     }
     
 }
-
