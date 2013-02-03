@@ -92,7 +92,7 @@ public class Climber extends Subsystem {
     
     public void enable(){
         encoderClimberA.setReverseDirection(true);
-         encoderClimberB.setReverseDirection(false);
+        encoderClimberB.setReverseDirection(false);
         encoderClimberA.reset();
         encoderClimberB.reset();
         encoderClimberA.start();
@@ -100,5 +100,10 @@ public class Climber extends Subsystem {
         pidClimberA.enable();
         pidClimberB.enable();
     }//end enable
+    
+    public void savePrefs(){
+        pidClimberA.savePrefs();
+        pidClimberB.savePrefs();
+    }//end savePrefs
     
 }// end Climber
