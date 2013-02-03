@@ -62,6 +62,8 @@ public class AutoMemory extends Subsystem{
     //PID
     private final double Ratio = 1000 / ((18.0/30.0)*(6/12.0*3.14159));
     
+    //GIVE DEFAULT VALUES FOR PID
+    
     PIDSource sourceLeft = new PIDSource(){
         public double pidGet(){
             SmartDashboard.putNumber("encoderLeft_raw", OI.left);
