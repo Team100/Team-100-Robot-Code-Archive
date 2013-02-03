@@ -12,10 +12,10 @@ public class RobotMap {
     // public static final int leftMotor = 1;
     // public static final int rightMotor = 2;
     
-    public static final int kRightMotor1 = 1;
-    public static final int kRightMotor2 = 3;
-    public static final int kLeftMotor1 = 2;
-    public static final int kLeftMotor2 = 4;
+    public static final int kRightMotor1 = 9;
+    //public static final int kRightMotor2 = 1;
+    public static final int kLeftMotor1 = 10;
+    //public static final int kLeftMotor2 = 2;
     public static final int kBeltMotor = 8;
     
     public static final int kRightEncoder1 = 3;
