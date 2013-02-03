@@ -37,8 +37,8 @@ public class Hook extends Widget{
     public void init() {
         setPreferredSize(new Dimension(200, 200));
         try {
-            hooked = ImageIO.read(new File("C:/Users/Student/Documents/NetBeansProjects/CustomSDWidgets/src/team100/SDextension/hooked.png"));
-            unhooked = ImageIO.read(new File("C:/Users/Student/Documents/NetBeansProjects/CustomSDWidgets/src/team100/SDextension/unhooked.png"));
+            hooked = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/hooked.png"));
+            unhooked = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/unhooked.png"));
         } catch (IOException ex) {
         }
     }

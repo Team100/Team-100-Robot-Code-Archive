@@ -40,7 +40,7 @@ public class ClimberAngle extends Widget{
     public void init() {
         setPreferredSize(new Dimension(220, 275));
         try {
-            robot = ImageIO.read(new File("C:/Users/Student/Documents/NetBeansProjects/CustomSDWidgets/src/team100/SDextension/climberAngle.png"));
+            robot = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/climberAngle.png"));
         } catch (IOException ex) {
         }
     }
