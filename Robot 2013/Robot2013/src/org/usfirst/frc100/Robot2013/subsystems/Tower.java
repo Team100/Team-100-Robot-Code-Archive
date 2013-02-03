@@ -34,7 +34,20 @@ public class Tower extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-
+    
+    public void manualControl(double d){
+        towerTilter.set(0);
+        if (getTiltForwardLimit()&&d<0){
+            towerTilter.set(d);
+        }
+        if (getTiltBackLimit()&&d>0){
+            towerTilter.set(d);
+        }
+        if(!getTiltForwardLimit()&&!getTiltBackLimit()){
+            towerTilter.set(d);
+        }
+    }
+    
       public void tiltElevatorForward(){
         if (!getTiltForwardLimit()){
             towerTilter.set(tilterSpeed);

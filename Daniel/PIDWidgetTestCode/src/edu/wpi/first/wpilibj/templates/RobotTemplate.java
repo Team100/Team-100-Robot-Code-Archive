@@ -5,23 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
-
-
-/*-------------------------------INSTRUCTIONS---------------------------------*/
-/* Do not use any strings for KEYS that have spaces in them                   */
-/* To view and edit in real time go to View>Add>Robot Preferences             */
-/* To add more listings from SmartDashboard, enable editing mode              */
-/* and then disable editing mode. Then double click on the fields you want    */
-/* NOTE: KEYS cannot be edited after saving                                   */
-/*----------------------------------------------------------------------------*/
-
-
 package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,18 +20,28 @@ import edu.wpi.first.wpilibj.Preferences;
  * directory.
  */
 public class RobotTemplate extends IterativeRobot {
+    
+    NetworkTable table = NetworkTable.getTable("PIDExtension");
+    private double vel = 18.0;
+    Timer timer = new Timer();
+    
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    Preferences preferences;
-    
     public void robotInit() {
-        preferences.getInstance().putString("Test", "Hello World");
-        preferences.getInstance().putBoolean("Bool", true);
-        preferences.getInstance().putInt("Int", 512);
-        preferences.getInstance().save();
-//       preferences.getInstance().
+        timer.reset();
+        timer.start();
+        table.putNumber("p", 0.01);
+        table.putNumber("i", 0.10);
+        table.putNumber("d", 1.00);
+        table.putNumber("setpoint", 20.0);
+        table.putNumber("minOutput", 0.2);
+        table.putNumber("maxOutput", 1.0);
+        table.putNumber("velocity", 18.0);
+        table.putNumber("time", 0.0);
+        table.putBoolean("boolean", false);
     }
 
     /**
@@ -56,9 +55,27 @@ public class RobotTemplate extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        System.out.println("Keys: " + preferences.getInstance().getKeys());
-//        System.out.println(preferences.getInstance().getString("Test", "If this is showing up then nothing was found at that key"));
         
+//        System.out.println(table.getNumber("p"));
+//        System.out.println(table.getNumber("i"));
+//        System.out.println(table.getNumber("d"));
+//        System.out.println(table.getNumber("setpoint"));
+//        System.out.println(table.getNumber("minOutput"));
+//        System.out.println(table.getNumber("maxOutput"));
+//        System.out.println(table.getNumber("velocity"));
+//        System.out.println(table.getNumber("time"));
+        
+        table.putNumber("time", timer.get());
+        vel = vel * 1.0001;
+        table.putNumber("velocity", vel);
+       
+    }
+    
+    /**
+     * This function is called periodically during test mode
+     */
+    public void testPeriodic() {
+    
     }
     
 }
