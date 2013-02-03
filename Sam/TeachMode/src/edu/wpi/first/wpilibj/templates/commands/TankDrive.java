@@ -21,8 +21,8 @@ public class TankDrive extends CommandBase{
 
     protected void execute() {
         driveTrain.drive(oi.getJoy1_y1(), oi.getJoy1_y2());
-        SmartDashboard.putNumber("LeftEncoder", oi.getLeftEncoder());
-        SmartDashboard.putNumber("RightEncoder", oi.getRightEncoder());
+        SmartDashboard.putNumber("Joy1", oi.getJoy1_y1());
+        SmartDashboard.putNumber("Joy2", oi.getJoy1_y2());
     }
 
     protected boolean isFinished() {

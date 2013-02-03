@@ -22,7 +22,7 @@ public class Memorize extends CommandBase{
     }
 
     protected void execute() {
-        autoMemory.collect(oi.getLeftEncoder(), oi.getRightEncoder());
+        autoMemory.collect(oi.getJoy1_y1(), oi.getJoy1_y2());
     }
 
     protected boolean isFinished() {
@@ -35,8 +35,7 @@ public class Memorize extends CommandBase{
     }
 
     protected void interrupted() {
-        autoMemory.stopCollection();
-        SmartDashboard.putBoolean("Collecting", false);
+        end();
     }
     
 }
