@@ -47,8 +47,8 @@ public class DriveWithJoysticks extends CommandBase
         }
         
         driveTrain.debugDriveTrain();
-        SmartDashboard.putNumber("Left Joystick", oi.logitech.getY());
-        SmartDashboard.putNumber("Right Joystick", oi.logitech.getThrottle());
+        SmartDashboard.putNumber("Left Joystick", left);
+        SmartDashboard.putNumber("Right Joystick", right);
         SmartDashboard.putBoolean("Button 8", oi.button8.get());
     }
 
