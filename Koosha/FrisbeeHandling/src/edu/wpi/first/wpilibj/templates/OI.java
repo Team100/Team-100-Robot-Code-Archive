@@ -57,6 +57,7 @@ public class OI {
 
     public OI()
     {
-        button5.whenPressed(new TurnInPlace(90.0));
+        button5.whenPressed(new TurnInPlace(-90.0));
+        button6.whenPressed(new TurnInPlace(90.0));
     }
 }
