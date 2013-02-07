@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TurnInPlace extends CommandBase
 {
     private double setPoint;
-    private double error;
+    //private double error;
     
    /**
     * @param degreeOfTurn
@@ -24,29 +24,32 @@ public class TurnInPlace extends CommandBase
         // Use requires() here to declare subsystem dependencies
         requires(driveTrain);
         SmartDashboard.putString("test", "constructor");
-        setPoint = (-1.0)*degreeOfTurn;
+        setPoint = degreeOfTurn;
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
         driveTrain.resetGyro();
-        error = setPoint - driveTrain.getGyro();
+        //error = setPoint - driveTrain.getGyro();
+        driveTrain.updatePID();
+        driveTrain.turnController.setSetpoint(setPoint);
+        driveTrain.turnController.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        driveTrain.tankDrive(error/180, (-1)*error/180);
-        error = setPoint - driveTrain.getGyro();
-        SmartDashboard.putNumber("Error", error);
-        SmartDashboard.putString("test1", "");
+//        driveTrain.tankDrive(error*driveTrain.get_kP(), (-1)*error*driveTrain.get_kP());
+//        error = setPoint - driveTrain.getGyro();
+//        SmartDashboard.putNumber("Error", error);
+//        SmartDashboard.putString("test1", "");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Math.abs(error)<6.0;
+        return Math.abs(driveTrain.getGyro() - setPoint) < 5.0;
     }
 
     // Called once after isFinished returns true
