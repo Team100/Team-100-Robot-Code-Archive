@@ -23,7 +23,6 @@ public class DriveWithJoysticks extends CommandBase
     {
         left = 0.0;
         right = 0.0;
-        driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run

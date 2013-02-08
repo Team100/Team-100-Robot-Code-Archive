@@ -24,7 +24,7 @@ public class TurnInPlace extends CommandBase
         // Use requires() here to declare subsystem dependencies
         requires(driveTrain);
         SmartDashboard.putString("test", "constructor");
-        setPoint = degreeOfTurn;
+        setPoint = (-1)*degreeOfTurn;
     }
 
     // Called just before this Command runs the first time
@@ -42,20 +42,22 @@ public class TurnInPlace extends CommandBase
     {
 //        driveTrain.tankDrive(error*driveTrain.get_kP(), (-1)*error*driveTrain.get_kP());
 //        error = setPoint - driveTrain.getGyro();
-//        SmartDashboard.putNumber("Error", error);
-//        SmartDashboard.putString("test1", "");
+        SmartDashboard.putNumber("Error", driveTrain.turnController.getError());
+        SmartDashboard.putString("test1", "");
+        driveTrain.debugDriveTrain();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Math.abs(driveTrain.getGyro() - setPoint) < 5.0;
+        return Math.abs(setPoint - driveTrain.getGyro()) < 0.8;
     }
 
     // Called once after isFinished returns true
     protected void end()
     {
         SmartDashboard.putString("test1", "done");
+        driveTrain.turnController.disable();
     }
 
     // Called when another command which requires one or more of the same
@@ -63,5 +65,6 @@ public class TurnInPlace extends CommandBase
     protected void interrupted()
     {
         SmartDashboard.putString("test1", "done");
+        driveTrain.turnController.disable();
     }
 }
