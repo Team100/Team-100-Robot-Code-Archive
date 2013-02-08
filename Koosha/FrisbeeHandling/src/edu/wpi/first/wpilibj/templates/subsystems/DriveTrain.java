@@ -44,9 +44,10 @@ public class DriveTrain extends Subsystem {
         }
     };
     
-    private double kP = (1/180);
-    private double kI = 0.0;
+    private double kP = 0.0025;
+    private double kI = 0.000001;
     private double kD = 0.0;
+    private double kDeadband = 0.140;
 
     
     public DriveTrain()
@@ -134,6 +135,7 @@ public class DriveTrain extends Subsystem {
         kP = SmartDashboard.getNumber("P constant");
         kI = SmartDashboard.getNumber("I constant");
         kD = SmartDashboard.getNumber("D constant");
+        turnController.setPID(kP, kI, kD);
     }
     
     protected double returnPIDInput()
@@ -143,6 +145,11 @@ public class DriveTrain extends Subsystem {
     
     protected void usePIDOutput(double output)
     {
+        if(Math.abs(output)<kDeadband)
+        {
+            output = kDeadband*(Math.abs(output)/output);
+        }
+        
         tankDrive(output, (-1)*output);
     }
     
