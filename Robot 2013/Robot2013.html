@@ -33,54 +33,66 @@
 	            	    <tr><td>4</td><td>DriveTrain LeftEncoder Channel B </td></tr>
 	            	    <tr><td>5</td><td>DriveTrain RightEncoder Channel A </td></tr>
 	            	    <tr><td>6</td><td>DriveTrain RightEncoder Channel B </td></tr>
-	            	    <tr><td>7</td><td>Shooter ShooterEncoder 1 Input </td></tr>
-	            	    <tr><td>8</td><td>Shooter ShooterEncoder 2 Channel A </td></tr>
+	            	    <tr><td>7</td><td>Shooter ShooterEncoderFront Input </td></tr>
+	            	    <tr><td>8</td><td>Shooter ShooterEncoderRear  Input </td></tr>
 	            	    <tr><td>9</td><td>Climber ClimberEncoder Channel A </td></tr>
 	            	    <tr><td>10</td><td>Climber ClimberEncoder Channel B </td></tr>
-	            	    <tr><td>11</td><td>Shooter ShooterEncoder 2 Channel B </td></tr>
-	                        	    <tr><td>13</td><td>Intake FeedGate Input </td></tr>
-	            	    <tr><td>14</td><td>Climber Compressor Pressure Switch </td></tr>
+	            	    <tr><td>11</td><td>Climber RightFixedHookMetalSensor Input </td></tr>
+	            	    <tr><td>12</td><td>Climber RightMovingHookMetalSensor Input </td></tr>
+	            	    <tr><td>13</td><td>FrisbeeBelt BottomLimitSwitch  Input </td></tr>
+	            	    <tr><td>14</td><td>Pneumatics Compressor Pressure Switch </td></tr>
 	                                                                             	</table>
-                
+                        <h2>DIO on Digital Sidecar 2</h2>
+	<table><tr>
+	<th class="pound">#</th>
+	<th>Sensor</th></tr>
+	            	    <tr><td>1</td><td>Climber LeftFixedHookMetalSensor Input </td></tr>
+	            	    <tr><td>2</td><td>Climber LeftMovingHookMetalSensor Input </td></tr>
+	                        	    <tr><td>4</td><td>Climber PoleLimitSwitch Input </td></tr>
+	                                                                                                                                                                                                     	</table>
+    
                     <h2>PWMs on Digital Sidecar 1</h2>
 	<table><tr>
 	<th class="pound">#</th>
 	<th>Motor</th></tr>
 	            	    <tr><td>1</td><td>Climber ClimberMotor Output </td></tr>
-	            	    <tr><td>2</td><td>Climber ClimberTilter Output </td></tr>
+	            	    <tr><td>2</td><td>Tower TowerTilter Output </td></tr>
 	            	    <tr><td>3</td><td>DriveTrain Left Output </td></tr>
-	            	    <tr><td>4</td><td>Intake FeedMotor Output </td></tr>
-	            	    <tr><td>5</td><td>DriveTrain Right Output </td></tr>
-	            	    <tr><td>6</td><td>Shooter ShooterMotor Output </td></tr>
-	            	    <tr><td>7</td><td>Intake IntakeMotor Output </td></tr>
-	                                                                                                                                                                 	</table>
+	                        	    <tr><td>5</td><td>DriveTrain Right Output </td></tr>
+	            	    <tr><td>6</td><td>Shooter ShooterMotorFront Output </td></tr>
+	            	    <tr><td>7</td><td>FrisbeeBelt BeltMotor Output </td></tr>
+	            	    <tr><td>8</td><td>Shooter ShooterMotorRear Output </td></tr>
+	                                                                                                                                                     	</table>
                 
             
                     <h2>Relays on Digital Sidecar 1</h2>
 	<table><tr>
 	<th class="pound">#</th>
 	<th>Relay</th></tr>
-	            	    <tr><td>1</td><td>Climber Compressor Spike </td></tr>
-	                                                                                                                                                                                                                                         	</table>
+	            	    <tr><td>1</td><td>Pneumatics Compressor Spike </td></tr>
+	            	    <tr><td>2</td><td>Shooter CameraLight Output </td></tr>
+	                                                                                                                                                                                                                             	</table>
                 
                     <h2>Analog Module 1</h2>
 	<table><tr>
 	<th class="pound">#</th>
 	<th>Sensor</th></tr>
-	            	    <tr><td>1</td><td>DriveTrain Accelerometer Input </td></tr>
-	            	    <tr><td>2</td><td>DriveTrain Gyro Input </td></tr>
-	            	    <tr><td>3</td><td>Climber ClimberAnglePot Input </td></tr>
-	                                                                                                                                                                                                                 	</table>
+	            	    <tr><td>1</td><td>DriveTrain Gyro Input </td></tr>
+	                        	    <tr><td>3</td><td>Tower TowerAnglePot Input </td></tr>
+	            	    <tr><td>4</td><td>Tower Rangefinder Input </td></tr>
+	                                                	    <tr><td>8</td><td>DriveTrain BatteryVoltage Input </td></tr>
+	                                                                                                                                                     	</table>
                     
                     <h2>Solenoid Module 1</h2>
 	<table><tr>
 	<th class="pound">#</th>
 	<th>Solenoid</th></tr>
-	            	    <tr><td>1</td><td>DriveTrain LeftShifter Forward </td></tr>
-	            	    <tr><td>2</td><td>DriveTrain LeftShifter Reverse </td></tr>
-	            	    <tr><td>3</td><td>DriveTrain RightShifter Forward </td></tr>
-	            	    <tr><td>4</td><td>DriveTrain RightShifter Reverse </td></tr>
-	                                                                                                                                                                                                     	</table>
+	            	    <tr><td>1</td><td>DriveTrain LowGear Forward </td></tr>
+	            	    <tr><td>2</td><td>DriveTrain LowGear Reverse </td></tr>
+	            	    <tr><td>3</td><td>DriveTrain HighGear Forward </td></tr>
+	            	    <tr><td>4</td><td>DriveTrain HighGear Reverse </td></tr>
+	            	    <tr><td>5</td><td>Climber EmergencyBrake Output </td></tr>
+	                                                                                                                                                                                         	</table>
                     
   </body>
 </html>
