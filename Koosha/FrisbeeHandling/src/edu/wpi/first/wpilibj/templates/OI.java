@@ -3,8 +3,9 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.templates.commands.*;
+import edu.wpi.first.wpilibj.templates.commands.TurnInPlace;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,6 +46,18 @@ public class OI {
     
     public Joystick logitech = new Joystick(1);
     
-    public Button button1 = new JoystickButton(logitech, 1);
-}
+    public Button   button1 = new JoystickButton(logitech, 1),
+                    button2 = new JoystickButton(logitech, 2),
+                    button3 = new JoystickButton(logitech, 3),
+                    button4 = new JoystickButton(logitech, 4),
+                    button5 = new JoystickButton(logitech, 5),
+                    button6 = new JoystickButton(logitech, 6),
+                    button7 = new JoystickButton(logitech, 7),
+                    button8 = new JoystickButton(logitech, 8);
 
+    public OI()
+    {
+        button5.whenPressed(new TurnInPlace(-90.0));
+        button6.whenPressed(new TurnInPlace(90.0));
+    }
+}

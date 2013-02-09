@@ -38,8 +38,8 @@ public class Climber extends Widget{
     public void init() {
         setPreferredSize(new Dimension(200, 250));
         try {
-            robot = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/robot.png"));
-            hook = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/hook.png"));
+            robot = ImageIO.read(Climber.class.getResourceAsStream("robot.png"));
+            hook = ImageIO.read(Climber.class.getResourceAsStream("hook.png"));
         } catch (IOException ex) {
         }
     }

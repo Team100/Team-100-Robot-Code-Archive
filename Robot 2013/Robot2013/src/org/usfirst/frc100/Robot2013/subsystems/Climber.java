@@ -39,6 +39,7 @@ public class Climber extends Subsystem {
     private int encoderMin=0;//lowest point elevator should reach
     private int errorLowerLimit=50;//limit for how far the hook moves without catching before it's considered an error and tries again
     private int errorUpperLimit=50;//errorUpperLimit is used in the lowerElevator method, errorLowerLimit is used in the raiseElevator method
+    private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -100,6 +101,23 @@ public class Climber extends Subsystem {
         }
     }
     
+    //lowers elevator partway for last pull-up at end
+    public void lowerElevatorPartway(){
+        if (climberEncoder.get()>lowerElevatorPartwayLimit){
+            if (!getError(false)||climberEncoder.get()>errorUpperLimit){
+                climberMotor.set(-elevatorSpeed);
+            }
+            else {
+                if (!getUpperLimit()){
+                    climberMotor.set(elevatorSpeed);
+                }
+            }
+        }
+        else {
+            climberMotor.set(0);
+        }
+    }
+    
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
         return bottomClimberSwitch.get()||climberEncoder.get()<encoderMin;
@@ -113,6 +131,11 @@ public class Climber extends Subsystem {
     //called when robot goes up a level of the pyramid
     public void nextLevel(){
         level+=1;
+    }
+    
+    //which level of the pyramid the robot is on
+    public int getLevel(){
+        return level;
     }
     
     //resets level to zero
