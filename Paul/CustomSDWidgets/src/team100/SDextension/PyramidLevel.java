@@ -37,8 +37,8 @@ public class PyramidLevel extends Widget{
     public void init() {
         setPreferredSize(new Dimension(250, 250));
         try {
-            pyramid = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/pyramid.png"));
-            robot = ImageIO.read(new File("C:/Users/Student/Documents/GoogleCodeRepo/Paul/CustomSDWidgets/src/team100/SDextension/pyrbot.png"));
+            pyramid = ImageIO.read(Climber.class.getResourceAsStream("pyramid.png"));
+            robot = ImageIO.read(Climber.class.getResourceAsStream("pyrbot.png"));
         } catch (IOException ex) {
         }
     }
