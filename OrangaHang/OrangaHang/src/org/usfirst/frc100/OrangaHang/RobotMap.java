@@ -1,10 +1,12 @@
 package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -32,27 +34,28 @@ public class RobotMap {
     public static final Encoder driveLeftEncoder = new Encoder(3,4);
     //Climber
     public static final Encoder climberEncoder = new Encoder(5,6);
-    public static final DigitalInput climberTopSwitch;
-    public static final DigitalInput climberBottomSwitch;
-    public static final DigitalInput climberPoleSwitch;
-//    public static final DigitalInput climberRightFixedMetal;
-//    public static final DigitalInput climberLeftFixedMetal;
-//    public static final DigitalInput climberRightMovingMetal;
-//    public static final DigitalInput climberLeftMovingMetal;
+    public static final DigitalInput climberTopSwitch = new DigitalInput(7);
+    public static final DigitalInput climberBottomSwitch = new DigitalInput(8);
+    public static final DigitalInput climberPoleSwitch = new DigitalInput(9);  
     //Shooter
-    public static final DigitalInput shooterFrontOptical = new DigitalInput(7);
-    public static final DigitalInput shooterBackOptical = new DigitalInput(8);
+    public static final DigitalInput shooterFrontOptical = new DigitalInput(10);
+    public static final DigitalInput shooterBackOptical = new DigitalInput(11);
     //Intake
-    public static final DigitalInput intakeTopSwitch;
-    public static final DigitalInput intakeBottomSwitch;
+    public static final DigitalInput intakeTopSwitch = new DigitalInput(12);
+    public static final DigitalInput intakeBottomSwitch = new DigitalInput(13);
     
     
     //Analog sensors
     //Drive Train
     public static final Gyro driveGyro = new Gyro(1);
-    public static final AnalogChannel driveRangefinder = new AnalogChannel(2);
+    public static final AnalogChannel driveUltrasonic = new AnalogChannel(2);
     //Tower
     public static final AnalogChannel towerPotent = new AnalogChannel(3);
+    //Climber
+    public static final AnalogChannel climberRightFixedIR = new AnalogChannel(4);
+    public static final AnalogChannel climberLeftFixedIR = new AnalogChannel(5);
+    public static final AnalogChannel climberRightMovingIR = new AnalogChannel(6);
+    public static final AnalogChannel climberLeftMovingIR = new AnalogChannel(7);
     
     
     //PWM Outputs
@@ -73,11 +76,13 @@ public class RobotMap {
     
     //Solenoids
     //Drive Train
-    public static final Solenoid driveHighGear = new Solenoid(1);
-    public static final Solenoid driveLowGear = new Solenoid(2);
-    //Tower or Pneumatics, not sure which yet
-    public static final Solenoid towerRightArmPiston = new Solenoid(3);
-    public static final Solenoid towerLeftArmPiston = new Solenoid(4);
+    public static final DoubleSolenoid driveGear = new DoubleSolenoid(1,2);
+    //Tower
+    public static final DoubleSolenoid towerArmPistons = new DoubleSolenoid(3,4);
+    
+    //Relays
+    public static final Compressor compressor = new Compressor(14,1);
+    public static final Relay cameraLights = new Relay(2);
     
     public static void init(){
         //Drive Train
