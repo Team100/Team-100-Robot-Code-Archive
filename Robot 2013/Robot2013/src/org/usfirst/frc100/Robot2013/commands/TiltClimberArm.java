@@ -27,8 +27,8 @@ public class  TiltClimberArm extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.climber.tiltElevatorForward();
-        if (Robot.climber.getTiltForwardLimit()){
+        Robot.tower.tiltElevatorForward();
+        if (Robot.tower.getTiltForwardLimit()){
             isFinished=true;
         }
     }
