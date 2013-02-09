@@ -22,7 +22,8 @@ public class Memorize extends CommandBase{
     }
 
     protected void execute() {
-        autoMemory.collect(oi.getJoy1_y1(), oi.getJoy1_y2());
+        //autoMemory.collect(oi.getJoy1_y1(), oi.getJoy1_y2());
+        autoMemory.collectString(oi.getJoy1_y1(), oi.getJoy1_y2());
     }
 
     protected boolean isFinished() {
