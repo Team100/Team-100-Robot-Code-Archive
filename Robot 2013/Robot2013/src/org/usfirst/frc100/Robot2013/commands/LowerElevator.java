@@ -28,7 +28,13 @@ public class  LowerElevator extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.climber.lowerElevator();
+        //only lower elevator partway to get from level 2 to level 3 of pyramid
+        if (Robot.climber.getLevel()!=2){
+            Robot.climber.lowerElevator();
+        }
+        else {
+            Robot.climber.lowerElevatorPartway();
+        }
         if (Robot.climber.getLowerLimit()){
             isFinished=true;
         }
