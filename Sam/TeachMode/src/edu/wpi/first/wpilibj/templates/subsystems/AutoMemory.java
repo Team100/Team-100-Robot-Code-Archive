@@ -23,7 +23,6 @@ public class AutoMemory extends Subsystem{
     Vector LeftMemory;
     Vector RightMemory;
     
-    
     public AutoMemory(){
     }
 
@@ -33,8 +32,14 @@ public class AutoMemory extends Subsystem{
     }
     
     public void collect(double left, double right){
+        //NOT USED
         LeftMemory.addElement(Double.valueOf(left));
         RightMemory.addElement(Double.valueOf(right));
+    }
+    
+    public void collectString(double left, double right){
+       LeftMemory.addElement(String.valueOf(left));
+       RightMemory.addElement(String.valueOf(right));
     }
     
     public void stopCollection(){
@@ -48,10 +53,6 @@ public class AutoMemory extends Subsystem{
         return RightMemory;
     }
     
-    public void ReadMemory(int index){
-        //read from a file and set the vectors equal to the info
-    }
-    
     public void Reproduce(double leftTarget, double rightTarget){
         DriveTrain.reproleft = leftTarget;
         DriveTrain.reproright = rightTarget;
@@ -62,16 +63,29 @@ public class AutoMemory extends Subsystem{
     protected void initDefaultCommand() {
     }
     
+    
+    
     private void write(String FILE_NAME){
+        byte[] data;
         FileConnection file = null;
         try {
                 file = (FileConnection) Connector.open(FILE_NAME, Connector.WRITE);
 
                 file.create();
-
-                OutputStream output = file.openOutputStream();
                 
-                //output.write(bytes);
+                OutputStream output = file.openOutputStream();
+                if(LeftMemory.size() != RightMemory.size()){
+                    System.out.println("VECTORS HAVE DIFFERENT SIZES");
+                }
+                for(int i=0; i<LeftMemory.size(); i++){
+                    String datapoint;
+                    //Format Double,Double/n
+                    datapoint = LeftMemory.elementAt(i).toString() + "," + RightMemory.elementAt(i).toString()+"/n";
+                    data = datapoint.getBytes();
+                    output.write(data);
+                }
+                
+                
         } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
@@ -85,7 +99,9 @@ public class AutoMemory extends Subsystem{
     
     }
     
-    
+    public void read(int index){
+        //read from a file and set the vectors equal to the info
+    }
     
     
     
