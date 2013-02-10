@@ -5,6 +5,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.IOException;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Memorize extends CommandBase{
     }
 
     protected void initialize() {
+        System.out.println("Beginning Collection");
         autoMemory.beginCollection();
         SmartDashboard.putBoolean("Collecting", true);
     }
@@ -31,7 +33,11 @@ public class Memorize extends CommandBase{
     }
 
     protected void end() {
-        autoMemory.stopCollection();
+        try {
+            autoMemory.stopCollection();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         SmartDashboard.putBoolean("Collecting", false);
     }
 
