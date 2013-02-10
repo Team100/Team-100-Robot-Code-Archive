@@ -11,12 +11,12 @@ import org.usfirst.frc100.Robot2013.Robot;
  *
  * @author Student
  */
-public class resetLevel extends Command {
+public class ResetLevel extends Command {
     
-    public resetLevel() {
+    public ResetLevel() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires (Robot.climber);
+        requires(Robot.climber);
     }
 
     // Called just before this Command runs the first time

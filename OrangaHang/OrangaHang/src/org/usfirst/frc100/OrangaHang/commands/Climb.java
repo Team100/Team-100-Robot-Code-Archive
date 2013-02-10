@@ -23,15 +23,26 @@ public class Climb extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //Warning: this code might not work
-        climber.raiseElevator();
-        climber.lowerElevator();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
         climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevator();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
         climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevatorPartway();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getPartwayLimit()){
+            climber.lowerElevatorPartway();
+        }
         climber.nextLevel();
     }
 
