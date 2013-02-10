@@ -109,12 +109,14 @@ public class AutoMemory extends Subsystem{
                 char c = dataArray[i];
                 if(c == ','){
                     buff = buffer.toString().substring(1);
+                    System.out.println(buff);
                     LeftMemory.addElement(Double.valueOf(buff));
                     buffer.delete(0, buffer.length()-1);
                 }else if(c==';'){
                     buff = buffer.toString().substring(1);
                     RightMemory.addElement(Double.valueOf(buff));
                     buffer.delete(0, buffer.length()-1);
+                }else if(c=='*'||c=='(' || c==')'|| c=="'".charAt(0) || c=='&' || c=='%'){
                 }else{
                     buffer.append(c);
                 }
