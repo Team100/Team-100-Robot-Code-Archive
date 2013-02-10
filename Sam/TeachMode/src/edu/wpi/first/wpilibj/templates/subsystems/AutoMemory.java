@@ -76,12 +76,14 @@ public class AutoMemory extends Subsystem{
             String Left = (String) LeftMemory.elementAt(i);
             String Right = (String) RightMemory.elementAt(i);
             
-            String point = Left + "," + Right;
+            String point = Left + "," + Right + ";";
             dos.writeUTF(point);
         }
         //baos.toByteArray();
         //FileRW.getInstance().save(FILE_NAME, bytes);
+        
         System.out.println(baos);
+        dos.writeChars("\n");
         FileRW.getInstance().save(FILE_NAME, baos.toByteArray());
     }
     
@@ -89,26 +91,36 @@ public class AutoMemory extends Subsystem{
         System.out.println("Beginning reading");
         //read from a file and set the vectors equal to the info
         String data;
-        data = FileRW.newRead(path);//Read from path
+        FileRW instance = FileRW.getInstance();
+        data = instance.newRead(path);
+        //data = FileRW.newRead(path);//Read from path
         
         //Clear Vectors
-        LeftMemory = null;
-        RightMemory = null;
+        LeftMemory = new Vector();
+        RightMemory = new Vector();
         
-        boolean complete = false;
-        int beginIndex=0;
-        int endIndex = 0;
-        
-        while(!complete){
-            if(data==null){System.out.println("EMPTY STRING");break;}
-            endIndex = data.indexOf(";", endIndex);
-            String substring = data.substring(beginIndex, endIndex);
-            beginIndex = endIndex;
+        System.out.println(data);
+
+        if(data != null){
+            char[] dataArray = data.toCharArray();
+            StringBuffer buffer = new StringBuffer("");
+            String buff;
+            for(int i = 0; i<dataArray.length;i++){
+                char c = dataArray[i];
+                if(c == ','){
+                    buff = buffer.toString().substring(1);
+                    LeftMemory.addElement(Double.valueOf(buff));
+                    buffer.delete(0, buffer.length()-1);
+                }else if(c==';'){
+                    buff = buffer.toString().substring(1);
+                    RightMemory.addElement(Double.valueOf(buff));
+                    buffer.delete(0, buffer.length()-1);
+                }else{
+                    buffer.append(c);
+                }
+                
+            }
             
-            int commaIndex = substring.indexOf(",");
-            LeftMemory.addElement(Double.valueOf(substring.substring(0, commaIndex-1)));
-            RightMemory.addElement(Double.valueOf(substring.substring(commaIndex+1, substring.length())));
         }
-        
     }    
 }
