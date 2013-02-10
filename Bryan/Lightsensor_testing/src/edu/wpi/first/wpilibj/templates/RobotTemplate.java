@@ -31,7 +31,7 @@ public class RobotTemplate extends IterativeRobot {
     private int prevcount;
     private int[] arrayCount;  //array[2] == 3rd element
     private double[] arrayTime;
-    private final int kNumSamples = 50;
+    private final int kNumSamples = 20;
 
     public RobotTemplate() {
         time = new Timer();
@@ -117,7 +117,7 @@ public class RobotTemplate extends IterativeRobot {
     index = nextIndex;
     SmartDashboard.putBoolean("LightSensor", lightsensor.get());
     SmartDashboard.putNumber("deltaCount", deltaCount);
-    SmartDashboard.putNumber("counter_rate", (deltaCount/(deltaTime*2))*60);
+    SmartDashboard.putNumber("counter_rate", (deltaCount/(deltaTime*4))*60);
     SmartDashboard.putNumber("Joy_value", Joy.getY());
     SmartDashboard.putNumber("deltaTime",deltaTime);
     
