@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
@@ -44,6 +43,7 @@ public class Climber extends Subsystem {
         encoder.start();
     }//end constructor
 
+    //creates a new climb
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -53,17 +53,20 @@ public class Climber extends Subsystem {
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
         if (climberTopSwitch.get()&&speed>0||climberBottomSwitch.get()&&speed<0){
-            motorTop.set(0);
-            motorBottom.set(0);
+            motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if (climberTopSwitch.get()&&speed<0){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if (climberBottomSwitch.get()&&speed>0){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if(!climberTopSwitch.get()&&!climberBottomSwitch.get()){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         putData();
     }//end manualControl
@@ -73,15 +76,18 @@ public class Climber extends Subsystem {
         if (!getUpperLimit()){
             if (!getError(true)){
                 motorTop.set(elevatorSpeed);
+                motorBottom.set(elevatorSpeed);
             }
             else {
                 if (!getLowerLimit()){
                     motorTop.set(-elevatorSpeed);
+                    motorBottom.set(-elevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
     }//end raiseElevator
@@ -91,15 +97,18 @@ public class Climber extends Subsystem {
         if (!getLowerLimit()){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
+                motorBottom.set(-elevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
                     motorTop.set(elevatorSpeed);
+                    motorBottom.set(elevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
     }//end lowerElevator
@@ -109,23 +118,26 @@ public class Climber extends Subsystem {
         if (encoder.get()>lowerElevatorPartwayLimit){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
+                motorBottom.set(-elevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
                     motorTop.set(elevatorSpeed);
+                    motorBottom.set(elevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
-    }//end lowerElevaotrPartway
+    }//end lowerElevatorPartway
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
         return climberBottomSwitch.get()||encoder.get()<encoderMin;
-    }//end getLowerLimt
+    }//end getLowerLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
@@ -152,9 +164,11 @@ public class Climber extends Subsystem {
         if (homeUp){
             while (!getUpperLimit()){
                 motorTop.set(homingSpeed);
+                motorBottom.set(homingSpeed);
             }
             while (getUpperLimit()){
                 motorTop.set(-homingReverseSpeed);
+                motorBottom.set(-homingReverseSpeed);
             }
             encoder.reset();
         }
@@ -162,9 +176,11 @@ public class Climber extends Subsystem {
         else{
             while (!getLowerLimit()){
                 motorTop.set(-homingSpeed);
+                motorBottom.set(-homingSpeed);
             }
             while (getLowerLimit()){
                 motorTop.set(homingReverseSpeed);
+                motorBottom.set(homingReverseSpeed);
             }
             encoder.reset();
         }

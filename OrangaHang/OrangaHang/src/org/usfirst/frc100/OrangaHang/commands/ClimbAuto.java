@@ -28,14 +28,26 @@ public class ClimbAuto extends CommandBase {
     protected void execute() {
         climber.setSetpoint(SmartDashboard.getNumber("Setpoint", 0.0));
         //Warning: this code might not work
-        climber.raiseElevator();
-        climber.lowerElevator();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
         climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevator();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
         climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevatorPartway();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getPartwayLimit()){
+            climber.lowerElevatorPartway();
+        }
         climber.nextLevel();
     }
 

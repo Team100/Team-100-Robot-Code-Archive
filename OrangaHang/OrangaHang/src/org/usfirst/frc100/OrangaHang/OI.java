@@ -49,36 +49,42 @@ public class OI {
         //Button declarations
         
         //DriverLeft button declarations - numbers NOT final
-        public static final JoystickButton highGearLeftButton = new JoystickButton(driverLeft, 1);
-        public static final JoystickButton lowGearLeftButton = new JoystickButton(driverLeft, 2);
+        public static final JoystickButton shiftGearsLButton = new JoystickButton(driverLeft, 1);
+        public static final JoystickButton quickTurnLButton = new JoystickButton(driverLeft, 2);
+        public static final JoystickButton straightShootLButton = new JoystickButton(driverLeft, 3);
+        public static final JoystickButton autoClimbLButton = new JoystickButton(driverLeft, 4);
         
         //DriverRight button declarations - numbers NOT final
-        public static final JoystickButton highGearRightButton = new JoystickButton(driverRight, 1);
-        public static final JoystickButton lowGearRightButton = new JoystickButton(driverRight,2);
+        public static final JoystickButton shiftGearsRButton = new JoystickButton(driverRight, 1);
+        public static final JoystickButton quickTurnRButton = new JoystickButton(driverRight, 2);
+        public static final JoystickButton straightShootRButton = new JoystickButton(driverRight, 3);
+        public static final JoystickButton autoClimbRButton = new JoystickButton(driverRight, 4);
         
         //Manipulator button declarations - number assignments are correct, don't change them!
         public static final JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
         public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
         public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
-        public static final JoystickButton takeFrisbeesButton = new JoystickButton(manipulator, 4);
-        public static final JoystickButton climbUpButton = new JoystickButton(manipulator, 5);
-        public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
-        public static final JoystickButton climbDownButton = new JoystickButton(manipulator, 7);
-        public static final JoystickButton dumpButton = new JoystickButton(manipulator, 8);
-        
-    public OI(){      
+        public static final JoystickButton shootButton = new JoystickButton(manipulator, 5);
+        public static final JoystickButton primeShootButton = new JoystickButton(manipulator, 6);
+        public static final JoystickButton intakeButton = new JoystickButton(manipulator, 7);
+        public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 8);
+    
+        public OI(){      
         //Assigning commands to buttons
         
         //DriverLeft commands
-        
+            shiftGearsLButton.whenPressed(new ShiftGears());
         //DriverRight commands
         
         //Manipulator commands
-        takeFrisbeesButton.whileHeld(new TakeFrisbees());
-        climbUpButton.whenPressed(new ClimbAuto());
-        shootButton.whenPressed(new Shoot());
-        climbDownButton.whenPressed(new ClimbAuto());
-        dumpButton.whenPressed(new Dump());
+        tiltClimbButton.whenPressed(new TiltToClimb());
+        tiltShootButton.whenPressed(new TiltToShoot());
+        tiltIntakeButton.whenPressed(new TiltToIntake());
+        intakeButton.whileHeld(new Intake());
+        primeShootButton.whileHeld(new PrimeToShoot());
+        primeDumpButton.whileHeld(new PrimeToDump());
+        shootButton.whenPressed(new MoveToShoot());
+        
         
     
         //SmartDashboardButtons

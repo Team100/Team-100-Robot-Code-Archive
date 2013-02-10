@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Team100
  */
-public class Shoot extends CommandBase {
+public class PrimeToShoot extends CommandBase {
     
-    public Shoot() {
+    public PrimeToShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(shooter);
