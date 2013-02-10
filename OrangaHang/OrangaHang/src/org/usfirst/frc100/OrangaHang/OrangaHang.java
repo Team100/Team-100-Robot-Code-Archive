@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
+import org.usfirst.frc100.OrangaHang.commands.Shoot;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
@@ -25,6 +26,7 @@ import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
+    Shoot shoot;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -40,7 +42,9 @@ public class OrangaHang extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        autonomousCommand.start();
+        if (autonomousCommand != null){
+            autonomousCommand.start();
+        }
     }
 
     /**
@@ -55,7 +59,10 @@ public class OrangaHang extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        autonomousCommand.cancel();
+        if (autonomousCommand != null){
+            autonomousCommand.cancel();
+        }
+        shoot = new Shoot();
     }
 
     /**
