@@ -27,7 +27,7 @@ public class Reproduce extends CommandBase{
     }
 
     protected void initialize() {
-        //autoMemory.ReadMemory(0); <- Use this to select which file you are looking at
+        autoMemory.read("file:///test.sam");//READ TEST FILE
         leftVector = autoMemory.RequestLeft();
         rightVector = autoMemory.RequestRight();
         position = 0;
