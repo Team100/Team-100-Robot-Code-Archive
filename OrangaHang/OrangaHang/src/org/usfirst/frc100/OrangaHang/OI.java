@@ -3,9 +3,7 @@ package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
-import org.usfirst.frc100.OrangaHang.commands.Climb;
-import org.usfirst.frc100.OrangaHang.commands.Shoot;
-import org.usfirst.frc100.OrangaHang.commands.TakeFrisbees;
+import org.usfirst.frc100.OrangaHang.commands.*;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -42,32 +40,33 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-
-    public OI(){
+        
         //Joystick declarations
-        Joystick driverLeft = new Joystick(1);
-        Joystick driverRight = new Joystick(2);
-        Joystick manipulator = new Joystick(3);
-
+        public static final Joystick driverLeft = new Joystick(1);
+        public static final Joystick driverRight = new Joystick(2);
+        public static final Joystick manipulator = new Joystick(3);
+        
         //Button declarations
         
         //DriverLeft button declarations - numbers NOT final
-        JoystickButton highGearLeftButton = new JoystickButton(driverLeft, 1);
-        JoystickButton lowGearLeftButton = new JoystickButton(driverLeft, 2);
+        public static final JoystickButton highGearLeftButton = new JoystickButton(driverLeft, 1);
+        public static final JoystickButton lowGearLeftButton = new JoystickButton(driverLeft, 2);
         
         //DriverRight button declarations - numbers NOT final
-        JoystickButton highGearRightButton = new JoystickButton(driverRight, 1);
-        JoystickButton lowGearRightButton = new JoystickButton(driverRight,2);
+        public static final JoystickButton highGearRightButton = new JoystickButton(driverRight, 1);
+        public static final JoystickButton lowGearRightButton = new JoystickButton(driverRight,2);
         
         //Manipulator button declarations - number assignments are correct, don't change them!
-        JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
-        JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
-        JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
-        JoystickButton climbUpButton = new JoystickButton(manipulator, 5);
-        JoystickButton shootButton = new JoystickButton(manipulator, 6);
-        JoystickButton climbDownButton = new JoystickButton(manipulator, 7);
-        JoystickButton takeFrisbeesButton = new JoystickButton(manipulator, 8);
+        public static final JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
+        public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
+        public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
+        public static final JoystickButton takeFrisbeesButton = new JoystickButton(manipulator, 4);
+        public static final JoystickButton climbUpButton = new JoystickButton(manipulator, 5);
+        public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
+        public static final JoystickButton climbDownButton = new JoystickButton(manipulator, 7);
+        public static final JoystickButton dumpButton = new JoystickButton(manipulator, 8);
         
+    public OI(){      
         //Assigning commands to buttons
         
         //DriverLeft commands
@@ -75,10 +74,12 @@ public class OI {
         //DriverRight commands
         
         //Manipulator commands
-        climbUpButton.whenPressed(new Climb());
-        shootButton.whenPressed(new Shoot());
-        climbDownButton.whenPressed(new Climb());
         takeFrisbeesButton.whileHeld(new TakeFrisbees());
+        climbUpButton.whenPressed(new ClimbAuto());
+        shootButton.whenPressed(new Shoot());
+        climbDownButton.whenPressed(new ClimbAuto());
+        dumpButton.whenPressed(new Dump());
+        
     
         //SmartDashboardButtons
         

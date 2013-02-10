@@ -38,21 +38,26 @@ public class OrangaHang extends IterativeRobot {
 
         // Initialize all subsystems
         CommandBase.init();
-    }
+        RobotMap.init();
+    }//end robotInit
 
+    public void disabledInit(){
+	CommandBase.disableAll();
+    }//end disabledInit
+    
     public void autonomousInit() {
         // schedule the autonomous command (example)
         if (autonomousCommand != null){
             autonomousCommand.start();
         }
-    }
+    }//end autonomousInit
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-    }
+    }//end autonomousPeriodic
 
     public void teleopInit() {
 	// This makes sure that the autonomous stops running when
@@ -63,19 +68,21 @@ public class OrangaHang extends IterativeRobot {
             autonomousCommand.cancel();
         }
         shoot = new Shoot();
-    }
+        CommandBase.enable();
+    }//end teleopInit
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-    }
+    }//end teleopPeriodic
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }
-}
+    }//end testPeriodic
+
+}//end OrangaHang

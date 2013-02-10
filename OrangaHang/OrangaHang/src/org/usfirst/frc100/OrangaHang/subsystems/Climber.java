@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.Climb;
+import org.usfirst.frc100.OrangaHang.commands.ClimbAuto;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -21,8 +22,8 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 public class Climber extends Subsystem {
     //Robot parts
     private final Encoder encoder = RobotMap.climberEncoder;
-    private final Victor motorTop = RobotMap.climberTopMotor;
-    private final Victor motorBottom = RobotMap.climberBottomMotor;
+    private final SpeedController motorTop = RobotMap.climberTopMotor;
+    private final SpeedController motorBottom = RobotMap.climberBottomMotor;
     private final DigitalInput climberTopSwitch = RobotMap.climberTopSwitch;
     private final DigitalInput climberBottomSwitch = RobotMap.climberBottomSwitch;
     private final DigitalInput climberPoleSwitch = RobotMap.climberPoleSwitch;
@@ -38,23 +39,15 @@ public class Climber extends Subsystem {
     int level=0;//level of the pyramid that the robot is at    
 
     public Climber(){
-        motorTop.setExpiration(1.0);
-        motorBottom.setExpiration(1.0);
-        motorTop.setSafetyEnabled(true);
-        motorBottom.setSafetyEnabled(true);
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
     }//end constructor
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
-    //empty
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new Climb());
+        setDefaultCommand(new ClimbAuto());
     }//end initDefaultCommand
     
     //sets climber speed to given value, has built-in safeties
@@ -73,7 +66,7 @@ public class Climber extends Subsystem {
             motorTop.set(speed);
         }
         putData();
-    }
+    }//end manualControl
     
     //raises the elevator, tries again if hooks don't catch
     public void raiseElevator(){
@@ -91,7 +84,7 @@ public class Climber extends Subsystem {
             motorTop.set(0);
         }
         putData();
-    }
+    }//end raiseElevator
     
     //lowers the elevator, tries again if hooks don't catch
     public void lowerElevator(){
@@ -109,7 +102,7 @@ public class Climber extends Subsystem {
             motorTop.set(0);
         }
         putData();
-    }
+    }//end lowerElevator
     
     //lowers elevator partway for last pull-up at end
     public void lowerElevatorPartway(){
@@ -127,32 +120,32 @@ public class Climber extends Subsystem {
             motorTop.set(0);
         }
         putData();
-    }
+    }//end lowerElevaotrPartway
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
         return climberBottomSwitch.get()||encoder.get()<encoderMin;
-    }
+    }//end getLowerLimt
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
         return climberTopSwitch.get()||encoder.get()>encoderMax;
-    }
+    }//end getUpperLimit
     
     //called when robot goes up a level of the pyramid
     public void nextLevel(){
         level+=1;
-    }
+    }//end nextLevel
     
     //which level of the pyramid the robot is on
     public int getLevel(){
         return level;
-    }
+    }//end getLevel
     
     //resets level to zero
     public void resetLevel(){
         level=0;
-    }
+    }//end resetLevel
     
     //moves elevator to starting position and sets encoder
     public void homingSequence() {
@@ -175,7 +168,7 @@ public class Climber extends Subsystem {
             }
             encoder.reset();
         }
-    }
+    }//end homingSequence
     
     //displays data on smartdashboard
     public void putData(){
@@ -183,12 +176,12 @@ public class Climber extends Subsystem {
         SmartDashboard.putNumber("Encoder", encoder.get());
         SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
         SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
-    }
+    }//end putData
 
     //returns whether an error occured; not yet implemented
     public boolean getError(boolean goingUp){
         return false;
-    }
+    }//end getError
     
     
     //PID control
