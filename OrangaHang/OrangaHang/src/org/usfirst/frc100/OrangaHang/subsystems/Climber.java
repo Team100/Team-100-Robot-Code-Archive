@@ -146,6 +146,11 @@ public class Climber extends Subsystem {
         return climberBottomSwitch.get()||encoder.get()<encoderMin;
     }//end getLowerLimit
     
+    //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
+    public boolean getPartwayLimit(){
+        return encoder.get()<lowerElevatorPartwayLimit;
+    }//end getPartwayLimit
+    
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
         return climberTopSwitch.get()||encoder.get()>encoderMax;

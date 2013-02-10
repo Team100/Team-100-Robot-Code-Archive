@@ -10,45 +10,60 @@
 
 
 package org.usfirst.frc100.Robot2013.commands;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Robot2013.Robot;
 
 /**
  *
  */
-public class Climb extends CommandGroup {
-    boolean firstTime=true;
-    public  Climb() {
-        //if elevator starts at bottom add another RaiseElevator here
-        addSequential(new LowerElevator());
-        addSequential(new RaiseElevator());
-        addSequential(new LowerElevator());
-        addSequential(new RaiseElevator());
-        addSequential(new LowerElevator());
-        addSequential(new RaiseElevator());
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+public class Climb extends Command {
+    public Climb() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        requires(Robot.climber);
     }
-    
-    public void execute(){
-        //do not move this to another method
-        if (firstTime){
-            Robot.climber.resetLevel();
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+        Robot.climber.resetLevel();
+    }
+
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+        while (!Robot.climber.getUpperLimit()){
+            Robot.climber.raiseElevator();
         }
-        firstTime=false;
+        while(!Robot.climber.getLowerLimit()){
+            Robot.climber.lowerElevator();
+        }
+        Robot.climber.nextLevel();
+        while (!Robot.climber.getUpperLimit()){
+            Robot.climber.raiseElevator();
+        }
+        while(!Robot.climber.getLowerLimit()){
+            Robot.climber.lowerElevator();
+        }
+        Robot.climber.nextLevel();
+        while (!Robot.climber.getUpperLimit()){
+            Robot.climber.raiseElevator();
+        }
+        while(!Robot.climber.getPartwayLimit()){
+            Robot.climber.lowerElevatorPartway();
+        }
+        Robot.climber.nextLevel();
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return (Robot.climber.getLevel()>2);
+    }
+
+    // Called once after isFinished returns true
+    protected void end() {
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
     }
 }
