@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.Climb;
+import org.usfirst.frc100.OrangaHang.commands.ClimbAuto;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -21,8 +21,8 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 public class Climber extends Subsystem {
     //Robot parts
     private final Encoder encoder = RobotMap.climberEncoder;
-    private final Victor motorTop = RobotMap.climberTopMotor;
-    private final Victor motorBottom = RobotMap.climberBottomMotor;
+    private final SpeedController motorTop = RobotMap.climberTopMotor;
+    private final SpeedController motorBottom = RobotMap.climberBottomMotor;
     private final DigitalInput climberTopSwitch = RobotMap.climberTopSwitch;
     private final DigitalInput climberBottomSwitch = RobotMap.climberBottomSwitch;
     private final DigitalInput climberPoleSwitch = RobotMap.climberPoleSwitch;
@@ -36,32 +36,25 @@ public class Climber extends Subsystem {
     private int encoderMin=0;//lowest point elevator should reach
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
     int level=0;//level of the pyramid that the robot is at    
-    
+
     public Climber(){
-        motorTop.setExpiration(1.0);
-        motorBottom.setExpiration(1.0);
-        motorTop.setSafetyEnabled(true);
-        motorBottom.setSafetyEnabled(true);
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
     }//end constructor
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-    
+
     //creates a new climb
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new Climb());
+        setDefaultCommand(new ClimbAuto());
     }//end initDefaultCommand
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
         if (climberTopSwitch.get()&&speed>0||climberBottomSwitch.get()&&speed<0){
-            motorTop.set(0);
-            motorBottom.set(0);
+            motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if (climberTopSwitch.get()&&speed<0){
             motorTop.set(speed);
@@ -93,8 +86,8 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
     }//end raiseElevator
@@ -114,8 +107,8 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
     }//end lowerElevator
@@ -135,8 +128,8 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            motorTop.set(0.0);
+            motorBottom.set(0.0);
         }
         putData();
     }//end lowerElevatorPartway
@@ -145,11 +138,6 @@ public class Climber extends Subsystem {
     public boolean getLowerLimit(){
         return climberBottomSwitch.get()||encoder.get()<encoderMin;
     }//end getLowerLimit
-    
-    //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
-    public boolean getPartwayLimit(){
-        return encoder.get()<lowerElevatorPartwayLimit;
-    }//end getPartwayLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
