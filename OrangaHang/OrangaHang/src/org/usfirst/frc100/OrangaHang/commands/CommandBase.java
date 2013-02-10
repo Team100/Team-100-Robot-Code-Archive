@@ -19,7 +19,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.Tower;
  */
 public abstract class CommandBase extends Command {
 
-    public static OI oi = new OI();
+    public static OI oi;
     public static Climber climber = new Climber();
     public static Shooter shooter = new Shooter();
     public static DriveTrain driveTrain = new DriveTrain();
@@ -47,6 +47,14 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(tower);
         
     }//end init
+    
+    public static void disable(){
+        shooter.disable();
+    }//end disable
+    
+    public static void enable(){
+        shooter.enable();
+    }//end enable
 
     public CommandBase(String name) {
         super(name);

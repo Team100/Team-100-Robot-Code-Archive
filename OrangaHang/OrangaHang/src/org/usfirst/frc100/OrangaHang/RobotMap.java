@@ -67,7 +67,7 @@ public class RobotMap {
     public static final Victor climberBottomMotor = new Victor(4);
     //Shooter
     public static final Victor shooterFrontMotor = new Victor(5);
-    public static final Victor shooterBottomMotor = new Victor(6);
+    public static final Victor shooterBackMotor = new Victor(6);
     //Intake
     public static final Victor intakeMotor = new Victor(7);
     //Tower
