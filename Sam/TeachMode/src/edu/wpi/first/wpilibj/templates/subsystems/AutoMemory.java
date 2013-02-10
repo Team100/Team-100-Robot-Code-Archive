@@ -27,6 +27,13 @@ public class AutoMemory extends Subsystem{
     }
 
     public void beginCollection(){
+        
+        SmartDashboard.putString("Autonomous Procedure", "Enter Value Here");
+        while(true){
+            if(!"Enter Value Here".equals(SmartDashboard.getString("Autonomous Procedure"))){
+                break;
+            }
+        }
         System.out.println("AutoMemory,beginCollection");
         LeftMemory  = new Vector();
         RightMemory  = new Vector();
