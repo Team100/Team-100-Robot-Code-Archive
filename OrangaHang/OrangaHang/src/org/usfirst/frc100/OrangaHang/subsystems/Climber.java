@@ -36,7 +36,7 @@ public class Climber extends Subsystem {
     private int encoderMin=0;//lowest point elevator should reach
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
     int level=0;//level of the pyramid that the robot is at    
-
+    
     public Climber(){
         motorTop.setExpiration(1.0);
         motorBottom.setExpiration(1.0);
@@ -49,8 +49,8 @@ public class Climber extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
-    //empty
+    
+    //creates a new climb
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -65,103 +65,117 @@ public class Climber extends Subsystem {
         }
         if (climberTopSwitch.get()&&speed<0){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if (climberBottomSwitch.get()&&speed>0){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         if(!climberTopSwitch.get()&&!climberBottomSwitch.get()){
             motorTop.set(speed);
+            motorBottom.set(speed);
         }
         putData();
-    }
+    }//end manualControl
     
     //raises the elevator, tries again if hooks don't catch
     public void raiseElevator(){
         if (!getUpperLimit()){
             if (!getError(true)){
                 motorTop.set(elevatorSpeed);
+                motorBottom.set(elevatorSpeed);
             }
             else {
                 if (!getLowerLimit()){
                     motorTop.set(-elevatorSpeed);
+                    motorBottom.set(-elevatorSpeed);
                 }
             }
         }
         else {
             motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
-    }
+    }//end raiseElevator
     
     //lowers the elevator, tries again if hooks don't catch
     public void lowerElevator(){
         if (!getLowerLimit()){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
+                motorBottom.set(-elevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
                     motorTop.set(elevatorSpeed);
+                    motorBottom.set(elevatorSpeed);
                 }
             }
         }
         else {
             motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
-    }
+    }//end lowerElevator
     
     //lowers elevator partway for last pull-up at end
     public void lowerElevatorPartway(){
         if (encoder.get()>lowerElevatorPartwayLimit){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
+                motorBottom.set(-elevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
                     motorTop.set(elevatorSpeed);
+                    motorBottom.set(elevatorSpeed);
                 }
             }
         }
         else {
             motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
-    }
+    }//end lowerElevatorPartway
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
         return climberBottomSwitch.get()||encoder.get()<encoderMin;
-    }
+    }//end getLowerLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
         return climberTopSwitch.get()||encoder.get()>encoderMax;
-    }
+    }//end getUpperLimit
     
     //called when robot goes up a level of the pyramid
     public void nextLevel(){
         level+=1;
-    }
+    }//end nextLevel
     
     //which level of the pyramid the robot is on
     public int getLevel(){
         return level;
-    }
+    }//end getLevel
     
     //resets level to zero
     public void resetLevel(){
         level=0;
-    }
+    }//end resetLevel
     
     //moves elevator to starting position and sets encoder
     public void homingSequence() {
         if (homeUp){
             while (!getUpperLimit()){
                 motorTop.set(homingSpeed);
+                motorBottom.set(homingSpeed);
             }
             while (getUpperLimit()){
                 motorTop.set(-homingReverseSpeed);
+                motorBottom.set(-homingReverseSpeed);
             }
             encoder.reset();
         }
@@ -169,13 +183,15 @@ public class Climber extends Subsystem {
         else{
             while (!getLowerLimit()){
                 motorTop.set(-homingSpeed);
+                motorBottom.set(-homingSpeed);
             }
             while (getLowerLimit()){
                 motorTop.set(homingReverseSpeed);
+                motorBottom.set(homingReverseSpeed);
             }
             encoder.reset();
         }
-    }
+    }//end homingSequence
     
     //displays data on smartdashboard
     public void putData(){
@@ -183,12 +199,12 @@ public class Climber extends Subsystem {
         SmartDashboard.putNumber("Encoder", encoder.get());
         SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
         SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
-    }
+    }//end putData
 
     //returns whether an error occured; not yet implemented
     public boolean getError(boolean goingUp){
         return false;
-    }
+    }//end getError
     
     
     //PID control
