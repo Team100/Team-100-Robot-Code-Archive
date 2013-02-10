@@ -85,6 +85,13 @@ public class RobotMap {
     public static final Relay cameraLights = new Relay(2);
     
     public static void init(){
+        //Safety measures & set-up
+        climberTopMotor.setExpiration(1.0);
+        climberBottomMotor.setExpiration(1.0);
+        climberTopMotor.setSafetyEnabled(true);
+        climberBottomMotor.setSafetyEnabled(true);
+        
+        //LiveWindow display
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
         LiveWindow.addSensor("Drive Train", "LeftEncoder", driveLeftEncoder);
