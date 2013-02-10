@@ -18,15 +18,37 @@ public class Climb extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        climber.resetLevel();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
+        climber.nextLevel();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getLowerLimit()){
+            climber.lowerElevator();
+        }
+        climber.nextLevel();
+        while (!climber.getUpperLimit()){
+            climber.raiseElevator();
+        }
+        while(!climber.getPartwayLimit()){
+            climber.lowerElevatorPartway();
+        }
+        climber.nextLevel();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (climber.getLevel()>2);
     }
 
     // Called once after isFinished returns true
