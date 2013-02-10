@@ -15,19 +15,9 @@ import edu.wpi.first.wpilibj.templates.commands.Reproduce;
 public class OI {
     
     Joystick joystick = new Joystick(1);
-    Encoder leftEncoder = new Encoder(3,4);
-    Encoder rightEncoder = new Encoder(5,6);
     
     Button button =  new JoystickButton(joystick,5);
     Button button2 =  new JoystickButton(joystick,6);
-    
-    public int getLeftEncoder(){
-        return leftEncoder.getRaw();
-    }
-    
-    public int getRightEncoder(){
-        return rightEncoder.getRaw();
-    }
     
     public double getJoy1_y1() {
         return joystick.getY();
@@ -44,9 +34,6 @@ public class OI {
     }
     
     public void init(){
-        leftEncoder.setReverseDirection(true);
-        leftEncoder.start();     
-        rightEncoder.start();
     }
     
 }
