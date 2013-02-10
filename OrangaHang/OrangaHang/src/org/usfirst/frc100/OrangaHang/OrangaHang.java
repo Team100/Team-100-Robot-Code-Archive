@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
-import org.usfirst.frc100.OrangaHang.commands.Shoot;
+import org.usfirst.frc100.OrangaHang.commands.PrimeToShoot;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
@@ -26,7 +26,7 @@ import org.usfirst.frc100.OrangaHang.commands.Shoot;
 public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
-    Shoot shoot;
+    PrimeToShoot shoot;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -67,7 +67,7 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.cancel();
         }
-        shoot = new Shoot();
+        shoot = new PrimeToShoot();
         CommandBase.enable();
     }//end teleopInit
 

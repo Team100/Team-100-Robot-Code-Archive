@@ -8,9 +8,9 @@ package org.usfirst.frc100.OrangaHang.commands;
  *
  * @author Team100
  */
-public class TakeFrisbees extends CommandBase {
+public class Intake extends CommandBase {
     
-    public TakeFrisbees() {
+    public Intake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(intake);
