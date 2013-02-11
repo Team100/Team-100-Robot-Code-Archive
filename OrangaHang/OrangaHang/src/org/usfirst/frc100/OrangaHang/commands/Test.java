@@ -8,9 +8,9 @@ package org.usfirst.frc100.OrangaHang.commands;
  *
  * @author Team100
  */
-public class FullManualControl extends CommandBase {
+public class Test extends CommandBase {
     
-    public FullManualControl() {
+    public Test() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
