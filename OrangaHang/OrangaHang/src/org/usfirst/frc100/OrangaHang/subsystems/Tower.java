@@ -19,6 +19,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  */
 public class Tower extends Subsystem {
     //Robot parts
+
     AnalogChannel potentiometer = RobotMap.towerPotent;
     Victor motor = RobotMap.towerMotor;
     //Constants
@@ -28,17 +29,19 @@ public class Tower extends Subsystem {
     private double kShootBackLimit = 0.0;
     private double kShootFrontLimit = 0.0;
     private final double kShootPosition = 0.0;
+    private double kIntakeBackLimit = 0.0;
+    private double kIntakeFrontLimit = 0.0;
+    private final double kIntakePosition = 0.0;
     private final double kTowerAngleRatio = 0.0;
     private boolean isClimbing = false;
     private boolean isShooting = false;
-    
+    private boolean isGettingFrisbees = false;
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
-    
-    //add in manual control here!
-    
+
     //PID control
     PIDSource sourceTower = new PIDSource() {
         public double pidGet() {
@@ -58,20 +61,25 @@ public class Tower extends Subsystem {
     }//end setSetpoint
 
     public void tiltToClimb() {
-        if (!isShooting) {
-            isShooting = false;
-            isClimbing = true;
-            pidTower.setSetpoint(kClimbPosition);
-        }
+        isShooting = false;
+        isGettingFrisbees = false;
+        isClimbing = true;
+        pidTower.setSetpoint(kClimbPosition);
     }//end tiltToClimb
 
     public void tiltToShoot() {
-        if (!isClimbing) {
-            isShooting = true;
-            isClimbing = false;
-            pidTower.setSetpoint(kShootPosition);
-        }
+        isGettingFrisbees = false;
+        isShooting = true;
+        isClimbing = false;
+        pidTower.setSetpoint(kShootPosition);
     }//end tiltToClimb
+
+    public void tiltToIntake() {
+       isGettingFrisbees = true;
+       isShooting = false;
+       isClimbing = false;
+       pidTower.setSetpoint(kIntakePosition);
+    }//end tiltToIntake
 
     public void disable() {
         pidTower.disable();
@@ -80,5 +88,4 @@ public class Tower extends Subsystem {
     public void enable() {
         pidTower.enable();
     }//end enable    
-    
 }//end Tower
