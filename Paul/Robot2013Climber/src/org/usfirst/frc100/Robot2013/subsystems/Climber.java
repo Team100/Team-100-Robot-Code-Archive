@@ -29,13 +29,13 @@ public class Climber extends Subsystem {
     private final DigitalInput climberPoleSwitch = RobotMap.climberPoleSwitch;
     //Constants
     private final double kClimberDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));//encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
-    boolean homeUp=true;//automatically home elevator to top or bottom
-    double elevatorSpeed=1;//speed that elevator will move
-    double homingSpeed=.2;//speed for homingSequence method
-    private double homingReverseSpeed=.1;//not very fast
-    private int encoderMax=5000;//highest point elevator should reach
-    private int encoderMin=0;//lowest point elevator should reach
-    private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
+    boolean homeUp=false;//automatically home elevator to top or bottom
+    double elevatorSpeed=.75;//speed that elevator will move
+    double homingSpeed=.5;//speed for homingSequence method
+    private double homingReverseSpeed=.5;//not very fast
+    private int encoderMax=2500;//highest point elevator should reach
+    private int encoderMin=100;//lowest point elevator should reach
+    private int lowerElevatorPartwayLimit=1500;//how far the robot has to pull itself up the third time
     int level=0;//level of the pyramid that the robot is at    
     
     public Climber(){
@@ -60,19 +60,19 @@ public class Climber extends Subsystem {
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
-        if (climberTopSwitch.get()&&speed>0||climberBottomSwitch.get()&&speed<0){
+        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
             motorTop.set(0);
             motorBottom.set(0);
         }
-        if (climberTopSwitch.get()&&speed<0){
+        if (!climberTopSwitch.get()&&speed<0){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
-        if (climberBottomSwitch.get()&&speed>0){
+        if (!climberBottomSwitch.get()&&speed>0){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
-        if(!climberTopSwitch.get()&&!climberBottomSwitch.get()){
+        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
@@ -144,7 +144,7 @@ public class Climber extends Subsystem {
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
-        return climberBottomSwitch.get()||encoder.get()<encoderMin;
+        return !climberBottomSwitch.get()||encoder.get()<encoderMin;
     }//end getLowerLimit
     
     //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
@@ -154,7 +154,7 @@ public class Climber extends Subsystem {
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
-        return climberTopSwitch.get()||encoder.get()>encoderMax;
+        return !climberTopSwitch.get()||encoder.get()>encoderMax;
     }//end getUpperLimit
     
     //called when robot goes up a level of the pyramid
@@ -202,13 +202,18 @@ public class Climber extends Subsystem {
     //displays data on smartdashboard
     public void putData(){
         SmartDashboard.putNumber("Level", level);
-        SmartDashboard.putNumber("Encoder", encoder.get());
+        SmartDashboard.putNumber("Encoder", encoder.get()*.0004);
         SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
         SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
+        //System.out.println("putdata");
     }//end putData
 
     //returns whether an error occured; not yet implemented
     public boolean getError(boolean goingUp){
         return false;
     }//end getError
+
+    public void resetEncoder() {
+        encoder.reset();
+    }
 }//end Climber
