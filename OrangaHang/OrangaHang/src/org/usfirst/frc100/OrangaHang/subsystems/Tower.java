@@ -23,14 +23,14 @@ public class Tower extends Subsystem {
     AnalogChannel potentiometer = RobotMap.towerPotent;
     Victor motor = RobotMap.towerMotor;
     //Constants
-    private double kClimbBackLimit = 0.0;
-    private double kClimbFrontLimit = 0.0;
+//    private double kClimbBackLimit = 0.0;
+//    private double kClimbFrontLimit = 0.0;
     private final double kClimbPosition = 0.0;
-    private double kShootBackLimit = 0.0;
-    private double kShootFrontLimit = 0.0;
+//    private double kShootBackLimit = 0.0;
+//    private double kShootFrontLimit = 0.0;
     private final double kShootPosition = 0.0;
-    private double kIntakeBackLimit = 0.0;
-    private double kIntakeFrontLimit = 0.0;
+//    private double kIntakeBackLimit = 0.0;
+//    private double kIntakeFrontLimit = 0.0;
     private final double kIntakePosition = 0.0;
     private final double kTowerAngleRatio = 0.0;
     private boolean isClimbing = false;
