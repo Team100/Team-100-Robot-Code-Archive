@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.ClimbAuto;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -47,29 +46,34 @@ public class Climber extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new ClimbAuto());
     }//end initDefaultCommand
+    
+   
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
-        if (climberTopSwitch.get()&&speed>0||climberBottomSwitch.get()&&speed<0){
+        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
+            motorTop.set(0);
+            motorBottom.set(0);
+        }
+        if (!climberTopSwitch.get()&&speed<0){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
-        if (climberTopSwitch.get()&&speed<0){
+        if (!climberBottomSwitch.get()&&speed>0){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
-        if (climberBottomSwitch.get()&&speed>0){
-            motorTop.set(speed);
-            motorBottom.set(speed);
-        }
-        if(!climberTopSwitch.get()&&!climberBottomSwitch.get()){
+        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
             motorTop.set(speed);
             motorBottom.set(speed);
         }
         putData();
     }//end manualControl
+    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //auto climb!
     
     //raises the elevator, tries again if hooks don't catch
     public void raiseElevator(){
@@ -86,8 +90,8 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0.0);
-            motorBottom.set(0.0);
+            motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
     }//end raiseElevator
@@ -107,8 +111,8 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0.0);
-            motorBottom.set(0.0);
+            motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
     }//end lowerElevator
@@ -128,20 +132,25 @@ public class Climber extends Subsystem {
             }
         }
         else {
-            motorTop.set(0.0);
-            motorBottom.set(0.0);
+            motorTop.set(0);
+            motorBottom.set(0);
         }
         putData();
     }//end lowerElevatorPartway
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
-        return climberBottomSwitch.get()||encoder.get()<encoderMin;
+        return !climberBottomSwitch.get()||encoder.get()<encoderMin;
     }//end getLowerLimit
+    
+    //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
+    public boolean getPartwayLimit(){
+        return encoder.get()<lowerElevatorPartwayLimit;
+    }//end getPartwayLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
-        return climberTopSwitch.get()||encoder.get()>encoderMax;
+        return !climberTopSwitch.get()||encoder.get()>encoderMax;
     }//end getUpperLimit
     
     //called when robot goes up a level of the pyramid
@@ -189,16 +198,22 @@ public class Climber extends Subsystem {
     //displays data on smartdashboard
     public void putData(){
         SmartDashboard.putNumber("Level", level);
-        SmartDashboard.putNumber("Encoder", encoder.get());
+        SmartDashboard.putNumber("Encoder", encoder.get()*.0004);
         SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
         SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
+        //System.out.println("putdata");
     }//end putData
 
     //returns whether an error occured; not yet implemented
     public boolean getError(boolean goingUp){
         return false;
     }//end getError
+
+    public void resetEncoder() {
+        encoder.reset();
+    }//end resetEncoder
     
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //PID control
     PIDSource sourceClimber = new PIDSource(){

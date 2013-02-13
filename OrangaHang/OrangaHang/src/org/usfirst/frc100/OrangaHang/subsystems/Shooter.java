@@ -26,8 +26,9 @@ public class Shooter extends Subsystem {
     //Constants
     private final double kBackDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     private final double kFrontDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
+    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
     private double dumpSpeed = 0.5;//change this eventually
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet    
+    private double shootSpeed = 1.0;
     
     public Shooter(){
         counterFront.reset();
@@ -47,6 +48,13 @@ public class Shooter extends Subsystem {
         motorFront.set(dumpSpeed);
         motorBack.set(dumpSpeed);
     }//end dumpFrisbees
+    
+    //set speed for shooting
+    public void shootFrisbees(){
+        motorFront.set(shootSpeed);
+        motorBack.set(shootSpeed);
+    }//end shootFrisbees
+    
     
     //PID Control
     

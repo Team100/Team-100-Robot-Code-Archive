@@ -4,8 +4,6 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  * @author Team100
@@ -20,12 +18,12 @@ public class PrimeToShoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        SmartDashboard.putNumber("Setpoint", 0.0);
+        
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.setSetpoint(SmartDashboard.getNumber("Setpoint", 0.0));
+        shooter.shootFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()
