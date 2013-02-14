@@ -13,6 +13,7 @@ public class AlignToShoot extends CommandBase {
     public AlignToShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+        requires(driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -21,6 +22,7 @@ public class AlignToShoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        driveTrain.alignToShoot();
     }
 
     // Make this return true when this Command no longer needs to run execute()
