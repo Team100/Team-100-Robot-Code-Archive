@@ -1,6 +1,7 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -20,7 +21,11 @@ public class DriveTrain extends Subsystem {
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
-
+    private final DoubleSolenoid shifter = RobotMap.driveGear;
+    
+    private boolean highGear = true;
+    private boolean lowGear = false;
+    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -32,5 +37,16 @@ public class DriveTrain extends Subsystem {
         rightMotor.set(rightSpeed);
     }//end tankDrive
     
+    public void shift(){
+        if(highGear){
+            lowGear = true;
+            highGear = false;
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        } else if (lowGear){
+            highGear = true;
+            lowGear = false;
+            shifter.set(DoubleSolenoid.Value.kForward);
+        }
+    }//end shift
     
 }//end DriveTrain

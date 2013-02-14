@@ -38,8 +38,8 @@ public class RobotMap {
     public static final DigitalInput climberBottomSwitch = new DigitalInput(8);
     public static final DigitalInput climberPoleSwitch = new DigitalInput(9);  
     //Shooter
-    public static final DigitalInput shooterFrontOptical = new DigitalInput(10);
-    public static final DigitalInput shooterBackOptical = new DigitalInput(11);
+    public static final DigitalInput shooterFrontHallEffect = new DigitalInput(10);
+    public static final DigitalInput shooterBackHallEffect = new DigitalInput(11);
     //Intake
     public static final DigitalInput intakeTopSwitch = new DigitalInput(12);
     public static final DigitalInput intakeBottomSwitch = new DigitalInput(13);

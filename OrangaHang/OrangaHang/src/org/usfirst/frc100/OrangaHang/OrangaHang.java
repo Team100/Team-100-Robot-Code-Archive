@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
+import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
@@ -27,6 +28,7 @@ public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
     ManualClimb manualClimb;
+    Drive drive;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -39,7 +41,7 @@ public class OrangaHang extends IterativeRobot {
         // Initialize all subsystems
         CommandBase.init();
         RobotMap.init();
-        manualClimb = new ManualClimb();
+       
     }//end robotInit
 
     public void disabledInit(){
@@ -68,7 +70,10 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.cancel();
         }
+        manualClimb = new ManualClimb();
+        drive = new Drive();
         manualClimb.start();
+        drive.start();
 
     }//end teleopInit
 
