@@ -17,12 +17,12 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
  */
 public class Shooter extends Subsystem {
     //Robot parts
-    private final DigitalInput opticalFront = RobotMap.shooterFrontOptical;
-    private final DigitalInput opticalBack = RobotMap.shooterBackOptical;
+    private final DigitalInput hallFront = RobotMap.shooterFrontHallEffect;
+    private final DigitalInput hallBack = RobotMap.shooterBackHallEffect;
     private final Victor motorFront = RobotMap.shooterFrontMotor;
     private final Victor motorBack = RobotMap.shooterBackMotor;
-    private Counter counterFront = new Counter(opticalFront);
-    private Counter counterBack = new Counter(opticalBack);
+    private Counter counterFront = new Counter(hallFront);
+    private Counter counterBack = new Counter(hallBack);
     //Constants
     private final double kBackDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     private final double kFrontDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
@@ -40,7 +40,6 @@ public class Shooter extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        //setDefaultCommand(new Shoot());
     }//end initDefaultCommand
     
     //set speed for dumping

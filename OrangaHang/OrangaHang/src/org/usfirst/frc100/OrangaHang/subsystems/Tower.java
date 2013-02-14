@@ -5,6 +5,7 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Victor;
@@ -19,28 +20,36 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  */
 public class Tower extends Subsystem {
     //Robot parts
-
-    AnalogChannel potentiometer = RobotMap.towerPotent;
-    Victor motor = RobotMap.towerMotor;
+    private final AnalogChannel potentiometer = RobotMap.towerPotent;
+    private final Victor motor = RobotMap.towerMotor;
+    private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
     //Constants
-//    private double kClimbBackLimit = 0.0;
-//    private double kClimbFrontLimit = 0.0;
     private final double kClimbPosition = 0.0;
-//    private double kShootBackLimit = 0.0;
-//    private double kShootFrontLimit = 0.0;
     private final double kShootPosition = 0.0;
-//    private double kIntakeBackLimit = 0.0;
-//    private double kIntakeFrontLimit = 0.0;
     private final double kIntakePosition = 0.0;
     private final double kTowerAngleRatio = 0.0;
     private boolean isClimbing = false;
     private boolean isShooting = false;
     private boolean isGettingFrisbees = false;
+    private boolean extended = false;
+    private boolean stowed = true;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
+    
+    public void deployArms(){
+        if(stowed){
+            extended = true;
+            stowed = false;
+            armPistons.set(DoubleSolenoid.Value.kForward);
+        } else if(extended){
+            extended = false;
+            stowed = true;
+            armPistons.set(DoubleSolenoid.Value.kReverse);
+        }
+    }//end deployArms
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
