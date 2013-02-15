@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Isis
  */
 public class PIDBase {
-    private boolean enabled = true;
+    private boolean enabled = false;
     private String name;
     //Previous value variables
     private double input = 0.0;
@@ -113,6 +113,9 @@ public class PIDBase {
         enabled = true;
     }//end enable
 
+    public boolean isEnabled() {
+        return enabled;
+    }
     
     //set tuneables
     public void setInput(double put){
