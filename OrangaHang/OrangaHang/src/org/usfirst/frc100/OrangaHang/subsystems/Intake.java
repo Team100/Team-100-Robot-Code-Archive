@@ -7,6 +7,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
 
 /**
  *
+ * @author Paul
  */
 public class Intake extends Subsystem {
     //Robot parts

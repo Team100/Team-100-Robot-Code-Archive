@@ -44,7 +44,9 @@ public class VelocitySendablePID {
                 double result = m_base.calculate(timer.get());
                 SmartDashboard.putNumber(dashboardName("Output"), result);
                 timer.reset();
-                m_output.pidWrite(result);
+                if (m_base.isEnabled()){
+                    m_output.pidWrite(result);
+                }
             }
         };
         m_thread = new TimedThread(callable);
@@ -77,6 +79,7 @@ public class VelocitySendablePID {
     
     public void disable(){
         m_base.disable();
+        m_output.pidWrite(0.0);
     }//end disable
       
 }//end VelocitySendablePID
