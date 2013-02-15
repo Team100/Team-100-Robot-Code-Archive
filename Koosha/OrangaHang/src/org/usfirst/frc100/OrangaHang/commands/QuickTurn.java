@@ -10,8 +10,10 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionPIDBase;
  *
  * @author Team100
  */
-public class QuickTurn extends CommandBase
-{
+public class QuickTurn extends CommandBase {
+    
+    private boolean highGear;
+    private boolean lowGear;
     private PositionPIDBase turnControl;
     private double setPoint;
     
@@ -20,7 +22,9 @@ public class QuickTurn extends CommandBase
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
-        turnControl = new PositionPIDBase(1.0, "");
+        highGear = driveTrain.isHighGear();
+        lowGear = !driveTrain.isHighGear();
+        turnControl = new PositionPIDBase(1.0, "Turn Controller");
         turnControl.setKP(0.005);
         turnControl.setKI(0.000);
         turnControl.setKD(0.000);
@@ -36,13 +40,15 @@ public class QuickTurn extends CommandBase
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute()
+    {
+        turnControl.setInput(driveTrain.getGyro());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return (Math.abs(setPoint - driveTrain.getGyro()) < 0.8);
+        return Math.abs(setPoint - driveTrain.getGyro()) < 0.8;
     }
 
     // Called once after isFinished returns true
@@ -53,7 +59,7 @@ public class QuickTurn extends CommandBase
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted()
+    protected void interrupted() 
     {
         turnControl.disable();
     }

@@ -1,51 +1,45 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.OrangaHang.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import edu.wpi.first.wpilibj.*;
 
 /**
  *
  * @author Team100
  */
-public class Intake extends Subsystem
-{
-    private static DigitalInput topSwitch;
-    private static DigitalInput bottomSwitch;
-    private static SpeedController motor;
-            
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+public class Intake extends Subsystem {
+    //Robot parts
+    private final SpeedController motor = RobotMap.intakeMotor;
+    private final DigitalInput topSwitch = RobotMap.intakeTopSwitch;
+    private final DigitalInput bottomSwitch = RobotMap.intakeBottomSwitch;
+    //Constants
+    private final double shootingSpeed = 0.5;
+    private final double intakeSpeed = -0.2;
 
-    public Intake()
-    {
-        topSwitch = RobotMap.intakeTopSwitch;
-        bottomSwitch = RobotMap.intakeBottomSwitch;
-        motor = RobotMap.intakeMotor;
-    }
-    
-    public void initDefaultCommand()
-    {
+    public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    }
-    
-    public boolean getTop()
-    {
-        return topSwitch.get();
-    }
-    
-    public boolean getBottom()
-    {
-        return bottomSwitch.get();
-    }
+    }//end initDefaultCommand
+
+    public void shootFrisbees() {
+        if (topSwitch.get()) {
+            motor.set(shootingSpeed);
+        }
+    }//end shootFrisbees
+
+    public void takeFrisbees() {
+        if (!bottomSwitch.get()) {
+            motor.set(intakeSpeed);
+        } else {
+            motor.set(0.0);
+        }
+    }//end takeFrisbees
     
     public void setMotor(double s)
     {
         motor.set(s);
     }
-}
+    
+}//end Intake
