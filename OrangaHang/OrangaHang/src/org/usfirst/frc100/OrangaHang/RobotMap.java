@@ -30,20 +30,20 @@ public class RobotMap {
     
     //Digital I/O sensors
     //Drive Train
-    public static final Encoder driveRightEncoder = new Encoder(1,2);
-    public static final Encoder driveLeftEncoder = new Encoder(3,4);
+    public static final Encoder driveRightEncoder = new Encoder(3,4);
+    public static final Encoder driveLeftEncoder = new Encoder(5,6);
     //Climber
-    public static final Encoder climberEncoder = new Encoder(5,6);
-    public static final DigitalInput climberTopSwitch = new DigitalInput(7);
-    public static final DigitalInput climberBottomSwitch = new DigitalInput(8);
-    public static final DigitalInput climberPoleSwitch = new DigitalInput(9);  
+    public static final Encoder climberEncoder = new Encoder(7,8);
+    public static final DigitalInput climberTopSwitch = new DigitalInput(9);
+    public static final DigitalInput climberBottomSwitch = new DigitalInput(10);
+    public static final DigitalInput climberPoleSwitch = new DigitalInput(13);  
     //Shooter
-    public static final DigitalInput shooterFrontHallEffect = new DigitalInput(10);
-    public static final DigitalInput shooterBackHallEffect = new DigitalInput(11);
+    public static final DigitalInput shooterFrontHallEffect = new DigitalInput(1);
+    public static final DigitalInput shooterBackHallEffect = new DigitalInput(2);
     //Intake
-    public static final DigitalInput intakeTopSwitch = new DigitalInput(12);
-    public static final DigitalInput intakeBottomSwitch = new DigitalInput(13);
-    
+    public static final DigitalInput intakeTopSwitch = new DigitalInput(11);
+    public static final DigitalInput intakeBottomSwitch = new DigitalInput(12);
+    //add pressure switch?
     
     //Analog sensors
     //Drive Train
@@ -60,8 +60,8 @@ public class RobotMap {
     
     //PWM Outputs
     //Drive Train
-    public static final Talon driveLeftMotor = new Talon(1);
-    public static final Talon driveRightMotor = new Talon(2);
+    public static final Talon driveLeftMotor = new Talon(2);
+    public static final Talon driveRightMotor = new Talon(1);
     //Climber
     public static final Victor climberTopMotor = new Victor(3);
     public static final Victor climberBottomMotor = new Victor(4);
@@ -69,9 +69,9 @@ public class RobotMap {
     public static final Victor shooterFrontMotor = new Victor(5);
     public static final Victor shooterBackMotor = new Victor(6);
     //Intake
-    public static final Victor intakeMotor = new Victor(7);
+    public static final Victor intakeMotor = new Victor(8);
     //Tower
-    public static final Victor towerMotor = new Victor(8);
+    public static final Victor towerMotor = new Victor(7);
     
     
     //Solenoids
@@ -94,8 +94,8 @@ public class RobotMap {
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
         LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveLeftEncoder);
-        LiveWindow.addActuator("DriveTrain", "LeftMotor", driveLeftMotor);
-        LiveWindow.addActuator("DriveTrain", "RightMotor", driveRightMotor);
+        LiveWindow.addActuator("DriveTrain", "LeftMotor2", driveLeftMotor);
+        LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
         LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
         LiveWindow.addSensor("DriveTrain", "Gear" , driveGear);
@@ -105,26 +105,26 @@ public class RobotMap {
         LiveWindow.addSensor("Climber", "TopSwitch" , climberTopSwitch);
         LiveWindow.addSensor("Climber", "BottomSwitch" , climberBottomSwitch);
         LiveWindow.addSensor("Climber", "PoleSwitch" , climberPoleSwitch);
-        LiveWindow.addActuator("Climber", "TopMotor", climberTopMotor);
-        LiveWindow.addActuator("Climber", "BottomMotor", climberBottomMotor);
+        LiveWindow.addActuator("Climber", "TopMotor3", climberTopMotor);
+        LiveWindow.addActuator("Climber", "BottomMotor4", climberBottomMotor);
         LiveWindow.addSensor("Climber", "RightFixedIR" , climberRightFixedIR);
         LiveWindow.addSensor("Climber", "RightMovingIR" , climberRightMovingIR);
         LiveWindow.addSensor("Climber", "LeftFixedIR" , climberLeftFixedIR);
         LiveWindow.addSensor("Climber", "LeftMovingIR" , climberLeftMovingIR);
         
         //Shooter
-        LiveWindow.addActuator("Shooter", "FrontMotor", shooterFrontMotor);
-        LiveWindow.addActuator("Shooter", "BackMotor", shooterBackMotor);
+        LiveWindow.addActuator("Shooter", "FrontMotor5", shooterFrontMotor);
+        LiveWindow.addActuator("Shooter", "BackMotor6", shooterBackMotor);
         LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHallEffect);
         LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHallEffect);
         
         //Intake
-        LiveWindow.addActuator("Intake", "Motor", intakeMotor);
+        LiveWindow.addActuator("Intake", "Motor8", intakeMotor);
         LiveWindow.addSensor("Intake", "TopSwitch" , intakeTopSwitch);
         LiveWindow.addSensor("Intake", "BottomSwitch" , intakeBottomSwitch);
         
         //Tower
-        LiveWindow.addActuator("Tower", "TowerMotor", towerMotor);
+        LiveWindow.addActuator("Tower", "Motor7", towerMotor);
         LiveWindow.addSensor("Tower", "Potent" , towerPotent);
         LiveWindow.addSensor("Tower", "ArmPistons" , towerArmPistons);
         
