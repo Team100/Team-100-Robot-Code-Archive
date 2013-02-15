@@ -4,15 +4,19 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import org.usfirst.frc100.OrangaHang.OI;
+
 /**
  *
  * @author Team100
  */
 public class AlignToShoot extends CommandBase {
     
+    
     public AlignToShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+        
         requires(driveTrain);
     }
 
@@ -22,7 +26,7 @@ public class AlignToShoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        driveTrain.alignToShoot();
+        driveTrain.alignToShoot(-OI.driverLeft.getY(), OI.driverRight.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

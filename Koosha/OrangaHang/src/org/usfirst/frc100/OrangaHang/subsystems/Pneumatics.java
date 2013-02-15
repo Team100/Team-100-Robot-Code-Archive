@@ -20,5 +20,14 @@ public class Pneumatics extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void startCompressor()
+    {
+        compressor.start();
+    }
+    
+    public void stopCompressor()
+    {
+        compressor.stop();
+    }
     
 }//end Pneumatics

@@ -79,7 +79,6 @@ public class RobotMap {
     public static final DoubleSolenoid driveGear = new DoubleSolenoid(1,2);
     //Tower
     public static final DoubleSolenoid towerArmPistons = new DoubleSolenoid(3,4);
-    
     //Relays
     public static final Compressor compressor = new Compressor(14,1);
     public static final Relay cameraLights = new Relay(2);
@@ -88,15 +87,51 @@ public class RobotMap {
         //Safety measures & set-up
         climberTopMotor.setExpiration(1.0);
         climberBottomMotor.setExpiration(1.0);
-        climberTopMotor.setSafetyEnabled(true);
-        climberBottomMotor.setSafetyEnabled(true);
+        //climberTopMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
+        //climberBottomMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
         
         //LiveWindow display
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
-        LiveWindow.addSensor("Drive Train", "LeftEncoder", driveLeftEncoder);
+        LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveLeftEncoder);
+        LiveWindow.addActuator("DriveTrain", "LeftMotor", driveLeftMotor);
+        LiveWindow.addActuator("DriveTrain", "RightMotor", driveRightMotor);
+        LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
+        LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
+        LiveWindow.addSensor("DriveTrain", "Gear" , driveGear);
+        
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
+        LiveWindow.addSensor("Climber", "TopSwitch" , climberTopSwitch);
+        LiveWindow.addSensor("Climber", "BottomSwitch" , climberBottomSwitch);
+        LiveWindow.addSensor("Climber", "PoleSwitch" , climberPoleSwitch);
+        LiveWindow.addActuator("Climber", "TopMotor", climberTopMotor);
+        LiveWindow.addActuator("Climber", "BottomMotor", climberBottomMotor);
+        LiveWindow.addSensor("Climber", "RightFixedIR" , climberRightFixedIR);
+        LiveWindow.addSensor("Climber", "RightMovingIR" , climberRightMovingIR);
+        LiveWindow.addSensor("Climber", "LeftFixedIR" , climberLeftFixedIR);
+        LiveWindow.addSensor("Climber", "LeftMovingIR" , climberLeftMovingIR);
+        
+        //Shooter
+        LiveWindow.addActuator("Shooter", "FrontMotor", shooterFrontMotor);
+        LiveWindow.addActuator("Shooter", "BackMotor", shooterBackMotor);
+        LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHallEffect);
+        LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHallEffect);
+        
+        //Intake
+        LiveWindow.addActuator("Intake", "Motor", intakeMotor);
+        LiveWindow.addSensor("Intake", "TopSwitch" , intakeTopSwitch);
+        LiveWindow.addSensor("Intake", "BottomSwitch" , intakeBottomSwitch);
+        
+        //Tower
+        LiveWindow.addActuator("Tower", "TowerMotor", towerMotor);
+        LiveWindow.addSensor("Tower", "Potent" , towerPotent);
+        LiveWindow.addSensor("Tower", "ArmPistons" , towerArmPistons);
+        
+        //Relays
+        LiveWindow.addSensor("Relays", "Compressor" , compressor);
+        LiveWindow.addSensor("Relays", "CameraLights" , cameraLights);        
+        
     }//end init
     
 }//end RobotMap

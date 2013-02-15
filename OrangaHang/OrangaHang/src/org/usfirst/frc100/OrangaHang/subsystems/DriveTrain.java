@@ -29,6 +29,7 @@ public class DriveTrain extends Subsystem {
     //Constants
     private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
+    private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
     private boolean highGear = true;
     private boolean lowGear = false;
@@ -56,7 +57,31 @@ public class DriveTrain extends Subsystem {
         }
     }//end shift
     
-    public void alignToShoot(){
+    public void alignToShoot(double left, double right){
+        
+        if(ultraDist.getVoltage() / ultraDistRatio < 36.0) {
+            if(left > 0 && right > 0) {
+                leftMotor.set(0);
+                rightMotor.set(0);
+            } else {
+                tankDrive(left, right);
+            }
+        } else {
+            tankDrive(left, right);
+        }
+        
+//        if(Math.abs(gyro.getAngle()) > 2) {
+//            leftMotor.set(gyro.getAngle() / 20);
+//            rightMotor.set(gyro.getAngle() / -20);
+//        } else {
+//            if(ultraDist.getVoltage() > 1.0) {
+//                leftMotor.set(1.0);
+//                rightMotor.set(-1.0);
+//            } else {
+//                leftMotor.set(0);
+//                rightMotor.set(0);
+//            }
+//        }
         
     }//end alignToShoot
     
