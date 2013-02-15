@@ -4,48 +4,46 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
 /**
  *
  * @author Team100
  */
-public class Climb extends CommandBase {
-    
+public class Climb extends CommandGroup {
+    boolean firstTime=true;
     public Climb() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-        requires(climber);
-    }
+        //if elevator starts at bottom add another RaiseElevator here
+        addSequential(new RaiseElevator());
+        addSequential(new LowerElevator());
+        addSequential(new RaiseElevator());
+        addSequential(new LowerElevator());
+        addSequential(new RaiseElevator());
+        addSequential(new LowerElevator());
+        // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-        climber.resetLevel();
-    }
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-        //Warning: this code might not work
-        climber.raiseElevator();
-        climber.lowerElevator();
-        climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevator();
-        climber.nextLevel();
-        climber.raiseElevator();
-        climber.lowerElevatorPartway();
-        climber.nextLevel();
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
+        
     }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return (climber.getLevel()>2);
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
-}
+    public void execute(){
+        //do not move this to another method
+        if (firstTime){
+            CommandBase.climber.resetLevel();
+        }
+        firstTime=false;
+    }//end execute
+    
+}//end Climb CommandGroup

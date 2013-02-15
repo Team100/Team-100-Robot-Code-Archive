@@ -1,10 +1,9 @@
-
 package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
 import org.usfirst.frc100.OrangaHang.commands.*;
-import org.usfirst.frc100.OrangaHang.commands.CommandBase;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -16,76 +15,89 @@ public class OI {
     // number it is.
     // Joystick stick = new Joystick(port);
     // Button button = new JoystickButton(stick, buttonNumber);
-    
+
     // Another type of button you can create is a DigitalIOButton, which is
     // a button or switch hooked up to the cypress module. These are useful if
     // you want to build a customized operator interface.
     // Button button = new DigitalIOButton(1);
-    
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.
-    
     //// TRIGGERING COMMANDS WITH BUTTONS
     // Once you have a button, it's trivial to bind it to a button in one of
     // three ways:
-    
     // Start the command when the button is pressed and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenPressed(new ExampleCommand());
-    
     // Run the command while the button is being held down and interrupt it once
     // the button is released.
     // button.whileHeld(new ExampleCommand());
-    
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-
-    private static Joystick driverLeft = new Joystick(1);
-        
-    private static Joystick driverRight = new Joystick(2);
-        private static JoystickButton rightTurnButton = new JoystickButton(driverRight, 2);
-        
-    private static Joystick manipulator = new Joystick(3);
-        private static JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
-        private static JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
-        private static JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
-        private static JoystickButton climbUpButton = new JoystickButton(manipulator, 5);
-        private static JoystickButton shootButton = new JoystickButton(manipulator, 6);
-        private static JoystickButton climbDownButton = new JoystickButton(manipulator, 7);
-        private static JoystickButton takeFrisbeesButton = new JoystickButton(manipulator, 8);
     
-    public OI(){
+    //Joystick declarations
+    public static final Joystick driverLeft = new Joystick(1);
+    public static final Joystick driverRight = new Joystick(2);
+    public static final Joystick manipulator = new Joystick(3);
+   
+    //Button declarations
+    //DriverLeft button declarations - numbers NOT final
+    public static final JoystickButton shiftGearsLButton = new JoystickButton(driverLeft, 1);
+    public static final JoystickButton quickTurnLButton = new JoystickButton(driverLeft, 2);
+    public static final JoystickButton straightShootLButton = new JoystickButton(driverLeft, 3);
+    public static final JoystickButton autoClimbLButton = new JoystickButton(driverLeft, 4);
+    
+    //DriverRight button declarations - numbers NOT final
+    public static final JoystickButton shiftGearsRButton = new JoystickButton(driverRight, 1);
+    public static final JoystickButton quickTurnRButton = new JoystickButton(driverRight, 2);
+    public static final JoystickButton straightShootRButton = new JoystickButton(driverRight, 3);
+    public static final JoystickButton autoClimbRButton = new JoystickButton(driverRight, 4);
+    
+    //Manipulator button declarations - number assignments are correct, don't change them!
+    public static final JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
+    public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
+    public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
+    public static final JoystickButton abortClimbButton = new JoystickButton(manipulator, 4);
+    public static final JoystickButton primeShootButton = new JoystickButton(manipulator, 5);
+    public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
+    public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
+    public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
 
-        //Button declarations
-        
-//        DriverLeft button declarations - numbers NOT final
-        //JoystickButton highGearLeftButton = new JoystickButton(driverLeft, 1);
-        //JoystickButton lowGearLeftButton = new JoystickButton(driverLeft, 2);
-        
-//        DriverRight button declarations - numbers NOT final
-        //JoystickButton highGearRightButton = new JoystickButton(driverRight, 1);
-        //JoystickButton lowGearRightButton = new JoystickButton(driverRight,2);
-        
-        //Manipulator button declarations - number assignments are correct, don't change them!
-        
+    public OI()
+    {
         //Assigning commands to buttons
-        
+
         //DriverLeft commands
+        shiftGearsLButton.whenPressed(new ShiftGears());
+        quickTurnLButton.whenPressed(new QuickTurn(-90.0));
+        straightShootLButton.whenPressed(new AlignToShoot());
+        autoClimbLButton.whenPressed(new Climb());
         
         //DriverRight commands
-        rightTurnButton.whenPressed(new QuickTurn(90.0 *  CommandBase.driveTrain.double2unit(this.getRightX()) ));
-        
+        shiftGearsRButton.whenPressed(new ShiftGears());
+        quickTurnRButton.whenPressed(new QuickTurn(90.0));
+        straightShootRButton.whenPressed(new AlignToShoot());
+        autoClimbRButton.whenPressed(new Climb());
+
         //Manipulator commands
-        climbUpButton.whenPressed(new Climb());
-        shootButton.whenPressed(new Shoot());
-        climbDownButton.whenPressed(new Climb());
-        takeFrisbeesButton.whileHeld(new TakeFrisbees());
-    
+        tiltClimbButton.whenPressed(new TiltToClimb());
+        tiltShootButton.whenPressed(new TiltToShoot());
+        tiltIntakeButton.whenPressed(new TiltToIntake());
+        abortClimbButton.whenPressed(new AbortClimb());
+        intakeButton.whileHeld(new Intake());
+        primeShootButton.whileHeld(new PrimeToShoot());
+        primeDumpButton.whileHeld(new PrimeToDump());
+        shootButton.whenPressed(new FrisbeesToShoot());
+
         //SmartDashboardButtons
-        
+
     }//end constructor
+    
+    public double getRawLeft(int axis)
+    {
+        return driverLeft.getRawAxis(axis);
+    }
     
     public double getLeftX()
     {
@@ -97,20 +109,19 @@ public class OI {
         return driverLeft.getY();
     }
     
+    public double getRawRight(int axis)
+    {
+        return driverRight.getRawAxis(axis);
+    }
+    
     public double getRightX()
     {
         return driverRight.getX();
     }
     
-    public double getRightY()
+    public double getRawManip(int axis)
     {
-        return driverRight.getY();
-    }
-    
-    public boolean isJoystick()
-    {
-        return (Math.abs(driverLeft.getX()) + Math.abs(driverLeft.getY()) + 
-                Math.abs(driverRight.getX()) + Math.abs(driverRight.getY())) > 0.2;
+        return manipulator.getRawAxis(axis);
     }
     
 }//end OI
