@@ -115,11 +115,26 @@ public class FullManualControl extends CommandBase {
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end()
+    {
+        driveTrain.setLeftMotor(0.0);
+        driveTrain.setRightMotor(0.0);
+        climber.disable();
+        shooter.setFrontMotor(0.0);
+        shooter.setBackMotor(0.0);
+        intake.setMotor(0.0);
+        tower.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void interrupted()
+    {
+        driveTrain.setLeftMotor(0.0);
+        driveTrain.setRightMotor(0.0);
+        climber.disable();
+        shooter.setFrontMotor(0.0);
+        shooter.setBackMotor(0.0);
+        tower.disable();
     }
 }
