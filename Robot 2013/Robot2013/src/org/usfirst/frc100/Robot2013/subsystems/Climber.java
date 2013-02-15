@@ -10,6 +10,7 @@
 package org.usfirst.frc100.Robot2013.subsystems;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Robot2013.RobotMap;
 /**
  *
@@ -55,7 +56,9 @@ public class Climber extends Subsystem {
     
     //sets climber speed to given value
     public void manualControl(double d){
-        climberMotor.set(0);
+        if (topClimberSwitch.get()&&d>0||bottomClimberSwitch.get()&&d<0){
+            climberMotor.set(0);
+        }
         if (topClimberSwitch.get()&&d<0){
             climberMotor.set(d);
         }
@@ -65,6 +68,7 @@ public class Climber extends Subsystem {
         if(!topClimberSwitch.get()&&!bottomClimberSwitch.get()){
             climberMotor.set(d);
         }
+        putData();
     }
     
     //raises the elevator, tries again if hooks don't catch
@@ -82,6 +86,7 @@ public class Climber extends Subsystem {
         else {
             climberMotor.set(0);
         }
+        putData();
     }
     
     //lowers the elevator, tries again if hooks don't catch
@@ -99,6 +104,7 @@ public class Climber extends Subsystem {
         else {
             climberMotor.set(0);
         }
+        putData();
     }
     
     //lowers elevator partway for last pull-up at end
@@ -116,6 +122,7 @@ public class Climber extends Subsystem {
         else {
             climberMotor.set(0);
         }
+        putData();
     }
     
     //whether the elevator has reached the bottom
@@ -173,5 +180,13 @@ public class Climber extends Subsystem {
         else {
             return (!rightMovingHookMetalSensor.get()||!leftMovingHookMetalSensor.get());
         }
+    }
+    
+    //puts data to smartdashboard
+    public void putData(){
+        SmartDashboard.putNumber("Level", level);
+        SmartDashboard.putNumber("Encoder", climberEncoder.get());
+        SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
+        SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
     }
 }

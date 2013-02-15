@@ -35,7 +35,7 @@ public class RobotTemplate extends IterativeRobot {
 
     private final Jaguar jag1;
     private final Jaguar jag2;
-    private final Servo servo;
+   // private final Servo servo;
     private final RobotDrive drive;
     private final AnalogChannel pot;
     private final DigitalInput toggleA;
@@ -44,9 +44,9 @@ public class RobotTemplate extends IterativeRobot {
     public RobotTemplate() {
         joystick = new Joystick(1);
         joystick2 = new Joystick(2);
-        jag1 = new Jaguar(2);
-        jag2 = new Jaguar(3);
-        servo = new Servo(1);
+        jag1 = new Jaguar(1);
+        jag2 = new Jaguar(2);
+       // servo = new Servo(2);
         drive = new RobotDrive(jag1, jag2);
         pot = new AnalogChannel(1);
         toggleA = new DigitalInput(1);
@@ -72,7 +72,7 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putDouble("joystick throttle is:", joystick.getThrottle());
 
 
-        if (toggleA.get())
+        if (true)
         {
            
 
@@ -80,7 +80,7 @@ public class RobotTemplate extends IterativeRobot {
 
         }
 
-        if (!toggleA.get())
+      /*  if (!toggleA.get())
         {
              {
                drive.stopMotor();
@@ -97,7 +97,7 @@ public class RobotTemplate extends IterativeRobot {
 
 
 
-
+*/
     }
     
 }
