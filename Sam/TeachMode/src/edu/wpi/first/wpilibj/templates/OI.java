@@ -33,8 +33,6 @@ public class OI {
         //insert all triggered commands here
         SmartDashboard.putData(new Memorize());
         SmartDashboard.putData(new Reproduce());
-        //button.whileHeld(new Memorize());
-        //button2.whenPressed(new Reproduce());
         
     }
     

@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.subsystems.DriveTrain;
 import java.util.Vector;
@@ -27,7 +28,7 @@ public class Reproduce extends CommandBase{
     }
 
     protected void initialize() {
-
+        
         String file;
         file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
         System.out.println("Reproduce Init :" + file);
@@ -41,6 +42,10 @@ public class Reproduce extends CommandBase{
         this.setInterruptible(true);
     }
 
+    /**
+     *
+     * Is called every tick, writes the needed value to the drive train
+     */
     protected void execute() {
         if(position > leftVector.size()-2){
             this.cancel();

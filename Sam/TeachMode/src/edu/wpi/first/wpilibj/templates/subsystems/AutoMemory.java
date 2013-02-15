@@ -5,8 +5,11 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.templates.FileRW;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -22,11 +25,41 @@ public class AutoMemory extends Subsystem{
     
     Vector LeftMemory;
     Vector RightMemory;
-    String readFile;
+    public static String AutoList;
     String writeFile;
     
     public AutoMemory(){
+        updateAuto();
+        SmartDashboard.putString("Autonomous List", AutoList);
+    }
+    
+    private static void updateAuto(){
+        //List :name,name,name,name
+        //Names are not in path format
+        Preferences pref = Preferences.getInstance();
         
+        AutoList = "";
+        if(pref.containsKey("autoList")){
+            AutoList = pref.getString("autoList", "");    
+        }else{
+            pref.putString("autoList", "");
+        }
+        SmartDashboard.putString("Autonomous List", AutoList);
+        pref.save();
+    }
+    
+    public static void addAuto(String name){
+        Preferences pref = Preferences.getInstance();
+        String list = pref.getString("autoList", "");
+        if("".equals(list)){
+            list = name;
+        }else{
+            if(list.indexOf(name) > -1){
+                list = list +","+ name;
+            } 
+        }
+        pref.putString("autoList", list);
+        updateAuto();
     }
 
     public void beginCollection(){
@@ -62,6 +95,7 @@ public class AutoMemory extends Subsystem{
     
     public void stopCollection() throws IOException{
         this.write(writeFile);
+        addAuto(SmartDashboard.getString("Name Autonomous Procedure"));
         System.out.println("Saving on:" + writeFile);
     }
     
