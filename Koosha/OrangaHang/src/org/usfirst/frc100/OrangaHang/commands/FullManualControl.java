@@ -31,7 +31,7 @@ public class FullManualControl extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        double speed = oi.driverLeft.getY();
+        double speed = OI.driverLeft.getY();
         
         if(OI.tiltClimbButton.get())
         {
