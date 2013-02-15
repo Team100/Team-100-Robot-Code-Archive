@@ -1,10 +1,7 @@
 
 package edu.wpi.first.wpilibj.templates;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.commands.Memorize;
 import edu.wpi.first.wpilibj.templates.commands.Reproduce;
@@ -16,10 +13,7 @@ import edu.wpi.first.wpilibj.templates.commands.Reproduce;
 public class OI {
     
     Joystick joystick = new Joystick(1);
-    
-    //Button button =  new JoystickButton(joystick,5);
-    //Button button2 =  new JoystickButton(joystick,6);
-    
+
     public double getJoy1_y1() {
         return joystick.getY();
     }

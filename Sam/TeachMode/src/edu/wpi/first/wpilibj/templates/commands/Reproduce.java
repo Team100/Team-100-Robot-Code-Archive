@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.wpi.first.wpilibj.templates.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.subsystems.DriveTrain;
 import java.util.Vector;
@@ -33,7 +28,7 @@ public class Reproduce extends CommandBase{
         file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
         System.out.println("Reproduce Init :" + file);
         
-        autoMemory.read(file);//READ TEST FILE
+        autoMemory.read(file);
         leftVector = autoMemory.RequestLeft();
         rightVector = autoMemory.RequestRight();
         position = 0;
@@ -45,6 +40,7 @@ public class Reproduce extends CommandBase{
     /**
      *
      * Is called every tick, writes the needed value to the drive train
+     * This must be adapted to the actual robot.
      */
     protected void execute() {
         if(position > leftVector.size()-2){
@@ -61,6 +57,9 @@ public class Reproduce extends CommandBase{
         return false;
     }
 
+    /**
+     * Resets all DriveTrain values, is called when robot has completed its autonomous task
+     */
     protected void end() {
         autoMemory.Reproduce(0,0);
         DriveTrain.reproleft = 0;
