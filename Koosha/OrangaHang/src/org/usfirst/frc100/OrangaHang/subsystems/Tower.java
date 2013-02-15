@@ -4,47 +4,97 @@
  */
 package org.usfirst.frc100.OrangaHang.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
  *
  * @author Team100
  */
-public class Tower extends Subsystem
-{
-    private static AnalogChannel anglePot;
-    private static SpeedController motor;
-    private static DoubleSolenoid pistons;
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+public class Tower extends Subsystem {
+    //Robot parts
+    private final AnalogChannel potentiometer = RobotMap.towerPotent;
+    private final Victor motor = RobotMap.towerMotor;
+    private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
+    //Constants
+    private final double kClimbPosition = 0.0;
+    private final double kShootPosition = 0.0;
+    private final double kIntakePosition = 0.0;
+    private final double kTowerAngleRatio = 0.0;
+    private boolean isClimbing = false;
+    private boolean isShooting = false;
+    private boolean isGettingFrisbees = false;
+    private boolean extended = false;
+    private boolean stowed = true;
 
-    public Tower()
-    {
-        anglePot = RobotMap.towerPotent;
-        motor = RobotMap.towerMotor;
-        pistons = RobotMap.towerArmPistons;
-    }
-    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    }
+    }//end initDefaultCommand
     
-    public double getAngle()
-    {
-        return anglePot.getVoltage();
-    }
-    
-    public void setMotor(double s)
-    {
-        motor.set(s);
-    }
-    
-    public void setPistons(boolean p)
-    {
-        pistons.set(p ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
-    }
-}
+    public void deployArms(){
+        if(stowed){
+            extended = true;
+            stowed = false;
+            armPistons.set(DoubleSolenoid.Value.kForward);
+        } else if(extended){
+            extended = false;
+            stowed = true;
+            armPistons.set(DoubleSolenoid.Value.kReverse);
+        }
+    }//end deployArms
+
+    //PID control
+    PIDSource sourceTower = new PIDSource() {
+        public double pidGet() {
+            SmartDashboard.putNumber("potVoltage_raw", potentiometer.getValue());
+            return potentiometer.getValue();
+        }
+    }; //end anonym class PIDSource
+    PIDOutput outputTower = new PIDOutput() {
+        public void pidWrite(double output) {
+            motor.set(output);
+        }
+    }; //end anonym class PIDOutput
+    private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, kTowerAngleRatio);
+
+    public void setSetpoint(double setpoint) {
+        pidTower.setSetpoint(setpoint);
+    }//end setSetpoint
+
+    public void tiltToClimb() {
+        isShooting = false;
+        isGettingFrisbees = false;
+        isClimbing = true;
+        pidTower.setSetpoint(kClimbPosition);
+    }//end tiltToClimb
+
+    public void tiltToShoot() {
+        isGettingFrisbees = false;
+        isShooting = true;
+        isClimbing = false;
+        pidTower.setSetpoint(kShootPosition);
+    }//end tiltToClimb
+
+    public void tiltToIntake() {
+       isGettingFrisbees = true;
+       isShooting = false;
+       isClimbing = false;
+       pidTower.setSetpoint(kIntakePosition);
+    }//end tiltToIntake
+
+    public void disable() {
+        pidTower.disable();
+    }//end disable
+
+    public void enable() {
+        pidTower.enable();
+    }//end enable    
+}//end Tower
