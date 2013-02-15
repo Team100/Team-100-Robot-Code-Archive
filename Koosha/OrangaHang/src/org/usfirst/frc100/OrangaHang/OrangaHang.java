@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
-import org.usfirst.frc100.OrangaHang.commands.Shoot;
+import org.usfirst.frc100.OrangaHang.commands.Drive;
+import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
@@ -26,7 +27,8 @@ import org.usfirst.frc100.OrangaHang.commands.Shoot;
 public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
-    Shoot shoot;
+    ManualClimb manualClimb;
+    Drive drive;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,21 +40,27 @@ public class OrangaHang extends IterativeRobot {
 
         // Initialize all subsystems
         CommandBase.init();
-    }
+        RobotMap.init();
+       
+    }//end robotInit
 
+    public void disabledInit(){
+	CommandBase.disableAll();
+    }//end disabledInit
+    
     public void autonomousInit() {
         // schedule the autonomous command (example)
         if (autonomousCommand != null){
             autonomousCommand.start();
         }
-    }
+    }//end autonomousInit
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-    }
+    }//end autonomousPeriodic
 
     public void teleopInit() {
 	// This makes sure that the autonomous stops running when
@@ -62,23 +70,25 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.cancel();
         }
-        shoot = new Shoot();
-    }
+        manualClimb = new ManualClimb();
+        drive = new Drive();
+        manualClimb.start();
+        drive.start();
+
+    }//end teleopInit
 
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic()
-    {
+    public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        
-        
-    }
+    }//end teleopPeriodic
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }
-}
+    }//end testPeriodic
+
+}//end OrangaHang
