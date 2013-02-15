@@ -50,6 +50,11 @@ public class Tower extends Subsystem {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
+    
+    public boolean isStowed()
+    {
+        return stowed;
+    }
 
     //PID control
     PIDSource sourceTower = new PIDSource() {

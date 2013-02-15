@@ -39,6 +39,16 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
+    public void setLeftMotor(double s)
+    {
+        leftMotor.set(s);
+    }
+    
+    public void setRightMotor(double s)
+    {
+        rightMotor.set(s);
+    }
+    
     public void tankDrive(double leftSpeed, double rightSpeed){
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
