@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,9 +19,14 @@ public class Memorize extends CommandBase{
         SmartDashboard.putBoolean("Collecting", true);
     }
 
+    /**
+     * Gets the current joystick values and sends them the autoMemory.collectString
+     * @see autoMemory
+     */
     protected void execute() {
         autoMemory.collectString(oi.getJoy1_y1(), oi.getJoy1_y2());
     }
+    
 
     protected boolean isFinished() {
         return false;
