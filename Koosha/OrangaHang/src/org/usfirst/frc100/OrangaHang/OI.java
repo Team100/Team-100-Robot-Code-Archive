@@ -69,13 +69,13 @@ public class OI {
         //Assigning commands to buttons
 
         //DriverLeft commands
-        shiftGearsLButton.whenPressed(new ShiftGears());
+        shiftGearsLButton.whileHeld(new ShiftGears());
         quickTurnLButton.whenPressed(new QuickTurn(-90.0));
         straightShootLButton.whenPressed(new AlignToShoot());
         autoClimbLButton.whenPressed(new Climb());
         
         //DriverRight commands
-        shiftGearsRButton.whenPressed(new ShiftGears());
+        shiftGearsRButton.whileHeld(new ShiftGears());
         quickTurnRButton.whenPressed(new QuickTurn(90.0));
         straightShootRButton.whenPressed(new AlignToShoot());
         autoClimbRButton.whenPressed(new Climb());

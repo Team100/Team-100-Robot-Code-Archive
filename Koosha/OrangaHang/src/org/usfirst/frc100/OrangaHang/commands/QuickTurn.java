@@ -25,9 +25,20 @@ public class QuickTurn extends CommandBase {
         highGear = driveTrain.isHighGear();
         lowGear = !driveTrain.isHighGear();
         turnControl = new PositionPIDBase(1.0, "Turn Controller");
-        turnControl.setKP(0.005);
-        turnControl.setKI(0.000);
-        turnControl.setKD(0.000);
+        
+        if(driveTrain.isHighGear())
+        {
+            turnControl.setKP(0.0025);
+            turnControl.setKI(0.000);
+            turnControl.setKD(0.000);
+        }
+        else
+        {
+            turnControl.setKP(0.005);
+            turnControl.setKI(0.000);
+            turnControl.setKD(0.000);
+        }
+        
         this.setPoint = setPoint;
     }
 
