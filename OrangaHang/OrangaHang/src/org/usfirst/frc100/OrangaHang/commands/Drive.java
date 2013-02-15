@@ -4,6 +4,8 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import org.usfirst.frc100.OrangaHang.OI;
+
 /**
  *
  * @author Team100
@@ -22,6 +24,7 @@ public class Drive extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        driveTrain.tankDrive(-OI.driverLeft.getY(), OI.driverRight.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/*Shooter subsystem*/
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Counter;
@@ -12,7 +9,6 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.Shoot;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
 
 /**
@@ -21,16 +17,18 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
  */
 public class Shooter extends Subsystem {
     //Robot parts
-    private final DigitalInput opticalFront = RobotMap.shooterFrontOptical;
-    private final DigitalInput opticalBack = RobotMap.shooterBackOptical;
+    private final DigitalInput hallFront = RobotMap.shooterFrontHallEffect;
+    private final DigitalInput hallBack = RobotMap.shooterBackHallEffect;
     private final Victor motorFront = RobotMap.shooterFrontMotor;
     private final Victor motorBack = RobotMap.shooterBackMotor;
-    private Counter counterFront = new Counter(opticalFront);
-    private Counter counterBack = new Counter(opticalBack);
+    private Counter counterFront = new Counter(hallFront);
+    private Counter counterBack = new Counter(hallBack);
     //Constants
     private final double kBackDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     private final double kFrontDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet    
+    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
+    private double dumpSpeed = 0.5;//change this eventually
+    private double shootSpeed = 1.0;
     
     public Shooter(){
         counterFront.reset();
@@ -42,10 +40,20 @@ public class Shooter extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new Shoot());
     }//end initDefaultCommand
     
-    //add manual control option here!
+    //set speed for dumping
+    public void dumpFrisbees(){
+        motorFront.set(dumpSpeed);
+        motorBack.set(dumpSpeed);
+    }//end dumpFrisbees
+    
+    //set speed for shooting
+    public void shootFrisbees(){
+        motorFront.set(shootSpeed);
+        motorBack.set(shootSpeed);
+    }//end shootFrisbees
+    
     
     //PID Control
     
@@ -64,7 +72,7 @@ public class Shooter extends Subsystem {
     private VelocitySendablePID pidFront = new VelocitySendablePID("front",sourceFront, outputFront, kFrontDistRatio);
     
     //shooterBack
-     PIDSource sourceBack = new PIDSource(){
+    PIDSource sourceBack = new PIDSource(){
         public double pidGet(){
             SmartDashboard.putNumber("counterBack_raw", counterBack.get());
             return counterBack.get();
@@ -83,6 +91,7 @@ public class Shooter extends Subsystem {
     }//end setSetpoint
     
     public void disable(){
+        setSetpoint(0.0);
         pidFront.disable();
         pidBack.disable();
         counterFront.reset();
