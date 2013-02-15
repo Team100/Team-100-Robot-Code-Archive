@@ -48,14 +48,11 @@ public abstract class CommandBase extends Command {
         
     }//end init
     
-    public static void disable(){
+    public static void disableAll(){
         shooter.disable();
+        climber.disable();
     }//end disable
     
-    public static void enable(){
-        shooter.enable();
-    }//end enable
-
     public CommandBase(String name) {
         super(name);
     }//end constructor

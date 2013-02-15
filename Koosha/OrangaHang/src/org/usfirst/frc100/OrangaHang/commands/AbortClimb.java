@@ -8,12 +8,12 @@ package org.usfirst.frc100.OrangaHang.commands;
  *
  * @author Team100
  */
-public class TiltToClimb extends CommandBase {
+public class AbortClimb extends CommandBase {
     
-    public TiltToClimb() {
+    public AbortClimb() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(tower);
+        requires(climber);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +22,7 @@ public class TiltToClimb extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        tower.tiltToClimb();
+        climber.disable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
