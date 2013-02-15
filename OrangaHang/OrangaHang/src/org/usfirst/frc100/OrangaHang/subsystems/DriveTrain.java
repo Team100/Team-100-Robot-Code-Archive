@@ -27,12 +27,17 @@ public class DriveTrain extends Subsystem {
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final DoubleSolenoid shifter = RobotMap.driveGear;
     //Constants
-    private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
+    private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
+    private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
     private boolean highGear = true;
     private boolean lowGear = false;
+    
+    public DriveTrain(){
+        leftEncoder.start();
+        rightEncoder.start();
+    }
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
