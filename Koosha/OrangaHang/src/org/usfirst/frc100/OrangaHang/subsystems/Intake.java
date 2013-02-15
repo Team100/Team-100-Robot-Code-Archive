@@ -37,4 +37,9 @@ public class Intake extends Subsystem {
         }
     }//end takeFrisbees
     
+    public void setMotor(double s)
+    {
+        motor.set(s);
+    }
+    
 }//end Intake

@@ -54,6 +54,15 @@ public class Shooter extends Subsystem {
         motorBack.set(shootSpeed);
     }//end shootFrisbees
     
+    public void setFrontMotor(double s)
+    {
+        motorFront.set(s);
+    }
+    
+    public void setBackMotor(double s)
+    {
+        motorBack.set(s);
+    }
     
     //PID Control
     

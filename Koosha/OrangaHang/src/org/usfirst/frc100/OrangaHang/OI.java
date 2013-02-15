@@ -93,35 +93,5 @@ public class OI {
         //SmartDashboardButtons
 
     }//end constructor
-    
-    public double getRawLeft(int axis)
-    {
-        return driverLeft.getRawAxis(axis);
-    }
-    
-    public double getLeftX()
-    {
-        return driverLeft.getX();
-    }
-    
-    public double getLeftY()
-    {
-        return driverLeft.getY();
-    }
-    
-    public double getRawRight(int axis)
-    {
-        return driverRight.getRawAxis(axis);
-    }
-    
-    public double getRightX()
-    {
-        return driverRight.getX();
-    }
-    
-    public double getRawManip(int axis)
-    {
-        return manipulator.getRawAxis(axis);
-    }
-    
+
 }//end OI
