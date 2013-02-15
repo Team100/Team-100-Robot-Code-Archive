@@ -36,24 +36,25 @@ public class Climber extends Subsystem {
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
     int level=0;//level of the pyramid that the robot is at    
 
+    //sets encoder
     public Climber(){
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
     }//end constructor
 
-    //creates a new climb
+    //empty
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
+    //tells SmartDashboard if the climber has reached the pole
     public void readyClimber(){
         if(poleSwitch.get()){
             SmartDashboard.putString("Ready?", "YES");
         }
     }//end readyClimber
-   
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
@@ -214,6 +215,7 @@ public class Climber extends Subsystem {
         return false;
     }//end getError
 
+    //resets the encoder
     public void resetEncoder() {
         encoder.reset();
     }//end resetEncoder
