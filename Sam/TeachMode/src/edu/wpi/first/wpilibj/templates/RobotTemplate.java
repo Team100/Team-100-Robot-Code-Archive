@@ -35,6 +35,8 @@ public class RobotTemplate extends IterativeRobot {
         // instantiate the command used for the autonomous period
         TankDrive = new TankDrive();
         SmartDashboard.putBoolean("Reproducing", false);
+        SmartDashboard.putString("Name Autonomous Procedure", "SaveName");
+        SmartDashboard.putString("Select Autonomous Procedure", "SelectName");
 
         // Initialize all subsystems
         CommandBase.init();

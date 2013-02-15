@@ -22,19 +22,17 @@ public class AutoMemory extends Subsystem{
     
     Vector LeftMemory;
     Vector RightMemory;
+    String readFile;
+    String writeFile;
     
     public AutoMemory(){
+        
     }
 
     public void beginCollection(){
+        writeFile = "file:///autonomous/" + SmartDashboard.getString("Name Autonomous Procedure") + ".sam";
+        System.out.println("AutoMemory,beginCollection" + writeFile);
         
-        SmartDashboard.putString("Autonomous Procedure", "Enter Value Here");
-        while(true){
-            if(!"Enter Value Here".equals(SmartDashboard.getString("Autonomous Procedure"))){
-                break;
-            }
-        }
-        System.out.println("AutoMemory,beginCollection");
         LeftMemory  = new Vector();
         RightMemory  = new Vector();
     }
@@ -63,7 +61,8 @@ public class AutoMemory extends Subsystem{
     }
     
     public void stopCollection() throws IOException{
-        this.write("file:///test.sam");
+        this.write(writeFile);
+        System.out.println("Saving on:" + writeFile);
     }
     
     //FILE_NAME = file:///FILENAME.txt

@@ -27,7 +27,12 @@ public class Reproduce extends CommandBase{
     }
 
     protected void initialize() {
-        autoMemory.read("file:///test.sam");//READ TEST FILE
+
+        String file;
+        file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
+        System.out.println("Reproduce Init :" + file);
+        
+        autoMemory.read(file);//READ TEST FILE
         leftVector = autoMemory.RequestLeft();
         rightVector = autoMemory.RequestRight();
         position = 0;
