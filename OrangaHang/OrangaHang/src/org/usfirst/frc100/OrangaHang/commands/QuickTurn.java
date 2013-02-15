@@ -10,6 +10,9 @@ package org.usfirst.frc100.OrangaHang.commands;
  */
 public class QuickTurn extends CommandBase {
     
+    private boolean highGear = true;
+    private boolean lowGear = false;
+    
     public QuickTurn() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -21,7 +24,7 @@ public class QuickTurn extends CommandBase {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute(){
     }
 
     // Make this return true when this Command no longer needs to run execute()
