@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Jaguar;
@@ -33,12 +29,9 @@ public class DriveTrain extends Subsystem{
             leftjag.set(reproleft);
             rightjag.set(reproright);
         }
-        
     }
     
     public void test(){
-        leftjag.set(-0.3);
-        rightjag.set(-0.3);
     }
 
     protected void initDefaultCommand() {
