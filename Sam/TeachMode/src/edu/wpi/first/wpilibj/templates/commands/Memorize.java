@@ -24,7 +24,6 @@ public class Memorize extends CommandBase{
     }
 
     protected void execute() {
-        //autoMemory.collect(oi.getJoy1_y1(), oi.getJoy1_y2());
         autoMemory.collectString(oi.getJoy1_y1(), oi.getJoy1_y2());
     }
 
@@ -38,6 +37,7 @@ public class Memorize extends CommandBase{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        
         SmartDashboard.putBoolean("Collecting", false);
     }
 
