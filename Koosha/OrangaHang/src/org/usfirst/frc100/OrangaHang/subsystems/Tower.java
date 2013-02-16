@@ -55,6 +55,18 @@ public class Tower extends Subsystem {
     {
         return stowed;
     }
+    
+    public void manualControl(double s)
+    {
+        if(potentiometer.getValue()>=68.0 && s>=0)
+        {
+            motor.set(s);
+        }
+        else if(potentiometer.getValue()<=0.0 && s<0)
+        {
+            motor.set(s);
+        }
+    }
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
