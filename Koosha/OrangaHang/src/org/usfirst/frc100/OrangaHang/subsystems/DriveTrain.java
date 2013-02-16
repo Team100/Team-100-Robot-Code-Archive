@@ -54,21 +54,6 @@ public class DriveTrain extends Subsystem {
         rightMotor.set(rightSpeed);
     }//end tankDrive
     
-//    public void shift(Gear gear){
-//        if(highGear && gear == gear.highGear)
-//        {
-//            lowGear = true;
-//            highGear = false;
-//            shifter.set(DoubleSolenoid.Value.kReverse);
-//        }
-//        else if (lowGear)
-//        {
-//            highGear = true;
-//            lowGear = false;
-//            shifter.set(DoubleSolenoid.Value.kForward);
-//        }
-//    }//end shift
-    
     public void shiftHighGear()
     {
         if(!isHighGear())
