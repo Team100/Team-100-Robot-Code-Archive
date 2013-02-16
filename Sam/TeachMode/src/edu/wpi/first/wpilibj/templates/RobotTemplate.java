@@ -9,6 +9,7 @@ package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,6 +34,7 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
+        Preferences.getInstance();
         TankDrive = new TankDrive();
         SmartDashboard.putBoolean("Reproducing", false);
         SmartDashboard.putString("Name Autonomous Procedure", "SaveName");

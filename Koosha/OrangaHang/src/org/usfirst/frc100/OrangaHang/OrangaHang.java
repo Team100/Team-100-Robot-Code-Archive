@@ -27,6 +27,7 @@ import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
+    Command testCommand;
     ManualClimb manualClimb;
     Drive drive;
 
@@ -53,6 +54,8 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.start();
         }
+        
+        CommandBase.driveTrain.shiftHighGear();
     }//end autonomousInit
 
     /**
@@ -87,7 +90,12 @@ public class OrangaHang extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
+    public void testPeriodic()
+    {
+        if(testCommand!=null)
+        {
+            testCommand.start();
+        }
         LiveWindow.run();
     }//end testPeriodic
 

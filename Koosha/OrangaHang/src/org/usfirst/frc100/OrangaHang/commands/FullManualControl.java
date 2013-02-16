@@ -31,7 +31,7 @@ public class FullManualControl extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        double speed = oi.driverLeft.getY();
+        double speed = OI.driverLeft.getY();
         
         if(OI.tiltClimbButton.get())
         {
@@ -45,22 +45,7 @@ public class FullManualControl extends CommandBase {
         
         if(OI.tiltIntakeButton.get())
         {
-            climber.setSetpoint(speed);
-            climber.enable();
-        }
-        else
-        {
-            climber.disable();
-        }
-        
-        if(OI.abortClimbButton.get())
-        {
-            climber.setSetpoint(-speed);
-            climber.enable();
-        }
-        else
-        {
-            climber.disable();
+            climber.manualControl(speed);
         }
         
         if(OI.primeShootButton.get())
@@ -75,27 +60,22 @@ public class FullManualControl extends CommandBase {
         
         if(OI.primeDumpButton.get())
         {
-            intake.setMotor(speed);
+            //intake.manualControl(speed);
         }
         
         if(OI.intakeButton.get())
         {
-            tower.setSetpoint(speed);
-            tower.enable();
-        }
-        else
-        {
-            tower.disable();
+            tower.manualControl(speed);
         }
         
-        if(OI.manipulator.getRawAxis(6)<0.0 && !driveTrain.isHighGear())
+        if(OI.manipulator.getRawAxis(6)<0.0)
         {
-            driveTrain.shift();
+            driveTrain.shiftHighGear();
         }
         
-        if(OI.manipulator.getRawAxis(6)>0.0 && driveTrain.isHighGear())
+        if(OI.manipulator.getRawAxis(6)>0.0)
         {
-            driveTrain.shift();
+            driveTrain.shiftLowGear();
         }
         
         if(OI.manipulator.getRawAxis(5)<0.0 && !tower.isStowed())

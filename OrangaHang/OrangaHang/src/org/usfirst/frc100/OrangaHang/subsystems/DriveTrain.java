@@ -1,12 +1,6 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
@@ -18,7 +12,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  * @author Team100
  */
 public class DriveTrain extends Subsystem {
-    
+    //Robot parts
     private final SpeedController rightMotor = RobotMap.driveRightMotor;
     private final SpeedController leftMotor = RobotMap.driveLeftMotor;
     private final Encoder rightEncoder = RobotMap.driveRightEncoder;
@@ -26,47 +20,70 @@ public class DriveTrain extends Subsystem {
     private final Gyro gyro = RobotMap.driveGyro;
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final DoubleSolenoid shifter = RobotMap.driveGear;
+    private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
-    private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = true;
-    private boolean lowGear = false;
+    private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
+    private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
+    private final double ultraDistRatio = 0.009794921875;
+    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
     
+    public DriveTrain(){
+        leftEncoder.start();
+        rightEncoder.start();
+    }
+    
+    //creates a new Drive
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
         setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
+    //basic tankDrive
     public void tankDrive(double leftSpeed, double rightSpeed){
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
     }//end tankDrive
     
-    public void shift(){
-        if(highGear){
-            lowGear = true;
-            highGear = false;
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        } else if (lowGear){
-            highGear = true;
-            lowGear = false;
+    //basic arcadeDrive: y=forward/backward speed, x=left/right speed
+    public void arcadeDrive(double y, double x){
+        robotDrive.arcadeDrive(y, x);
+    }// end arcadeDrive
+
+    public void shiftHighGear()
+    {
+        if(!isHighGear())
+        {
+            //shifts gears to opposite position
             shifter.set(DoubleSolenoid.Value.kForward);
         }
-    }//end shift
+    }
     
+    public void shiftLowGear()
+    {
+        if(isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+    
+    public boolean isHighGear()
+    {
+        return shifter.get().equals(DoubleSolenoid.Value.kForward);
+    }
+    
+    //aligns robot for shooting
     public void alignToShoot(double left, double right){
         
-        if(ultraDist.getVoltage() < 1.0) {
-            if(left > 0 && right > 0) {
+        if(ultraDist.getVoltage() < 1.2) {
+            if(left > 0) {
                 leftMotor.set(0);
                 rightMotor.set(0);
             } else {
-                tankDrive(left, right);
+                arcadeDrive(left, right);
             }
         } else {
-            tankDrive(left, right);
+            arcadeDrive(left, right);
         }
         
 //        if(Math.abs(gyro.getAngle()) > 2) {

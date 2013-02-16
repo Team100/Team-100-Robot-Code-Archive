@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Isis
  */
 public class VelocityPIDBase {
-    private boolean enabled = true;
+    private boolean enabled = false;
     private String name;
     //Previous value variables
     private double input = 0.0;
@@ -102,6 +102,10 @@ public class VelocityPIDBase {
         return setpoint;
     }//end getSetpoint
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+    
     //check enable/disable of robot
     public void disable(){
         enabled = false;
