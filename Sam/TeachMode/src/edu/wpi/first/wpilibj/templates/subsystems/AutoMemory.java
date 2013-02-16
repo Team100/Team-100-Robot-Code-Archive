@@ -1,6 +1,5 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -61,7 +60,6 @@ public class AutoMemory extends Subsystem{
         updateAuto();
     }
 
-    
     /**
      * Gets the path from the smartdashboard and then resets the Vectors
      */
@@ -113,13 +111,10 @@ public class AutoMemory extends Subsystem{
         System.out.println("Saving on:" + writeFile);
     }
     /**
-     * 
      * @param FILE_NAME
      * @throws IOException 
      */
     private void write(String FILE_NAME) throws IOException{
-        System.out.println("Beginning writing");
-
         if(LeftMemory.size() != RightMemory.size()){System.out.println("VECTORS NOT EQUAL SIZE!!!!");}
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -133,9 +128,7 @@ public class AutoMemory extends Subsystem{
             String point = Left + "," + Right + ";";
             dos.writeUTF(point);
         }
-        //baos.toByteArray();
-        //FileRW.getInstance().save(FILE_NAME, bytes);
-        
+
         System.out.println(baos);
         dos.writeChars("\n");
         FileRW.getInstance().save(FILE_NAME, baos.toByteArray());
@@ -150,13 +143,10 @@ public class AutoMemory extends Subsystem{
         String data;
         FileRW instance = FileRW.getInstance();
         data = instance.newRead(path);
-        //data = FileRW.newRead(path);//Read from path
         
         //Clear Vectors
         LeftMemory = new Vector();
         RightMemory = new Vector();
-        
-        System.out.println(data);
 
         if(data != null){
             char[] dataArray = data.toCharArray();
@@ -169,17 +159,17 @@ public class AutoMemory extends Subsystem{
                     System.out.println(buff);
                     LeftMemory.addElement(Double.valueOf(buff));
                     buffer.delete(0, buffer.length()-1);
+                    
                 }else if(c==';'){
                     buff = buffer.toString().substring(1);
                     RightMemory.addElement(Double.valueOf(buff));
                     buffer.delete(0, buffer.length()-1);
-                }else if(c=='*'||c=='(' || c==')'|| c=="'".charAt(0) || c=='&' || c=='%'){
-                }else{
+                }else if(c >= '0' && c <= '9'){
                     buffer.append(c);
-                }
-                
+                }else if(c=='.'){
+                    buffer.append(c);
+                } 
             }
-            
         }
     }    
 }

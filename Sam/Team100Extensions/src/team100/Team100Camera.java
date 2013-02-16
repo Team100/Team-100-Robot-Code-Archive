@@ -3,7 +3,6 @@ package team100;
 import edu.wpi.first.smartdashboard.gui.*;
 import edu.wpi.first.smartdashboard.properties.*;
 import edu.wpi.first.wpijavacv.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
@@ -13,15 +12,10 @@ import javax.swing.SwingUtilities;
  */
 public class Team100Camera extends StaticWidget{
     
-    
-    
     public static final String NAME = "Team 100 Camera";
     public static Boolean firstcamera = true;
     public static int Crosshair_XPos = 0;
     public static int Crosshair_YPos = 0;
-    
-    
-    
 
     public class GCThread extends Thread {
 
@@ -112,8 +106,12 @@ public class Team100Camera extends StaticWidget{
                     }
                 } catch (final Exception e) {
                     e.printStackTrace();
-                    cam.dispose();
-                    cam2.dispose();
+                    if(cam != null){
+                        cam.dispose();
+                    }
+                    if(cam2 != null){
+                        cam2.dispose();
+                    }
 
                     System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
                     drawnImage = null;
@@ -236,25 +234,15 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
     public int XPos = 0;
     public int YPos = 0;
     
-    
-    
     public WPIImage processImage(WPIColorImage rawImage) {
         
         if(firstcamera){//draws a crosshair 1/3 size of the screen in the center of the screen 
-            
-            //int XPos = (int)table.getNumber("Crosshair_XPos", rawImage.getWidth()/2);
-            //int YPos = (int)table.getNumber("Crosshair_YPos", rawImage.getHeight()/2);
-            
-            
-           
             
             if(XPos < 0){XPos = 0;
             }else if(XPos > rawImage.getWidth()){XPos = rawImage.getWidth();}       
             if(YPos < 0){YPos = 0;
             }else if(YPos > rawImage.getHeight()){YPos = rawImage.getHeight();}
-            
-            
-                    
+     
             rawImage.drawLine(new WPIPoint(XPos,YPos+30), new WPIPoint(XPos,YPos-30), WPIColor.BLACK, 2);
             rawImage.drawLine(new WPIPoint(XPos-30,YPos), new WPIPoint(XPos+30,YPos), WPIColor.BLACK, 2);
         }
