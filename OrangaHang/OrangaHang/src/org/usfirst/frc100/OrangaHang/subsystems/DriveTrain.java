@@ -33,8 +33,6 @@ public class DriveTrain extends Subsystem {
     private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = true;
-    private boolean lowGear = false;
     
     public DriveTrain(){
         leftEncoder.start();
@@ -58,32 +56,41 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
     }// end arcadeDrive
-    
-    //shifts gears to opposite position
-    public void shift(){
-        if(highGear){
-            lowGear = true;
-            highGear = false;
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        } else if (lowGear){
-            highGear = true;
-            lowGear = false;
+
+    public void shiftHighGear()
+    {
+        if(!isHighGear())
+        {
+            //shifts gears to opposite position
             shifter.set(DoubleSolenoid.Value.kForward);
         }
-    }//end shift
+    }
+    
+    public void shiftLowGear()
+    {
+        if(isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+    
+    public boolean isHighGear()
+    {
+        return shifter.equals(DoubleSolenoid.Value.kForward);
+    }
     
     //aligns robot for shooting
     public void alignToShoot(double left, double right){
         
-        if(ultraDist.getVoltage() / ultraDistRatio < 36.0) {
-            if(left > 0 && right > 0) {
+        if(ultraDist.getVoltage() < 1.2) {
+            if(left > 0) {
                 leftMotor.set(0);
                 rightMotor.set(0);
             } else {
-                tankDrive(left, right);
+                arcadeDrive(left, right);
             }
         } else {
-            tankDrive(left, right);
+            arcadeDrive(left, right);
         }
         
 //        if(Math.abs(gyro.getAngle()) > 2) {
