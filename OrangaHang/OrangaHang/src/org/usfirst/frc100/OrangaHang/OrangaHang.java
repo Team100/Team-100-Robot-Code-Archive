@@ -61,6 +61,7 @@ public class OrangaHang extends IterativeRobot {
         }
 
 	CommandBase.driveTrain.shiftHighGear();
+        CommandBase.climber.homingSequence();
     }//end autonomousInit
 
     /**
@@ -108,22 +109,22 @@ public class OrangaHang extends IterativeRobot {
     }
 
     public void loadPreferences() {
-        Preferences p = Preferences.getInstance();
-        NetworkTable table;
-        //Load PID Data
-        table = NetworkTable.getTable("PIDSystems");
+        //Load PID Data (Each pid system needs its own table please)
         //Load data for the FRONT SHOOTER  PID
-        table.putNumber("_FrontShooterkP", p.getDouble("_FrontShooterkP", -1.0));
-        table.putNumber("_FrontShooterkI", p.getDouble("_FrontShooterkI", -1.0));
-        table.putNumber("_FrontShooterkD", p.getDouble("_FrontShooterkD", -1.0));
-        table.putNumber("_FrontShooterkMinOutput", p.getDouble("_FrontShooterkMinOutput", -1.0));
-        table.putNumber("_FrontShooterkMaxOutput", p.getDouble("_FrontShooterkMaxOutput", -1.0));
+        loadPIDInfo("FrontShooter");
+        
         //Load data for the BACK SHOOTER  PID
-        table.putNumber("_BackShooterkP", p.getDouble("_BackShooterkP", -1.0));
-        table.putNumber("_BackShooterkI", p.getDouble("_BackShooterkI", -1.0));
-        table.putNumber("_BackShooterkD", p.getDouble("_BackShooterkD", -1.0));
-        table.putNumber("_BackShooterkMinOutput", p.getDouble("_BackShooterkMinOutput", -1.0));
-        table.putNumber("_BackShooterkMaxOutput", p.getDouble("_BackShooterkMaxOutput", -1.0));
+        loadPIDInfo("BackShooter");
+    }
+    
+    public void loadPIDInfo(String s) {
+        NetworkTable table = NetworkTable.getTable("PIDSystems").getTable(s);
+        Preferences p = Preferences.getInstance();
+        table.putNumber("kP", p.getDouble(s + "_kP", -1.0));
+        table.putNumber("kI", p.getDouble(s + "_kI", -1.0));
+        table.putNumber("kD", p.getDouble(s + "_kD", -1.0));
+        table.putNumber("kMinOutput", p.getDouble(s + "_kMinOutput", -1.0));
+        table.putNumber("kMaxOutput", p.getDouble(s + "_kMaxOutput", -1.0));
     }
     
     public void testIO(){
