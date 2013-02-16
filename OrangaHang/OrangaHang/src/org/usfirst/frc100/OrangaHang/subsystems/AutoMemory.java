@@ -101,7 +101,7 @@ public class AutoMemory extends Subsystem{
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    
+    /*
     public void Reproduce(double leftTarget, double rightTarget, boolean shootbutton, boolean primeshootbutton){
         //DriveTrain.reproleft = leftTarget;
         //DriveTrain.reproright = rightTarget;
@@ -111,6 +111,7 @@ public class AutoMemory extends Subsystem{
         SmartDashboard.putBoolean("Autonomous ShootButton", shootbutton);
         SmartDashboard.putBoolean("Autonomous PrimeShootButton", primeshootbutton);
     }   
+    */
     
     public Vector RequestLeft(){
         return LeftMemory;
