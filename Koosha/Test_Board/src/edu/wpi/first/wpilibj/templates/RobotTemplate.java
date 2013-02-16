@@ -73,7 +73,6 @@ public class RobotTemplate extends SimpleRobot {
         while(this.isTest())
         {
             smallMotor.set(bigMotor.get());
-            System.out.println("paper");
         }
     }
 }
