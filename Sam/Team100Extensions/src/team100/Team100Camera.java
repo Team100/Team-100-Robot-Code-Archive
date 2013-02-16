@@ -73,27 +73,32 @@ public class Team100Camera extends StaticWidget{
         public void run() { 
             WPIImage image;
             while (!destroyed) {
-                if (cam == null) {
-                    cam = new WPICamera(camIP.getSaveValue()); 
-                    System.out.println("CAMERA 1 SET");
-                } 
-                if (cam2 == null){
-                    cam2 = new WPICamera(cam2IP.getSaveValue()); 
-                    System.out.println("CAMERA 2 SET");
-                }
                 try {
                     //collect tells the grabber if it should grab images or not
                     //when this is false no images are pulled and that camera does not use any bandwidth
                     //the cameras have a buffer that will empty when switched to; if this buffer is filled up
                     //the connection to the camera will break and the widget will automatically recreate it
                     if(firstcamera){    
-                        cam.collect = true;
-                        cam2.collect = false;  
+                        if (cam == null || cam.isDisposed()) {
+                            cam = new WPICamera(camIP.getSaveValue()); 
+                            System.out.println("CAMERA 1 SET");
+                        } 
+                        try{
+                            if (!cam2.isDisposed()) {
+                                cam2.dispose();
+                            }}catch(NullPointerException ex){
+                            }
+                        
                         image = cam.getNewImage();
                              
                     }else{
-                        cam.collect = false;
-                        cam2.collect = true;     
+                        if (cam2 == null || cam2.isDisposed()){
+                            cam2 = new WPICamera(cam2IP.getSaveValue()); 
+                            System.out.println("CAMERA 2 SET");
+                        }
+                        if (!cam.isDisposed()) {
+                            cam.dispose();
+                        }  
                         image = cam2.getNewImage();        
                     }         
                     
@@ -109,11 +114,8 @@ public class Team100Camera extends StaticWidget{
                     e.printStackTrace();
                     cam.dispose();
                     cam2.dispose();
-                    cam = null;
-                    cam2 = null;
-                    
+
                     System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
-                    System.out.println("This was most likely caused by the camera emptying it's buffer");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
                 }
