@@ -22,7 +22,7 @@ public class Tower extends Subsystem {
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
-    private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
+    //private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
     //Constants
     private final double kClimbPosition = 0.0;
     private final double kShootPosition = 0.0;
@@ -40,15 +40,15 @@ public class Tower extends Subsystem {
     }//end initDefaultCommand
     
     public void deployArms(){
-        if(stowed){
-            extended = true;
-            stowed = false;
-            armPistons.set(DoubleSolenoid.Value.kForward);
-        } else if(extended){
-            extended = false;
-            stowed = true;
-            armPistons.set(DoubleSolenoid.Value.kReverse);
-        }
+//        if(stowed){
+//            extended = true;
+//            stowed = false;
+//            armPistons.set(DoubleSolenoid.Value.kForward);
+//        } else if(extended){
+//            extended = false;
+//            stowed = true;
+//            armPistons.set(DoubleSolenoid.Value.kReverse);
+//        }
     }//end deployArms
     
     public boolean isStowed()
