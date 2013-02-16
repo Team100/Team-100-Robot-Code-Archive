@@ -8,10 +8,13 @@
 package org.usfirst.frc100.OrangaHang;
 
 
+import edu.wpi.first.wpilibj.AnalogModule;
+import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
@@ -31,7 +34,8 @@ public class OrangaHang extends IterativeRobot {
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
-
+    private NetworkTable table = NetworkTable.getTable("Status");
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -88,14 +92,30 @@ public class OrangaHang extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        testIO();
     }//end teleopPeriodic
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-        CommandBase.disableAll();
         LiveWindow.run();
     }//end testPeriodic
+    
+    public void testInit(){
+        CommandBase.disableAll();
+    }
 
+    public void testIO(){
+        for(int i = 1; i < 15; i++) {
+            short mask = (short) (0x01 << i);
+            table.putNumber("dio" + i, DigitalModule.getInstance(1).getAllDIO() & mask);
+        }
+        for(int i = 1; i <= 10; i++) {
+            table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
+        }
+        for(int i = 1; i <= 8; i++) {
+            table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
+        }
+    }
 }//end OrangaHang

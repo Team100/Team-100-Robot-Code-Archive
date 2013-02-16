@@ -1,6 +1,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.OI;
 
 /**
  *
@@ -17,9 +18,9 @@ public class TankDrive extends CommandBase{
 
     protected void execute() {
         
-        driveTrain.drive(oi.getJoy1_y1(), oi.getJoy1_y2());
-        SmartDashboard.putNumber("Joy1", oi.getJoy1_y1());
-        SmartDashboard.putNumber("Joy2", oi.getJoy1_y2());
+        driveTrain.drive(-OI.driverLeft.getY(), -OI.driverRight.getX());
+        SmartDashboard.putNumber("Joy1", -OI.driverLeft.getY());
+        SmartDashboard.putNumber("Joy2", -OI.driverRight.getX());
     }
 
     protected boolean isFinished() {

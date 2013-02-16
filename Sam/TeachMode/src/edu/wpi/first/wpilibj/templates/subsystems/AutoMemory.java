@@ -16,6 +16,9 @@ import java.util.Vector;
  */
 public class AutoMemory extends Subsystem{
     
+    //(-OI.driverLeft.getY(), -OI.driverRight.getX())
+    //Using arcade drive
+    
     Vector LeftMemory;
     Vector RightMemory;
     public static String AutoList;
