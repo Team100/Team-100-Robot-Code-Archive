@@ -108,13 +108,13 @@ public class OrangaHang extends IterativeRobot {
     }
 
     public void testIO(){
-        for(int i = 1; i < 15; i++) {
-            short mask = (short) (0x01 << i);
-            table.putNumber("dio" + i, DigitalModule.getInstance(1).getAllDIO() & mask);
-        }
+        
+        table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
+        
         for(int i = 1; i <= 10; i++) {
             table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
         }
+        
         for(int i = 1; i <= 8; i++) {
             table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
         }
