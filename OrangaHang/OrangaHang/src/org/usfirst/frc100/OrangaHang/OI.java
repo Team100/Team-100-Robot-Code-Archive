@@ -2,6 +2,7 @@ package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.*;
 
 /**
@@ -88,9 +89,12 @@ public class OI {
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whenPressed(new FrisbeesToShoot());
-
+        
         //SmartDashboardButtons
-
+        
+        SmartDashboard.putData(new Memorize());
+        SmartDashboard.putData(new Reproduce());
+        
     }//end constructor
     
 }//end OI
