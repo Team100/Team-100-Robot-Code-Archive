@@ -10,6 +10,7 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,12 +23,15 @@ public class RobotTemplate extends SimpleRobot {
     public Jaguar bigMotor;
     public Victor smallMotor;
     public Timer timer;
+    public Joystick logitech;
     
     public RobotTemplate()
     {
-        bigMotor = new Jaguar(2);
-        smallMotor = new Victor(1);
+        bigMotor = new Jaguar(3);
+        smallMotor = new Victor(2);
         timer = new Timer();
+        logitech = new Joystick(1);
+        LiveWindow.addActuator("Test Board", "BigMotor", bigMotor);
     }
     
     /**
@@ -54,19 +58,21 @@ public class RobotTemplate extends SimpleRobot {
      */
     public void operatorControl()
     {
-        SmartDashboard.putNumber("Big Motor Speed", 1.0);
-        SmartDashboard.putNumber("Small Motor Speed", 1.0);
         while(isOperatorControl())
         {
-            bigMotor.set(SmartDashboard.getNumber("Big Motor Speed"));
-            smallMotor.set(SmartDashboard.getNumber("Small Motor Speed"));            
+            bigMotor.set(logitech.getY());
+            SmartDashboard.putNumber("Motor Value", bigMotor.get());
         }
     }
     
     /**
      * This function is called once each time the robot enters test mode.
      */
-    public void test() {
-    
+    public void test()
+    {
+        while(this.isTest())
+        {
+            smallMotor.set(bigMotor.get());
+        }
     }
 }

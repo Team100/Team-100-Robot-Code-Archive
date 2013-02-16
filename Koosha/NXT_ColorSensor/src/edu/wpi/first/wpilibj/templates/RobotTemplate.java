@@ -9,6 +9,7 @@ package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -26,6 +27,11 @@ public class RobotTemplate extends IterativeRobot {
     String frisbeeOwner;
     int alliance;
     Jaguar motor1;
+    Victor vic1;
+    Timer timer;
+    Joystick joy1;
+    DigitalInput input;
+    NetworkTable table;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -36,7 +42,11 @@ public class RobotTemplate extends IterativeRobot {
         colorSensor = new HiTechnicColorSensor(1);
         frisbeeType=3; //0->red, 1->blue, 2->white, 3->default
         frisbeeOwner="Unknown";
-        motor1 = new Jaguar(2);
+        motor1 = new Jaguar(1);
+        vic1 = new Victor(3);
+        timer = new Timer();
+        input = new DigitalInput(9);
+        table = NetworkTable.getTable("Status");
     }
 
     /**
@@ -92,12 +102,33 @@ public class RobotTemplate extends IterativeRobot {
             frisbeeOwner="Unknown";
         }
         
-        motor1.set(0.5);
+//        vic1.set(joy.getY());
+//        jag2.set(joy.getThrottle());
+        
+        for(int i = 1; i <= 14; i++)
+        {
+            short mask = (short) (0x01 << i);
+            table.putNumber("dio" + i, DigitalModule.getInstance(1).getAllDIO() & mask);
+        }
+        
+        for(int i = 1; i <= 10; i++)
+        {
+            table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
+        }
+        
+        for(int i = 1; i <= 8; i++)
+        {
+            table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
+        }
+        
+        motor1.set(1.0);
+        SmartDashboard.putNumber("LOOK HERE!", timer.get());
         SmartDashboard.putNumber("Color Sensor Value", colorVal);
         SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().name);
         SmartDashboard.putNumber("Alliance Value", alliance);
         SmartDashboard.putNumber("Frisbee Number", frisbeeType);
         SmartDashboard.putString("Frisbee Owner", frisbeeOwner);
+        SmartDashboard.putBoolean("Digital Input", input.get());
     }
     
     /**

@@ -23,35 +23,43 @@ public class  TeleopDrive extends Command {
         driveChooser.addDefault("Tank Drive", "tank");
         driveChooser.addObject("One Joystick Arcade Drive", "arcade1");
         driveChooser.addObject("Two Joystick Arcade Drive", "arcade2");
+        driveChooser.addObject("Creep", "creep");
         driveChooser.addObject("None", "none");
         SmartDashboard.putData("Drive Mode", driveChooser);
     }
-
     protected void initialize() {
     }
-
     protected void execute() {
+        //standard tankdrive
         if (driveChooser.getSelected().equals("tank")){
             Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getY());
         }
+        
+        //arcade drive with one joystick (left)
         if (driveChooser.getSelected().equals("arcade1")){
             Robot.driveTrain.arcadedrive(Robot.oi.getDriverLeft().getY(),Robot.oi.getDriverLeft().getX());
         }
+        
+        //arcade drive with two joysticks (left=forward/back, right=turn)
         if (driveChooser.getSelected().equals("arcade2")){
             Robot.driveTrain.arcadedrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getX());
         }
+        
+        //drives extra slow (tankdrive)
+        if (driveChooser.getSelected().equals("creep")){
+            Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY()/3, Robot.oi.getDriverRight().getY()/3);
+        }
+        
+        //robot doesn't drive (for testing, etc.)
         if (driveChooser.getSelected().equals("none")){
             Robot.driveTrain.tankDrive(0, 0);
         }
     }
-
     protected boolean isFinished() {
         return false;
     }
-
     protected void end() {
     }
-
     protected void interrupted() {
     }
 }
