@@ -7,6 +7,7 @@ package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -20,6 +21,7 @@ public class PositionSendablePID {
     private final TimedThread m_thread;
     private final PositionPIDBase m_base;
     private final String m_name;
+    private final NetworkTable table;
 
     private String dashboardName(String key) {
         return key + "_" + m_name;
@@ -31,6 +33,7 @@ public class PositionSendablePID {
         PIDInit();
         m_source = source;
         m_output = output;
+        table = NetworkTable.getTable("PIDSystems");
         Callable callable = new Callable() {
             Timer timer = new Timer();
             public void call() {
@@ -42,7 +45,7 @@ public class PositionSendablePID {
                 m_base.setInput(input);
                 getValues();
                 double result = m_base.calculate(timer.get());
-                SmartDashboard.putNumber(dashboardName("Output"), result);
+                table.putNumber(dashboardName("Output"), result);
                 timer.reset();
                 if (m_base.isEnabled()) {
                     m_output.pidWrite(result);
@@ -54,21 +57,21 @@ public class PositionSendablePID {
     }//end SendablePID
 
     private void PIDInit() {
-        SmartDashboard.putNumber(dashboardName("kP"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kI"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kD"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kMaxOutput"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kMinOutput"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kMaxVeloc"), 0.0);
+        table.putNumber(dashboardName("kP"), 0.0);
+        table.putNumber(dashboardName("kI"), 0.0);
+        table.putNumber(dashboardName("kD"), 0.0);
+        table.putNumber(dashboardName("kMaxOutput"), 0.0);
+        table.putNumber(dashboardName("kMinOutput"), 0.0);
+        table.putNumber(dashboardName("kMaxVeloc"), 0.0);
     }//end PIDInit
 
     public void getValues() {
-        m_base.setKP(SmartDashboard.getNumber(dashboardName("kP"), 0.0)/100.0);
-        m_base.setKI(SmartDashboard.getNumber(dashboardName("kI"), 0.0));
-        m_base.setKD(SmartDashboard.getNumber(dashboardName("kD"), 0.0)/100.0);
-        m_base.setMaxOutput(SmartDashboard.getNumber(dashboardName("kMaxOutput"), 0.0));
-        m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMinOutput"), 0.0));
-        m_base.setMaxVeloc(SmartDashboard.getNumber(dashboardName("kMaxVeloc"), 0.0));
+        m_base.setKP(table.getNumber(dashboardName("kP"), 0.0));
+        m_base.setKI(table.getNumber(dashboardName("kI"), 0.0));
+        m_base.setKD(table.getNumber(dashboardName("kD"), 0.0));
+        m_base.setMaxOutput(table.getNumber(dashboardName("kMaxOutput"), 0.0));
+        m_base.setMinOutput(table.getNumber(dashboardName("kMinOutput"), 0.0));
+        m_base.setMaxVeloc(table.getNumber(dashboardName("kMaxVeloc"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {
