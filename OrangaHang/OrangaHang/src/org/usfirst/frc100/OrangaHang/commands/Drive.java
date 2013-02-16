@@ -24,7 +24,7 @@ public class Drive extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        driveTrain.arcadeDrive(-OI.driverLeft.getY(), OI.driverRight.getX());
+        driveTrain.arcadeDrive(-OI.driverLeft.getY(), -OI.driverRight.getX());
     }
 
     // Make this return true when this Command no longer needs to run execute()

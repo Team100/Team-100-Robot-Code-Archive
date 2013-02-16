@@ -39,6 +39,7 @@ public class DriveTrain extends Subsystem {
     public DriveTrain(){
         leftEncoder.start();
         rightEncoder.start();
+        //shifter.set(DoubleSolenoid.Value.kReverse);
     }
     
     //creates a new Drive
@@ -74,16 +75,14 @@ public class DriveTrain extends Subsystem {
     
     //aligns robot for shooting
     public void alignToShoot(double left, double right){
-        
-        if(ultraDist.getVoltage() / ultraDistRatio < 36.0) {
-            if(left > 0 && right > 0) {
+        SmartDashboard.putNumber("Voltage", ultraDist.getVoltage());
+        if(ultraDist.getVoltage()<1.2) {
+            
                 leftMotor.set(0);
                 rightMotor.set(0);
-            } else {
-                tankDrive(left, right);
-            }
+            
         } else {
-            tankDrive(left, right);
+            arcadeDrive(left, -right);
         }
         
 //        if(Math.abs(gyro.getAngle()) > 2) {
