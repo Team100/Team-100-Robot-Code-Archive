@@ -3,7 +3,7 @@ package team100;
 import edu.wpi.first.smartdashboard.gui.*;
 import edu.wpi.first.smartdashboard.properties.*;
 import edu.wpi.first.wpijavacv.*;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
@@ -12,17 +12,24 @@ import javax.swing.SwingUtilities;
  * @author Sam Bunk
  */
 public class Team100Camera extends StaticWidget{
-
+    
+    
+    
     public static final String NAME = "Team 100 Camera";
     public static Boolean firstcamera = true;
+    public static int Crosshair_XPos = 0;
+    public static int Crosshair_YPos = 0;
+    
+    
+    
 
     public class GCThread extends Thread {
 
         boolean destroyed = false;
-
-        public void Team100Camera(){
-           
+        
+        void Team100Camera(){
         }
+
         @Override
         public void run() {
             while (!destroyed) {
@@ -53,6 +60,7 @@ public class Team100Camera extends StaticWidget{
                 //DashboardFrame.getInstance().getPanel().repaint(getBounds());
                 DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 frame.repaint(); 
+                
             }
         };
 
@@ -65,27 +73,32 @@ public class Team100Camera extends StaticWidget{
         public void run() { 
             WPIImage image;
             while (!destroyed) {
-                if (cam == null) {
-                    cam = new WPICamera(camIP.getSaveValue()); 
-                    System.out.println("CAMERA 1 SET");
-                } 
-                if (cam2 == null){
-                    cam2 = new WPICamera(cam2IP.getSaveValue()); 
-                    System.out.println("CAMERA 2 SET");
-                }
                 try {
                     //collect tells the grabber if it should grab images or not
                     //when this is false no images are pulled and that camera does not use any bandwidth
                     //the cameras have a buffer that will empty when switched to; if this buffer is filled up
                     //the connection to the camera will break and the widget will automatically recreate it
                     if(firstcamera){    
-                        cam.collect = true;
-                        cam2.collect = false;  
+                        if (cam == null || cam.isDisposed()) {
+                            cam = new WPICamera(camIP.getSaveValue()); 
+                            System.out.println("CAMERA 1 SET");
+                        } 
+                        try{
+                            if (!cam2.isDisposed()) {
+                                cam2.dispose();
+                            }}catch(NullPointerException ex){
+                            }
+                        
                         image = cam.getNewImage();
                              
                     }else{
-                        cam.collect = false;
-                        cam2.collect = true;     
+                        if (cam2 == null || cam2.isDisposed()){
+                            cam2 = new WPICamera(cam2IP.getSaveValue()); 
+                            System.out.println("CAMERA 2 SET");
+                        }
+                        if (!cam.isDisposed()) {
+                            cam.dispose();
+                        }  
                         image = cam2.getNewImage();        
                     }         
                     
@@ -101,11 +114,8 @@ public class Team100Camera extends StaticWidget{
                     e.printStackTrace();
                     cam.dispose();
                     cam2.dispose();
-                    cam = null;
-                    cam2 = null;
-                    
+
                     System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
-                    System.out.println("This was most likely caused by the camera emptying it's buffer");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
                 }
@@ -128,11 +138,10 @@ public class Team100Camera extends StaticWidget{
     
 public final IPAddressProperty camIP = new IPAddressProperty(this, "Camera 1 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 11});
 public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 12});
-NetworkTable table;
+
 
     @Override
     public void init() {
-        table = NetworkTable.getTable("SmartDashboard");
         setPreferredSize(new Dimension(100, 100));
         bgThread.start();
         gcThread.start();
@@ -222,12 +231,30 @@ NetworkTable table;
      * @param rawImage
      * @return
      */
+    
+    
+    public int XPos = 0;
+    public int YPos = 0;
+    
+    
+    
     public WPIImage processImage(WPIColorImage rawImage) {
+        
         if(firstcamera){//draws a crosshair 1/3 size of the screen in the center of the screen 
             
-            int XPos = (int)table.getNumber("Crosshair_XPos", rawImage.getWidth()/2);
-            int YPos = (int)table.getNumber("Crosshair_YPos", rawImage.getHeight()/2);
+            //int XPos = (int)table.getNumber("Crosshair_XPos", rawImage.getWidth()/2);
+            //int YPos = (int)table.getNumber("Crosshair_YPos", rawImage.getHeight()/2);
             
+            
+           
+            
+            if(XPos < 0){XPos = 0;
+            }else if(XPos > rawImage.getWidth()){XPos = rawImage.getWidth();}       
+            if(YPos < 0){YPos = 0;
+            }else if(YPos > rawImage.getHeight()){YPos = rawImage.getHeight();}
+            
+            
+                    
             rawImage.drawLine(new WPIPoint(XPos,YPos+30), new WPIPoint(XPos,YPos-30), WPIColor.BLACK, 2);
             rawImage.drawLine(new WPIPoint(XPos-30,YPos), new WPIPoint(XPos+30,YPos), WPIColor.BLACK, 2);
         }
@@ -242,12 +269,13 @@ NetworkTable table;
      */
     public WPIImage processImage(WPIGrayscaleImage rawImage) {
         return rawImage;
+        
     }
 
     /**
      * Switches the camera boolean.
      */
     public static void SwitchCamera(){
-        firstcamera = !firstcamera;    
+        firstcamera = !firstcamera; 
     }
 }
