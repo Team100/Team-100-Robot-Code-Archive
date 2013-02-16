@@ -1,16 +1,18 @@
-package edu.wpi.first.wpilibj.templates.commands;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.OI;
 import java.io.IOException;
+import org.usfirst.frc100.OrangaHang.OI;
 
 /**
  *
  * @author Sam
  */
 public class Memorize extends CommandBase{
-    
-    //TODO add shooter to execute
     
     public Memorize(){
         requires(autoMemory);
@@ -27,16 +29,19 @@ public class Memorize extends CommandBase{
      * @see autoMemory
      */
     protected void execute() {
-        //add shootButton and primeShootButton
-        autoMemory.collectString(-OI.driverLeft.getY(), -OI.driverRight.getX());
+        autoMemory.collectString(-OI.driverLeft.getY(), -OI.driverRight.getX(),
+                OI.shootButton.get(), OI.primeShootButton.get());
         
-    }
-    
+    } 
 
     protected boolean isFinished() {
         return false;
     }
 
+    protected void interrupted() {
+        end();
+    }
+    
     protected void end() {
         try {
             autoMemory.stopCollection();
@@ -45,10 +50,5 @@ public class Memorize extends CommandBase{
         }
         
         SmartDashboard.putBoolean("Collecting", false);
-    }
-
-    protected void interrupted() {
-        end();
-    }
-    
+    } 
 }

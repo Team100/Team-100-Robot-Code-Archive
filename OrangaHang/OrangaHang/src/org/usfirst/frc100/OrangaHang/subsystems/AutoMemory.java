@@ -1,14 +1,17 @@
-package edu.wpi.first.wpilibj.templates.subsystems;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.FileRW;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Vector;
-
+import org.usfirst.frc100.OrangaHang.FileRW;
 
 /**
  *
@@ -16,11 +19,12 @@ import java.util.Vector;
  */
 public class AutoMemory extends Subsystem{
     
-    //(-OI.driverLeft.getY(), -OI.driverRight.getX())
-    //Using arcade drive
     
     Vector LeftMemory;
     Vector RightMemory;
+    Vector ShootButton;
+    Vector PrimeShootButton;
+
     public static String AutoList;
     String writeFile;
     
@@ -28,6 +32,11 @@ public class AutoMemory extends Subsystem{
         updateAuto();
         SmartDashboard.putString("Autonomous List", AutoList);
     }
+    
+    protected void initDefaultCommand() {
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
     
     private static void updateAuto(){
         //List :name,name,name,name
@@ -62,6 +71,8 @@ public class AutoMemory extends Subsystem{
         pref.putString("autoList", list);
         updateAuto();
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Gets the path from the smartdashboard and then resets the Vectors
@@ -72,53 +83,58 @@ public class AutoMemory extends Subsystem{
         
         LeftMemory  = new Vector();
         RightMemory  = new Vector();
+        ShootButton = new Vector();
+        PrimeShootButton = new Vector();
     }
     
-    public void collectString(double left, double right){
+    public void collectString(double left, double right, boolean shootbutton, boolean primeshootbutton){
        LeftMemory.addElement(String.valueOf(left));
        RightMemory.addElement(String.valueOf(right));
+       ShootButton.addElement(Boolean.valueOf(shootbutton));
+       PrimeShootButton.addElement(Boolean.valueOf(primeshootbutton));
     }
     
-    /**
-     * @return LeftMemory
-     */
-    public Vector RequestLeft(){
-        return LeftMemory;
-    }
-    
-    /**
-     * @return RightMemory
-     */
-    public Vector RequestRight(){
-        return RightMemory;
-    }
-    
-    public void Reproduce(double leftTarget, double rightTarget){
-        DriveTrain.reproleft = leftTarget;
-        DriveTrain.reproright = rightTarget;
-        SmartDashboard.putNumber("Left Input", leftTarget);
-        SmartDashboard.putNumber("Right Input", rightTarget);
-    }
-    
-    protected void initDefaultCommand() {
-    }
-    
-    /**
-     * Writes the gathered info to a file and has addAuto update the preferences file.
-     * @see addAuto()
-     * @throws IOException
-     */
     public void stopCollection() throws IOException{
         this.write(writeFile);
         addAuto(SmartDashboard.getString("Name Autonomous Procedure"));
         System.out.println("Saving on:" + writeFile);
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    
+    public void Reproduce(double leftTarget, double rightTarget, boolean shootbutton, boolean primeshootbutton){
+        //DriveTrain.reproleft = leftTarget;
+        //DriveTrain.reproright = rightTarget;
+        
+        SmartDashboard.putNumber("Autonomous Left Input", leftTarget);
+        SmartDashboard.putNumber("Autonomous Right Input", rightTarget);
+        SmartDashboard.putBoolean("Autonomous ShootButton", shootbutton);
+        SmartDashboard.putBoolean("Autonomous PrimeShootButton", primeshootbutton);
+    }   
+    
+    public Vector RequestLeft(){
+        return LeftMemory;
+    }
+    
+    public Vector RequestRight(){
+        return RightMemory;
+    }
+    
+    public Vector RequestShootButton(){
+        return ShootButton;
+    }
+    
+    public Vector RequestPrimeShootButton(){
+        return PrimeShootButton;
+    }
+    
+ ///////////////////////////////////////////////////////////////////////////////   
+    
     /**
      * @param FILE_NAME
      * @throws IOException 
      */
     private void write(String FILE_NAME) throws IOException{
-        if(LeftMemory.size() != RightMemory.size()){System.out.println("VECTORS NOT EQUAL SIZE!!!!");}
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -127,8 +143,22 @@ public class AutoMemory extends Subsystem{
         for(int i=0;i<LeftMemory.size();i++){
             String Left = (String) LeftMemory.elementAt(i);
             String Right = (String) RightMemory.elementAt(i);
+            String Shoot;
+            String PrimeShoot;
             
-            String point = Left + "," + Right + ";";
+            if(ShootButton.elementAt(i).equals(Boolean.TRUE)){
+                Shoot = "1";//True
+            }else{
+                Shoot = "0";//False
+            }
+            
+            if(PrimeShootButton.elementAt(i).equals(Boolean.TRUE)){
+                PrimeShoot = "1";//True
+            }else{
+                PrimeShoot = "0";//False
+            }
+            
+            String point = Left + "," + Right + "[" + Shoot + "]" + PrimeShoot + ";";
             dos.writeUTF(point);
         }
 
@@ -150,6 +180,8 @@ public class AutoMemory extends Subsystem{
         //Clear Vectors
         LeftMemory = new Vector();
         RightMemory = new Vector();
+        ShootButton = new Vector();
+        PrimeShootButton = new Vector();
 
         if(data != null){
             char[] dataArray = data.toCharArray();
@@ -158,14 +190,37 @@ public class AutoMemory extends Subsystem{
             for(int i = 0; i<dataArray.length;i++){
                 char c = dataArray[i];
                 if(c == ','){
+                    //Has reached end of first value
                     buff = buffer.toString().substring(1);
                     System.out.println(buff);
                     LeftMemory.addElement(Double.valueOf(buff));
                     buffer.delete(0, buffer.length()-1);
                     
-                }else if(c==';'){
+                }else if(c=='['){
+                    //Has reached end of 2nd value
                     buff = buffer.toString().substring(1);
+                    System.out.println(buff);
                     RightMemory.addElement(Double.valueOf(buff));
+                    buffer.delete(0, buffer.length()-1);
+                }else if(c==']'){
+                    //Has reached end of 3rd value
+                    buff = buffer.toString().substring(1);
+                    System.out.println(buff);
+                    if("1".equals(buff)){
+                        ShootButton.addElement(Boolean.TRUE);
+                    }else{
+                        ShootButton.addElement(Boolean.FALSE);
+                    }
+                    buffer.delete(0, buffer.length()-1);
+                }else if(c==';'){
+                    //Has reached end of 4th value
+                    buff = buffer.toString().substring(1);
+                    System.out.println(buff);
+                    if("1".equals(buff)){
+                        PrimeShootButton.addElement(Boolean.TRUE);
+                    }else{
+                        PrimeShootButton.addElement(Boolean.FALSE);
+                    }
                     buffer.delete(0, buffer.length()-1);
                 }else if(c >= '0' && c <= '9'){
                     buffer.append(c);

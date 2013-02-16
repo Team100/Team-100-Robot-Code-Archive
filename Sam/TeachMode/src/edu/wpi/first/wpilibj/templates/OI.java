@@ -12,15 +12,9 @@ import edu.wpi.first.wpilibj.templates.commands.Reproduce;
  */
 public class OI {
     
-    Joystick joystick = new Joystick(1);
-
-    public double getJoy1_y1() {
-        return joystick.getY();
-    }
-    
-    public double getJoy1_y2(){
-        return joystick.getThrottle();
-    }
+    public static final Joystick driverLeft = new Joystick(1);
+    public static final Joystick driverRight = new Joystick(2);
+    public static final Joystick manipulator = new Joystick(3);
     
     public OI(){
         
