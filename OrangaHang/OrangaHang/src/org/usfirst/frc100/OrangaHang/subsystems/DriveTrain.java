@@ -75,15 +75,15 @@ public class DriveTrain extends Subsystem {
     //aligns robot for shooting
     public void alignToShoot(double left, double right){
         
-        if(ultraDist.getVoltage() / ultraDistRatio < 36.0) {
-            if(left > 0 && right > 0) {
+        if(ultraDist.getVoltage() < 1.2) {
+            if(left > 0) {
                 leftMotor.set(0);
                 rightMotor.set(0);
             } else {
-                tankDrive(left, right);
+                arcadeDrive(left, right);
             }
         } else {
-            tankDrive(left, right);
+            arcadeDrive(left, right);
         }
         
 //        if(Math.abs(gyro.getAngle()) > 2) {
