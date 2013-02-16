@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
+import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
@@ -27,9 +28,9 @@ import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 public class OrangaHang extends IterativeRobot {
 
     Command autonomousCommand;
-    Command testCommand;
     ManualClimb manualClimb;
     Drive drive;
+    UpdateWidgets updateWidgets;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -54,8 +55,8 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.start();
         }
-        
-        CommandBase.driveTrain.shiftHighGear();
+
+	CommandBase.driveTrain.shiftHighGear();
     }//end autonomousInit
 
     /**
@@ -75,8 +76,10 @@ public class OrangaHang extends IterativeRobot {
         }
         manualClimb = new ManualClimb();
         drive = new Drive();
+        updateWidgets = new UpdateWidgets();
         manualClimb.start();
         drive.start();
+        updateWidgets.start();
 
     }//end teleopInit
 
@@ -90,12 +93,8 @@ public class OrangaHang extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic()
-    {
-        if(testCommand!=null)
-        {
-            testCommand.start();
-        }
+    public void testPeriodic() {
+        CommandBase.disableAll();
         LiveWindow.run();
     }//end testPeriodic
 
