@@ -33,8 +33,6 @@ public class DriveTrain extends Subsystem {
     private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = shifter.equals(DoubleSolenoid.Value.kForward);
-    private boolean lowGear = shifter.equals(DoubleSolenoid.Value.kReverse);
     
     public DriveTrain(){
         leftEncoder.start();
@@ -78,7 +76,7 @@ public class DriveTrain extends Subsystem {
     
     public boolean isHighGear()
     {
-        return highGear;
+        return shifter.equals(DoubleSolenoid.Value.kForward);
     }
     
     //aligns robot for shooting
