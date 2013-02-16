@@ -22,6 +22,9 @@ public class Reproduce extends CommandBase{
     
     public Reproduce(){
         requires(autoMemory);
+        requires(driveTrain);
+        requires(shooter);
+        requires(intake);
     }
 
     protected void initialize() {
@@ -52,7 +55,20 @@ public class Reproduce extends CommandBase{
         Double right = (Double) rightVector.elementAt(position);
         Boolean sb = (Boolean) shootbutton.elementAt(position);
         Boolean psb = (Boolean) primeshootbutton.elementAt(position);
-        autoMemory.Reproduce(left.doubleValue(), right.doubleValue(),sb.booleanValue(),psb.booleanValue());
+        //autoMemory.Reproduce(left.doubleValue(), right.doubleValue(),sb.booleanValue(),psb.booleanValue());
+        
+        //////////////////////////////////////////////////
+        driveTrain.arcadeDrive(left.doubleValue(), right.doubleValue());
+        
+        if(sb.booleanValue()){
+            shooter.shootFrisbees();
+        }
+        if(psb.booleanValue()){
+            intake.shootFrisbees();
+        }
+        
+        ////////////////////////////////////////////////////////////////////////
+    
         position++;
              
     }
@@ -70,7 +86,7 @@ public class Reproduce extends CommandBase{
      * @see autoMemory.Reproduce
      */
     protected void end() {
-        autoMemory.Reproduce(0,0,false,false);
+        //autoMemory.Reproduce(0,0,false,false);
         position = 0;
         SmartDashboard.putBoolean("Reproducing", false);
     }
