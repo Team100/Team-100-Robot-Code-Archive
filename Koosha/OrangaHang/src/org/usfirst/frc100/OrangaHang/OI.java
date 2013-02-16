@@ -85,10 +85,10 @@ public class OI {
         tiltShootButton.whenPressed(new TiltToShoot());
         tiltIntakeButton.whenPressed(new TiltToIntake());
         abortClimbButton.whenPressed(new AbortClimb());
-        intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
-        primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whenPressed(new FrisbeesToShoot());
+        primeDumpButton.whileHeld(new PrimeToDump());
+        intakeButton.whileHeld(new Intake());
 
         //SmartDashboardButtons
 
