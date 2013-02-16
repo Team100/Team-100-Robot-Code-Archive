@@ -45,22 +45,7 @@ public class FullManualControl extends CommandBase {
         
         if(OI.tiltIntakeButton.get())
         {
-            climber.setSetpoint(speed);
-            climber.enable();
-        }
-        else
-        {
-            climber.disable();
-        }
-        
-        if(OI.abortClimbButton.get())
-        {
-            climber.setSetpoint(-speed);
-            climber.enable();
-        }
-        else
-        {
-            climber.disable();
+            climber.manualControl(speed);
         }
         
         if(OI.primeShootButton.get())
@@ -75,17 +60,12 @@ public class FullManualControl extends CommandBase {
         
         if(OI.primeDumpButton.get())
         {
-            intake.setMotor(speed);
+            //intake.manualControl(speed);
         }
         
         if(OI.intakeButton.get())
         {
-            tower.setSetpoint(speed);
-            tower.enable();
-        }
-        else
-        {
-            tower.disable();
+            tower.manualControl(speed);
         }
         
         if(OI.manipulator.getRawAxis(6)<0.0)
