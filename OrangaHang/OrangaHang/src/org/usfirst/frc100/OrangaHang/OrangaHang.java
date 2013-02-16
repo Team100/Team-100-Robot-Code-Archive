@@ -11,6 +11,7 @@ package org.usfirst.frc100.OrangaHang;
 import edu.wpi.first.wpilibj.AnalogModule;
 import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -34,7 +35,6 @@ public class OrangaHang extends IterativeRobot {
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
-    private NetworkTable table = NetworkTable.getTable("Status");
     
     /**
      * This function is run when the robot is first started up and should be
@@ -72,6 +72,7 @@ public class OrangaHang extends IterativeRobot {
     }//end autonomousPeriodic
 
     public void teleopInit() {
+        loadPreferences();
 	// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
@@ -107,8 +108,27 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.disableAll();
     }
 
+    public void loadPreferences() {
+        Preferences p = Preferences.getInstance();
+        NetworkTable table;
+        //Load PID Data
+        table = NetworkTable.getTable("PIDSystems");
+        //Load data for the FRONT SHOOTER  PID
+        table.putNumber("_FrontShooterkP", p.getDouble("_FrontShooterkP", -1.0));
+        table.putNumber("_FrontShooterkI", p.getDouble("_FrontShooterkI", -1.0));
+        table.putNumber("_FrontShooterkD", p.getDouble("_FrontShooterkD", -1.0));
+        table.putNumber("_FrontShooterkMinOutput", p.getDouble("_FrontShooterkMinOutput", -1.0));
+        table.putNumber("_FrontShooterkMaxOutput", p.getDouble("_FrontShooterkMaxOutput", -1.0));
+        //Load data for the BACK SHOOTER  PID
+        table.putNumber("_BackShooterkP", p.getDouble("_BackShooterkP", -1.0));
+        table.putNumber("_BackShooterkI", p.getDouble("_BackShooterkI", -1.0));
+        table.putNumber("_BackShooterkD", p.getDouble("_BackShooterkD", -1.0));
+        table.putNumber("_BackShooterkMinOutput", p.getDouble("_BackShooterkMinOutput", -1.0));
+        table.putNumber("_BackShooterkMaxOutput", p.getDouble("_BackShooterkMaxOutput", -1.0));
+    }
+    
     public void testIO(){
-        
+        NetworkTable table = NetworkTable.getTable("Status");
         table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
         
         for(int i = 1; i <= 10; i++) {
