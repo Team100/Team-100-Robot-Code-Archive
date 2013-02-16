@@ -57,7 +57,7 @@ public class Reproduce extends CommandBase{
         Boolean psb = (Boolean) primeshootbutton.elementAt(position);
         //autoMemory.Reproduce(left.doubleValue(), right.doubleValue(),sb.booleanValue(),psb.booleanValue());
         
-        ////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////
         driveTrain.arcadeDrive(left.doubleValue(), right.doubleValue());
         
         if(sb.booleanValue()){
