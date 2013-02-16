@@ -70,13 +70,13 @@ public class OI {
 
         //DriverLeft commands
         shiftGearsLButton.whileHeld(new ShiftGears());
-        quickTurnLButton.whenPressed(new QuickTurn(-90.0));
+        quickTurnLButton.whenPressed(new QuickTurn(90.0 * double2unit(driverLeft.getX())));
         straightShootLButton.whenPressed(new AlignToShoot());
         autoClimbLButton.whenPressed(new Climb());
         
         //DriverRight commands
         shiftGearsRButton.whileHeld(new ShiftGears());
-        quickTurnRButton.whenPressed(new QuickTurn(90.0));
+        quickTurnRButton.whenPressed(new QuickTurn(90.0 * double2unit(driverRight.getX())));
         straightShootRButton.whenPressed(new AlignToShoot());
         autoClimbRButton.whenPressed(new Climb());
 
@@ -85,13 +85,28 @@ public class OI {
         tiltShootButton.whenPressed(new TiltToShoot());
         tiltIntakeButton.whenPressed(new TiltToIntake());
         abortClimbButton.whenPressed(new AbortClimb());
-        intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
-        primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whenPressed(new FrisbeesToShoot());
+        primeDumpButton.whileHeld(new PrimeToDump());
+        intakeButton.whileHeld(new Intake());
 
         //SmartDashboardButtons
 
     }//end constructor
+    
+    /**
+     * @param d
+     * @return +1 if d is positive; -1 if d is negative 
+     */
+    public final int double2unit(double d)
+    {
+        if(d == 0)
+        {
+            return 0;
+        }
+        
+        int returnVal = (int) (Math.abs(d)/d);
+        return returnVal;
+    }
 
 }//end OI
