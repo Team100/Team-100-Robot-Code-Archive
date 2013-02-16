@@ -4,18 +4,16 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  * @author Team100
  */
-public class LowerElevator extends CommandBase {
+public class PrimeToShoot extends CommandBase {
     
-    public LowerElevator() {
+    public PrimeToShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(climber);
+        requires(shooter);
     }
 
     // Called just before this Command runs the first time
@@ -25,23 +23,18 @@ public class LowerElevator extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //only lower elevator partway to get from level 2 to level 3 of pyramid
-        if (climber.getLevel()!=2){
-            climber.lowerElevator();
-        }
-        else {
-            climber.lowerElevatorPartway();
-        }
+        shooter.shootFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit());
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        
+        shooter.setSetpoint(0.0);
+        shooter.disable();
     }
 
     // Called when another command which requires one or more of the same

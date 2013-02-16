@@ -10,43 +10,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Team100
  */
-public class LowerElevator extends CommandBase {
-    
-    public LowerElevator() {
+public class PrimeToDump extends CommandBase {
+
+    public PrimeToDump() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(climber);
+        requires(shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        
+        SmartDashboard.putNumber("Setpoint", 0.0);
+        shooter.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //only lower elevator partway to get from level 2 to level 3 of pyramid
-        if (climber.getLevel()!=2){
-            climber.lowerElevator();
-        }
-        else {
-            climber.lowerElevatorPartway();
-        }
+        shooter.setSetpoint(SmartDashboard.getNumber("Setpoint", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit());
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }
