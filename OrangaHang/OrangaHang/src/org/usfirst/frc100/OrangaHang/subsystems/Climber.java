@@ -243,14 +243,9 @@ public class Climber extends Subsystem {
     
     public void disable(){
         pidClimber.disable();
-        encoder.setReverseDirection(true);
-        encoder.reset();
     }//end disable
     
     public void enable(){
-        encoder.setReverseDirection(true);
-        encoder.reset();
-        encoder.start();
         pidClimber.enable();
     }//end enable
 

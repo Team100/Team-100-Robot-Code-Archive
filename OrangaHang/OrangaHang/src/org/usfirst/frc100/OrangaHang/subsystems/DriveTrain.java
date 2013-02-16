@@ -1,13 +1,6 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
@@ -32,7 +25,7 @@ public class DriveTrain extends Subsystem {
     private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double ultraDistRatio = 0.009794921875;
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
+    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
     
     public DriveTrain(){
         leftEncoder.start();
@@ -76,7 +69,7 @@ public class DriveTrain extends Subsystem {
     
     public boolean isHighGear()
     {
-        return shifter.equals(DoubleSolenoid.Value.kForward);
+        return shifter.get().equals(DoubleSolenoid.Value.kForward);
     }
     
     //aligns robot for shooting
