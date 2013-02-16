@@ -1,6 +1,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.OI;
 import java.io.IOException;
 
 /**
@@ -8,6 +9,8 @@ import java.io.IOException;
  * @author Sam
  */
 public class Memorize extends CommandBase{
+    
+    //TODO add shooter to execute
     
     public Memorize(){
         requires(autoMemory);
@@ -24,7 +27,9 @@ public class Memorize extends CommandBase{
      * @see autoMemory
      */
     protected void execute() {
-        autoMemory.collectString(oi.getJoy1_y1(), oi.getJoy1_y2());
+        //add shootButton and primeShootButton
+        autoMemory.collectString(-OI.driverLeft.getY(), -OI.driverRight.getX());
+        
     }
     
 
