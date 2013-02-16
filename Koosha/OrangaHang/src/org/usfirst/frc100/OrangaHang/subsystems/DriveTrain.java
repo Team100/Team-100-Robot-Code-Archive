@@ -30,8 +30,8 @@ public class DriveTrain extends Subsystem {
     private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
     private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = true;
-    private boolean lowGear = false;
+    private boolean highGear = shifter.equals(DoubleSolenoid.Value.kForward);
+    private boolean lowGear = shifter.equals(DoubleSolenoid.Value.kReverse);
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -54,17 +54,21 @@ public class DriveTrain extends Subsystem {
         rightMotor.set(rightSpeed);
     }//end tankDrive
     
-    public void shift(){
-        if(highGear){
-            lowGear = true;
-            highGear = false;
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        } else if (lowGear){
-            highGear = true;
-            lowGear = false;
+    public void shiftHighGear()
+    {
+        if(!isHighGear())
+        {
             shifter.set(DoubleSolenoid.Value.kForward);
         }
-    }//end shift
+    }
+    
+    public void shiftLowGear()
+    {
+        if(isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
     
     public boolean isHighGear()
     {

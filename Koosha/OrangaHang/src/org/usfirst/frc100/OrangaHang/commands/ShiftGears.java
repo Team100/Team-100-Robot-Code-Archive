@@ -13,7 +13,7 @@ public class ShiftGears extends CommandBase {
     public ShiftGears() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(driveTrain);
+        //requires(driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -23,10 +23,7 @@ public class ShiftGears extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-        if(driveTrain.isHighGear())
-        {
-            driveTrain.shift();
-        }
+        driveTrain.shiftLowGear();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,19 +35,13 @@ public class ShiftGears extends CommandBase {
     // Called once after isFinished returns true
     protected void end()
     {
-        if(!driveTrain.isHighGear())
-        {
-            driveTrain.shift();
-        }
+        driveTrain.shiftHighGear();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted()
     {
-        if(!driveTrain.isHighGear())
-        {
-            driveTrain.shift();
-        }
+        driveTrain.shiftHighGear();
     }
 }
