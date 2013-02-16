@@ -61,6 +61,7 @@ public class OrangaHang extends IterativeRobot {
         }
 
 	CommandBase.driveTrain.shiftHighGear();
+        CommandBase.climber.homingSequence();
     }//end autonomousInit
 
     /**
