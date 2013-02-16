@@ -1,5 +1,6 @@
 package edu.wpi.first.wpilibj.templates;
 
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends IterativeRobot { 
+public class RobotTemplate extends IterativeRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -27,7 +28,7 @@ public class RobotTemplate extends IterativeRobot {
     private Joystick leftJoystick = new Joystick(1);
     private Joystick rightJoystick = new Joystick(2);
     private SendableChooser driveChooser, joystickChooser, robotChooser;
-    boolean initialized=false;
+    
     
     public void robotInit() {
         driveChooser = new SendableChooser();
@@ -55,14 +56,16 @@ public class RobotTemplate extends IterativeRobot {
         
     }
     
+    
+    public void teleopInit()
+    {
+        assignRobot();
+    }
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        if (initialized==false){
-            assignRobot();
-            initialized=true;
-        }
         if (driveChooser.getSelected().equals("tank")){
             if (joystickChooser.getSelected().equals("two")){
                 drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
@@ -82,6 +85,7 @@ public class RobotTemplate extends IterativeRobot {
                 drive.arcadeDrive(leftJoystick.getY(), leftJoystick.getTwist());
             }
         }
+    
     }
     
     /**

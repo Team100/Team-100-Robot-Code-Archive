@@ -1,45 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package team100;
 
-import edu.wpi.first.smartdashboard.gui.DashboardFrame;
-import edu.wpi.first.smartdashboard.gui.DashboardPrefs;
-import edu.wpi.first.smartdashboard.gui.StaticWidget;
-import edu.wpi.first.smartdashboard.properties.IPAddressProperty;
-import edu.wpi.first.smartdashboard.properties.Property;
-import edu.wpi.first.wpijavacv.WPICamera;
-import edu.wpi.first.wpijavacv.WPIColorImage;
-import edu.wpi.first.wpijavacv.WPIGrayscaleImage;
-import edu.wpi.first.wpijavacv.WPIImage;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import edu.wpi.first.smartdashboard.gui.*;
+import edu.wpi.first.smartdashboard.properties.*;
+import edu.wpi.first.wpijavacv.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
 
 /**
- *
- * @author Greg Granito
+ * @author Sam Bunk
  */
 public class Team100Camera extends StaticWidget{
-
+    
     public static final String NAME = "Team 100 Camera";
-        
     public static Boolean firstcamera = true;
+    public static int Crosshair_XPos = 0;
+    public static int Crosshair_YPos = 0;
 
     public class GCThread extends Thread {
 
         boolean destroyed = false;
         
-        /**
-         *
-         */
-        public void Team100Camera(){
-           
+        void Team100Camera(){
         }
-        
 
         @Override
         public void run() {
@@ -57,8 +40,12 @@ public class Team100Camera extends StaticWidget{
             interrupt();
         }
     }
-public int count = 0;
+
+    /**
+     * Thread contains all image retrieval from the camera objects. Uses firstcamera boolean to decide which camera should be used.
+     */
     public class BGThread extends Thread {
+        
 
         boolean destroyed = false;
         Runnable draw = new Runnable() {
@@ -66,40 +53,47 @@ public int count = 0;
             public void run() {
                 //DashboardFrame.getInstance().getPanel().repaint(getBounds());
                 DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
-                frame.repaint();
+                frame.repaint(); 
                 
             }
         };
 
         public BGThread() {
             super("Camera Background");
+            
         }
-        
-        
-        
+
         @Override
-        public void run() {
-            
-            
-            
-            
-            
-            
+        public void run() { 
             WPIImage image;
             while (!destroyed) {
-                if (cam == null) {
-                    cam = new WPICamera("10.1.0.11");    
-                }
-                if (cam2 == null){
-                    cam2 = new WPICamera("10.1.0.12");               
-                }
-                
                 try {
-                    if(firstcamera){
-                        image = cam.getNewImage(5.0);
+                    //collect tells the grabber if it should grab images or not
+                    //when this is false no images are pulled and that camera does not use any bandwidth
+                    //the cameras have a buffer that will empty when switched to; if this buffer is filled up
+                    //the connection to the camera will break and the widget will automatically recreate it
+                    if(firstcamera){    
+                        if (cam == null || cam.isDisposed()) {
+                            cam = new WPICamera(camIP.getSaveValue()); 
+                            System.out.println("CAMERA 1 SET");
+                        } 
+                        try{
+                            if (!cam2.isDisposed()) {
+                                cam2.dispose();
+                            }}catch(NullPointerException ex){
+                            }
+                        
+                        image = cam.getNewImage();
                              
                     }else{
-                        image = cam2.getNewImage(5.0);
+                        if (cam2 == null || cam2.isDisposed()){
+                            cam2 = new WPICamera(cam2IP.getSaveValue()); 
+                            System.out.println("CAMERA 2 SET");
+                        }
+                        if (!cam.isDisposed()) {
+                            cam.dispose();
+                        }  
+                        image = cam2.getNewImage();        
                     }         
                     
                     if (image instanceof WPIColorImage) {
@@ -112,19 +106,18 @@ public int count = 0;
                     }
                 } catch (final Exception e) {
                     e.printStackTrace();
-                    cam.dispose();
-                    cam = null;
+                    if(cam != null){
+                        cam.dispose();
+                    }
+                    if(cam2 != null){
+                        cam2.dispose();
+                    }
+
+                    System.out.println("CAMERA CONNECTIONS FAILED - RESETTING");
                     drawnImage = null;
                     SwingUtilities.invokeLater(draw);
-                    
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                    }
-                    
                 }
             }
-
         }
 
         @Override
@@ -141,46 +134,61 @@ public int count = 0;
     
     DashboardPrefs prefs = (DashboardPrefs) DashboardPrefs.getInstance();
     
-    //public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera IP Address", new int[]{10, (DashboardPrefs.getInstance().team.getValue() / 100), (DashboardPrefs.getInstance().team.getValue() % 100), 20});
-public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 11});
+public final IPAddressProperty camIP = new IPAddressProperty(this, "Camera 1 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 11});
+public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP Address", new int[]{10, (prefs.team.getValue() / 100), (prefs.team.getValue() % 100), 12});
+
+
     @Override
     public void init() {
         setPreferredSize(new Dimension(100, 100));
         bgThread.start();
         gcThread.start();
-        revalidate();
-        //DashboardFrame.getInstance().getPanel().repaint(getBounds());
-        
+        revalidate();        
         
         DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 frame.repaint();
-        
     }
 
     @Override
     public void propertyChanged(Property property) {
-        if (property == ipProperty) {
+        if (property == camIP) {
+            System.out.println("camIP Property changed");
             if (cam != null) {
                 cam.dispose();
             }
             try {
-                cam = new WPICamera(ipProperty.getSaveValue());
+                cam = new WPICamera(camIP.getSaveValue());
+                System.out.println("camIP IP has been updated");
             } catch (Exception e) {
                 e.printStackTrace();
                 drawnImage = null;
                 setPreferredSize(new Dimension(100, 100));
-                revalidate();
-                //DashboardFrame.getInstance().getPanel().repaint(getBounds());
-                
+                revalidate();                
                 
                 DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 
                 frame.repaint();
-                
-                
             }
         }
-
+        if (property == cam2IP) {
+            System.out.println("cam2IP Property changed");
+            if (cam2 != null) {
+                cam2.dispose();
+            }
+            try {
+                cam2 = new WPICamera(cam2IP.getSaveValue());
+                System.out.println("cam2IP IP has been updated");
+            } catch (Exception e) {
+                e.printStackTrace();
+                drawnImage = null;
+                setPreferredSize(new Dimension(100, 100));
+                revalidate();                
+                
+                DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
+                
+                frame.repaint();
+            }
+        }
     }
 
     @Override
@@ -191,6 +199,7 @@ public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera 
             cam.dispose();
         }
         super.disconnect();
+        System.out.println("DISCONNECTING");
     }
 
     @Override
@@ -214,17 +223,47 @@ public final IPAddressProperty ipProperty = new IPAddressProperty(this, "Camera 
         }
     }
 
+    /**
+     * Draw the crosshair on the image. Default position is the center of the screen but can be changed with the NetworkTable.
+     * Crosshair_XPos and Crosshair_YPos are the keys that this looks for.
+     * @param rawImage
+     * @return
+     */
+    
+    
+    public int XPos = 0;
+    public int YPos = 0;
+    
     public WPIImage processImage(WPIColorImage rawImage) {
-        return rawImage;
-    }
-
-    public WPIImage processImage(WPIGrayscaleImage rawImage) {
+        
+        if(firstcamera){//draws a crosshair 1/3 size of the screen in the center of the screen 
+            
+            if(XPos < 0){XPos = 0;
+            }else if(XPos > rawImage.getWidth()){XPos = rawImage.getWidth();}       
+            if(YPos < 0){YPos = 0;
+            }else if(YPos > rawImage.getHeight()){YPos = rawImage.getHeight();}
+     
+            rawImage.drawLine(new WPIPoint(XPos,YPos+30), new WPIPoint(XPos,YPos-30), WPIColor.BLACK, 2);
+            rawImage.drawLine(new WPIPoint(XPos-30,YPos), new WPIPoint(XPos+30,YPos), WPIColor.BLACK, 2);
+        }
         return rawImage;
     }
 
     
-    public static void SwitchCamera(){
-        firstcamera = !firstcamera;      
+    /**
+     * 
+     * @param rawImage
+     * @return
+     */
+    public WPIImage processImage(WPIGrayscaleImage rawImage) {
+        return rawImage;
+        
     }
 
+    /**
+     * Switches the camera boolean.
+     */
+    public static void SwitchCamera(){
+        firstcamera = !firstcamera; 
+    }
 }

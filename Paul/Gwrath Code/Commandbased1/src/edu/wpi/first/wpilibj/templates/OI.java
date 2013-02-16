@@ -16,7 +16,7 @@ public class OI {
     JoystickButton rightButton2 = new JoystickButton(rightJoystick, RobotMap.rightjoystickbutton2);
 
     public Joystick getLeftJoystick(){
-        return leftJoystick;
+        return leftJoystick; 
     }
     public Joystick getRightJoystick(){
         return rightJoystick;
