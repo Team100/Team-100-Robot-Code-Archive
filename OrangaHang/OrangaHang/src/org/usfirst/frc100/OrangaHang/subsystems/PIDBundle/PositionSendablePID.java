@@ -24,7 +24,7 @@ public class PositionSendablePID {
     private final NetworkTable table;
 
     private String dashboardName(String key) {
-        return key + "_" + m_name;
+        return key;// + "_" + m_name;
     }//end dashboardName
     
     public PositionSendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
@@ -33,7 +33,7 @@ public class PositionSendablePID {
         PIDInit();
         m_source = source;
         m_output = output;
-        table = NetworkTable.getTable("PIDSystems");
+        table = NetworkTable.getTable("PIDSystems").getTable(name);
         Callable callable = new Callable() {
             Timer timer = new Timer();
             public void call() {
