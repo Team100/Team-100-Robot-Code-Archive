@@ -88,14 +88,14 @@ public class FullManualControl extends CommandBase {
             tower.disable();
         }
         
-        if(OI.manipulator.getRawAxis(6)<0.0 && !driveTrain.isHighGear())
+        if(OI.manipulator.getRawAxis(6)<0.0)
         {
-            driveTrain.shift();
+            driveTrain.shiftHighGear();
         }
         
-        if(OI.manipulator.getRawAxis(6)>0.0 && driveTrain.isHighGear())
+        if(OI.manipulator.getRawAxis(6)>0.0)
         {
-            driveTrain.shift();
+            driveTrain.shiftLowGear();
         }
         
         if(OI.manipulator.getRawAxis(5)<0.0 && !tower.isStowed())

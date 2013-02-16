@@ -33,8 +33,8 @@ public class DriveTrain extends Subsystem {
     private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = true;
-    private boolean lowGear = false;
+    private boolean highGear = shifter.equals(DoubleSolenoid.Value.kForward);
+    private boolean lowGear = shifter.equals(DoubleSolenoid.Value.kReverse);
     
     public DriveTrain(){
         leftEncoder.start();
@@ -58,19 +58,28 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
     }// end arcadeDrive
-    
-    //shifts gears to opposite position
-    public void shift(){
-        if(highGear){
-            lowGear = true;
-            highGear = false;
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        } else if (lowGear){
-            highGear = true;
-            lowGear = false;
+
+    public void shiftHighGear()
+    {
+        if(!isHighGear())
+        {
+            //shifts gears to opposite position
             shifter.set(DoubleSolenoid.Value.kForward);
         }
-    }//end shift
+    }
+    
+    public void shiftLowGear()
+    {
+        if(isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+    
+    public boolean isHighGear()
+    {
+        return highGear;
+    }
     
     //aligns robot for shooting
     public void alignToShoot(double left, double right){
