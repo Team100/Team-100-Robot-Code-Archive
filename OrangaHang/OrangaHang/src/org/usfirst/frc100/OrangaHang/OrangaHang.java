@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
+import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
@@ -31,7 +33,7 @@ import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
  */
 public class OrangaHang extends IterativeRobot {
 
-    Command autonomousCommand;
+    Reproduce reproduce;
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
@@ -56,9 +58,9 @@ public class OrangaHang extends IterativeRobot {
     
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null){
-            autonomousCommand.start();
-        }
+        reproduce = new Reproduce();
+        reproduce.start();
+        System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQ");
 
 	CommandBase.driveTrain.shiftHighGear();
         CommandBase.climber.homingSequence();
@@ -69,6 +71,14 @@ public class OrangaHang extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putData("Reproduce", reproduce);
+        SmartDashboard.putData(CommandBase.climber);
+        SmartDashboard.putData(CommandBase.shooter);
+        SmartDashboard.putData(CommandBase.driveTrain);
+        SmartDashboard.putData(CommandBase.intake);
+        SmartDashboard.putData(CommandBase.pneumatics);
+        SmartDashboard.putData(CommandBase.tower);
+        SmartDashboard.putData(CommandBase.autoMemory);
     }//end autonomousPeriodic
 
     public void teleopInit() {
@@ -77,8 +87,8 @@ public class OrangaHang extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null){
-            autonomousCommand.cancel();
+        if (reproduce != null){
+            reproduce.cancel();
         }
         manualClimb = new ManualClimb();
         drive = new Drive();

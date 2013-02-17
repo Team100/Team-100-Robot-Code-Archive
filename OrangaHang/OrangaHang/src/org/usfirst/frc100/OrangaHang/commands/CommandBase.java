@@ -47,6 +47,7 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(intake);
         SmartDashboard.putData(pneumatics);
         SmartDashboard.putData(tower);
+        SmartDashboard.putData(autoMemory);
         
     }//end init
     
