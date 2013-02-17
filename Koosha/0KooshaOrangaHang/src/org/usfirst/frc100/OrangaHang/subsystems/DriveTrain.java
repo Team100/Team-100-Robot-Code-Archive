@@ -67,7 +67,7 @@ public class DriveTrain extends Subsystem {
     
     public boolean isHighGear()
     {
-        return shifter.equals(DoubleSolenoid.Value.kForward);
+        return shifter.get().equals(DoubleSolenoid.Value.kForward);
     }
     
     public void resetGyro()
@@ -146,6 +146,18 @@ public class DriveTrain extends Subsystem {
         return setpoint;
     }
     
+    public void enable()
+    {
+        pidRight.enable();
+        rightEncoder.reset();
+        
+        pidLeft.enable();
+        leftEncoder.reset();
+        
+        pidTurn.enable();
+        gyro.reset();
+    }//end enable
+    
     public void disable(){
         setSetpoint(0.0);
         
@@ -159,16 +171,11 @@ public class DriveTrain extends Subsystem {
         gyro.reset();
     }//end disable
     
-    public void enable()
+    public void resetValues()
     {
-        pidRight.enable();
-        rightEncoder.reset();
+        setSetpoint(setpoint);
         
-        pidLeft.enable();
-        leftEncoder.reset();
-        
-        pidTurn.enable();
-        gyro.reset();
-    }//end enable
+        pidRight.getValues(); // Extremly misleading name doesn't return anything; resets all constants constants
+    }
 
 }//end DriveTrain
