@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
+import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
@@ -31,7 +32,7 @@ import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
  */
 public class OrangaHang extends IterativeRobot {
 
-    Command autonomousCommand;
+    Reproduce reproduce;
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
@@ -43,7 +44,7 @@ public class OrangaHang extends IterativeRobot {
     public void robotInit() {
         // instantiate the command used for the autonomous period
         //autonomousCommand = new ExampleCommand();
-
+        reproduce = new Reproduce();
         // Initialize all subsystems
         CommandBase.init();
         RobotMap.init();
@@ -56,11 +57,9 @@ public class OrangaHang extends IterativeRobot {
     
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null){
-            autonomousCommand.start();
+        if (reproduce != null){
+            reproduce.start();
         }
-
-	CommandBase.driveTrain.shiftHighGear();
         CommandBase.climber.homingSequence();
     }//end autonomousInit
 
@@ -77,13 +76,12 @@ public class OrangaHang extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null){
-            autonomousCommand.cancel();
+        if (reproduce != null){
+            reproduce.cancel();
         }
         manualClimb = new ManualClimb();
         drive = new Drive();
         updateWidgets = new UpdateWidgets();
-        manualClimb.start();
         drive.start();
         updateWidgets.start();
 
@@ -94,6 +92,9 @@ public class OrangaHang extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        if(OI.manipulator.getY() != 0.0){
+            manualClimb.start();
+        }
         testIO();
     }//end teleopPeriodic
     
