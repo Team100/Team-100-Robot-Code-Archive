@@ -67,6 +67,7 @@ public class myWidget extends StaticWidget {
     JLabel setpointLabel;
     JLabel minOutputLabel;
     JLabel maxOutputLabel;
+    JTextField myFilePath;
     private double m_kP = 0.0;
     private double m_kI = 0.0;
     private double m_kD = 0.0;
@@ -87,6 +88,8 @@ public class myWidget extends StaticWidget {
         thready = new paintingThread();
         bufferSize = new IntegerProperty(this, "Buffer Size (samples)", 2000);
         tablePath = new StringProperty(this, "Table Path", "PIDExtension");
+        myFilePath = new JTextField(10);
+        myFilePath.setText(tablePath.getValue());
         table = NetworkTable.getTable(tablePath.getValue());
 
         //JLabels
@@ -286,12 +289,13 @@ public class myWidget extends StaticWidget {
         bag.insets = new Insets(5, 5, 5, 5);
         bag.gridwidth = 1;
         bag.gridheight = 1;
-        add(pLabel, 0, 0);
-        add(pField, 1, 0);
-        add(iLabel, 0, 1);
-        add(iField, 1, 1);
-        add(dLabel, 0, 2);
-        add(dField, 1, 2);
+        add(myFilePath, 0, 0);
+        add(pLabel, 0, 1);
+        add(pField, 1, 1);
+        add(iLabel, 0, 2);
+        add(iField, 1, 2);
+        add(dLabel, 0, 3);
+        add(dField, 1, 3);
         add(setpointLabel, 2, 0);
         add(setpointField, 3, 0);
         add(minOutputLabel, 0, 4);
@@ -317,6 +321,7 @@ public class myWidget extends StaticWidget {
 
     @Override
     public void init() {
+        myFilePath.setEditable(false);
         table.putNumber("time", 0.0);
         table.putNumber("velocity", 18.0);
         m_data = new XYSeries("Velocity");
@@ -357,6 +362,8 @@ public class myWidget extends StaticWidget {
             }
         } else if (p == tablePath) {
             table = NetworkTable.getTable(tablePath.getValue());
+            myFilePath.setText("");
+            myFilePath.setText(tablePath.getValue());
         }
         
     }
