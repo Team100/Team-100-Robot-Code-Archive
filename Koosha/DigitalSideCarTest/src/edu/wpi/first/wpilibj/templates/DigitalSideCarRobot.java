@@ -21,11 +21,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DigitalSideCarRobot extends IterativeRobot
 {
-    private DigitalInput[] inputs;
-    private PWM[] pwms;
-    private Relay[] relays;
+    private DigitalInput[] inputs = new DigitalInput[14];
+    private PWM[] pwms = new PWM[10];
+    private Relay[] relays = new Relay[8];
     private I2C i2c;
-    private final int kAddress = 0x3A;
+    private final int kAddress = 0x02;
     private Timer timer;
     private NetworkTable table = NetworkTable.getTable("Status");
     
@@ -39,7 +39,7 @@ public class DigitalSideCarRobot extends IterativeRobot
         
         for(i=1; i<=14; i++)
         {
-            inputs[i-1] = new DigitalInput(i);
+              inputs[i-1] = new DigitalInput(i);
         }
         
         for(i=1; i<=10; i++)
@@ -53,6 +53,8 @@ public class DigitalSideCarRobot extends IterativeRobot
         }
         
         i2c = new I2C(DigitalModule.getInstance(1), kAddress);
+        
+        timer = new Timer();
     }
     
     public void autonomousInit()
@@ -68,23 +70,29 @@ public class DigitalSideCarRobot extends IterativeRobot
         int i;
         byte[] data = new byte[2];
         
-        boolean[] digitalValues = null;
+        boolean[] digitalValues = new boolean[14];
         for(i=0; i<14; i++)
         {
             digitalValues[i] = inputs[i].get();
-            short mask = (short) (0x01 << i);
-            table.putNumber("dio" + i+1, DigitalModule.getInstance(1).getAllDIO() & mask);
+            table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
         }
         
         for(i=0; i<10; i++)
         {
-            pwms[i].setRaw(128);
+            pwms[i].setRaw((int)(255*Math.sin(timer.get())+128));
             table.putNumber("pwm" + i+1, DigitalModule.getInstance(1).getPWM(i+1));
         }
         
         for(i=0; i<8; i++)
         {
-            relays[i].set(Relay.Value.kForward);
+            if(timer.get()%6>3.0)
+            {
+                relays[i].set(Relay.Value.kForward);
+            }
+            else
+            {
+                relays[i].set(Relay.Value.kReverse);
+            }
         }
         
         i2c.read(0x42, data.length, data);
