@@ -32,14 +32,14 @@ public class Widget extends StaticWidget
         {
             final JButton tempbutton = new JButton(buttonNames[i]);
             
-            buttons[i] = tempbutton; 
-            add(tempbutton, i);
-            tempbutton.setFocusable(false);
-            tempbutton.addActionListener(new ActionListener() {
+            buttons[i] = new JButton(buttonNames[i]); 
+            add(buttons[i], i);
+            buttons[i].setFocusable(false);
+            buttons[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae)
                 {
-                    System.out.println(tempbutton.getName());
+                    //System.out.println(tempButton.getName());
                 }
             });
         }
