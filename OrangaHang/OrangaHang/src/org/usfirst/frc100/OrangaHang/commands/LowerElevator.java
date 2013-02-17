@@ -4,14 +4,14 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.OrangaHang.OI;
 
 /**
  *
  * @author Team100
  */
 public class LowerElevator extends CommandBase {
-    
+
     public LowerElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -20,14 +20,13 @@ public class LowerElevator extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //only lower elevator partway to get from level 2 to level 3 of pyramid
         //if (climber.getLevel()!=2){
-            climber.lowerElevator();//leave the rest commented out if stationary hooks are on the bottom
+        climber.lowerElevator();//leave the rest commented out if stationary hooks are on the bottom
         //}
         //else {
         //    climber.lowerElevatorPartway();
@@ -36,7 +35,8 @@ public class LowerElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit());
+        return ((climber.getLevel() == 2 && climber.getPartwayLimit()) || climber.getLowerLimit()
+                || (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
     }
 
     // Called once after isFinished returns true
