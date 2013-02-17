@@ -30,10 +30,11 @@ public class VelocitySendablePID {
     public VelocitySendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
         m_base = new VelocityPIDBase(distRatio, name);
         m_name = name;
+        table = NetworkTable.getTable("PIDSystems").getTable(name);
         PIDInit();
         m_source = source;
         m_output = output;
-        table = NetworkTable.getTable("PIDSystems").getTable(name);
+        
         Callable callable = new Callable() {
             Timer timer = new Timer();
             public void call() {
