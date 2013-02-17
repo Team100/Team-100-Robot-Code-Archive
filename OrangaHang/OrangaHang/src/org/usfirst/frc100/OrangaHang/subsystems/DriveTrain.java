@@ -60,6 +60,7 @@ public class DriveTrain extends Subsystem {
     }// end arcadeDrive
    
     public void shiftGear(){
+        //high=forward
         if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
             shifter.set(DoubleSolenoid.Value.kReverse);
         }

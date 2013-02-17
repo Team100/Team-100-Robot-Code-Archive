@@ -65,7 +65,7 @@ public abstract class CommandBase extends Command {
         shooter.disable();
         climber.disable();
         driveTrain.disable();
-        shooter.disable();
+        tower.disable();
     }//end disable
     
     public CommandBase(String name) {
