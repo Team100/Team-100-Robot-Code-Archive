@@ -47,7 +47,7 @@ public class VelocityPIDBase {
     }//end dashboardName
     
     public double calculate(double period){
-        System.out.println("Enabled? " + enabled);
+        //System.out.println("Enabled? " + enabled);
         if (!enabled) {
             output = 0.0;
             return output;

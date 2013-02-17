@@ -64,7 +64,8 @@ public class Intake extends Subsystem {
         }
     }//end manualControl
 
+    //stops the motor
     public void stop() {
-        intakeMotor.set(0);
-    }
+        intakeMotor.set(intakeSpeed);
+    }//end stop
 }//end Intake
