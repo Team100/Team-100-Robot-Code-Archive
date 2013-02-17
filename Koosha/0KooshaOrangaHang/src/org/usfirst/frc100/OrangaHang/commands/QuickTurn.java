@@ -16,21 +16,23 @@ public class QuickTurn extends CommandBase
     public QuickTurn(double setPoint)
     {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(driveTrain);
         this.setPoint = setPoint;
+//        driveTrain.resetValues();
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
         driveTrain.setSetpoint(setPoint);
+//        driveTrain.resetValues();
         driveTrain.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
+        driveTrain.resetValues();
         SmartDashboard.putString("Is turning", "True");
     }
 

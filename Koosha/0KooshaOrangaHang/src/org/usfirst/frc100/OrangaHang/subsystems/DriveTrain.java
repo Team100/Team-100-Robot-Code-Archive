@@ -22,10 +22,9 @@ public class DriveTrain extends Subsystem {
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final DoubleSolenoid shifter = RobotMap.driveGear;
     //Constants
-    private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*Math.PI));
-    private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*Math.PI));
+    private final double kRightDistRatio = 1440 / ((4.0/12.0*Math.PI));
+    private final double kLeftDistRatio = 1440 / ((4.0/12.0*Math.PI));
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
-    private final double kLeftRightRatio = 1000 / 1440;
     private double setpoint;    
     
     public void initDefaultCommand() {
@@ -88,32 +87,32 @@ public class DriveTrain extends Subsystem {
     
     //PID Control
     //driveRight
-    PIDSource sourceRight = new PIDSource(){
-        public double pidGet(){
-            SmartDashboard.putNumber("encoderRight_raw", rightEncoder.getRaw());
-            return rightEncoder.getRaw();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputRight = new PIDOutput(){
-        public void pidWrite(double output){
-            rightMotor.set(output);
-        }
-    }; //end anonym class PIDOutput
-    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
-    
-    //driveLeft
-    PIDSource sourceLeft = new PIDSource(){
-        public double pidGet(){
-            SmartDashboard.putNumber("encoderLeft_raw", leftEncoder.get());
-            return leftEncoder.get();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputLeft = new PIDOutput(){
-        public void pidWrite(double output){
-             leftMotor.set(output);
-        }
-    }; //end anonym class PIDOutput
-    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
+//    PIDSource sourceRight = new PIDSource(){
+//        public double pidGet(){
+//            SmartDashboard.putNumber("encoderRight_raw", rightEncoder.getRaw());
+//            return rightEncoder.getRaw();
+//        }
+//    }; //end anonym class PIDSource
+//    PIDOutput outputRight = new PIDOutput(){
+//        public void pidWrite(double output){
+//            rightMotor.set(output);
+//        }
+//    }; //end anonym class PIDOutput
+//    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
+//    
+//    //driveLeft
+//    PIDSource sourceLeft = new PIDSource(){
+//        public double pidGet(){
+//            SmartDashboard.putNumber("encoderLeft_raw", leftEncoder.get());
+//            return leftEncoder.get();
+//        }
+//    }; //end anonym class PIDSource
+//    PIDOutput outputLeft = new PIDOutput(){
+//        public void pidWrite(double output){
+//             leftMotor.set(output);
+//        }
+//    }; //end anonym class PIDOutput
+//    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
     // drive turn
     PIDSource sourceGyro = new PIDSource()
@@ -128,16 +127,16 @@ public class DriveTrain extends Subsystem {
         public void pidWrite(double d)
         {
             rightMotor.set(+d);
-            leftMotor.set(-d * kLeftRightRatio);
+            leftMotor.set(-d);
         }
     };
-    private PositionSendablePID pidTurn = new PositionSendablePID("turn", sourceGyro, outputTurn, kRightDistRatio);
+    private PositionSendablePID pidTurn = new PositionSendablePID("turn", sourceGyro, outputTurn, 1);
     
     public void setSetpoint(double setpoint)
     {
         this.setpoint = setpoint;
-        pidRight.setSetpoint(setpoint);
-        pidLeft.setSetpoint(setpoint);
+//        pidRight.setSetpoint(setpoint);
+//        pidLeft.setSetpoint(setpoint);
         pidTurn.setSetpoint(setpoint);
     }//end setSetpoint
     
@@ -148,24 +147,24 @@ public class DriveTrain extends Subsystem {
     
     public void enable()
     {
-        pidRight.enable();
-        rightEncoder.reset();
+//        pidRight.enable();
+//        rightEncoder.reset();
+//        
+//        pidLeft.enable();
+//        leftEncoder.reset();
         
-        pidLeft.enable();
-        leftEncoder.reset();
-        
-        pidTurn.enable();
         gyro.reset();
+        pidTurn.enable();
     }//end enable
     
     public void disable(){
-        setSetpoint(0.0);
+//        setSetpoint(0.0);
         
-        pidRight.disable();
-        rightEncoder.reset();
-        
-        pidLeft.disable();
-        leftEncoder.reset();
+//        pidRight.disable();
+//        rightEncoder.reset();
+//        
+//        pidLeft.disable();
+//        leftEncoder.reset();
         
         pidTurn.disable();
         gyro.reset();
@@ -173,9 +172,9 @@ public class DriveTrain extends Subsystem {
     
     public void resetValues()
     {
-        setSetpoint(setpoint);
-        
-        pidRight.getValues(); // Extremly misleading name doesn't return anything; resets all constants constants
+//        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
+//        pidLeft.getValues();
+        pidTurn.getValues();
     }
 
 }//end DriveTrain
