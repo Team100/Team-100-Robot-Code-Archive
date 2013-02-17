@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VelocitySendablePID {
     
     private final PIDSource m_source;
+    private final PIDSource m_period;
     private final PIDOutput m_output;
     private final TimedThread m_thread;
     private final VelocityPIDBase m_base;
@@ -27,14 +27,14 @@ public class VelocitySendablePID {
         return key;// + "_" + m_name;
     }//end dashboardName
     
-    public VelocitySendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
+    public VelocitySendablePID(String name, PIDSource source, PIDSource period, PIDOutput output, double distRatio) {
         m_base = new VelocityPIDBase(distRatio, name);
         m_name = name;
         table = NetworkTable.getTable("PIDSystems").getTable(name);
         PIDInit();
         m_source = source;
+        m_period = period;
         m_output = output;
-        
         Callable callable = new Callable() {
             Timer timer = new Timer();
             public void call() {
@@ -45,7 +45,7 @@ public class VelocitySendablePID {
                 double input = m_source.pidGet();
                 m_base.setInput(input);
                 getValues();
-                double result = m_base.calculate(timer.get());
+                double result = m_base.calculate(timer.get(), m_period.pidGet());
                 table.putNumber(dashboardName("Output"), result);
                 timer.reset();
                 if (m_base.isEnabled()){
