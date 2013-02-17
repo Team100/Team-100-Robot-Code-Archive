@@ -27,6 +27,7 @@ public class Tower extends Subsystem {
     private final double kClimbPosition = 0.0;
     private final double kShootPosition = 0.0;
     private final double kIntakePosition = 0.0;
+    private final double kStartPosition = 0.0;
     private final double kTowerAngleRatio = 0.0;
     private boolean isClimbing = false;
     private boolean isShooting = false;
@@ -50,6 +51,10 @@ public class Tower extends Subsystem {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
+    
+    public double getAngle(){
+        return potentiometer.getValue()*kTowerAngleRatio;
+    }
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
@@ -89,6 +94,13 @@ public class Tower extends Subsystem {
        isClimbing = false;
        pidTower.setSetpoint(kIntakePosition);
     }//end tiltToIntake
+    
+    public void tiltToStart(){
+       isGettingFrisbees = false;
+       isShooting = false;
+       isClimbing = false;
+       pidTower.setSetpoint(kStartPosition);
+    }
 
     public void disable() {
         pidTower.disable();
