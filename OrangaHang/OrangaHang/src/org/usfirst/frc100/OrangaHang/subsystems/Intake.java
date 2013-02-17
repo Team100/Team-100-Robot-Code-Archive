@@ -12,6 +12,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
 public class Intake extends Subsystem {
     //Robot parts
     private final SpeedController intakeMotor = RobotMap.intakeMotor;
+    //both switches are normally closed!
     private final DigitalInput intakeTopSwitch = RobotMap.intakeTopSwitch;
     private final DigitalInput intakeBottomSwitch = RobotMap.intakeBottomSwitch;
     //Constants
@@ -29,7 +30,7 @@ public class Intake extends Subsystem {
     
     //call to load frisbees, does NOT run shooter wheels
     public void takeFrisbees(){
-        if(!intakeBottomSwitch.get()){
+        if(intakeBottomSwitch.get()){
             intakeMotor.set(intakeSpeed);
         }
         else {
@@ -39,7 +40,7 @@ public class Intake extends Subsystem {
     
     //slowly moves frisbees into shooter, does NOT run shooter wheels
     public void shootFrisbees(){
-        if(!intakeTopSwitch.get()){
+        if(intakeTopSwitch.get()){
             intakeMotor.set(shootingSpeed);
         }
         else {
@@ -49,17 +50,21 @@ public class Intake extends Subsystem {
     
     //sets motor to a given value, has safeties
     public void manualControl(double d){
-        if (intakeTopSwitch.get()&&d>0||intakeBottomSwitch.get()&&d<0){
+        if (!intakeTopSwitch.get()&&d>0||!intakeBottomSwitch.get()&&d<0){
             intakeMotor.set(0);
         }
-        if (intakeTopSwitch.get()&&d<0){
+        if (!intakeTopSwitch.get()&&d<0){
             intakeMotor.set(d);
         }
-        if (intakeBottomSwitch.get()&&d>0){
+        if (!intakeBottomSwitch.get()&&d>0){
             intakeMotor.set(d);
         }
-        if(!intakeTopSwitch.get()&&!intakeBottomSwitch.get()){
+        if(intakeTopSwitch.get()&&intakeBottomSwitch.get()){
             intakeMotor.set(d);
         }
     }//end manualControl
+
+    public void stop() {
+        intakeMotor.set(0);
+    }
 }//end Intake

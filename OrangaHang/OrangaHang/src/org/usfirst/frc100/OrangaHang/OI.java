@@ -88,7 +88,7 @@ public class OI {
         intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
-        shootButton.whenPressed(new FrisbeesToShoot());
+        shootButton.whileHeld(new FrisbeesToShoot());
         
         //SmartDashboardButtons
         

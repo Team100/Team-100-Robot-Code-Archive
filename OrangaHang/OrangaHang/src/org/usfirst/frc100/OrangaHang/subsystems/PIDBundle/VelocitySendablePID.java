@@ -57,19 +57,19 @@ public class VelocitySendablePID {
     }//end VelocitySendablePID
 
     private void PIDInit() {
-        table.putNumber(dashboardName("kP"), 0.0);
-        table.putNumber(dashboardName("kI"), 0.0);
-        table.putNumber(dashboardName("kD"), 0.0);
-        table.putNumber(dashboardName("kMaxOutput"), 0.0);
-        table.putNumber(dashboardName("kMinOutput"), 0.0);
+        //table.putNumber(dashboardName("kP"), 0.0);
+        //table.putNumber(dashboardName("kI"), 0.0);
+        //table.putNumber(dashboardName("kD"), 0.0);
+        //table.putNumber(dashboardName("kMaxOutput"), 0.0);
+        //table.putNumber(dashboardName("kMinOutput"), 0.0);
     }//end PIDInit
 
     public void getValues() {
-        m_base.setKP(table.getNumber(dashboardName("kP"), 0.0));
-        m_base.setKI(table.getNumber(dashboardName("kI"), 0.0));
-        m_base.setKD(table.getNumber(dashboardName("kD"), 0.0));
-        m_base.setMaxOutput(table.getNumber(dashboardName("kMaxOutput"), 0.0));
-        m_base.setMinOutput(table.getNumber(dashboardName("kMinOutput"), 0.0));
+        //m_base.setKP(table.getNumber(dashboardName("kP"), 0.0));
+        //m_base.setKI(table.getNumber(dashboardName("kI"), 0.0));
+        //m_base.setKD(table.getNumber(dashboardName("kD"), 0.0));
+        //m_base.setMaxOutput(table.getNumber(dashboardName("kMaxOutput"), 0.0));
+        //m_base.setMinOutput(table.getNumber(dashboardName("kMinOutput"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {

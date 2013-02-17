@@ -26,12 +26,12 @@ public class LowerElevator extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //only lower elevator partway to get from level 2 to level 3 of pyramid
-        //if (climber.getLevel()!=2){
+        if (climber.getLevel()!=2){
             climber.lowerElevator();//leave the rest commented out if stationary hooks are on the bottom
-        //}
-        //else {
-        //    climber.lowerElevatorPartway();
-        //}
+        }
+        else {
+            climber.lowerElevatorPartway();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
