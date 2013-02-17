@@ -31,8 +31,6 @@ public class Tower extends Subsystem {
     private boolean isClimbing = false;
     private boolean isShooting = false;
     private boolean isGettingFrisbees = false;
-    private boolean extended = false;
-    private boolean stowed = true;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -40,20 +38,19 @@ public class Tower extends Subsystem {
     }//end initDefaultCommand
     
     public void deployArms(){
-        if(stowed){
-            extended = true;
-            stowed = false;
+        if(!isStowed())
+        {
             armPistons.set(DoubleSolenoid.Value.kForward);
-        } else if(extended){
-            extended = false;
-            stowed = true;
+        }
+        else if(isStowed())
+        {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
     
     public boolean isStowed()
     {
-        return armPistons.equals(DoubleSolenoid.Value.kForward);
+        return armPistons.get().equals(DoubleSolenoid.Value.kForward);
     }
     
     public void manualControl(double s)
