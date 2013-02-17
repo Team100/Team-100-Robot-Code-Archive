@@ -98,7 +98,7 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
         LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
-        LiveWindow.addSensor("DriveTrain", "Gear" , driveGear);
+        LiveWindow.addActuator("DriveTrain", "Gear" , driveGear);
         
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
@@ -126,7 +126,7 @@ public class RobotMap {
         //Tower
         LiveWindow.addActuator("Tower", "Motor7", towerMotor);
         LiveWindow.addSensor("Tower", "Potent" , towerPotent);
-        LiveWindow.addSensor("Tower", "ArmPistons" , towerArmPistons);
+        LiveWindow.addActuator("Tower", "ArmPistons" , towerArmPistons);
         
         //Relays
         LiveWindow.addActuator("Relays", "Compressor" , compressor);
