@@ -52,8 +52,10 @@ public class RobotMap {
     
     //PWM Outputs
     //Drive Train
-    public static final Talon driveLeftMotor = new Talon(1);
-    public static final Talon driveRightMotor = new Talon(2);
+//    public static final Talon driveLeftMotor = new Talon(1);
+//    public static final Talon driveRightMotor = new Talon(2);
+    public static final Jaguar driveLeftMotor = new Jaguar(9);
+    public static final Jaguar driveRightMotor = new Jaguar(10);
     //Climber
     public static final Victor climberTopMotor = new Victor(3);
     public static final Victor climberBottomMotor = new Victor(4);

@@ -98,7 +98,7 @@ public class OI {
      * @param d
      * @return +1 if d is positive; -1 if d is negative 
      */
-    public final int double2unit(double d)
+    public static int double2unit(double d)
     {
         if(d == 0)
         {

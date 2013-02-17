@@ -1,15 +1,10 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
@@ -27,11 +22,11 @@ public class DriveTrain extends Subsystem {
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final DoubleSolenoid shifter = RobotMap.driveGear;
     //Constants
-    private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private boolean highGear = shifter.equals(DoubleSolenoid.Value.kForward);
-    private boolean lowGear = shifter.equals(DoubleSolenoid.Value.kReverse);
+    private final double kRightDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*Math.PI));
+    private final double kLeftDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*Math.PI));
+    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
+    private final double kLeftRightRatio = 1000 / 1440;
+    private double setpoint;    
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -72,7 +67,7 @@ public class DriveTrain extends Subsystem {
     
     public boolean isHighGear()
     {
-        return highGear;
+        return shifter.get().equals(DoubleSolenoid.Value.kForward);
     }
     
     public void resetGyro()
@@ -120,26 +115,67 @@ public class DriveTrain extends Subsystem {
     }; //end anonym class PIDOutput
     private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
-    public void setSetpoint(double setpoint){
+    // drive turn
+    PIDSource sourceGyro = new PIDSource()
+    {
+        public double pidGet()
+        {
+            return gyro.getAngle();
+        }
+    };
+    PIDOutput outputTurn = new PIDOutput()
+    {
+        public void pidWrite(double d)
+        {
+            rightMotor.set(+d);
+            leftMotor.set(-d * kLeftRightRatio);
+        }
+    };
+    private PositionSendablePID pidTurn = new PositionSendablePID("turn", sourceGyro, outputTurn, kRightDistRatio);
+    
+    public void setSetpoint(double setpoint)
+    {
+        this.setpoint = setpoint;
         pidRight.setSetpoint(setpoint);
         pidLeft.setSetpoint(setpoint);
+        pidTurn.setSetpoint(setpoint);
     }//end setSetpoint
+    
+    public double getSetpoint()
+    {
+        return setpoint;
+    }
+    
+    public void enable()
+    {
+        pidRight.enable();
+        rightEncoder.reset();
+        
+        pidLeft.enable();
+        leftEncoder.reset();
+        
+        pidTurn.enable();
+        gyro.reset();
+    }//end enable
     
     public void disable(){
         setSetpoint(0.0);
+        
         pidRight.disable();
-        pidLeft.disable();
         rightEncoder.reset();
+        
+        pidLeft.disable();
         leftEncoder.reset();
+        
+        pidTurn.disable();
+        gyro.reset();
     }//end disable
     
-    public void enable(){
-        rightEncoder.reset();
-        leftEncoder.reset();
-        rightEncoder.start();
-        leftEncoder.start();
-        pidRight.enable();
-        pidLeft.enable();
-    }//end enable
-    
+    public void resetValues()
+    {
+        setSetpoint(setpoint);
+        
+        pidRight.getValues(); // Extremly misleading name doesn't return anything; resets all constants constants
+    }
+
 }//end DriveTrain
