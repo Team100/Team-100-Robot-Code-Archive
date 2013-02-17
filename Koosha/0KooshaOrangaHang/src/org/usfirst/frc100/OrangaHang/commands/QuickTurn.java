@@ -11,19 +11,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Team100
  */
 public class QuickTurn extends CommandBase
-{    
+{
+    private double setPoint;
     public QuickTurn(double setPoint)
     {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(driveTrain);        
-        driveTrain.setSetpoint(setPoint);
+        requires(driveTrain);
+        this.setPoint = setPoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
-        driveTrain.resetGyro();
+        driveTrain.setSetpoint(setPoint);
         driveTrain.enable();
     }
 
