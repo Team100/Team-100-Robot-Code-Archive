@@ -85,15 +85,15 @@ public class RobotMap {
         //climberTopMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
         //climberBottomMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
         
-        //LiveWindow display
         //Drive Train
+        //LiveWindow display
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
         LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveLeftEncoder);
         LiveWindow.addActuator("DriveTrain", "LeftMotor", driveLeftMotor);
         LiveWindow.addActuator("DriveTrain", "RightMotor", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
         LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
-        LiveWindow.addSensor("DriveTrain", "Gear" , driveGear);
+        LiveWindow.addActuator("DriveTrain", "Gear" , driveGear);
         
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
@@ -121,10 +121,10 @@ public class RobotMap {
         //Tower
         LiveWindow.addActuator("Tower", "TowerMotor", towerMotor);
         LiveWindow.addSensor("Tower", "Potent" , towerPotent);
-        LiveWindow.addSensor("Tower", "ArmPistons" , towerArmPistons);
+        LiveWindow.addActuator("Tower", "ArmPistons" , towerArmPistons);
         
         //Relays
-        LiveWindow.addSensor("Relays", "Compressor" , compressor);
+        LiveWindow.addActuator("Relays", "Compressor" , compressor);
         LiveWindow.addSensor("Relays", "CameraLights" , cameraLights); 
     }//end init
     
