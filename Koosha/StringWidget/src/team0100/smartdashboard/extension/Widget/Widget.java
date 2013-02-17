@@ -20,26 +20,24 @@ public class Widget extends StaticWidget
     public static final String NAME = "StringWidget";
     String temp = "One,Two,Three,Four";
     private String[] buttonNames = this.split(temp);
-    
-        
+    private JButton[] buttons = null;
     NetworkTable table = NetworkTable.getTable("SmartDashboard");
+    private int i = 0;
     
     @Override
     public void init()
     {
-        JButton[] buttons = null;
-        for(int i=0; i<buttonNames.length; i++)
-        {
-            final JButton tempbutton = new JButton(buttonNames[i]);
-            
-            buttons[i] = new JButton(buttonNames[i]); 
-            add(buttons[i], i);
+        //JButton[] buttons = null;
+        for(i=0; i<buttonNames.length; i++)
+        {            
+            buttons[i] = new JButton(buttonNames[i]);
+            add(buttons[i], 0);
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae)
                 {
-                    //System.out.println(tempButton.getName());
+                    System.out.println(buttons[i].getName());
                 }
             });
         }
