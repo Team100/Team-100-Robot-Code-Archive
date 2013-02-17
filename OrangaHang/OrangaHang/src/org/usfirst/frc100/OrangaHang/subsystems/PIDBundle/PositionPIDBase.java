@@ -57,7 +57,7 @@ public class PositionPIDBase {
         double goalDist = getSetpoint();
 
         //calculate instantaneous velocity
-        double currDist = input / kDistRatio;
+        double currDist = input * kDistRatio;
         SmartDashboard.putNumber(dashboardName("currDist"), currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
