@@ -70,7 +70,7 @@ public class OI {
 
         //DriverLeft commands
         shiftGearsLButton.whileHeld(new ShiftGears());
-        quickTurnLButton.whenPressed(new QuickTurn(90.0 * double2unit(driverLeft.getX())));
+        quickTurnLButton.whenPressed(new DeployFixedArms());
         straightShootLButton.whenPressed(new AlignToShoot());
         autoClimbLButton.whenPressed(new Climb());
         

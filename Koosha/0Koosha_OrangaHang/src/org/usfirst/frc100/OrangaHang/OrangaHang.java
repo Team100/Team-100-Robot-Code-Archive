@@ -54,7 +54,7 @@ public class OrangaHang extends IterativeRobot {
         if (autonomousCommand != null){
             autonomousCommand.start();
         }
-        
+        CommandBase.pneumatics.startCompressor();
         CommandBase.driveTrain.shiftHighGear();
     }//end autonomousInit
 
@@ -77,6 +77,7 @@ public class OrangaHang extends IterativeRobot {
         drive = new Drive();
         manualClimb.start();
         drive.start();
+        CommandBase.pneumatics.startCompressor();
 
     }//end teleopInit
 
