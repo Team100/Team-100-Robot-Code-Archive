@@ -24,16 +24,14 @@ public class Tower extends Subsystem {
     private final Victor motor = RobotMap.towerMotor;
     private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
     //Constants
-    private final double kClimbPosition = 0.0;
-    private final double kShootPosition = 0.0;
-    private final double kIntakePosition = 0.0;
-    private final double kStartPosition = 0.0;
-    private final double kTowerAngleRatio = 0.0;
+    private final double kClimbPosition = 60.0;
+    private final double kShootPosition = 50.0;
+    private final double kIntakePosition = 60.0;
+    private final double kStartPosition = 95.0;
+    private final double kTowerAngleRatio = 0.277;
     private boolean isClimbing = false;
     private boolean isShooting = false;
     private boolean isGettingFrisbees = false;
-    private boolean extended = false;
-    private boolean stowed = true;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -41,19 +39,15 @@ public class Tower extends Subsystem {
     }//end initDefaultCommand
     
     public void deployArms(){
-        if(stowed){
-            extended = true;
-            stowed = false;
+        if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
             armPistons.set(DoubleSolenoid.Value.kForward);
-        } else if(extended){
-            extended = false;
-            stowed = true;
+        } else {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
     
     public double getAngle(){
-        return potentiometer.getValue()*kTowerAngleRatio;
+        return 228-potentiometer.getValue()*kTowerAngleRatio;
     }
 
     //PID control
