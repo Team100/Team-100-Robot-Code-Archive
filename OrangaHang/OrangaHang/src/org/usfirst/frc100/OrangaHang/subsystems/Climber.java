@@ -36,6 +36,7 @@ public class Climber extends Subsystem {
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
 
     int level=0;//level of the pyramid that the robot is at    
+    private boolean homePartOne=true;
 
     //sets encoder
     public Climber(){
@@ -178,29 +179,37 @@ public class Climber extends Subsystem {
     //moves elevator to starting position and sets encoder
     public void homingSequence() {
         if (homeUp){
-            while (!topSwitch.get()){
+            if (!topSwitch.get()&&homePartOne){
                 motorTop.set(homingSpeed);
                 motorBottom.set(homingSpeed);
             }
-            while (topSwitch.get()){
+            if (topSwitch.get()){
                 motorTop.set(-homingReverseSpeed);
                 motorBottom.set(-homingReverseSpeed);
+                homePartOne=false;
             }
-            encoder.reset();
+            if (!topSwitch.get()&&!homePartOne){
+                motorTop.set(0);
+                motorBottom.set(0);
+                encoder.reset();
+            }
         }
         
         else{
-            while (!bottomSwitch.get()){
+            if (!bottomSwitch.get()&&homePartOne){
                 motorTop.set(-homingSpeed);
                 motorBottom.set(-homingSpeed);
             }
-            while (bottomSwitch.get()){
+            if (bottomSwitch.get()){
                 motorTop.set(homingReverseSpeed);
                 motorBottom.set(homingReverseSpeed);
+                homePartOne=false;
             }
-            motorTop.set(0);
-            motorBottom.set(0);
-            encoder.reset();
+            if (!bottomSwitch.get()&&!homePartOne){
+                motorTop.set(0);
+                motorBottom.set(0);
+                encoder.reset();
+            }
         }
     }//end homingSequence
     
