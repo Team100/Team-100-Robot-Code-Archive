@@ -4,6 +4,7 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
 
 /**
@@ -29,8 +30,9 @@ public class RaiseElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return(climber.getUpperLimit() || (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
+        return (climber.getUpperLimit()|| (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
     }
+
     // Called once after isFinished returns true
     protected void end() {
         
