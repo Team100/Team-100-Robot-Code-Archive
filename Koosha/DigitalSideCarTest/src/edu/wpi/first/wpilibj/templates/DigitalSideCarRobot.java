@@ -9,6 +9,8 @@ package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,8 +25,9 @@ public class DigitalSideCarRobot extends IterativeRobot
     private PWM[] pwms;
     private Relay[] relays;
     private I2C i2c;
-    private final int kAddress = 0x02;
+    private final int kAddress = 0x3A;
     private Timer timer;
+    private NetworkTable table = NetworkTable.getTable("Status");
     
     /**
      * This function is run when the robot is first started up and should be
@@ -63,17 +66,30 @@ public class DigitalSideCarRobot extends IterativeRobot
     public void autonomousPeriodic()
     {
         int i;
+        byte[] data = new byte[2];
         
         boolean[] digitalValues = null;
         for(i=0; i<14; i++)
         {
             digitalValues[i] = inputs[i].get();
+            short mask = (short) (0x01 << i);
+            table.putNumber("dio" + i+1, DigitalModule.getInstance(1).getAllDIO() & mask);
         }
         
         for(i=0; i<10; i++)
         {
-            pwms[i].setRaw(Math.abs(((timer.get()+3)%4)-2)-1);
+            pwms[i].setRaw(128);
+            table.putNumber("pwm" + i+1, DigitalModule.getInstance(1).getPWM(i+1));
         }
+        
+        for(i=0; i<8; i++)
+        {
+            relays[i].set(Relay.Value.kForward);
+        }
+        
+        i2c.read(0x42, data.length, data);
+        SmartDashboard.putNumber("data1", data[0]);
+        SmartDashboard.putNumber("data2", data[1]);
     }
 
     /**
