@@ -13,7 +13,7 @@ public class DeployFixedArms extends CommandBase {
     public DeployFixedArms() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(driveTrain);
+        requires(tower);
     }
 
     // Called just before this Command runs the first time

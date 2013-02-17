@@ -24,8 +24,8 @@ public class DriveTrain extends Subsystem {
     //Constants
     private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
     private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
-    private final double ultraDistRatio = 0.009794921875;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
+    private final double ultraDistRatio = 0.009794921875;
     
     public DriveTrain(){
         leftEncoder.start();
@@ -37,7 +37,7 @@ public class DriveTrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        //setDefaultCommand(new Drive());
+        setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
     //basic tankDrive
@@ -51,33 +51,23 @@ public class DriveTrain extends Subsystem {
         robotDrive.arcadeDrive(y, x);
     }// end arcadeDrive
 
-    public void shiftHighGear()
-    {
-        if(!isHighGear())
-        {
+    public void shiftGears(){
+        if (!isHighGear()) {
             //shifts gears to opposite position
             shifter.set(DoubleSolenoid.Value.kForward);
-        }
-    }
-    
-    public void shiftLowGear()
-    {
-        if(isHighGear())
-        {
+        } else if (isHighGear()) {
             shifter.set(DoubleSolenoid.Value.kReverse);
         }
-    }
+    }//end shiftGears
     
-    public boolean isHighGear()
-    {
+    public boolean isHighGear() {
         return shifter.get().equals(DoubleSolenoid.Value.kForward);
-    }
+    }//end isHighGear
     
     //aligns robot for shooting
-    public void alignToShoot(double left, double right){
-        
-        if(ultraDist.getVoltage() < 1.2) {
-            if(left > 0) {
+    public void alignToShoot(double left, double right) {
+        if (ultraDist.getVoltage() < 1.2) {
+            if (left > 0) {
                 leftMotor.set(0);
                 rightMotor.set(0);
             } else {
