@@ -22,10 +22,11 @@ public class DriveTrain extends Subsystem {
     private final DoubleSolenoid shifter = RobotMap.driveGear;
     private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
-    private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
-    private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
+    //circumference/ticks
+    private final double kRightDistRatio = ((4.0/12.0*3.14159))/1440;
+    private final double kLeftDistRatio = ((4.0/12.0*3.14159))/1440;
     private final double ultraDistRatio = 0.009794921875;
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
+    
     
     public DriveTrain(){
         leftEncoder.start();
