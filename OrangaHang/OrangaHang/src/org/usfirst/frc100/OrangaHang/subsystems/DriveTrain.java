@@ -30,7 +30,14 @@ public class DriveTrain extends Subsystem {
     public DriveTrain(){
         leftEncoder.start();
         rightEncoder.start();
+    }
+    
+    public void unSafe(){
         robotDrive.setSafetyEnabled(false);
+    }
+    
+    public void safe(){
+        robotDrive.setSafetyEnabled(true);
     }
     
     //creates a new Drive
@@ -50,27 +57,18 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
     }// end arcadeDrive
-
-    public void shiftHighGear()
-    {
-        if(!isHighGear())
-        {
-            //shifts gears to opposite position
+   
+    public void shiftGear(){
+        if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+        else{
             shifter.set(DoubleSolenoid.Value.kForward);
         }
     }
     
-    public void shiftLowGear()
-    {
-        if(isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-    }
-    
-    public boolean isHighGear()
-    {
-        return shifter.get().equals(DoubleSolenoid.Value.kForward);
+    public void shiftHighGear(){
+        shifter.set(DoubleSolenoid.Value.kForward);
     }
     
     //aligns robot for shooting

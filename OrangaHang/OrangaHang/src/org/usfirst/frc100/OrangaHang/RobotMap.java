@@ -133,5 +133,27 @@ public class RobotMap {
         LiveWindow.addActuator("Relays", "CameraLights" , cameraLights);        
         
     }//end init
+
+    public static void safe() {
+        driveLeftMotor.setSafetyEnabled(true);
+        driveRightMotor.setSafetyEnabled(true);
+        climberTopMotor.setSafetyEnabled(true);
+        climberBottomMotor.setSafetyEnabled(true);
+        shooterFrontMotor.setSafetyEnabled(true);
+        shooterBackMotor.setSafetyEnabled(true);
+        intakeMotor.setSafetyEnabled(true);
+        towerMotor.setSafetyEnabled(true);
+    }
+
+    public static void unSafe() {
+        driveLeftMotor.setSafetyEnabled(false);
+        driveRightMotor.setSafetyEnabled(false);
+        climberTopMotor.setSafetyEnabled(false);
+        climberBottomMotor.setSafetyEnabled(false);
+        shooterFrontMotor.setSafetyEnabled(false);
+        shooterBackMotor.setSafetyEnabled(false);
+        intakeMotor.setSafetyEnabled(false);
+        towerMotor.setSafetyEnabled(false);
+    }
     
 }//end RobotMap
