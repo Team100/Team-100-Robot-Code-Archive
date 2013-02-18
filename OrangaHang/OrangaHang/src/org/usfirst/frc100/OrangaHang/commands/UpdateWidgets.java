@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 
@@ -25,6 +26,7 @@ public class UpdateWidgets extends CommandBase {
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
+    Preferences p;
     
     public UpdateWidgets() {
         // Use requires() here to declare subsystem dependencies
@@ -33,12 +35,14 @@ public class UpdateWidgets extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        //Preferences pointer
+        p = Preferences.getInstance();
         //Widget Tables
         backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
         frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
-        initializePIDTable(backShooterTable);
-        initializePIDTable(frontShooterTable);
+        initializePIDTable(backShooterTable, "BackShooter");
+        initializePIDTable(frontShooterTable, "FrontShooter");
         initializePositionTable(positionTable);
         //Other Stuff
         myGyro = RobotMap.driveGyro;
@@ -69,14 +73,14 @@ public class UpdateWidgets extends CommandBase {
     protected void interrupted() {
     }
     
-    private void initializePIDTable(NetworkTable table) {
-        table.putNumber("kP", 0.0);
-        table.putNumber("kI", 0.0);
-        table.putNumber("kD", 0.0);
+    private void initializePIDTable(NetworkTable table, String name) {
+        table.putNumber("kP", p.getDouble(name + "kP", 0.0));
+        table.putNumber("kI", p.getDouble(name + "kI", 0.0));
+        table.putNumber("kD", p.getDouble(name + "kD", 0.0));
         table.putNumber("Inst_Veloc", 0.0);
-        table.putNumber("kMax_Veloc", 0.0);
-        table.putNumber("kMaxOutput", 0.0);
-        table.putNumber("kMinOutput", 0.0);
+        table.putNumber("kMax_Veloc", p.getDouble(name + "kMax_Veloc", 0.0));
+        table.putNumber("kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
+        table.putNumber("kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
         table.putNumber("Time", 0.0);
     }
 
@@ -91,7 +95,7 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void updatePositionTable(NetworkTable table) {
-        table.putNumber("EncoderDistance", (-leftEncoder.getRate() + rightEncoder.getRate()) / 2);
+        table.putNumber("EncoderDistance", (Math.abs(leftEncoder.getRate()) + Math.abs(rightEncoder.getRate())) / 2);
         table.putNumber("Heading", myGyro.getAngle());
     }
 }
