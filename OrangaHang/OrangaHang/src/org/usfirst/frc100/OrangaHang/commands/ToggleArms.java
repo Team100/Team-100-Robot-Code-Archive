@@ -8,9 +8,9 @@ package org.usfirst.frc100.OrangaHang.commands;
  *
  * @author Team100
  */
-public class DeployFixedArms extends CommandBase {
+public class ToggleArms extends CommandBase {
     
-    public DeployFixedArms() {
+    public ToggleArms() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         //requires(tower);
