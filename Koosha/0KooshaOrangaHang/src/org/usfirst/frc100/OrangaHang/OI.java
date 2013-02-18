@@ -2,6 +2,7 @@ package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.*;
 
 /**
@@ -43,22 +44,19 @@ public class OI {
    
     //Button declarations
     //DriverLeft button declarations - numbers NOT final
-    public static final JoystickButton shiftGearsLButton = new JoystickButton(driverLeft, 1);
-    public static final JoystickButton quickTurnLButton = new JoystickButton(driverLeft, 2);
-    public static final JoystickButton straightShootLButton = new JoystickButton(driverLeft, 3);
-    public static final JoystickButton autoClimbLButton = new JoystickButton(driverLeft, 4);
+    public static final JoystickButton straightShootButton = new JoystickButton(driverLeft, 1);
+    public static final JoystickButton autoClimbButton = new JoystickButton(driverLeft, 2);
     
     //DriverRight button declarations - numbers NOT final
-    public static final JoystickButton shiftGearsRButton = new JoystickButton(driverRight, 1);
-    public static final JoystickButton quickTurnRButton = new JoystickButton(driverRight, 2);
-    public static final JoystickButton straightShootRButton = new JoystickButton(driverRight, 3);
-    public static final JoystickButton autoClimbRButton = new JoystickButton(driverRight, 4);
+    public static final JoystickButton shiftGearsButton = new JoystickButton(driverRight, 1);
+    public static final JoystickButton quickTurnButton = new JoystickButton(driverRight, 2);
     
     //Manipulator button declarations - number assignments are correct, don't change them!
     public static final JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
     public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
     public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
-    public static final JoystickButton abortClimbButton = new JoystickButton(manipulator, 4);
+    //public static final JoystickButton tiltStartButton = new JoystickButton(manipulator, 4);
+    public static final JoystickButton deployArmsButton = new JoystickButton(manipulator, 4);
     public static final JoystickButton primeShootButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
@@ -69,29 +67,30 @@ public class OI {
         //Assigning commands to buttons
 
         //DriverLeft commands
-        shiftGearsLButton.whileHeld(new ShiftGears());
-        quickTurnLButton.whenPressed(new DeployFixedArms());
-        straightShootLButton.whenPressed(new AlignToShoot());
-        autoClimbLButton.whenPressed(new Climb());
+        straightShootButton.whileHeld(new AlignToShoot());
+        autoClimbButton.whenPressed(new Climb());
         
         //DriverRight commands
-        shiftGearsRButton.whileHeld(new ShiftGears());
-        quickTurnRButton.whenPressed(new QuickTurn(90.0 * double2unit(driverRight.getX())));
-        straightShootRButton.whenPressed(new AlignToShoot());
-        autoClimbRButton.whenPressed(new Climb());
+        shiftGearsButton.whileHeld(new ShiftGears());
+        quickTurnButton.whenPressed(new QuickTurn(90.0));
 
         //Manipulator commands
         tiltClimbButton.whenPressed(new TiltToClimb());
         tiltShootButton.whenPressed(new TiltToShoot());
         tiltIntakeButton.whenPressed(new TiltToIntake());
-        abortClimbButton.whenPressed(new AbortClimb());
-        primeShootButton.whileHeld(new PrimeToShoot());
-        shootButton.whenPressed(new FrisbeesToShoot());
-        primeDumpButton.whileHeld(new PrimeToDump());
+        //tiltStartButton.whenPressed(new TiltToStart());
+        deployArmsButton.whenPressed(new DeployFixedArms());
         intakeButton.whileHeld(new Intake());
-
+        primeShootButton.whileHeld(new PrimeToShoot());
+        primeDumpButton.whileHeld(new PrimeToDump());
+        shootButton.whileHeld(new FrisbeesToShoot());
+        
         //SmartDashboardButtons
-
+        
+        SmartDashboard.putData(new Memorize());
+        SmartDashboard.putData(new Reproduce());
+        SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
+        SmartDashboard.putString("Select Autonomous Procedure","InsertHere");
     }//end constructor
     
     /**

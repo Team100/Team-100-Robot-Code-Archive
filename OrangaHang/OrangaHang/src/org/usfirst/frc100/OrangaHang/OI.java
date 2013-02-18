@@ -62,7 +62,8 @@ public class OI {
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
 
-    public OI() {
+    public OI()
+    {
         //Assigning commands to buttons
 
         //DriverLeft commands
@@ -70,8 +71,8 @@ public class OI {
         autoClimbButton.whenPressed(new Climb());
         
         //DriverRight commands
-        shiftGearsButton.whenPressed(new ShiftGears());
-        //quickTurnButton.whenPressed(new QuickTurn());
+        shiftGearsButton.whileHeld(new ShiftGears());
+        quickTurnButton.whenPressed(new QuickTurn(90.0 * double2unit(driverRight.getX())));
 
         //Manipulator commands
         tiltClimbButton.whenPressed(new TiltToClimb());
@@ -91,4 +92,19 @@ public class OI {
         SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
     }//end constructor
     
+    /**
+     * @param d
+     * @return +1 if d is positive; -1 if d is negative 
+     */
+    public static int double2unit(double d)
+    {
+        if(d == 0)
+        {
+            return 0;
+        }
+        
+        int returnVal = (int) (Math.abs(d)/d);
+        return returnVal;
+    }
+
 }//end OI

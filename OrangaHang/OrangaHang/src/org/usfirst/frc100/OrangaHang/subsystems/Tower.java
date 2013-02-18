@@ -18,7 +18,8 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  *
  * @author Team100
  */
-public class Tower extends Subsystem {
+public class Tower extends Subsystem
+{
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
@@ -38,19 +39,31 @@ public class Tower extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    public void toggleArms(){
-        //reverse=down
-        if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
+    public void deployArms(){
+        if(!isStowed())
+        {
             armPistons.set(DoubleSolenoid.Value.kForward);
         } else {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
     
-    //sets arms to down position
-    public void stowArms(){
-        armPistons.set(DoubleSolenoid.Value.kReverse);
-    }//end stowArms
+    public boolean isStowed()
+    {
+        return armPistons.get().equals(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void manualControl(double s)
+    {
+        if(potentiometer.getValue()>=68.0 && s>=0)
+        {
+            motor.set(s);
+        }
+        else if(potentiometer.getValue()<=0.0 && s<0)
+        {
+            motor.set(s);
+        }
+    }
     
     public double getAngle(){
         return 228-potentiometer.getValue()*kTowerAngleRatio;

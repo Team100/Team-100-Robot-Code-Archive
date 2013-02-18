@@ -62,6 +62,16 @@ public class Shooter extends Subsystem {
         motorBack.set(reverseSpeed);
     }//end runBackwards
     
+    public void setFrontMotor(double s)
+    {
+        motorFront.set(s);
+    }
+    
+    public void setBackMotor(double s)
+    {
+        motorBack.set(s);
+    }
+    
     //PID Control
     
     //shooterFront
