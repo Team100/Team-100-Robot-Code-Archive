@@ -10,14 +10,12 @@ import org.usfirst.frc100.OrangaHang.OI;
  *
  * @author Team100
  */
-public class AlignToShoot extends CommandBase {
-    
-    
-    public AlignToShoot() {
+public class ManualTilt extends CommandBase {
+    double position;
+    public ManualTilt() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        
-        requires(driveTrain);
+        requires(tower);
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +24,10 @@ public class AlignToShoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        driveTrain.alignToShoot(-OI.driverLeft.getY(), OI.driverRight.getY());
+        position=tower.getAngle();
+        if (Math.abs(OI.manipulator.getThrottle())>.5){
+            tower.setSetpoint(position+(OI.manipulator.getThrottle()/100));
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
