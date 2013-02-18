@@ -8,13 +8,17 @@
 package org.usfirst.frc100.OrangaHang;
 
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
+import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
+import org.usfirst.frc100.OrangaHang.commands.Reproduce;
+import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 //import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
@@ -26,11 +30,12 @@ import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
  */
 public class OrangaHang extends IterativeRobot {
 
-    Command autonomousCommand;
-    Command testCommand;
+    Reproduce reproduce;
     ManualClimb manualClimb;
     Drive drive;
-
+    UpdateWidgets updateWidgets;
+    ManualTilt manualTilt;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -38,7 +43,7 @@ public class OrangaHang extends IterativeRobot {
     public void robotInit() {
         // instantiate the command used for the autonomous period
         //autonomousCommand = new ExampleCommand();
-
+        reproduce = new Reproduce();
         // Initialize all subsystems
         CommandBase.init();
         RobotMap.init();
@@ -51,11 +56,12 @@ public class OrangaHang extends IterativeRobot {
     
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null){
-            autonomousCommand.start();
+        if (reproduce != null){
+            reproduce.start();
         }
         CommandBase.pneumatics.startCompressor();
-        CommandBase.driveTrain.shiftHighGear();
+	CommandBase.driveTrain.shiftHighGear();
+        CommandBase.climber.homingSequence();
     }//end autonomousInit
 
     /**
@@ -66,19 +72,24 @@ public class OrangaHang extends IterativeRobot {
     }//end autonomousPeriodic
 
     public void teleopInit() {
+        loadPreferences();
 	// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null){
-            autonomousCommand.cancel();
+        if (reproduce != null){
+            reproduce.cancel();
         }
         manualClimb = new ManualClimb();
         drive = new Drive();
+        updateWidgets = new UpdateWidgets();
+        manualTilt = new ManualTilt();
         manualClimb.start();
         drive.start();
         CommandBase.pneumatics.startCompressor();
 
+        updateWidgets.start();
+        manualTilt.start();
     }//end teleopInit
 
     /**
@@ -86,6 +97,7 @@ public class OrangaHang extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        testIO();
     }//end teleopPeriodic
     
     /**
@@ -99,5 +111,40 @@ public class OrangaHang extends IterativeRobot {
         }
         LiveWindow.run();
     }//end testPeriodic
+    
+    public void testInit(){
+        CommandBase.disableAll();
+    }
 
+    public void loadPreferences() {
+        //Load PID Data (Each pid system needs its own table please)
+        //Load data for the FRONT SHOOTER  PID
+        loadPIDInfo("FrontShooter");
+        
+        //Load data for the BACK SHOOTER  PID
+        loadPIDInfo("BackShooter");
+    }
+    
+    public void loadPIDInfo(String s) {
+        NetworkTable table = NetworkTable.getTable("PIDSystems").getTable(s);
+        Preferences p = Preferences.getInstance();
+        table.putNumber("kP", p.getDouble(s + "_kP", -1.0));
+        table.putNumber("kI", p.getDouble(s + "_kI", -1.0));
+        table.putNumber("kD", p.getDouble(s + "_kD", -1.0));
+        table.putNumber("kMinOutput", p.getDouble(s + "_kMinOutput", -1.0));
+        table.putNumber("kMaxOutput", p.getDouble(s + "_kMaxOutput", -1.0));
+    }
+    
+    public void testIO(){
+        NetworkTable table = NetworkTable.getTable("Status");
+        table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
+        
+        for(int i = 1; i <= 10; i++) {
+            table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
+        }
+        
+        for(int i = 1; i <= 8; i++) {
+            table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
+        }
+    }
 }//end OrangaHang

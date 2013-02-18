@@ -7,7 +7,7 @@ package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
@@ -16,20 +16,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VelocitySendablePID {
     
     private final PIDSource m_source;
+    private final PIDSource m_period;
     private final PIDOutput m_output;
     private final TimedThread m_thread;
     private final VelocityPIDBase m_base;
     private final String m_name;
+    private final NetworkTable table;
 
     private String dashboardName(String key) {
-        return key + "_" + m_name;
+        return key;// + "_" + m_name;
     }//end dashboardName
     
-    public VelocitySendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
+    public VelocitySendablePID(String name, PIDSource source, PIDSource period, PIDOutput output, double distRatio) {
         m_base = new VelocityPIDBase(distRatio, name);
         m_name = name;
+        table = NetworkTable.getTable("PIDSystems").getTable(name);
         PIDInit();
         m_source = source;
+        m_period = period;
         m_output = output;
         Callable callable = new Callable() {
             Timer timer = new Timer();
@@ -41,10 +45,12 @@ public class VelocitySendablePID {
                 double input = m_source.pidGet();
                 m_base.setInput(input);
                 getValues();
-                double result = m_base.calculate(timer.get());
-                SmartDashboard.putNumber(dashboardName("Output"), result);
+                double result = m_base.calculate(timer.get(), m_period.pidGet());
+                table.putNumber(dashboardName("Output"), result);
                 timer.reset();
-                m_output.pidWrite(result);
+                if (m_base.isEnabled()){
+                    m_output.pidWrite(result);
+                }
             }
         };
         m_thread = new TimedThread(callable);
@@ -52,19 +58,19 @@ public class VelocitySendablePID {
     }//end VelocitySendablePID
 
     private void PIDInit() {
-        SmartDashboard.putNumber(dashboardName("kP"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kI"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kD"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kMaxOutput"), 0.0);
-        SmartDashboard.putNumber(dashboardName("kMinOutput"), 0.0);
+        table.putNumber(dashboardName("kP"), 0.0);
+        table.putNumber(dashboardName("kI"), 0.0);
+        table.putNumber(dashboardName("kD"), 0.0);
+        table.putNumber(dashboardName("kMaxOutput"), 0.0);
+        table.putNumber(dashboardName("kMinOutput"), 0.0);
     }//end PIDInit
 
     public void getValues() {
-        m_base.setKP(SmartDashboard.getNumber(dashboardName("kP"), 0.0)/100.0);
-        m_base.setKI(SmartDashboard.getNumber(dashboardName("kI"), 0.0));
-        m_base.setKD(SmartDashboard.getNumber(dashboardName("kD"), 0.0)/100.0);
-        m_base.setMaxOutput(SmartDashboard.getNumber(dashboardName("kMaxOutput"), 0.0));
-        m_base.setMinOutput(SmartDashboard.getNumber(dashboardName("kMinOutput"), 0.0));
+        m_base.setKP(table.getNumber(dashboardName("kP"), 0.0));
+        m_base.setKI(table.getNumber(dashboardName("kI"), 0.0));
+        m_base.setKD(table.getNumber(dashboardName("kD"), 0.0));
+        m_base.setMaxOutput(table.getNumber(dashboardName("kMaxOutput"), 0.0));
+        m_base.setMinOutput(table.getNumber(dashboardName("kMinOutput"), 0.0));
     }//end getValues
     
     public void setSetpoint(double setpoint) {
@@ -77,6 +83,7 @@ public class VelocitySendablePID {
     
     public void disable(){
         m_base.disable();
+        m_output.pidWrite(0.0);
     }//end disable
       
 }//end VelocitySendablePID
