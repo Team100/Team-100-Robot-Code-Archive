@@ -122,7 +122,7 @@ public class DriveTrain extends Subsystem {
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+    //FIXME: remove PID code if we don't use it
     //PID Control
     //driveRight
     PIDSource sourceRight = new PIDSource(){
@@ -136,7 +136,7 @@ public class DriveTrain extends Subsystem {
             rightMotor.set(output);
         }
     }; //end anonym class PIDOutput
-    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
+//    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
     
     //driveLeft
     PIDSource sourceLeft = new PIDSource(){
@@ -150,12 +150,12 @@ public class DriveTrain extends Subsystem {
              leftMotor.set(output);
         }
     }; //end anonym class PIDOutput
-    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
+//    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
     public void setSetpoint(double setpoint){
         this.setpoint = setpoint;
-        pidRight.setSetpoint(setpoint);
-        pidLeft.setSetpoint(setpoint);
+//        pidRight.setSetpoint(setpoint);
+//        pidLeft.setSetpoint(setpoint);
     }//end setSetpoint
     
     public double getSetpoint()
@@ -165,8 +165,8 @@ public class DriveTrain extends Subsystem {
     
     public void disable(){
         setSetpoint(0.0);
-        pidRight.disable();
-        pidLeft.disable();
+ //       pidRight.disable();
+ //       pidLeft.disable();
         rightEncoder.reset();
         leftEncoder.reset();
     }//end disable
@@ -176,8 +176,8 @@ public class DriveTrain extends Subsystem {
         leftEncoder.reset();
         rightEncoder.start();
         leftEncoder.start();
-        pidRight.enable();
-        pidLeft.enable();
+ //       pidRight.enable();
+ //       pidLeft.enable();
     }//end enable
     public void resetValues()
     {

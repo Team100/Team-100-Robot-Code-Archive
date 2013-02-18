@@ -78,14 +78,14 @@ public class FullManualControl extends CommandBase {
             shifter.shiftLowGear();
         }
         
-        if(OI.manipulator.getRawAxis(5)<0.0 && !tower.isStowed())
+        if(OI.manipulator.getRawAxis(5)<0.0)
         {
-            tower.toggleArms();
+            fixedArms.toggleArms();
         }
         
-        if(OI.manipulator.getRawAxis(5)>0.0 && tower.isStowed())
+        if(OI.manipulator.getRawAxis(5)>0.0)
         {
-            tower.toggleArms();
+            fixedArms.toggleArms();
         }
     }
 
