@@ -26,6 +26,7 @@ public class Climber extends Subsystem {
     private final DigitalInput bottomSwitch = RobotMap.climberBottomSwitch;
     private final DigitalInput poleSwitch = RobotMap.climberPoleSwitch;
     //Constants
+    //FIXME: dist ratio is totally wrong; figure out real ratio
     private final double kClimberDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));//encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
     boolean homeUp=false;//automatically home elevator to top or bottom
     double elevatorSpeed=1;//speed that elevator will move
@@ -40,6 +41,7 @@ public class Climber extends Subsystem {
 
     //sets encoder
     public Climber(){
+        //FIXME: figure out real direction
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
@@ -232,6 +234,7 @@ public class Climber extends Subsystem {
     }//end resetEncoder
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FIXME: remove PID if we don't use it
     
     //PID control
     PIDSource sourceClimber = new PIDSource(){
@@ -246,18 +249,19 @@ public class Climber extends Subsystem {
             motorBottom.set(output);
         }
     };//end anonym class PIDOutput
-    private PositionSendablePID pidClimber = new PositionSendablePID("Climber",sourceClimber, outputClimber, kClimberDistRatio);   
+    
+//    private PositionSendablePID pidClimber = new PositionSendablePID("Climber",sourceClimber, outputClimber, kClimberDistRatio);   
    
     public void setSetpoint(double setpoint){
-        pidClimber.setSetpoint(setpoint);
+//        pidClimber.setSetpoint(setpoint);
     }//end setSetpoint
     
     public void disable(){
-        pidClimber.disable();
+//        pidClimber.disable();
     }//end disable
     
     public void enable(){
-        pidClimber.enable();
+//        pidClimber.enable();
     }//end enable
 
     public void stop() {

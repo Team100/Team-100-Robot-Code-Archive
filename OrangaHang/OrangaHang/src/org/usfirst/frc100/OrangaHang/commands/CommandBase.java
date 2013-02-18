@@ -7,8 +7,10 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.AutoMemory;
 import org.usfirst.frc100.OrangaHang.subsystems.Climber;
 import org.usfirst.frc100.OrangaHang.subsystems.DriveTrain;
-import org.usfirst.frc100.OrangaHang.subsystems.Intake;
+import org.usfirst.frc100.OrangaHang.subsystems.FixedArms;
+import org.usfirst.frc100.OrangaHang.subsystems.FrisbeeTransport;
 import org.usfirst.frc100.OrangaHang.subsystems.Pneumatics;
+import org.usfirst.frc100.OrangaHang.subsystems.Shifter;
 import org.usfirst.frc100.OrangaHang.subsystems.Shooter;
 import org.usfirst.frc100.OrangaHang.subsystems.Tower;
 //import org.usfirst.frc100.Robot2013.subsystems.ExampleSubsystem;
@@ -25,10 +27,12 @@ public abstract class CommandBase extends Command {
     public static Climber climber = new Climber();
     public static Shooter shooter = new Shooter();
     public static DriveTrain driveTrain = new DriveTrain();
-    public static Intake intake = new Intake();
+    public static FrisbeeTransport intake = new FrisbeeTransport();
     public static Pneumatics pneumatics = new Pneumatics();
     public static Tower tower = new Tower();
     public static AutoMemory autoMemory = new AutoMemory();
+    public static Shifter shifter = new Shifter();
+    public static FixedArms fixedArms = new FixedArms();
     
     // Create a single static instance of all of your subsystems
     //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
@@ -49,6 +53,8 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(pneumatics);
         SmartDashboard.putData(tower);
         SmartDashboard.putData(autoMemory);
+        SmartDashboard.putData(shifter);
+        SmartDashboard.putData(fixedArms);
         
     }//end init
     
