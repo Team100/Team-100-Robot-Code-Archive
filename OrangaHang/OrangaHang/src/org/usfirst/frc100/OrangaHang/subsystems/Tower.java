@@ -5,13 +5,13 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.TestTilter;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -24,18 +24,17 @@ public class Tower extends Subsystem
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
     //Constants
-    private final double kClimbPosition = 60.0;
-    private final double kShootPosition = 50.0;
-    private final double kIntakePosition = 60.0;
-    private final double kStartPosition = 95.0;
-    private final double kTowerAngleRatio = 0.277;
-    private boolean isClimbing = false;
-    private boolean isShooting = false;
-    private boolean isGettingFrisbees = false;
+    private double kClimbPosition = 60.0;
+    private double kShootPosition = 50.0;
+    private double kIntakePosition = 60.0;
+    private double kStartPosition = 95.0;
+    private double kTowerAngleRatio = 0.277;
+    private double kZeroAngle = 228;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new TestTilter());
     }//end initDefaultCommand
     
     public void manualControl(double s)
@@ -52,7 +51,7 @@ public class Tower extends Subsystem
     
     //calculates and returns the angle of the tower
     public double getAngle(){
-        return 228-potentiometer.getValue()*kTowerAngleRatio;
+        return kZeroAngle-potentiometer.getValue()*kTowerAngleRatio;
     }//end getAngle()
     
     public void testTilter(double speed){
@@ -89,34 +88,25 @@ public class Tower extends Subsystem
 
     public void setSetpoint(double setpoint) {
         pidTower.setSetpoint(setpoint);
-        SmartDashboard.putNumber("POTENTIOMETER", potentiometer.getValue());
     }//end setSetpoint
 
     public void tiltToClimb() {
-        isShooting = false;
-        isGettingFrisbees = false;
-        isClimbing = true;
+        enable();
         pidTower.setSetpoint(kClimbPosition);
     }//end tiltToClimb
 
     public void tiltToShoot() {
-        isGettingFrisbees = false;
-        isShooting = true;
-        isClimbing = false;
+        enable();
         pidTower.setSetpoint(kShootPosition);
     }//end tiltToClimb
 
     public void tiltToIntake() {
-       isGettingFrisbees = true;
-       isShooting = false;
-       isClimbing = false;
+        enable();
        pidTower.setSetpoint(kIntakePosition);
     }//end tiltToIntake
     
     public void tiltToStart(){
-       isGettingFrisbees = false;
-       isShooting = false;
-       isClimbing = false;
+        enable();
        pidTower.setSetpoint(kStartPosition);
     }//end tiltToStart
 

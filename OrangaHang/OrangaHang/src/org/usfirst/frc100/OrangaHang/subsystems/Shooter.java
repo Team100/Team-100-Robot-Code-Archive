@@ -24,8 +24,8 @@ public class Shooter extends Subsystem {
     private Counter counterFront = new Counter(hallFront);
     private Counter counterBack = new Counter(hallBack);
     //Constants
-    private final double kBackDistRatio = 3.0/12.0*3.14159/4;
-    private final double kFrontDistRatio = 3.0/12.0*3.14159/4;
+    private final double kBackDistRatio = 3.0/12.0*Math.PI/4;
+    private final double kFrontDistRatio = 3.0/12.0*Math.PI/4;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
     private double dumpSpeed = 0.5;//change this eventually
     private double shootSpeed = .2;
