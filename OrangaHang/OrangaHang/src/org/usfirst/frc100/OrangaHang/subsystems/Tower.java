@@ -23,7 +23,6 @@ public class Tower extends Subsystem
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
-    private final DoubleSolenoid armPistons = RobotMap.towerArmPistons;
     //Constants
     private final double kClimbPosition = 60.0;
     private final double kShootPosition = 50.0;
@@ -38,25 +37,6 @@ public class Tower extends Subsystem
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
-    
-    //switches arms from raised to lowered
-    public void toggleArms(){
-        //reverse=down
-        if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
-            armPistons.set(DoubleSolenoid.Value.kForward);
-        } else {
-            armPistons.set(DoubleSolenoid.Value.kReverse);
-        }
-    }//end deployArms
-    
-    //sets arms to down position
-    public void stowArms(){
-        armPistons.set(DoubleSolenoid.Value.kReverse);
-    }//end stowArms
-    public boolean isStowed()
-    {
-        return armPistons.get().equals(DoubleSolenoid.Value.kForward);
-    }
     
     public void manualControl(double s)
     {

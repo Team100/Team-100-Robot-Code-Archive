@@ -133,7 +133,7 @@ public class OrangaHang extends IterativeRobot {
 
     private void initializeAll() {
         CommandBase.pneumatics.startCompressor();
-	CommandBase.driveTrain.shiftHighGear();
+	CommandBase.shifter.shiftHighGear();
 	//CommandBase.tower.stowArms();//do BEFORE the match
         CommandBase.climber.homingSequence();
         CommandBase.tower.enable();

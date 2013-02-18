@@ -20,7 +20,6 @@ public class DriveTrain extends Subsystem {
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
-    private final DoubleSolenoid shifter = RobotMap.driveGear;
     private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
     //circumference/ticks
@@ -76,27 +75,6 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("GYRO", gyro.getAngle());
     }// end arcadeDrive
     
-    public void shiftHighGear()
-    {
-        if(!isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kForward);
-        }
-    }
-    
-    public void shiftLowGear()
-    {
-        if(isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-    }
-    
-    public boolean isHighGear()
-    {
-        return shifter.get().equals(DoubleSolenoid.Value.kForward);
-    }
-    
     public void resetGyro()
     {
         gyro.reset();
@@ -136,8 +114,15 @@ public class DriveTrain extends Subsystem {
         
     }//end alignToShoot
     
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void quickTurn(double angle){
+        if (Math.abs(gyro.getAngle()-angle)>.8){
+            leftMotor.set(angle/90);
+            rightMotor.set(angle/90);
+        }
+    }
     
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FIXME: remove PID code if we don't use it
     //PID Control
     //driveRight
     PIDSource sourceRight = new PIDSource(){
@@ -151,7 +136,7 @@ public class DriveTrain extends Subsystem {
             rightMotor.set(output);
         }
     }; //end anonym class PIDOutput
-    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
+//    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
     
     //driveLeft
     PIDSource sourceLeft = new PIDSource(){
@@ -165,12 +150,12 @@ public class DriveTrain extends Subsystem {
              leftMotor.set(output);
         }
     }; //end anonym class PIDOutput
-    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
+//    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
     public void setSetpoint(double setpoint){
         this.setpoint = setpoint;
-        pidRight.setSetpoint(setpoint);
-        pidLeft.setSetpoint(setpoint);
+//        pidRight.setSetpoint(setpoint);
+//        pidLeft.setSetpoint(setpoint);
     }//end setSetpoint
     
     public double getSetpoint()
@@ -180,8 +165,8 @@ public class DriveTrain extends Subsystem {
     
     public void disable(){
         setSetpoint(0.0);
-        pidRight.disable();
-        pidLeft.disable();
+ //       pidRight.disable();
+ //       pidLeft.disable();
         rightEncoder.reset();
         leftEncoder.reset();
     }//end disable
@@ -191,8 +176,8 @@ public class DriveTrain extends Subsystem {
         leftEncoder.reset();
         rightEncoder.start();
         leftEncoder.start();
-        pidRight.enable();
-        pidLeft.enable();
+ //       pidRight.enable();
+ //       pidLeft.enable();
     }//end enable
     public void resetValues()
     {
