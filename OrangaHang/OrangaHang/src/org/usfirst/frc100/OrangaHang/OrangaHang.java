@@ -78,7 +78,6 @@ public class OrangaHang extends IterativeRobot {
     }//end autonomousPeriodic
 
     public void teleopInit() {
-        loadPreferences();
 	// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
@@ -116,24 +115,7 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.disableAll();
     }//end testInit
 
-    public void loadPreferences() {
-        //Load PID Data (Each pid system needs its own table please)
-        //Load data for the FRONT SHOOTER  PID
-        loadPIDInfo("FrontShooter");
-        
-        //Load data for the BACK SHOOTER  PID
-        loadPIDInfo("BackShooter");
-    }//end loadPreferences
-    
-    public void loadPIDInfo(String s) {
-        NetworkTable table = NetworkTable.getTable("PIDSystems").getTable(s);
-        Preferences p = Preferences.getInstance();
-        table.putNumber("kP", p.getDouble(s + "_kP", -1.0));
-        table.putNumber("kI", p.getDouble(s + "_kI", -1.0));
-        table.putNumber("kD", p.getDouble(s + "_kD", -1.0));
-        table.putNumber("kMinOutput", p.getDouble(s + "_kMinOutput", -1.0));
-        table.putNumber("kMaxOutput", p.getDouble(s + "_kMaxOutput", -1.0));
-    }//end loadPIDInfo
+    //Load PID Info has been integrated into UpdateWidgets
     
     public void testIO(){
         NetworkTable table = NetworkTable.getTable("Status");
