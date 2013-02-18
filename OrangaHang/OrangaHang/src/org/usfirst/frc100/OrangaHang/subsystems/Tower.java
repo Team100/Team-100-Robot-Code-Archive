@@ -73,6 +73,7 @@ public class Tower extends Subsystem
         double max=kMaxPos;
         double min=kMinPos;
         motor.set(speed);
+        SmartDashboard.putNumber("Tower_manual",speed);
         //if (pot<max&&speed>0||pot>min&&speed<0){
         //   motor.set(speed);
         //}
