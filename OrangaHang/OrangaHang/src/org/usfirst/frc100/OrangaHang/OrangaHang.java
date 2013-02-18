@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.AnalogModule;
 import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
@@ -58,8 +60,8 @@ public class OrangaHang extends IterativeRobot {
     
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (reproduce != null){
-            reproduce.start();
+        reproduce = new Reproduce();
+        reproduce.start();
         }
 
 	CommandBase.driveTrain.shiftHighGear();
@@ -72,6 +74,14 @@ public class OrangaHang extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putData("Reproduce", reproduce);
+        SmartDashboard.putData(CommandBase.climber);
+        SmartDashboard.putData(CommandBase.shooter);
+        SmartDashboard.putData(CommandBase.driveTrain);
+        SmartDashboard.putData(CommandBase.intake);
+        SmartDashboard.putData(CommandBase.pneumatics);
+        SmartDashboard.putData(CommandBase.tower);
+        SmartDashboard.putData(CommandBase.autoMemory);
     }//end autonomousPeriodic
 
     public void teleopInit() {
