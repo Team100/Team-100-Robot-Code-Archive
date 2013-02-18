@@ -34,6 +34,8 @@ public class WritePreferences extends CommandBase {
         writePIDPreferences(table, "FrontShooter");
         table = NetworkTable.getTable("PIDSystems").getTable("BackShooterPID");
         writePIDPreferences(table, "BackShooter");
+        table = NetworkTable.getTable("PIDSystems").getTable("TowerPID");
+        writePIDPreferences(table, "Tower");
         
         //Save the Preferences
         p.save();
