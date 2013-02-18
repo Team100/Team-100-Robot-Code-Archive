@@ -27,6 +27,7 @@ public class UpdateWidgets extends CommandBase {
     NetworkTable frontShooterTable;
     NetworkTable backShooterTable;
     NetworkTable positionTable;
+    NetworkTable towerTable;
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
@@ -45,8 +46,10 @@ public class UpdateWidgets extends CommandBase {
         backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
         frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
+        towerTable = NetworkTable.getTable("PIDSystems/Tower");
         initializePIDTable(backShooterTable, "BackShooter");
         initializePIDTable(frontShooterTable, "FrontShooter");
+        initializePIDTable(towerTable, "Tower");
         initializePositionTable(positionTable);
         //Other Stuff
         myGyro = RobotMap.driveGyro;
@@ -60,6 +63,7 @@ public class UpdateWidgets extends CommandBase {
     protected void execute() {
         updatePIDWidget(frontShooterTable);
         updatePIDWidget(backShooterTable);
+        updatePIDWidget(towerTable);
         updatePositionTable(positionTable);
     }
 
