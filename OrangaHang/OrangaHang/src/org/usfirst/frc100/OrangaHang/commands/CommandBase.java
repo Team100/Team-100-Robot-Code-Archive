@@ -7,7 +7,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.AutoMemory;
 import org.usfirst.frc100.OrangaHang.subsystems.Climber;
 import org.usfirst.frc100.OrangaHang.subsystems.DriveTrain;
-import org.usfirst.frc100.OrangaHang.subsystems.Intake;
+import org.usfirst.frc100.OrangaHang.subsystems.FrisbeeTransport;
 import org.usfirst.frc100.OrangaHang.subsystems.Pneumatics;
 import org.usfirst.frc100.OrangaHang.subsystems.Shooter;
 import org.usfirst.frc100.OrangaHang.subsystems.Tower;
@@ -25,7 +25,7 @@ public abstract class CommandBase extends Command {
     public static Climber climber = new Climber();
     public static Shooter shooter = new Shooter();
     public static DriveTrain driveTrain = new DriveTrain();
-    public static Intake intake = new Intake();
+    public static FrisbeeTransport intake = new FrisbeeTransport();
     public static Pneumatics pneumatics = new Pneumatics();
     public static Tower tower = new Tower();
     public static AutoMemory autoMemory = new AutoMemory();
