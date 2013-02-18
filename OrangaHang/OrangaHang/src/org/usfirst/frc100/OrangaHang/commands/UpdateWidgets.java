@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 
@@ -25,10 +26,7 @@ public class UpdateWidgets extends CommandBase {
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
-    DigitalInput frontHall;
-    DigitalInput backHall;
-    Counter frontCounter;
-    Counter backCounter;
+    Preferences p;
     
     public UpdateWidgets() {
         // Use requires() here to declare subsystem dependencies
@@ -37,31 +35,27 @@ public class UpdateWidgets extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        backShooterTable = NetworkTable.getTable("BackShooterPID");
-        initializePIDTable(backShooterTable);
-        frontShooterTable = NetworkTable.getTable("FrontShooterPID");
-        initializePIDTable(frontShooterTable);
+        //Preferences pointer
+        p = Preferences.getInstance();
+        //Widget Tables
+        backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
+        frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
+        initializePIDTable(backShooterTable, "BackShooter");
+        initializePIDTable(frontShooterTable, "FrontShooter");
         initializePositionTable(positionTable);
+        //Other Stuff
         myGyro = RobotMap.driveGyro;
         leftEncoder = RobotMap.driveLeftEncoder;
         rightEncoder = RobotMap.driveRightEncoder;
-        frontHall = RobotMap.shooterFrontHallEffect;
-        backHall = RobotMap.shooterBackHallEffect;
-        frontCounter = new Counter(frontHall);
-        backCounter = new Counter(backHall);
-        frontCounter.start();
-        backCounter.start();
         leftEncoder.start();
         rightEncoder.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        frontShooterTable.putNumber("time", System.currentTimeMillis());
-        frontShooterTable.putNumber("velocity", frontCounter.getPeriod());
-        backShooterTable.putNumber("time", System.currentTimeMillis());
-        backShooterTable.putNumber("velocity", backCounter.getPeriod());
+        updatePIDWidget(frontShooterTable);
+        updatePIDWidget(backShooterTable);
         updatePositionTable(positionTable);
     }
 
@@ -79,15 +73,16 @@ public class UpdateWidgets extends CommandBase {
     protected void interrupted() {
     }
     
-    private void initializePIDTable(NetworkTable table) {
-        table.putNumber("p", 0.0);
-        table.putNumber("i", 0.0);
-        table.putNumber("d", 0.0);
-        table.putNumber("setpoint", 0.0);
-        table.putNumber("velocity", 0.0);
-        table.putNumber("maxOutput", 0.0);
-        table.putNumber("minOutput", 0.0);
-        table.putNumber("time", 0.0);
+    private void initializePIDTable(NetworkTable table, String name) {
+        //Setpoint gets loaded by individual PID systems in ___
+        table.putNumber("kP", p.getDouble(name + "kP", 0.0));
+        table.putNumber("kI", p.getDouble(name + "kI", 0.0));
+        table.putNumber("kD", p.getDouble(name + "kD", 0.0));
+        table.putNumber("Inst_Veloc", 0.0);
+        table.putNumber("kMax_Veloc", p.getDouble(name + "kMax_Veloc", 0.0));
+        table.putNumber("kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
+        table.putNumber("kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
+        table.putNumber("Time", 0.0);
     }
 
     private void initializePositionTable(NetworkTable table) {
@@ -95,8 +90,13 @@ public class UpdateWidgets extends CommandBase {
         table.putNumber("EncoderDistance", 0.0);
     }
     
+    private void updatePIDWidget(NetworkTable table) {
+        table.putNumber("Time", System.currentTimeMillis());
+        //PID Widget Data is being handled by PID Sendables (Other than Time!)
+    }
+    
     private void updatePositionTable(NetworkTable table) {
-        table.putNumber("EncoderDistance", (-leftEncoder.getRate() + rightEncoder.getRate()) / 2);
+        table.putNumber("EncoderDistance", (Math.abs(leftEncoder.getRate()) + Math.abs(rightEncoder.getRate())) / 2);
         table.putNumber("Heading", myGyro.getAngle());
     }
 }
