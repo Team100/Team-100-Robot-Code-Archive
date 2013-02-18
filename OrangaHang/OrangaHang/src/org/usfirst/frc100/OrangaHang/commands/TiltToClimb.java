@@ -4,6 +4,8 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import org.usfirst.frc100.OrangaHang.OI;
+
 /**
  *
  * @author Team100
@@ -18,24 +20,26 @@ public class TiltToClimb extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        tower.tiltToClimb();
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-        tower.tiltToClimb();
+    protected void execute(){
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (OI.manipulator.getThrottle() > 0.5) || (OI.manipulator.getThrottle() < -0.5);
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        tower.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }

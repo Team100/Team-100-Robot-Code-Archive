@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.TestTilter;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -33,6 +34,7 @@ public class Tower extends Subsystem
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new TestTilter());
     }//end initDefaultCommand
     
     public void manualControl(double s)
@@ -89,18 +91,22 @@ public class Tower extends Subsystem
     }//end setSetpoint
 
     public void tiltToClimb() {
+        enable();
         pidTower.setSetpoint(kClimbPosition);
     }//end tiltToClimb
 
     public void tiltToShoot() {
+        enable();
         pidTower.setSetpoint(kShootPosition);
     }//end tiltToClimb
 
     public void tiltToIntake() {
+        enable();
        pidTower.setSetpoint(kIntakePosition);
     }//end tiltToIntake
     
     public void tiltToStart(){
+        enable();
        pidTower.setSetpoint(kStartPosition);
     }//end tiltToStart
 

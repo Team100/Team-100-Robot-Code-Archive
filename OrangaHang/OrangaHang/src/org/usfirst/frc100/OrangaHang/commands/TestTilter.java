@@ -19,6 +19,7 @@ public class TestTilter extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        tower.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,6 +29,7 @@ public class TestTilter extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        // runs until interrupted
         return false;
     }
 
