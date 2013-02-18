@@ -70,7 +70,7 @@ public class OI {
         autoClimbButton.whenPressed(new Climb());
         
         //DriverRight commands
-        shiftGearsButton.whileHeld(new ShiftGears());
+        shiftGearsButton.whenPressed(new ShiftGears());
         quickTurnButton.whenPressed(new QuickTurn());
 
         //Manipulator commands
@@ -87,9 +87,8 @@ public class OI {
         //SmartDashboardButtons
         
         SmartDashboard.putData(new Memorize());
-        SmartDashboard.putData(new Reproduce());
+        //SmartDashboard.putData(new Reproduce());
         SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
-        SmartDashboard.putString("Select Autonomous Procedure","InsertHere");
     }//end constructor
     
 }//end OI

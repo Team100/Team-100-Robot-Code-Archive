@@ -22,15 +22,23 @@ public class DriveTrain extends Subsystem {
     private final DoubleSolenoid shifter = RobotMap.driveGear;
     private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
-    private final double kRightDistRatio = 1440 / ((4.0/12.0*3.14159));
-    private final double kLeftDistRatio = 1440 / ((4.0/12.0*3.14159));
+    //circumference/ticks
+    private final double kRightDistRatio = ((4.0/12.0*3.14159))/1440;
+    private final double kLeftDistRatio = ((4.0/12.0*3.14159))/1440;
     private final double ultraDistRatio = 0.009794921875;
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
+    
     
     public DriveTrain(){
         leftEncoder.start();
         rightEncoder.start();
+    }
+    
+    public void unSafe(){
         robotDrive.setSafetyEnabled(false);
+    }
+    
+    public void safe(){
+        robotDrive.setSafetyEnabled(true);
     }
     
     //creates a new Drive
@@ -50,27 +58,19 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
     }// end arcadeDrive
-
-    public void shiftHighGear()
-    {
-        if(!isHighGear())
-        {
-            //shifts gears to opposite position
+   
+    public void shiftGear(){
+        //high=forward
+        if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+        else{
             shifter.set(DoubleSolenoid.Value.kForward);
         }
     }
     
-    public void shiftLowGear()
-    {
-        if(isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-    }
-    
-    public boolean isHighGear()
-    {
-        return shifter.get().equals(DoubleSolenoid.Value.kForward);
+    public void shiftHighGear(){
+        shifter.set(DoubleSolenoid.Value.kForward);
     }
     
     //aligns robot for shooting

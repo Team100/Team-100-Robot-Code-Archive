@@ -6,6 +6,7 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -24,58 +25,88 @@ public class AutoMemory extends Subsystem{
     Vector RightMemory;
     Vector ShootButton;
     Vector PrimeShootButton;
+    
+    static SendableChooser chooser;
 
     public static String AutoList;
     String writeFile;
     
     public AutoMemory(){
-        updateAuto();
-        SmartDashboard.putString("Autonomous List", AutoList);
+        initAuto();
+        initSendableChooser();
+        
     }
     
     protected void initDefaultCommand() {
+        
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    
-    private static void updateAuto(){
-        //List :name,name,name,name
-        //Names are not in path format
-        Preferences pref = Preferences.getInstance();
+    private void initSendableChooser(){
+        System.out.println("Initializing Autonomous Sendable Chooser");
+        chooser = new SendableChooser();
         
+        
+        chooser.addDefault("NoAutonomous", "NoAutonomous");    
+        SmartDashboard.putData("Sendable Chooser", chooser);
+        
+        int i = 0;
+        
+        while(AutoList.indexOf(',', i) != -1){
+            String sub = AutoList.substring(i, AutoList.indexOf(',', i));
+            i = AutoList.indexOf(',', i)+1;
+            chooser.addObject(sub, sub);
+        }
+    }
+    
+    private static void updateSendableChooser(String str){
+        chooser.addObject(str, str);
+        SmartDashboard.putData("Sendable Chooser", chooser);
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    static Preferences pref = Preferences.getInstance();
+    private static void initAuto(){
         AutoList = "";
         if(pref.containsKey("autoList")){
             AutoList = pref.getString("autoList", "");    
         }else{
             pref.putString("autoList", "");
         }
-        SmartDashboard.putString("Autonomous List", AutoList);
-        pref.save();
     }
-    
+
     /**
      * Adds name to the list located in the preferences file. The it calls updateAuto
      * @see updateAuto
      * @param name
      */
     public static void addAuto(String name){
-        Preferences pref = Preferences.getInstance();
+        System.out.println("addAuto Running");
         String list = pref.getString("autoList", "");
         if("".equals(list)){
             list = name;
         }else{
-            if(list.indexOf(name) > -1){
-                list = list +","+ name;
+            if(list.indexOf(name) == -1){
+                System.out.println("XXXXXXXXXXXXXXXXX:"+list.indexOf(name));
+                list = list.concat(","+ name);
+                
             } 
         }
         pref.putString("autoList", list);
-        updateAuto();
+        if("".equals(AutoList)){AutoList = AutoList.concat(name);
+        }else{
+            if(AutoList.indexOf(name) == -1){
+                AutoList = AutoList.concat(","+name);
+            }
+            
+        }
+        pref.save();
+        updateSendableChooser(name);
     }
     
     ////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Gets the path from the smartdashboard and then resets the Vectors
+     * Gets the path from the smartdashboard and then resets the Vectors - Replace w/ sendable chooser
      */
     public void beginCollection(){
         writeFile = "file:///autonomous/" + SmartDashboard.getString("Name Autonomous Procedure") + ".sam";
@@ -97,21 +128,16 @@ public class AutoMemory extends Subsystem{
     public void stopCollection() throws IOException{
         this.write(writeFile);
         addAuto(SmartDashboard.getString("Name Autonomous Procedure"));
-        System.out.println("Saving on:" + writeFile);
+        System.out.println(SmartDashboard.getString("Name Autonomous Procedure") +": Saving on:" + writeFile);
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    /*
-    public void Reproduce(double leftTarget, double rightTarget, boolean shootbutton, boolean primeshootbutton){
-        //DriveTrain.reproleft = leftTarget;
-        //DriveTrain.reproright = rightTarget;
-        
-        SmartDashboard.putNumber("Autonomous Left Input", leftTarget);
-        SmartDashboard.putNumber("Autonomous Right Input", rightTarget);
-        SmartDashboard.putBoolean("Autonomous ShootButton", shootbutton);
-        SmartDashboard.putBoolean("Autonomous PrimeShootButton", primeshootbutton);
-    }   
-    */
+    
+    
+    
+    public String RequestName(){
+        return chooser.getSelected().toString();
+    }
     
     public Vector RequestLeft(){
         return LeftMemory;
