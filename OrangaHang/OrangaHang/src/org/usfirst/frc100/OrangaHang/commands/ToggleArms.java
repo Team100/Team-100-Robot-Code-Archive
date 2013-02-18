@@ -11,7 +11,6 @@ import org.usfirst.frc100.OrangaHang.OI;
  * @author Team100
  */
 public class ToggleArms extends CommandBase {
-{    
     public ToggleArms() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

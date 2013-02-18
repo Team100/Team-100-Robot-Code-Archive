@@ -5,6 +5,7 @@
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.OrangaHang.OI;
 
 /**
  *
@@ -13,18 +14,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class QuickTurn extends CommandBase
 {
     private double setPoint;
-    public QuickTurn(double setPoint)
+    public QuickTurn()
     {
         // Use requires() here to declare subsystem dependencies
         requires(driveTrain);
-        this.setPoint = setPoint;
+        this.setPoint = 90;
 //        driveTrain.resetValues();
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
-        driveTrain.setSetpoint(setPoint);
+        driveTrain.setSetpoint(setPoint * OI.double2unit(setPoint));
 //        driveTrain.resetValues();
         driveTrain.enable();
     }
