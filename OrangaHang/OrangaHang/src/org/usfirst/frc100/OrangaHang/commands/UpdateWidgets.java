@@ -100,7 +100,7 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void updatePIDWidget(NetworkTable table) {
-        table.putNumber("Time", System.currentTimeMillis());
+        table.putNumber("Time", System.currentTimeMillis()/1000.0);
         //PID Widget Data is being handled by PID Sendables (Other than Time!)
     }
     
