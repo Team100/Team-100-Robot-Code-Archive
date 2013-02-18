@@ -102,7 +102,7 @@ public class FullManualControl extends CommandBase {
         climber.disable();
         shooter.setFrontMotor(0.0);
         shooter.setBackMotor(0.0);
-        intake.setMotor(0.0);
+        //intake.setMotor(0.0);
         tower.disable();
     }
 

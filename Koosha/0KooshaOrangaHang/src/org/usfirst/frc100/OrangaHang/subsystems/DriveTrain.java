@@ -16,6 +16,7 @@ public class DriveTrain extends Subsystem {
     //Robot parts
     private final SpeedController rightMotor = RobotMap.driveRightMotor;
     private final SpeedController leftMotor = RobotMap.driveLeftMotor;
+    private final RobotDrive robotDrive = new RobotDrive(leftMotor, rightMotor);
     private final Encoder rightEncoder = RobotMap.driveRightEncoder;
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
@@ -124,65 +125,18 @@ public class DriveTrain extends Subsystem {
     
     //PID Control
     //driveRight
-//    PIDSource sourceRight = new PIDSource(){
-//        public double pidGet(){
-//            SmartDashboard.putNumber("encoderRight_raw", rightEncoder.getRaw());
-//            return rightEncoder.getRaw();
-//        }
-//    }; //end anonym class PIDSource
-//    PIDOutput outputRight = new PIDOutput(){
-//        public void pidWrite(double output){
-//            rightMotor.set(output);
-//        }
-//    }; //end anonym class PIDOutput
-//    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
-//    
-//    //driveLeft
-//    PIDSource sourceLeft = new PIDSource(){
-//        public double pidGet(){
-//            SmartDashboard.putNumber("encoderLeft_raw", leftEncoder.get());
-//            return leftEncoder.get();
-//        }
-//    }; //end anonym class PIDSource
-//    PIDOutput outputLeft = new PIDOutput(){
-//        public void pidWrite(double output){
-//             leftMotor.set(output);
-//        }
-//    }; //end anonym class PIDOutput
-//    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
-    
-    // drive turn
-    PIDSource sourceGyro = new PIDSource()
-    {
-        public double pidGet()
-        {
-            return gyro.getAngle();
+    PIDSource sourceRight = new PIDSource(){
+        public double pidGet(){
+            SmartDashboard.putNumber("encoderRight_raw", rightEncoder.getRaw());
+            return rightEncoder.getRaw();
         }
     }; //end anonym class PIDSource
     PIDOutput outputRight = new PIDOutput(){
         public void pidWrite(double output){
             rightMotor.set(output);
-    };
-    PIDOutput outputTurn = new PIDOutput()
-    {
-        public void pidWrite(double d)
-        {
-            rightMotor.set(+d);
-            leftMotor.set(-d);
         }
-    };
     }; //end anonym class PIDOutput
     private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
-    };
-    private PositionSendablePID pidTurn = new PositionSendablePID("turn", sourceGyro, outputTurn, 1);
-    
-    public void setSetpoint(double setpoint)
-    {
-        this.setpoint = setpoint;
-//        pidRight.setSetpoint(setpoint);
-//        pidLeft.setSetpoint(setpoint);
-        pidTurn.setSetpoint(setpoint);
-    }//end setSetpoint
     
     //driveLeft
     PIDSource sourceLeft = new PIDSource(){
@@ -198,6 +152,15 @@ public class DriveTrain extends Subsystem {
     }; //end anonym class PIDOutput
     private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
+    // drive turn
+    PIDSource sourceGyro = new PIDSource()
+    {
+        public double pidGet()
+        {
+            return gyro.getAngle();
+        }
+    }; //end anonym class PIDSource
+
     public void enable()
     {
 //        pidRight.enable();
@@ -207,12 +170,19 @@ public class DriveTrain extends Subsystem {
 //        leftEncoder.reset();
         
         gyro.reset();
-        pidTurn.enable();
+        //pidTurn.enable();
     }//end enable
-    public void setSetpoint(double setpoint){
+    public void setSetpoint(double setpoint)
+    {
+        this.setpoint = setpoint;
         pidRight.setSetpoint(setpoint);
         pidLeft.setSetpoint(setpoint);
     }//end setSetpoint
+    
+    public double getSetpoint()
+    {
+        return this.setpoint;
+    }
     
     public void disable(){
         setSetpoint(0.0);
@@ -226,7 +196,7 @@ public class DriveTrain extends Subsystem {
     {
 //        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
 //        pidLeft.getValues();
-        pidTurn.getValues();
+        //pidTurn.getValues();
     }
     
 }//end DriveTrain
