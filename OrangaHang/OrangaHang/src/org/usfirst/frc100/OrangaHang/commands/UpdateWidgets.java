@@ -101,7 +101,7 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void updatePositionTable(NetworkTable table) {
-        table.putNumber("EncoderDistance", (Math.abs(leftEncoder.getRate()) + Math.abs(rightEncoder.getRate())) / 2);
+        table.putNumber("EncoderDistance", ((-leftEncoder.getRate()) + (rightEncoder.getRate())) / 2);
         table.putNumber("Heading", myGyro.getAngle());
     }
 }
