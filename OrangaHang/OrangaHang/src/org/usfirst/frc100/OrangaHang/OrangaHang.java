@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.AnalogModule;
 import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -23,7 +22,6 @@ import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
-//import org.usfirst.frc100.Robot2013.commands.ExampleCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,7 +45,6 @@ public class OrangaHang extends IterativeRobot {
     public void robotInit() {
         // instantiate the command used for the autonomous period
         //autonomousCommand = new ExampleCommand();
-        reproduce = new Reproduce();
         // Initialize all subsystems
         CommandBase.init();
         RobotMap.init();
@@ -62,7 +59,6 @@ public class OrangaHang extends IterativeRobot {
         // schedule the autonomous command (example)
         reproduce = new Reproduce();
         reproduce.start();
-        }
         initializeAll();
     }//end autonomousInit
 
@@ -118,7 +114,7 @@ public class OrangaHang extends IterativeRobot {
     
     public void testInit(){
         CommandBase.disableAll();
-    }
+    }//end testInit
 
     public void loadPreferences() {
         //Load PID Data (Each pid system needs its own table please)
@@ -127,7 +123,7 @@ public class OrangaHang extends IterativeRobot {
         
         //Load data for the BACK SHOOTER  PID
         loadPIDInfo("BackShooter");
-    }
+    }//end loadPreferences
     
     public void loadPIDInfo(String s) {
         NetworkTable table = NetworkTable.getTable("PIDSystems").getTable(s);
@@ -137,7 +133,7 @@ public class OrangaHang extends IterativeRobot {
         table.putNumber("kD", p.getDouble(s + "_kD", -1.0));
         table.putNumber("kMinOutput", p.getDouble(s + "_kMinOutput", -1.0));
         table.putNumber("kMaxOutput", p.getDouble(s + "_kMaxOutput", -1.0));
-    }
+    }//end loadPIDInfo
     
     public void testIO(){
         NetworkTable table = NetworkTable.getTable("Status");
@@ -150,7 +146,7 @@ public class OrangaHang extends IterativeRobot {
         for(int i = 1; i <= 8; i++) {
             table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
         }
-    }
+    }//end testIO
 
     private void initializeAll() {
         CommandBase.pneumatics.startCompressor();
@@ -159,5 +155,5 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.climber.homingSequence();
         CommandBase.tower.enable();
         CommandBase.tower.tiltToStart();
-    }
+    }//end initializeAll
 }//end OrangaHang

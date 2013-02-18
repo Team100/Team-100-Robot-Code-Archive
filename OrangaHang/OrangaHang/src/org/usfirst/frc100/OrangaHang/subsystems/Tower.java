@@ -38,6 +38,7 @@ public class Tower extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
+    //switches arms from raised to lowered
     public void toggleArms(){
         //reverse=down
         if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
@@ -52,9 +53,10 @@ public class Tower extends Subsystem {
         armPistons.set(DoubleSolenoid.Value.kReverse);
     }//end stowArms
     
+    //calculates and returns the angle of the tower
     public double getAngle(){
         return 228-potentiometer.getValue()*kTowerAngleRatio;
-    }
+    }//end getAngle()
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
@@ -100,7 +102,7 @@ public class Tower extends Subsystem {
        isShooting = false;
        isClimbing = false;
        pidTower.setSetpoint(kStartPosition);
-    }
+    }//end tiltToStart
 
     public void disable() {
         pidTower.disable();

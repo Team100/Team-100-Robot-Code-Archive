@@ -22,10 +22,10 @@ public class Pneumatics extends Subsystem {
     
     public void startCompressor(){
         compressor.start();
-    }
+    }//end startCompressor
     
     public void stopCompressor(){
         compressor.stop();
-    }
+    }//end stopCompressor
     
 }//end Pneumatics

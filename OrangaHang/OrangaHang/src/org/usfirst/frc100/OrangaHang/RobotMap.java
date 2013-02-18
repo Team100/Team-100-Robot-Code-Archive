@@ -83,13 +83,8 @@ public class RobotMap {
     public static final Compressor compressor = new Compressor(14,1);
     public static final Relay cameraLights = new Relay(2);
     
+    //LiveWindow code
     public static void init(){
-        //Safety measures & set-up
-        climberTopMotor.setExpiration(1.0);
-        climberBottomMotor.setExpiration(1.0);
-        //climberTopMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
-        //climberBottomMotor.setSafetyEnabled(true);//This cannot be run using liveWindow if safetyEnabled
-        
         //LiveWindow display
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
@@ -134,6 +129,7 @@ public class RobotMap {
         
     }//end init
 
+    //puts safeties on all motors
     public static void safe() {
         driveLeftMotor.setSafetyEnabled(true);
         driveRightMotor.setSafetyEnabled(true);
@@ -143,8 +139,9 @@ public class RobotMap {
         shooterBackMotor.setSafetyEnabled(true);
         intakeMotor.setSafetyEnabled(true);
         towerMotor.setSafetyEnabled(true);
-    }
+    }//end safe
 
+    //removes safeties from all motors (for LiveWindow)
     public static void unSafe() {
         driveLeftMotor.setSafetyEnabled(false);
         driveRightMotor.setSafetyEnabled(false);
@@ -154,6 +151,5 @@ public class RobotMap {
         shooterBackMotor.setSafetyEnabled(false);
         intakeMotor.setSafetyEnabled(false);
         towerMotor.setSafetyEnabled(false);
-    }
-    
+    }//end unSafe
 }//end RobotMap

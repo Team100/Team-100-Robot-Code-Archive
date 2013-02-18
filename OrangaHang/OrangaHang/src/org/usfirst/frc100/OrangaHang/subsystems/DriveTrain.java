@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -27,19 +26,21 @@ public class DriveTrain extends Subsystem {
     private final double kLeftDistRatio = ((4.0/12.0*3.14159))/1440;
     private final double ultraDistRatio = 0.009794921875;
     
-    
+    //starts encoders
     public DriveTrain(){
         leftEncoder.start();
         rightEncoder.start();
-    }
+    }//end constructor
     
+    //removes safeties from the robotDrive
     public void unSafe(){
         robotDrive.setSafetyEnabled(false);
-    }
+    }//end unSafe
     
+    //puts safeties on the robotDrive
     public void safe(){
         robotDrive.setSafetyEnabled(true);
-    }
+    }//end safe
     
     //creates a new Drive
     public void initDefaultCommand() {
@@ -57,8 +58,11 @@ public class DriveTrain extends Subsystem {
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
+        SmartDashboard.putNumber("LEFT ENCODER", leftEncoder.get());
+        SmartDashboard.putNumber("RIGHT ENCODER", rightEncoder.get());
     }// end arcadeDrive
-   
+    
+    //toggles gear
     public void shiftGear(){
         //high=forward
         if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
@@ -67,11 +71,12 @@ public class DriveTrain extends Subsystem {
         else{
             shifter.set(DoubleSolenoid.Value.kForward);
         }
-    }
+    }//end shiftGear
     
+    //shifts to high gear, regardless of current gear
     public void shiftHighGear(){
         shifter.set(DoubleSolenoid.Value.kForward);
-    }
+    }//end shiftHighGear
     
     //aligns robot for shooting
     public void alignToShoot(double left, double right){

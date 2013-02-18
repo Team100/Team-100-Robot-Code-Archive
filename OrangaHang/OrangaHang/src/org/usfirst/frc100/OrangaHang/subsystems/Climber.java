@@ -34,9 +34,9 @@ public class Climber extends Subsystem {
     private int encoderMax=5000;//highest point elevator should reach
     private int encoderMin=0;//lowest point elevator should reach
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
-
+    //other variables
     int level=0;//level of the pyramid that the robot is at    
-    private boolean homePartOne=true;
+    private boolean homePartOne=true;//used by homing sequence
 
     //sets encoder
     public Climber(){
@@ -215,11 +215,10 @@ public class Climber extends Subsystem {
     
     //displays data on smartdashboard
     public void putData(){
-        SmartDashboard.putNumber("Level", level);
-        SmartDashboard.putNumber("Encoder", encoder.get()*.0004);
-        SmartDashboard.putBoolean("Upper Limit", getUpperLimit());
-        SmartDashboard.putBoolean("Lower Limit", getLowerLimit());
-        //System.out.println("putdata");
+        SmartDashboard.putNumber("Climber Level", level);
+        SmartDashboard.putNumber("Climber Encoder", encoder.get()*.0004);
+        SmartDashboard.putBoolean("Climber Upper Limit", getUpperLimit());
+        SmartDashboard.putBoolean("Climber Lower Limit", getLowerLimit());
     }//end putData
 
     //returns whether an error occured; not yet implemented

@@ -12,8 +12,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
 public class Intake extends Subsystem {
     //Robot parts
     private final SpeedController intakeMotor = RobotMap.intakeMotor;
-    //both switches are normally closed!
-    private final DigitalInput intakeTopSwitch = RobotMap.intakeTopSwitch;
+    private final DigitalInput intakeTopSwitch = RobotMap.intakeTopSwitch;//both switches are normally closed!
     private final DigitalInput intakeBottomSwitch = RobotMap.intakeBottomSwitch;
     //Constants
     private final double shootingSpeed = 0.5;
@@ -66,6 +65,6 @@ public class Intake extends Subsystem {
 
     //stops the motor
     public void stop() {
-        intakeMotor.set(intakeSpeed);
+        intakeMotor.set(0);
     }//end stop
 }//end Intake

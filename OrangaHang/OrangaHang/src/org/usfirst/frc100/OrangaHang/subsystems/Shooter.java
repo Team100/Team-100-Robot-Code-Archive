@@ -31,6 +31,7 @@ public class Shooter extends Subsystem {
     private double shootSpeed = .2;
     private double reverseSpeed = -.1;
     
+    //sets counters
     public Shooter(){
         counterFront.setMaxPeriod(1.0);
         counterBack.setMaxPeriod(1.0);
@@ -40,6 +41,7 @@ public class Shooter extends Subsystem {
         counterBack.start();
     }//end constructor
     
+    //empty
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -57,6 +59,7 @@ public class Shooter extends Subsystem {
         motorBack.set(shootSpeed);
     }//end shootFrisbees
     
+    //runs shooter in reverse direction for intake
     public void runBackwards(){
         motorFront.set(reverseSpeed);
         motorBack.set(reverseSpeed);

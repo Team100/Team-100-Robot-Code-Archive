@@ -72,7 +72,7 @@ public class OI {
         //DriverRight commands
         shiftGearsButton.whenPressed(new ShiftGears());
         //quickTurnButton.whenPressed(new QuickTurn());
-
+        
         //Manipulator commands
         tiltClimbButton.whenPressed(new TiltToClimb());
         tiltShootButton.whenPressed(new TiltToShoot());
