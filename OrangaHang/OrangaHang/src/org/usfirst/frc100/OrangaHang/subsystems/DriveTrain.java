@@ -30,6 +30,7 @@ public class DriveTrain extends Subsystem {
     public DriveTrain(){
         leftEncoder.start();
         rightEncoder.start();
+        gyro.reset();
     }//end constructor
     
     //removes safeties from the robotDrive
@@ -60,6 +61,7 @@ public class DriveTrain extends Subsystem {
         robotDrive.arcadeDrive(y, x);
         SmartDashboard.putNumber("LEFT ENCODER", leftEncoder.get());
         SmartDashboard.putNumber("RIGHT ENCODER", rightEncoder.get());
+        SmartDashboard.putNumber("GYRO", gyro.getAngle());
     }// end arcadeDrive
     
     //toggles gear

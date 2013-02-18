@@ -55,12 +55,12 @@ public abstract class CommandBase extends Command {
     public void safeAll(){
         driveTrain.safe();
         RobotMap.safe();
-    }
+    }//end safeAll
     
     public void unSafeAll(){
         driveTrain.unSafe();
         RobotMap.unSafe();
-    }
+    }//end unSafeAll
     
     public static void disableAll(){
         shooter.disable();

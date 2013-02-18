@@ -57,6 +57,24 @@ public class Tower extends Subsystem {
     public double getAngle(){
         return 228-potentiometer.getValue()*kTowerAngleRatio;
     }//end getAngle()
+    
+    public void testTilter(double speed){
+        double pot=getAngle();
+        int max=90;
+        int min=60;
+        if (pot<max&&speed>0||pot>min&&speed<0){
+            motor.set(speed);
+        }
+        if (pot<min&&speed<0){
+            motor.set(0);        
+        }
+        if (pot>max&&speed>0){
+            motor.set(0);
+        }
+        if(pot<max&&pot>min){
+            motor.set(speed);        
+        }
+    }
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
@@ -74,6 +92,7 @@ public class Tower extends Subsystem {
 
     public void setSetpoint(double setpoint) {
         pidTower.setSetpoint(setpoint);
+        SmartDashboard.putNumber("POTENTIOMETER", potentiometer.getValue());
     }//end setSetpoint
 
     public void tiltToClimb() {

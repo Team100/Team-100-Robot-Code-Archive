@@ -21,6 +21,7 @@ import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
+import org.usfirst.frc100.OrangaHang.commands.TestTilter;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 
 /**
@@ -36,7 +37,8 @@ public class OrangaHang extends IterativeRobot {
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
-    ManualTilt manualTilt;
+    //ManualTilt manualTilt;
+    TestTilter testTilt;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -89,11 +91,13 @@ public class OrangaHang extends IterativeRobot {
         manualClimb = new ManualClimb();
         drive = new Drive();
         updateWidgets = new UpdateWidgets();
-        manualTilt = new ManualTilt();
+        //manualTilt = new ManualTilt();
+        testTilt = new TestTilter();
         manualClimb.start();
         drive.start();
         updateWidgets.start();
-        manualTilt.start();
+        //manualTilt.start();
+        testTilt.start();
     }//end teleopInit
 
     /**
@@ -136,6 +140,6 @@ public class OrangaHang extends IterativeRobot {
 	//CommandBase.tower.stowArms();//do BEFORE the match
         CommandBase.climber.homingSequence();
         CommandBase.tower.enable();
-        CommandBase.tower.tiltToStart();
+        //CommandBase.tower.tiltToStart();
     }//end initializeAll
 }//end OrangaHang
