@@ -18,7 +18,7 @@ public class ShiftGearsBack extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        driveTrain.shiftHighGear();
+        shifter.shiftHighGear();
     }
 
     // Called repeatedly when this Command is scheduled to run

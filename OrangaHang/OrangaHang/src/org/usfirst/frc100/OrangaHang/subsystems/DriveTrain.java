@@ -20,7 +20,6 @@ public class DriveTrain extends Subsystem {
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
-    private final DoubleSolenoid shifter = RobotMap.driveGear;
     private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
     //circumference/ticks
@@ -75,27 +74,6 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("RIGHT ENCODER", rightEncoder.get());
         SmartDashboard.putNumber("GYRO", gyro.getAngle());
     }// end arcadeDrive
-    
-    public void shiftHighGear()
-    {
-        if(!isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kForward);
-        }
-    }
-    
-    public void shiftLowGear()
-    {
-        if(isHighGear())
-        {
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-    }
-    
-    public boolean isHighGear()
-    {
-        return shifter.get().equals(DoubleSolenoid.Value.kForward);
-    }
     
     public void resetGyro()
     {
