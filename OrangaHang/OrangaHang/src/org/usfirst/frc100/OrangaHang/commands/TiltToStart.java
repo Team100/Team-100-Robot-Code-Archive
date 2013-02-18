@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//TiltToStart moves the tower into the starting position.
+
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**

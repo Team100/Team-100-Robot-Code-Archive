@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//Intake moves the frisbee belt hook down to the bottom in order to make room for frisbees.
+//It also makes the shooter spin backwards at a speed that we can choose. 
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 import org.usfirst.frc100.OrangaHang.OI;

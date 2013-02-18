@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//LowerElevator moves the elevating hooks to its lower limit.
+//It also increases the level value by one.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

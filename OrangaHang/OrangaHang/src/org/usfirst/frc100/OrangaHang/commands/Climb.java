@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//Climb creates and starts the command group that will autonomously traverse the pyramid.
+//It stops when we get to the top.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

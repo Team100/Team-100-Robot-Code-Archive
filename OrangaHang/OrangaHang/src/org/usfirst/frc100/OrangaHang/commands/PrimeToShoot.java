@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//PrimeToShoot turns on the shooter wheels while it is held down.
+//It takes around one second of the wheels to get up to the proper speed for shooting.
+//The shooter motors will stop when the button is released.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**

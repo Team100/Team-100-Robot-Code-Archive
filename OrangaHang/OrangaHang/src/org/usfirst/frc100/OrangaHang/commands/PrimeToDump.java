@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//PrimeToDump turns on the shooter wheels while it is held down.
+//It takes around one second of the wheels to get up to the proper speed for dumping.
+//The shooter motors will stop when the button is released.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

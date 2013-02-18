@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//FrisbeesToShoot activates the frisbee belt at a speed that we can change.
+//It feeds the frisbees into the shooter wheels.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**

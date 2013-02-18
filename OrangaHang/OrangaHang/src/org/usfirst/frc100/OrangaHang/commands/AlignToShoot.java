@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//AlignToShoot stops the robot at the ideal distance from the wall.
+//The distance is measured by the MaxBotix ultrasonic sensor.
+//You drive with the joysticks while holding the button down. It will let you
+//drive but stop you when you get to the right distance from the wall.
 package org.usfirst.frc100.OrangaHang.commands;
 
 import org.usfirst.frc100.OrangaHang.OI;

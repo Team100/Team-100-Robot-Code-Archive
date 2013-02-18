@@ -1,3 +1,7 @@
+
+//UpdateWidgets initializes widget tables on first run, 
+//sends some information such as time periodically to the widgets through Network Tables
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 

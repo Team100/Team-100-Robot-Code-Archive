@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//ToggleArms moves the fixed (pivoting) arms into the opposite position. 
+
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**

@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//QuickTurn quickly turns OrangaHang a variable amount of degrees. 
+//we will probably set it to 90 degrees.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**

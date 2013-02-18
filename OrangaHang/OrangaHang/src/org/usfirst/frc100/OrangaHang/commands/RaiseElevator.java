@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//RaiseElevator causes the elevating hooks to move to its upper limit.
+//It stops when it gets there.
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

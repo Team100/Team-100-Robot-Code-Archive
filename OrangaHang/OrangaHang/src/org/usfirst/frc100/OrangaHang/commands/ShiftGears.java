@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+//ShiftGears activates the pneumatics in order to shift gears.
+//It currently (2-17-13) acts as a toggle. 
+
 package org.usfirst.frc100.OrangaHang.commands;
 
 /**
