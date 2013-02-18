@@ -5,6 +5,7 @@
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.OrangaHang.OI;
 
 /**
  *
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LowerElevator extends CommandBase {
     
-    boolean isFinished=false;
     public LowerElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -21,35 +21,30 @@ public class LowerElevator extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        climber.enable();
+        
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        climber.setSetpoint(SmartDashboard.getNumber("Setpoint", 0.0));
         //only lower elevator partway to get from level 2 to level 3 of pyramid
         if (climber.getLevel()!=2){
-            climber.lowerElevator();
+            climber.lowerElevator();//leave the rest commented out if stationary hooks are on the bottom
         }
         else {
             climber.lowerElevatorPartway();
-        }
-        if (climber.getLowerLimit()){
-            isFinished=true;
-        }
-        if (climber.getLevel()==2&&climber.getPartwayLimit()){
-            isFinished=true;
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isFinished;
+        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit()
+                || (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        climber.disable();
+        //this is only in LowerElevator, NOT RaiseElevator
+        climber.nextLevel();
     }
 
     // Called when another command which requires one or more of the same

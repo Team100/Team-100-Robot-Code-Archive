@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
@@ -22,9 +23,10 @@ public class DriveTrain extends Subsystem {
     private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
     //Constants
     //circumference/ticks
-    private final double kRightDistRatio = ((4.0/12.0*3.14159))/1440;
-    private final double kLeftDistRatio = ((4.0/12.0*3.14159))/1440;
+    private final double kRightDistRatio = ((4.0/12.0*Math.PI))/1440;
+    private final double kLeftDistRatio = ((4.0/12.0*Math.PI))/1440;
     private final double ultraDistRatio = 0.009794921875;
+    private double setpoint;
     
     //starts encoders
     public DriveTrain(){
@@ -50,7 +52,16 @@ public class DriveTrain extends Subsystem {
         //setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
-    //basic tankDrive
+    public void setLeftMotor(double s)
+    {
+        leftMotor.set(s);
+    }
+    
+    public void setRightMotor(double s)
+    {
+        rightMotor.set(s);
+    }
+    
     public void tankDrive(double leftSpeed, double rightSpeed){
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
@@ -64,24 +75,36 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("GYRO", gyro.getAngle());
     }// end arcadeDrive
     
-    //toggles gear
-//    public void shiftGear(){
-//        //high=forward
-//        if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
-//            shifter.set(DoubleSolenoid.Value.kReverse);
-//        }
-//        else{
-//            shifter.set(DoubleSolenoid.Value.kForward);
-//        }
-//    }//end shiftGear
-    
-    public void shiftLowGear(){
-        shifter.set(DoubleSolenoid.Value.kReverse);
+    public void shiftHighGear()
+    {
+        if(!isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kForward);
+        }
     }
-    //shifts to high gear, regardless of current gear
-    public void shiftHighGear(){
-        shifter.set(DoubleSolenoid.Value.kForward);
-    }//end shiftHighGear
+    
+    public void shiftLowGear()
+    {
+        if(isHighGear())
+        {
+            shifter.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+    
+    public boolean isHighGear()
+    {
+        return shifter.get().equals(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void resetGyro()
+    {
+        gyro.reset();
+    }
+
+    public double getGyro()
+    {
+        return gyro.getAngle();
+    }
     
     //aligns robot for shooting
     public void alignToShoot(double left, double right){
@@ -144,9 +167,15 @@ public class DriveTrain extends Subsystem {
     private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
     
     public void setSetpoint(double setpoint){
+        this.setpoint = setpoint;
         pidRight.setSetpoint(setpoint);
         pidLeft.setSetpoint(setpoint);
     }//end setSetpoint
+    
+    public double getSetpoint()
+    {
+        return this.setpoint;
+    }
     
     public void disable(){
         setSetpoint(0.0);
@@ -164,5 +193,11 @@ public class DriveTrain extends Subsystem {
         pidRight.enable();
         pidLeft.enable();
     }//end enable
+    public void resetValues()
+    {
+//        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
+//        pidLeft.getValues();
+        //pidTurn.getValues();
+    }
     
 }//end DriveTrain

@@ -10,11 +10,12 @@ import org.usfirst.frc100.OrangaHang.OI;
  *
  * @author Team100
  */
-public class ToggleArms extends CommandBase {
-    public ToggleArms() {
+public class ManualTilt extends CommandBase {
+    double position;
+    public ManualTilt() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        //requires(tower);
+        requires(tower);
     }
 
     // Called just before this Command runs the first time
@@ -23,24 +24,23 @@ public class ToggleArms extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        tower.toggleArms();
+        position=tower.getAngle();
+        if (Math.abs(OI.manipulator.getThrottle())>.5){
+            tower.setSetpoint(position+(OI.manipulator.getThrottle()/100));
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
-    protected void end()
-    {
-        
+    protected void end() {
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted()
-    {
-        
+    protected void interrupted() {
     }
 }
