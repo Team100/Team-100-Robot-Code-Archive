@@ -62,7 +62,7 @@ public class OrangaHang extends IterativeRobot {
         // schedule the autonomous command (example)
         reproduce = new Reproduce();
         reproduce.start();
-        }
+        
         initializeAll();
     }//end autonomousInit
 
