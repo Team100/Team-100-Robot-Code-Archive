@@ -89,23 +89,9 @@ public class OI {
         //SmartDashboardButtons
         
         SmartDashboard.putData(new Memorize());
+        SmartDashboard.putData(new WritePreferences());
         //SmartDashboard.putData(new Reproduce());
         SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
     }//end constructor
     
-    /**
-     * @param d
-     * @return +1 if d is positive; -1 if d is negative 
-     */
-    public static int double2unit(double d)
-    {
-        if(d == 0)
-        {
-            return 0;
-        }
-        
-        int returnVal = (int) (Math.abs(d)/d);
-        return returnVal;
-    }
-
 }//end OI

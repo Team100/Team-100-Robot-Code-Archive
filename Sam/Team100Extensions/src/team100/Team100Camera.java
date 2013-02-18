@@ -22,6 +22,7 @@ public class Team100Camera extends StaticWidget{
         boolean destroyed = false;
         
         void Team100Camera(){
+            
         }
 
         @Override
