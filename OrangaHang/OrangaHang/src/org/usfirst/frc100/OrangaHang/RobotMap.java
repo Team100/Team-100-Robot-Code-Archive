@@ -1,6 +1,7 @@
 package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -41,6 +42,7 @@ public class RobotMap {
     //Drive Train
     public static final Gyro driveGyro = new Gyro(1);
     public static final AnalogChannel driveUltrasonic = new AnalogChannel(2);
+    public static final ADXL345_I2C driveAccelerometer = new ADXL345_I2C(1, DataFormat_Range.k2G);
     //Tower
     public static final AnalogChannel towerPotent = new AnalogChannel(3);
     //Climber

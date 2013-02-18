@@ -5,6 +5,7 @@
 package org.usfirst.frc100.OrangaHang.commands;
 
 
+import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -28,6 +29,7 @@ public class UpdateWidgets extends CommandBase {
     NetworkTable backShooterTable;
     NetworkTable positionTable;
     NetworkTable towerTable;
+    NetworkTable artificialHorizonTable;
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
@@ -47,6 +49,7 @@ public class UpdateWidgets extends CommandBase {
         frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
         towerTable = NetworkTable.getTable("PIDSystems/Tower");
+        artificialHorizonTable =NetworkTable.getTable("ArtificialHorizon");
         initializePIDTable(backShooterTable, "BackShooter");
         initializePIDTable(frontShooterTable, "FrontShooter");
         initializePIDTable(towerTable, "Tower");
@@ -65,6 +68,7 @@ public class UpdateWidgets extends CommandBase {
         updatePIDWidget(backShooterTable);
         updatePIDWidget(towerTable);
         updatePositionTable(positionTable);
+        updateArtificialHorizonTable(artificialHorizonTable);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -99,8 +103,13 @@ public class UpdateWidgets extends CommandBase {
         table.putNumber("EncoderDistance", 0.0);
     }
     
+    private void updateArtificialHorizonTable(NetworkTable table){
+        table.putNumber("pitch", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kY));
+        table.putNumber("roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
+    }
+    
     private void updatePIDWidget(NetworkTable table) {
-        table.putNumber("Time", System.currentTimeMillis());
+        table.putNumber("Time", System.currentTimeMillis()/1000.0);
         //PID Widget Data is being handled by PID Sendables (Other than Time!)
     }
     
