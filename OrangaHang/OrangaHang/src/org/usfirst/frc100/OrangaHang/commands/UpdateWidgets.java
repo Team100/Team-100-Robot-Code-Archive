@@ -96,6 +96,7 @@ public class UpdateWidgets extends CommandBase {
         table.putNumber("kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
         table.putNumber("Output", 0.0);
         table.putNumber("Time", 0.0);
+        table.putBoolean("Enabled", false);
     }
 
     private void initializePositionTable(NetworkTable table) {

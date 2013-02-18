@@ -24,7 +24,7 @@ public class ManualTilt extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        position=tower.getAngle();
+        position=tower.getPotentiometer();
         if (Math.abs(OI.manipulator.getThrottle())>.5){
             tower.setSetpoint(position+(OI.manipulator.getThrottle()/100));
         }

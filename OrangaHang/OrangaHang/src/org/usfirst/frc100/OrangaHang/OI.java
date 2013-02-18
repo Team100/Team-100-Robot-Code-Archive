@@ -89,6 +89,7 @@ public class OI {
         //SmartDashboardButtons
         
         SmartDashboard.putData(new Memorize());
+        SmartDashboard.putData(new WritePreferences());
         //SmartDashboard.putData(new Reproduce());
         SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
     }//end constructor
