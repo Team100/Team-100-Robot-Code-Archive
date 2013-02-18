@@ -63,16 +63,19 @@ public class DriveTrain extends Subsystem {
     }// end arcadeDrive
     
     //toggles gear
-    public void shiftGear(){
-        //high=forward
-        if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-        else{
-            shifter.set(DoubleSolenoid.Value.kForward);
-        }
-    }//end shiftGear
+//    public void shiftGear(){
+//        //high=forward
+//        if(shifter.get().equals(DoubleSolenoid.Value.kForward)){
+//            shifter.set(DoubleSolenoid.Value.kReverse);
+//        }
+//        else{
+//            shifter.set(DoubleSolenoid.Value.kForward);
+//        }
+//    }//end shiftGear
     
+    public void shiftLowGear(){
+        shifter.set(DoubleSolenoid.Value.kReverse);
+    }
     //shifts to high gear, regardless of current gear
     public void shiftHighGear(){
         shifter.set(DoubleSolenoid.Value.kForward);
