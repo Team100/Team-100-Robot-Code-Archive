@@ -7,6 +7,7 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,8 +57,8 @@ public class Tower extends Subsystem
     
     public void testTilter(double speed){
         double pot=getAngle();
-        int max=90;
-        int min=60;
+        double max=Preferences.getInstance().getDouble("TowerUpperLimit", 0);
+        double min=Preferences.getInstance().getDouble("TowerLowerLimit", 0);
         if (pot<max&&speed>0||pot>min&&speed<0){
             motor.set(speed);
         }
