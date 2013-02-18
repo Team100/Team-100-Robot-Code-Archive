@@ -79,6 +79,7 @@ public class VelocitySendablePID {
         m_base.setKD(table.getNumber(dashboardName("kD"), 0.0));
         m_base.setMaxOutput(table.getNumber(dashboardName("kMaxOutput"), 0.0));
         m_base.setMinOutput(table.getNumber(dashboardName("kMinOutput"), 0.0));
+        
     }//end getValues
     
     public void setSetpoint(double setpoint) {

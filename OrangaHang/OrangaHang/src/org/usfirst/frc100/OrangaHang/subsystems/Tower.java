@@ -72,19 +72,19 @@ public class Tower extends Subsystem
         double pot=getPotentiometer();
         double max=kMaxPos;
         double min=kMinPos;
-        
-        if (pot<max&&speed>0||pot>min&&speed<0){
-            motor.set(speed);
-        }
-        if (pot<min&&speed<0){
-            motor.set(0);        
-        }
-        if (pot>max&&speed>0){
-            motor.set(0);
-        }
-        if(pot<max&&pot>min){
-            motor.set(speed);        
-        }
+        motor.set(speed);
+        //if (pot<max&&speed>0||pot>min&&speed<0){
+        //   motor.set(speed);
+        //}
+        //if (pot<min&&speed<0){
+        //    motor.set(0);        
+        //}
+        //if (pot>max&&speed>0){
+        //    motor.set(0);
+        //}
+        //if(pot<max&&pot>min){
+        //    motor.set(speed);        
+        //}
     }
 
     //PID control
