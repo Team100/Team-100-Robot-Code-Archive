@@ -22,7 +22,6 @@ public class Team100Camera extends StaticWidget{
         boolean destroyed = false;
         
         void Team100Camera(){
-            
         }
 
         @Override
@@ -145,6 +144,7 @@ public final IPAddressProperty cam2IP = new IPAddressProperty(this, "Camera 2 IP
         bgThread.start();
         gcThread.start();
         revalidate();        
+        
         
         DashboardFrame frame = (DashboardFrame) DashboardFrame.getInstance();
                 frame.repaint();
