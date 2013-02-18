@@ -30,7 +30,7 @@ public class VelocitySendablePID {
     public VelocitySendablePID(String name, PIDSource source, PIDSource period, PIDOutput output, double distRatio) {
         m_base = new VelocityPIDBase(distRatio, name);
         m_name = name;
-        table = NetworkTable.getTable("PIDSystems").getTable(name);
+        table = NetworkTable.getTable("PIDSystems/" + name);
         PIDInit();
         m_source = source;
         m_period = period;

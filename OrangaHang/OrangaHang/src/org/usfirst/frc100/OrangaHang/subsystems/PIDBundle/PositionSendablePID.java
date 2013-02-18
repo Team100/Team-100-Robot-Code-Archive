@@ -27,10 +27,14 @@ public class PositionSendablePID {
         return key;// + "_" + m_name;
     }//end dashboardName
     
+    private String rawDashboardName(String key) {
+        return m_name + "_" + key;
+    }//end dashboardName
+
     public PositionSendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
         m_base = new PositionPIDBase(distRatio, name);
         m_name = name;
-        table = NetworkTable.getTable("PIDSystems").getTable(name);
+        table = NetworkTable.getTable("PIDSystems/" + name);
         PIDInit();
         m_source = source;
         m_output = output;
