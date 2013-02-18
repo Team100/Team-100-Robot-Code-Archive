@@ -21,22 +21,34 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  */
 public class Tower extends Subsystem
 {
+    Preferences p = Preferences.getInstance();
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
     //Constants
-    private double kClimbPosition = 60.0;
-    private double kShootPosition = 50.0;
-    private double kIntakePosition = 60.0;
-    private double kStartPosition = 95.0;
-    private double kTowerAngleRatio = 0.277;
-    private double kZeroAngle = 228;
+    private double kClimbPosition = p.getDouble("kTowerClimbPos", 275.0);
+    private double kShootPosition = p.getDouble("kTowerShootPos", 100.0);
+    private double kIntakePosition = p.getDouble("kTowerIntakePos", 275.0);
+    private double kStartPosition = p.getDouble("kTowerStartPos", 700.0);
+    private double kMaxPos = p.getDouble("kTowerMaxPos", 700);
+    private double kMinPos = p.getDouble("kTowerMinPos", 50);
+    
+    
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
         setDefaultCommand(new TestTilter());
     }//end initDefaultCommand
+    
+    public Tower() {
+        SmartDashboard.putNumber("kTowerClimbPos", kClimbPosition);
+        SmartDashboard.putNumber("kTowerShootPos", kShootPosition);
+        SmartDashboard.putNumber("kTowerIntakePos", kIntakePosition);
+        SmartDashboard.putNumber("kTowerStartPos", kStartPosition);
+        SmartDashboard.putNumber("kTowerMaxPos", kMaxPos);
+        SmartDashboard.putNumber("kTowerMinPos", kMinPos);
+    }
     
     public void manualControl(double s)
     {
@@ -51,14 +63,16 @@ public class Tower extends Subsystem
     }
     
     //calculates and returns the angle of the tower
-    public double getAngle(){
-        return kZeroAngle-potentiometer.getValue()*kTowerAngleRatio;
-    }//end getAngle()
+    public double getPotentiometer(){
+        return potentiometer.getValue();
+    }//end getPotentiometer()
     
     public void testTilter(double speed){
-        double pot=getAngle();
-        double max=Preferences.getInstance().getDouble("TowerUpperLimit", 0);
-        double min=Preferences.getInstance().getDouble("TowerLowerLimit", 0);
+        getDashboardValues();
+        double pot=getPotentiometer();
+        double max=kMaxPos;
+        double min=kMinPos;
+        
         if (pot<max&&speed>0||pot>min&&speed<0){
             motor.set(speed);
         }
@@ -85,7 +99,7 @@ public class Tower extends Subsystem
             motor.set(output);
         }
     }; //end anonym class PIDOutput
-    private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, kTowerAngleRatio);
+    private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, 1.0);
 
     public void setSetpoint(double setpoint) {
         pidTower.setSetpoint(setpoint);
@@ -117,5 +131,14 @@ public class Tower extends Subsystem
 
     public void enable() {
         pidTower.enable();
-    }//end enable    
+    }//end enable
+    
+    public void getDashboardValues(){
+        kClimbPosition=SmartDashboard.getNumber("kTowerClimbPos", kClimbPosition);
+        kShootPosition=SmartDashboard.getNumber("kTowerShootPos", kShootPosition);
+        kIntakePosition=SmartDashboard.getNumber("kTowerIntakePos", kIntakePosition);
+        kStartPosition=SmartDashboard.getNumber("kTowerStartPos", kStartPosition);
+        kMaxPos=SmartDashboard.getNumber("kTowerMaxPos", kMaxPos);
+        kMinPos=SmartDashboard.getNumber("kTowerMinPos", kMinPos);
+    }
 }//end Tower
