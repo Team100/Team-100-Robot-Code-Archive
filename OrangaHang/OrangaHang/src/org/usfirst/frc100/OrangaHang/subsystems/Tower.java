@@ -18,7 +18,8 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  *
  * @author Team100
  */
-public class Tower extends Subsystem {
+public class Tower extends Subsystem
+{
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;
     private final Victor motor = RobotMap.towerMotor;
@@ -52,11 +53,45 @@ public class Tower extends Subsystem {
     public void stowArms(){
         armPistons.set(DoubleSolenoid.Value.kReverse);
     }//end stowArms
+    public boolean isStowed()
+    {
+        return armPistons.get().equals(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void manualControl(double s)
+    {
+        if(potentiometer.getValue()>=68.0 && s>=0)
+        {
+            motor.set(s);
+        }
+        else if(potentiometer.getValue()<=0.0 && s<0)
+        {
+            motor.set(s);
+        }
+    }
     
     //calculates and returns the angle of the tower
     public double getAngle(){
         return 228-potentiometer.getValue()*kTowerAngleRatio;
     }//end getAngle()
+    
+    public void testTilter(double speed){
+        double pot=getAngle();
+        int max=90;
+        int min=60;
+        if (pot<max&&speed>0||pot>min&&speed<0){
+            motor.set(speed);
+        }
+        if (pot<min&&speed<0){
+            motor.set(0);        
+        }
+        if (pot>max&&speed>0){
+            motor.set(0);
+        }
+        if(pot<max&&pot>min){
+            motor.set(speed);        
+        }
+    }
 
     //PID control
     PIDSource sourceTower = new PIDSource() {
@@ -74,6 +109,7 @@ public class Tower extends Subsystem {
 
     public void setSetpoint(double setpoint) {
         pidTower.setSetpoint(setpoint);
+        SmartDashboard.putNumber("POTENTIOMETER", potentiometer.getValue());
     }//end setSetpoint
 
     public void tiltToClimb() {

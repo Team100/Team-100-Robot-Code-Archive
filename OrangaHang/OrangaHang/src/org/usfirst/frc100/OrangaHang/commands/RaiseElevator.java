@@ -4,7 +4,6 @@
 
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
 
 /**
@@ -35,7 +34,7 @@ public class RaiseElevator extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        
+        climber.stop();
     }
 
     // Called when another command which requires one or more of the same

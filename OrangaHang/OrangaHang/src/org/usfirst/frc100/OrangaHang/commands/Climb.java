@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
- * @author Team100
+ * @author Paul
  */
 public class Climb extends CommandGroup {
+    //adds commands to scheduler
     public Climb() {
         
         addSequential(new RaiseElevator());
@@ -36,7 +37,7 @@ public class Climb extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
         
-    }
+    }//end constructor
     
     //prepares climber subsystem
     protected void initialize() {
@@ -44,12 +45,15 @@ public class Climb extends CommandGroup {
         //CommandBase.climber.enable();
     }//end initialize
 
+    //calls end
     protected void interrupted() {
         end();
-    }
+    }//end interrupted
 
+    //stops climber
     protected void end() {
+        CommandBase.climber.stop();
         CommandBase.climber.disable();
-    }
+    }//end end
     
 }//end Climb CommandGroup

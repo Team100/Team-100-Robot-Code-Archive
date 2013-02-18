@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Isis
  */
 public class VelocityPIDBase {
-    private boolean enabled = true;
+    private boolean enabled = false;
     private String name;
     //Previous value variables
     private double input = 0.0;
@@ -46,8 +46,8 @@ public class VelocityPIDBase {
         return key + "_" + name;
     }//end dashboardName
     
-    public double calculate(double period){
-        System.out.println("Enabled? " + enabled);
+    public double calculate(double threadPeriod, double sensorPeriod){
+        //System.out.println("Enabled? " + enabled);
         if (!enabled) {
             output = 0.0;
             return output;
@@ -56,9 +56,10 @@ public class VelocityPIDBase {
         double goalVeloc = getSetpoint();
 
         //calculate instantaneous velocity
-        double currDist = input / kDistRatio;
-        double deltaDist = currDist - prevDist;
-        double instVeloc = deltaDist / period;
+        double currDist = input * kDistRatio;
+        SmartDashboard.putNumber(dashboardName("currDist"), currDist);
+        double deltaDist = currDist - prevDist; //currently unused, but don't delete yet
+        double instVeloc = kDistRatio/sensorPeriod;
         SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
         double error = goalVeloc - instVeloc;
 
@@ -68,7 +69,7 @@ public class VelocityPIDBase {
         if (kI == 0.0) {
             totalDistError = 0.0;
         } else {
-            goalDist += goalVeloc * period;
+            goalDist += goalVeloc * threadPeriod;
             totalDistError = goalDist - currDist;
             if (kI * totalDistError > kMaxOutput) {
                 totalDistError = kMaxOutput / kI;
@@ -76,7 +77,7 @@ public class VelocityPIDBase {
         }
 
         //compute the output
-        double currWeightedInstVeloc = instVeloc/period;
+        double currWeightedInstVeloc = instVeloc/threadPeriod;
         output += kP * error + kI * totalDistError - kD * (currWeightedInstVeloc - prevWeightedInstVeloc);
 
         //limit to one directiion of motion, eliminate deadband
@@ -102,6 +103,10 @@ public class VelocityPIDBase {
         return setpoint;
     }//end getSetpoint
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+    
     //check enable/disable of robot
     public void disable(){
         enabled = false;

@@ -37,14 +37,14 @@ public class LowerElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit()
-                || (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
+        return ((climber.getLevel()==2&&climber.getPartwayLimit())||climber.getLowerLimit()|| (OI.manipulator.getY() > 0.5) || (OI.manipulator.getY() < -0.5));
     }
 
     // Called once after isFinished returns true
     protected void end() {
         //this is only in LowerElevator, NOT RaiseElevator
         climber.nextLevel();
+        climber.stop();
     }
 
     // Called when another command which requires one or more of the same

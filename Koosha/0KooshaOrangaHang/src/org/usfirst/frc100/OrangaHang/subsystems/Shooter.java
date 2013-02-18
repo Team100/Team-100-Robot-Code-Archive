@@ -24,13 +24,16 @@ public class Shooter extends Subsystem {
     private Counter counterFront = new Counter(hallFront);
     private Counter counterBack = new Counter(hallBack);
     //Constants
-    private final double kBackDistRatio = 1000 / ((18.0/30.0)*(7.5/12.0*3.14159));
-    private final double kFrontDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));
+    private final double kBackDistRatio = 3.0/12.0*3.14159/4;
+    private final double kFrontDistRatio = 3.0/12.0*3.14159/4;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
     private double dumpSpeed = 0.5;//change this eventually
-    private double shootSpeed = 1.0;
+    private double shootSpeed = .2;
+    private double reverseSpeed = -.1;
     
     public Shooter(){
+        counterFront.setMaxPeriod(1.0);
+        counterBack.setMaxPeriod(1.0);
         counterFront.reset();
         counterBack.reset();
         counterFront.start();
@@ -54,6 +57,11 @@ public class Shooter extends Subsystem {
         motorBack.set(shootSpeed);
     }//end shootFrisbees
     
+    public void runBackwards(){
+        motorFront.set(reverseSpeed);
+        motorBack.set(reverseSpeed);
+    }//end runBackwards
+    
     public void setFrontMotor(double s)
     {
         motorFront.set(s);
@@ -73,12 +81,18 @@ public class Shooter extends Subsystem {
             return counterFront.get();
         }
     }; //end anonym class PIDSource
+    PIDSource periodFront = new PIDSource(){
+        public double pidGet(){
+            SmartDashboard.putNumber("periodFront", counterFront.getPeriod());
+            return counterFront.getPeriod();
+        }
+    };//end anonym class PIDSource periodFront
     PIDOutput outputFront = new PIDOutput(){
         public void pidWrite(double output){
             motorFront.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidFront = new VelocitySendablePID("front",sourceFront, outputFront, kFrontDistRatio);
+    private VelocitySendablePID pidFront = new VelocitySendablePID("front",sourceFront, periodFront, outputFront, kFrontDistRatio);
     
     //shooterBack
     PIDSource sourceBack = new PIDSource(){
@@ -87,12 +101,18 @@ public class Shooter extends Subsystem {
             return counterBack.get();
         }
     }; //end anonym class PIDSource
+    PIDSource periodBack = new PIDSource(){
+        public double pidGet(){
+            SmartDashboard.putNumber("periodBack", counterBack.getPeriod());
+            return counterBack.getPeriod();
+        }
+    };//end anonym class PIDSource periodFront
     PIDOutput outputBack = new PIDOutput(){
         public void pidWrite(double output){
              motorBack.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidBack = new VelocitySendablePID("back",sourceBack, outputBack, kBackDistRatio);
+    private VelocitySendablePID pidBack = new VelocitySendablePID("back",sourceBack, periodBack, outputBack, kBackDistRatio);
     
     public void setSetpoint(double setpoint){
         pidFront.setSetpoint(setpoint);
@@ -105,6 +125,8 @@ public class Shooter extends Subsystem {
         pidBack.disable();
         counterFront.reset();
         counterBack.reset();
+        motorFront.set(0);
+        motorBack.set(0);
     }//end disable
     
     public void enable(){
