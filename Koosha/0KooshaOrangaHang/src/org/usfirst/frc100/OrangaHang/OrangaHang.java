@@ -105,10 +105,6 @@ public class OrangaHang extends IterativeRobot {
      */
     public void testPeriodic()
     {
-        if(testCommand!=null)
-        {
-            testCommand.start();
-        }
         LiveWindow.run();
     }//end testPeriodic
     
