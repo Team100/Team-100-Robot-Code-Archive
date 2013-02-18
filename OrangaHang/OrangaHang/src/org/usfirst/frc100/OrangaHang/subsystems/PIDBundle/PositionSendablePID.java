@@ -52,6 +52,9 @@ public class PositionSendablePID {
                 getValues();
                 double result = m_base.calculate(timer.get());
                 table.putNumber(dashboardName("Output"), result);
+                table.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
+                SmartDashboard.putNumber(rawDashboardName("PositionInput"), input);
+                SmartDashboard.putNumber(rawDashboardName("PositionResult"), result);
                 timer.reset();
                 if (m_base.isEnabled()) {
                     m_output.pidWrite(result);
