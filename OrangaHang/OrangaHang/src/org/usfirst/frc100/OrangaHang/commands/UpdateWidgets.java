@@ -90,8 +90,8 @@ public class UpdateWidgets extends CommandBase {
         table.putNumber("kP", p.getDouble(name + "kP", 0.0));
         table.putNumber("kI", p.getDouble(name + "kI", 0.0));
         table.putNumber("kD", p.getDouble(name + "kD", 0.0));
-        table.putNumber("Inst_Veloc", 0.0);
-        table.putNumber("kMax_Veloc", p.getDouble(name + "kMax_Veloc", 0.0));
+        table.putNumber("InstVeloc", 0.0);
+        table.putNumber("kMaxVeloc", p.getDouble(name + "kMaxVeloc", 0.0));
         table.putNumber("kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
         table.putNumber("kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
         table.putNumber("Output", 0.0);
