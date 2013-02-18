@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * @author Team100
  */
 public class Climb extends CommandGroup {
-    boolean firstTime=true;
     public Climb() {
-        //if elevator starts at bottom add another RaiseElevator here
+        
         addSequential(new RaiseElevator());
         addSequential(new LowerElevator());
         addSequential(new RaiseElevator());
@@ -38,12 +37,19 @@ public class Climb extends CommandGroup {
         // arm.
         
     }
-    public void execute(){
-        //do not move this to another method
-        if (firstTime){
-            CommandBase.climber.resetLevel();
-        }
-        firstTime=false;
-    }//end execute
+    
+    //prepares climber subsystem
+    protected void initialize() {
+        CommandBase.climber.resetLevel();
+        //CommandBase.climber.enable();
+    }//end initialize
+
+    protected void interrupted() {
+        end();
+    }
+
+    protected void end() {
+        CommandBase.climber.disable();
+    }
     
 }//end Climb CommandGroup

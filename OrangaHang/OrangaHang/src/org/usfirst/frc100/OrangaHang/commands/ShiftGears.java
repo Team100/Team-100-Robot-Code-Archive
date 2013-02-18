@@ -21,7 +21,8 @@ public class ShiftGears extends CommandBase {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() 
+    {
         driveTrain.shiftLowGear();
     }
 
@@ -31,11 +32,15 @@ public class ShiftGears extends CommandBase {
     }
 
     // Called once after isFinished returns true
-    protected void end(){
+    protected void end()
+    {
+        driveTrain.shiftHighGear();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted(){
+    protected void interrupted()
+    {
+        driveTrain.shiftHighGear();
     }
 }
