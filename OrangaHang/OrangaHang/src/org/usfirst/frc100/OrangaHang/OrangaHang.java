@@ -63,10 +63,7 @@ public class OrangaHang extends IterativeRobot {
         reproduce = new Reproduce();
         reproduce.start();
         }
-
-	CommandBase.driveTrain.shiftHighGear();
-	CommandBase.tower.stowArms();
-        CommandBase.climber.homingSequence();
+        initializeAll();
     }//end autonomousInit
 
     /**
@@ -93,6 +90,7 @@ public class OrangaHang extends IterativeRobot {
         if (reproduce != null){
             reproduce.cancel();
         }
+        CommandBase.pneumatics.startCompressor();
         manualClimb = new ManualClimb();
         drive = new Drive();
         updateWidgets = new UpdateWidgets();
@@ -152,5 +150,14 @@ public class OrangaHang extends IterativeRobot {
         for(int i = 1; i <= 8; i++) {
             table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
         }
+    }
+
+    private void initializeAll() {
+        CommandBase.pneumatics.startCompressor();
+	CommandBase.driveTrain.shiftHighGear();
+	//CommandBase.tower.stowArms();//do BEFORE the match
+        CommandBase.climber.homingSequence();
+        CommandBase.tower.enable();
+        CommandBase.tower.tiltToStart();
     }
 }//end OrangaHang

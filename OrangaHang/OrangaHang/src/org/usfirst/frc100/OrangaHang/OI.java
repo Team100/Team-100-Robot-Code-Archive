@@ -41,7 +41,7 @@ public class OI {
     public static final Joystick driverLeft = new Joystick(1);
     public static final Joystick driverRight = new Joystick(2);
     public static final Joystick manipulator = new Joystick(3);
-   
+    
     //Button declarations
     //DriverLeft button declarations - numbers NOT final
     public static final JoystickButton straightShootButton = new JoystickButton(driverLeft, 1);
@@ -56,7 +56,7 @@ public class OI {
     public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
     public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
     //public static final JoystickButton tiltStartButton = new JoystickButton(manipulator, 4);
-    public static final JoystickButton deployArmsButton = new JoystickButton(manipulator, 4);
+    public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 4);
     public static final JoystickButton primeShootButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
@@ -71,14 +71,14 @@ public class OI {
         
         //DriverRight commands
         shiftGearsButton.whenPressed(new ShiftGears());
-        quickTurnButton.whenPressed(new QuickTurn());
+        //quickTurnButton.whenPressed(new QuickTurn());
 
         //Manipulator commands
         tiltClimbButton.whenPressed(new TiltToClimb());
         tiltShootButton.whenPressed(new TiltToShoot());
         tiltIntakeButton.whenPressed(new TiltToIntake());
         //tiltStartButton.whenPressed(new TiltToStart());
-        deployArmsButton.whenPressed(new DeployFixedArms());
+        toggleArmsButton.whenPressed(new ToggleArms());
         intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
