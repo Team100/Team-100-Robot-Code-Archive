@@ -29,7 +29,7 @@ public class WritePreferences extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //The syntax for naming keys of PID Widgets is      name + (kP | kI | kD | kMaxOutput | kMinOutput | kMax_Veloc)
+        //The syntax for naming keys of PID Widgets is      name + (kP | kI | kD | kMaxOutput | kMinOutput | kMaxVeloc)
         table = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         writePIDPreferences(table, "FrontShooter");
         table = NetworkTable.getTable("PIDSystems/BackShooterPID");
@@ -57,7 +57,7 @@ public class WritePreferences extends CommandBase {
         p.putDouble(s + "kD", t.getNumber("kD"));
         p.putDouble(s + "kMaxOutput", t.getNumber("kMaxOutput"));
         p.putDouble(s + "kMinOutput", t.getNumber("kMinOutput"));
-        p.putDouble(s + "kMax_Veloc", t.getNumber("kMax_Veloc"));
+        p.putDouble(s + "kMaxVeloc", t.getNumber("kMaxVeloc"));
     }
 
     // Make this return true when this Command no longer needs to run execute()
