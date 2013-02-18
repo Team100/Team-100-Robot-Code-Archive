@@ -260,4 +260,8 @@ public class Climber extends Subsystem {
         pidClimber.enable();
     }//end enable
 
+    public void stop() {
+        motorTop.set(0);
+        motorBottom.set(0);
+    }
 }//end Climber

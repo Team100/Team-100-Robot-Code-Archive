@@ -49,6 +49,7 @@ public class Climb extends CommandGroup {
     }
 
     protected void end() {
+        CommandBase.climber.stop();
         CommandBase.climber.disable();
     }
     
