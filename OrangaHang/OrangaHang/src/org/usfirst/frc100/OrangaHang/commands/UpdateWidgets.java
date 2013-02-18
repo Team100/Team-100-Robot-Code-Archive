@@ -74,6 +74,7 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void initializePIDTable(NetworkTable table, String name) {
+        //Setpoint gets loaded by individual PID systems in ___
         table.putNumber("kP", p.getDouble(name + "kP", 0.0));
         table.putNumber("kI", p.getDouble(name + "kI", 0.0));
         table.putNumber("kD", p.getDouble(name + "kD", 0.0));
