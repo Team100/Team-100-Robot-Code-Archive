@@ -80,12 +80,12 @@ public class FullManualControl extends CommandBase {
         
         if(OI.manipulator.getRawAxis(5)<0.0 && !tower.isStowed())
         {
-            tower.deployArms();
+            tower.toggleArms();
         }
         
         if(OI.manipulator.getRawAxis(5)>0.0 && tower.isStowed())
         {
-            tower.deployArms();
+            tower.toggleArms();
         }
     }
 
