@@ -38,13 +38,19 @@ public class Tower extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    public void deployArms(){
+    public void toggleArms(){
+        //reverse=down
         if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
             armPistons.set(DoubleSolenoid.Value.kForward);
         } else {
             armPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end deployArms
+    
+    //sets arms to down position
+    public void stowArms(){
+        armPistons.set(DoubleSolenoid.Value.kReverse);
+    }//end stowArms
     
     public double getAngle(){
         return 228-potentiometer.getValue()*kTowerAngleRatio;

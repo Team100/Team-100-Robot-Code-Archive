@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
+import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.AutoMemory;
 import org.usfirst.frc100.OrangaHang.subsystems.Climber;
 import org.usfirst.frc100.OrangaHang.subsystems.DriveTrain;
@@ -47,14 +48,25 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(intake);
         SmartDashboard.putData(pneumatics);
         SmartDashboard.putData(tower);
+        SmartDashboard.putData(autoMemory);
         
     }//end init
+    
+    public void safeAll(){
+        driveTrain.safe();
+        RobotMap.safe();
+    }
+    
+    public void unSafeAll(){
+        driveTrain.unSafe();
+        RobotMap.unSafe();
+    }
     
     public static void disableAll(){
         shooter.disable();
         climber.disable();
         driveTrain.disable();
-        shooter.disable();
+        tower.disable();
     }//end disable
     
     public CommandBase(String name) {

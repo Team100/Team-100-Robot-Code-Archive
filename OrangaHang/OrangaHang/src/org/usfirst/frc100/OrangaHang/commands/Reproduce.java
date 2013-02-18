@@ -21,6 +21,7 @@ public class Reproduce extends CommandBase{
     Vector primeshootbutton;
     
     public Reproduce(){
+        System.out.println("Created Reproduce");
         requires(autoMemory);
         requires(driveTrain);
         requires(shooter);
@@ -30,7 +31,8 @@ public class Reproduce extends CommandBase{
     protected void initialize() {
         
         String file;
-        file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
+        //file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
+        file = "file:///autonomous/" + autoMemory.RequestName() + ".sam";
         System.out.println("Reproduce Init :" + file);
         
         autoMemory.read(file);
@@ -40,6 +42,10 @@ public class Reproduce extends CommandBase{
         primeshootbutton = autoMemory.RequestPrimeShootButton();
         position = 0;
         this.setInterruptible(true);
+        
+        if("NoAutonomous".equals(autoMemory.getName())){
+            end();
+        }
     }
 
     /**
@@ -48,6 +54,7 @@ public class Reproduce extends CommandBase{
      * This must be adapted to the actual robot.
      */
     protected void execute() {
+        try{
         if(position > leftVector.size()-2){
             this.cancel();
         }
@@ -70,7 +77,9 @@ public class Reproduce extends CommandBase{
         ////////////////////////////////////////////////////////////////////////
     
         position++;
-             
+        }catch(ArrayIndexOutOfBoundsException ex){
+            end();
+        }
     }
 
     protected boolean isFinished() {
@@ -89,5 +98,6 @@ public class Reproduce extends CommandBase{
         //autoMemory.Reproduce(0,0,false,false);
         position = 0;
         SmartDashboard.putBoolean("Reproducing", false);
+        System.out.println("Finished");
     }
 }
