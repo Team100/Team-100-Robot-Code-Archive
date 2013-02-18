@@ -9,6 +9,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.Climber;
 import org.usfirst.frc100.OrangaHang.subsystems.DriveTrain;
 import org.usfirst.frc100.OrangaHang.subsystems.FrisbeeTransport;
 import org.usfirst.frc100.OrangaHang.subsystems.Pneumatics;
+import org.usfirst.frc100.OrangaHang.subsystems.Shifter;
 import org.usfirst.frc100.OrangaHang.subsystems.Shooter;
 import org.usfirst.frc100.OrangaHang.subsystems.Tower;
 //import org.usfirst.frc100.Robot2013.subsystems.ExampleSubsystem;
@@ -29,6 +30,7 @@ public abstract class CommandBase extends Command {
     public static Pneumatics pneumatics = new Pneumatics();
     public static Tower tower = new Tower();
     public static AutoMemory autoMemory = new AutoMemory();
+    public static Shifter shifter = new Shifter();
     
     // Create a single static instance of all of your subsystems
     //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
