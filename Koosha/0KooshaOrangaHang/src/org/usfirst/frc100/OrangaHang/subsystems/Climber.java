@@ -27,33 +27,35 @@ public class Climber extends Subsystem {
     private final DigitalInput poleSwitch = RobotMap.climberPoleSwitch;
     //Constants
     private final double kClimberDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));//encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
-    boolean homeUp=true;//automatically home elevator to top or bottom
+    boolean homeUp=false;//automatically home elevator to top or bottom
     double elevatorSpeed=1;//speed that elevator will move
-    double homingSpeed=.2;//speed for homingSequence method
+    double homingSpeed=.5;//speed for homingSequence method
     private double homingReverseSpeed=.1;//not very fast
     private int encoderMax=5000;//highest point elevator should reach
     private int encoderMin=0;//lowest point elevator should reach
     private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
+
     int level=0;//level of the pyramid that the robot is at    
 
+    //sets encoder
     public Climber(){
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
     }//end constructor
 
-    //creates a new climb
+    //empty
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
+    //tells SmartDashboard if the climber has reached the pole
     public void readyClimber(){
         if(poleSwitch.get()){
             SmartDashboard.putString("Ready?", "YES");
         }
     }//end readyClimber
-   
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
@@ -176,11 +178,11 @@ public class Climber extends Subsystem {
     //moves elevator to starting position and sets encoder
     public void homingSequence() {
         if (homeUp){
-            while (!getUpperLimit()){
+            while (!topSwitch.get()){
                 motorTop.set(homingSpeed);
                 motorBottom.set(homingSpeed);
             }
-            while (getUpperLimit()){
+            while (topSwitch.get()){
                 motorTop.set(-homingReverseSpeed);
                 motorBottom.set(-homingReverseSpeed);
             }
@@ -188,14 +190,16 @@ public class Climber extends Subsystem {
         }
         
         else{
-            while (!getLowerLimit()){
+            while (!bottomSwitch.get()){
                 motorTop.set(-homingSpeed);
                 motorBottom.set(-homingSpeed);
             }
-            while (getLowerLimit()){
+            while (bottomSwitch.get()){
                 motorTop.set(homingReverseSpeed);
                 motorBottom.set(homingReverseSpeed);
             }
+            motorTop.set(0);
+            motorBottom.set(0);
             encoder.reset();
         }
     }//end homingSequence
@@ -214,6 +218,7 @@ public class Climber extends Subsystem {
         return false;
     }//end getError
 
+    //resets the encoder
     public void resetEncoder() {
         encoder.reset();
     }//end resetEncoder
@@ -241,14 +246,9 @@ public class Climber extends Subsystem {
     
     public void disable(){
         pidClimber.disable();
-        encoder.setReverseDirection(true);
-        encoder.reset();
     }//end disable
     
     public void enable(){
-        encoder.setReverseDirection(true);
-        encoder.reset();
-        encoder.start();
         pidClimber.enable();
     }//end enable
 
