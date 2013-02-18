@@ -25,10 +25,6 @@ public class UpdateWidgets extends CommandBase {
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
-    DigitalInput frontHall;
-    DigitalInput backHall;
-    Counter frontCounter;
-    Counter backCounter;
     
     public UpdateWidgets() {
         // Use requires() here to declare subsystem dependencies
@@ -37,31 +33,25 @@ public class UpdateWidgets extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        backShooterTable = NetworkTable.getTable("BackShooterPID");
-        initializePIDTable(backShooterTable);
-        frontShooterTable = NetworkTable.getTable("FrontShooterPID");
-        initializePIDTable(frontShooterTable);
+        //Widget Tables
+        backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
+        frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
+        initializePIDTable(backShooterTable);
+        initializePIDTable(frontShooterTable);
         initializePositionTable(positionTable);
+        //Other Stuff
         myGyro = RobotMap.driveGyro;
         leftEncoder = RobotMap.driveLeftEncoder;
         rightEncoder = RobotMap.driveRightEncoder;
-        frontHall = RobotMap.shooterFrontHallEffect;
-        backHall = RobotMap.shooterBackHallEffect;
-        frontCounter = new Counter(frontHall);
-        backCounter = new Counter(backHall);
-        frontCounter.start();
-        backCounter.start();
         leftEncoder.start();
         rightEncoder.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        frontShooterTable.putNumber("time", System.currentTimeMillis());
-        frontShooterTable.putNumber("velocity", frontCounter.getPeriod());
-        backShooterTable.putNumber("time", System.currentTimeMillis());
-        backShooterTable.putNumber("velocity", backCounter.getPeriod());
+        updatePIDWidget(frontShooterTable);
+        updatePIDWidget(backShooterTable);
         updatePositionTable(positionTable);
     }
 
@@ -80,19 +70,24 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void initializePIDTable(NetworkTable table) {
-        table.putNumber("p", 0.0);
-        table.putNumber("i", 0.0);
-        table.putNumber("d", 0.0);
-        table.putNumber("setpoint", 0.0);
-        table.putNumber("velocity", 0.0);
-        table.putNumber("maxOutput", 0.0);
-        table.putNumber("minOutput", 0.0);
-        table.putNumber("time", 0.0);
+        table.putNumber("kP", 0.0);
+        table.putNumber("kI", 0.0);
+        table.putNumber("kD", 0.0);
+        table.putNumber("Inst_Veloc", 0.0);
+        table.putNumber("kMax_Veloc", 0.0);
+        table.putNumber("kMaxOutput", 0.0);
+        table.putNumber("kMinOutput", 0.0);
+        table.putNumber("Time", 0.0);
     }
 
     private void initializePositionTable(NetworkTable table) {
         table.putNumber("Heading", 0.0);
         table.putNumber("EncoderDistance", 0.0);
+    }
+    
+    private void updatePIDWidget(NetworkTable table) {
+        table.putNumber("Time", System.currentTimeMillis());
+        //PID Widget Data is being handled by PID Sendables (Other than Time!)
     }
     
     private void updatePositionTable(NetworkTable table) {
