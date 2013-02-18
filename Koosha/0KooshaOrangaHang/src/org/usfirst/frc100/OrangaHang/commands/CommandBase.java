@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
+import org.usfirst.frc100.OrangaHang.subsystems.AutoMemory;
 import org.usfirst.frc100.OrangaHang.subsystems.Climber;
 import org.usfirst.frc100.OrangaHang.subsystems.DriveTrain;
 import org.usfirst.frc100.OrangaHang.subsystems.Intake;
@@ -26,6 +27,7 @@ public abstract class CommandBase extends Command {
     public static Intake intake = new Intake();
     public static Pneumatics pneumatics = new Pneumatics();
     public static Tower tower = new Tower();
+    public static AutoMemory autoMemory = new AutoMemory();
     
     // Create a single static instance of all of your subsystems
     //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();

@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/OI.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/subsystems/Tower.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/OrangaHang.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/commands/CommandBase.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/subsystems/Pneumatics.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/commands/QuickTurn.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/commands/Drive.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/subsystems/DriveTrain.java</file>
-        <file>file:/C:/Users/Student/Documents/GoogleCodeRepo/OrangaHang/OrangaHang/src/org/usfirst/frc100/OrangaHang/RobotMap.java</file>
-    </open-files>
 </project-private>
