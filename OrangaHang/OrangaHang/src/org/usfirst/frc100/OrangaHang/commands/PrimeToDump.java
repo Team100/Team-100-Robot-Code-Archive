@@ -20,13 +20,13 @@ public class PrimeToDump extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        SmartDashboard.putNumber("DumpSetpoint", 0.0);
-        shooter.enable();
+        //SmartDashboard.putNumber("DumpSetpoint", 0.0);
+        shooter.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.setSetpoint(SmartDashboard.getNumber("DumpSetpoint", 0.0));
+        shooter.dumpFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()

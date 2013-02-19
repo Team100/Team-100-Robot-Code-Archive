@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.OrangaHang.OI;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.TestTilter;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
@@ -72,8 +73,9 @@ public class Tower extends Subsystem
         double pot=getPotentiometer();
         double max=kMaxPos;
         double min=kMinPos;
-        motor.set(speed);
+        motor.set(-speed);
         SmartDashboard.putNumber("Tower_manual",speed);
+        SmartDashboard.putNumber("Joystick",OI.manipulator.getThrottle());
         //if (pot<max&&speed>0||pot>min&&speed<0){
         //   motor.set(speed);
         //}
@@ -97,7 +99,7 @@ public class Tower extends Subsystem
     }; //end anonym class PIDSource
     PIDOutput outputTower = new PIDOutput() {
         public void pidWrite(double output) {
-            motor.set(output);
+            motor.set(-output);
         }
     }; //end anonym class PIDOutput
     private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, 1.0);

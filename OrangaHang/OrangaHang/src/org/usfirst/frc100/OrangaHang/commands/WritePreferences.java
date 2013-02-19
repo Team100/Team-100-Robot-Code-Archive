@@ -34,7 +34,7 @@ public class WritePreferences extends CommandBase {
         writePIDPreferences(table, "FrontShooter");
         table = NetworkTable.getTable("PIDSystems/BackShooterPID");
         writePIDPreferences(table, "BackShooter");
-        table = NetworkTable.getTable("PIDSystems/TowerPID");
+        table = NetworkTable.getTable("SmartDashboard");
         writePIDPreferences(table, "Tower");
         table = NetworkTable.getTable("SmartDashboard");
         writeTowerPreferences(table);
@@ -62,7 +62,7 @@ public class WritePreferences extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

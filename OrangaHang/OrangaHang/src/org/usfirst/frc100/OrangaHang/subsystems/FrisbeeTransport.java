@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 
 /**
@@ -15,11 +16,16 @@ public class FrisbeeTransport extends Subsystem {
     private final DigitalInput intakeTopSwitch = RobotMap.intakeTopSwitch;//both switches are normally closed!
     private final DigitalInput intakeBottomSwitch = RobotMap.intakeBottomSwitch;
     //Constants
-    private final double shootingSpeed = 0.5;
-    private final double intakeSpeed = -0.2;
+    private final double shootingSpeed = .4;
+    private final double intakeSpeed = -.2;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    
+    public FrisbeeTransport(){
+        SmartDashboard.putNumber("FrisbeeBeltShootingSpeed", shootingSpeed);
+        SmartDashboard.putNumber("FrisbeeBeltIntakeSpeed", intakeSpeed);
+    }
     
     //empty
     public void initDefaultCommand() {
@@ -29,8 +35,10 @@ public class FrisbeeTransport extends Subsystem {
     
     //call to load frisbees, does NOT run shooter wheels
     public void takeFrisbees(){
+        SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
+        SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
         if(intakeBottomSwitch.get()){
-            intakeMotor.set(intakeSpeed);
+            intakeMotor.set(SmartDashboard.getNumber("intakeSpeed"));
         }
         else {
             intakeMotor.set(0);
@@ -39,8 +47,10 @@ public class FrisbeeTransport extends Subsystem {
     
     //slowly moves frisbees into shooter, does NOT run shooter wheels
     public void shootFrisbees(){
+        SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
+        SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
         if(intakeTopSwitch.get()){
-            intakeMotor.set(shootingSpeed);
+            intakeMotor.set(SmartDashboard.getNumber("shootingSpeed"));
         }
         else {
             intakeMotor.set(0);

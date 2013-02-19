@@ -25,11 +25,11 @@ public class VelocitySendablePID {
     private final NetworkTable table;
 
     private String dashboardName(String key) {
-        return key;// + "_" + m_name;
+        return key;// + m_name;
     }//end dashboardName
     
     private String rawDashboardName(String key) {
-        return m_name + "_" + key;
+        return m_name + key;
     }//end dashboardName
     
     public VelocitySendablePID(String name, PIDSource source, PIDSource period, PIDOutput output, double distRatio) {

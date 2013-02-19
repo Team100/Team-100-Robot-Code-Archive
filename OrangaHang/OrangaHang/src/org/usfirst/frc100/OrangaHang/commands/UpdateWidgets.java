@@ -48,7 +48,8 @@ public class UpdateWidgets extends CommandBase {
         backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
         frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
-        towerTable = NetworkTable.getTable("PIDSystems/Tower");
+        towerTable = NetworkTable.getTable("SmartDashboard");
+//        towerTable = NetworkTable.getTable("PIDSystems/Tower");
         artificialHorizonTable =NetworkTable.getTable("ArtificialHorizon");
         initializePIDTable(backShooterTable, "BackShooter");
         initializePIDTable(frontShooterTable, "FrontShooter");
@@ -64,9 +65,9 @@ public class UpdateWidgets extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        updatePIDWidget(frontShooterTable);
-        updatePIDWidget(backShooterTable);
-        updatePIDWidget(towerTable);
+        updatePIDWidget(frontShooterTable, "FrontShooter");
+        updatePIDWidget(backShooterTable, "BackShooter");
+        updatePIDWidget(towerTable, "Tower");
         updatePositionTable(positionTable);
         updateArtificialHorizonTable(artificialHorizonTable);
     }
@@ -87,16 +88,16 @@ public class UpdateWidgets extends CommandBase {
     
     private void initializePIDTable(NetworkTable table, String name) {
         //Setpoint gets loaded by individual PID systems in ___
-        table.putNumber("kP", p.getDouble(name + "kP", 0.0));
-        table.putNumber("kI", p.getDouble(name + "kI", 0.0));
-        table.putNumber("kD", p.getDouble(name + "kD", 0.0));
-        table.putNumber("InstVeloc", 0.0);
-        table.putNumber("kMaxVeloc", p.getDouble(name + "kMaxVeloc", 0.0));
-        table.putNumber("kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
-        table.putNumber("kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
-        table.putNumber("Output", 0.0);
-        table.putNumber("Time", 0.0);
-        table.putBoolean("Enabled", false);
+        table.putNumber(name + "kP", p.getDouble(name + "kP", 0.0));
+        table.putNumber(name + "kI", p.getDouble(name + "kI", 0.0));
+        table.putNumber(name + "kD", p.getDouble(name + "kD", 0.0));
+        table.putNumber(name + "InstVeloc", 0.0);
+        table.putNumber(name + "kMaxVeloc", p.getDouble(name + "kMaxVeloc", 0.0));
+        table.putNumber(name + "kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
+        table.putNumber(name + "kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
+        table.putNumber(name + "Output", 0.0);
+        table.putNumber(name + "Time", 0.0);
+        table.putBoolean(name + "Enabled", false);
     }
 
     private void initializePositionTable(NetworkTable table) {
@@ -109,8 +110,8 @@ public class UpdateWidgets extends CommandBase {
         table.putNumber("roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
     }
     
-    private void updatePIDWidget(NetworkTable table) {
-        table.putNumber("Time", System.currentTimeMillis()/1000.0);
+    private void updatePIDWidget(NetworkTable table, String name) {
+        table.putNumber(name + "Time", System.currentTimeMillis()/1000.0);
         //PID Widget Data is being handled by PID Sendables (Other than Time!)
     }
     
