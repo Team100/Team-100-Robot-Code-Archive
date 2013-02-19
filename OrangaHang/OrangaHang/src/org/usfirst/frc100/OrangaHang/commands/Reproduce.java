@@ -25,7 +25,7 @@ public class Reproduce extends CommandBase{
         requires(autoMemory);
         requires(driveTrain);
         requires(shooter);
-        requires(intake);
+        requires(frisbeeTransport);
     }
 
     protected void initialize() {
@@ -71,7 +71,7 @@ public class Reproduce extends CommandBase{
             shooter.shootFrisbees();
         }
         if(psb.booleanValue()){
-            intake.shootFrisbees();
+            frisbeeTransport.shootFrisbees();
         }
         
         ////////////////////////////////////////////////////////////////////////
