@@ -27,7 +27,7 @@ public abstract class CommandBase extends Command {
     public static Climber climber = new Climber();
     public static Shooter shooter = new Shooter();
     public static DriveTrain driveTrain = new DriveTrain();
-    public static FrisbeeTransport intake = new FrisbeeTransport();
+    public static FrisbeeTransport frisbeeTransport = new FrisbeeTransport();
     public static Pneumatics pneumatics = new Pneumatics();
     public static Tower tower = new Tower();
     public static AutoMemory autoMemory = new AutoMemory();
@@ -49,7 +49,7 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(climber);
         SmartDashboard.putData(shooter);
         SmartDashboard.putData(driveTrain);
-        SmartDashboard.putData(intake);
+        SmartDashboard.putData(frisbeeTransport);
         SmartDashboard.putData(pneumatics);
         SmartDashboard.putData(tower);
         SmartDashboard.putData(autoMemory);

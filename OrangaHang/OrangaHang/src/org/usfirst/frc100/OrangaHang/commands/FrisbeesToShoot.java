@@ -13,7 +13,7 @@ public class FrisbeesToShoot extends CommandBase {
     public FrisbeesToShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(intake);
+        requires(frisbeeTransport);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +22,7 @@ public class FrisbeesToShoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        intake.shootFrisbees();
+        frisbeeTransport.shootFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +32,7 @@ public class FrisbeesToShoot extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        intake.stop();
+        frisbeeTransport.stop();
     }
 
     // Called when another command which requires one or more of the same

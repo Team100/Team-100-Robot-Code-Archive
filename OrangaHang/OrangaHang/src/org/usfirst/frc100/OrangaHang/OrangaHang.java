@@ -57,6 +57,7 @@ public class OrangaHang extends IterativeRobot {
     public void autonomousInit() {
         // schedule the autonomous command (example)
         reproduce = new Reproduce();
+        CommandBase.safeAll();
         reproduce.start();
         initializeAll();
     }//end autonomousInit
@@ -70,7 +71,7 @@ public class OrangaHang extends IterativeRobot {
         SmartDashboard.putData(CommandBase.climber);
         SmartDashboard.putData(CommandBase.shooter);
         SmartDashboard.putData(CommandBase.driveTrain);
-        SmartDashboard.putData(CommandBase.intake);
+        SmartDashboard.putData(CommandBase.frisbeeTransport);
         SmartDashboard.putData(CommandBase.pneumatics);
         SmartDashboard.putData(CommandBase.tower);
         SmartDashboard.putData(CommandBase.autoMemory);
@@ -95,7 +96,6 @@ public class OrangaHang extends IterativeRobot {
         updateWidgets.start();
         //manualTilt.start();
         testTilt.start();
-        CommandBase.safeAll();
     }//end teleopInit
 
     /**

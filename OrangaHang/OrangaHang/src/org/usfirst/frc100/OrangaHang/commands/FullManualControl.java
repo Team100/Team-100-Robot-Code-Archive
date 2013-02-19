@@ -18,7 +18,7 @@ public class FullManualControl extends CommandBase {
         requires(climber);
         requires(shooter);
         requires(driveTrain);
-        requires(intake);
+        requires(frisbeeTransport);
         requires(tower);
     }
 

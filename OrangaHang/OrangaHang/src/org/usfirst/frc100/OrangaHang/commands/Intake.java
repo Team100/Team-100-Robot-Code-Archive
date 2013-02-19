@@ -15,17 +15,16 @@ public class Intake extends CommandBase {
     public Intake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(intake);
+        requires(frisbeeTransport);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shooter.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        intake.takeFrisbees();
+        frisbeeTransport.takeFrisbees();
         shooter.runBackwards();
     }
 
@@ -36,7 +35,7 @@ public class Intake extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        intake.stop();
+        frisbeeTransport.stop();
         shooter.disable();
     }
 

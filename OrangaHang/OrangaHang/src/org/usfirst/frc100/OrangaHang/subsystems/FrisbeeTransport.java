@@ -38,7 +38,7 @@ public class FrisbeeTransport extends Subsystem {
         SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
         SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
         if(intakeBottomSwitch.get()){
-            intakeMotor.set(SmartDashboard.getNumber("intakeSpeed"));
+            intakeMotor.set(SmartDashboard.getNumber("intakeSpeed", intakeSpeed));
         }
         else {
             intakeMotor.set(0);
@@ -50,7 +50,7 @@ public class FrisbeeTransport extends Subsystem {
         SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
         SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
         if(intakeTopSwitch.get()){
-            intakeMotor.set(SmartDashboard.getNumber("shootingSpeed"));
+            intakeMotor.set(SmartDashboard.getNumber("shootingSpeed", shootingSpeed));
         }
         else {
             intakeMotor.set(0);
