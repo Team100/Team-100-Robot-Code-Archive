@@ -32,9 +32,9 @@ public class Climber extends Subsystem {
     double elevatorSpeed=1;//speed that elevator will move
     double homingSpeed=.5;//speed for homingSequence method
     private double homingReverseSpeed=.1;//not very fast
-    private int encoderMax=5000;//highest point elevator should reach
-    private int encoderMin=0;//lowest point elevator should reach
-    private int lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
+    private double encoderMax=5000;//highest point elevator should reach
+    private double encoderMin=0;//lowest point elevator should reach
+    private double lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
     //other variables
     int level=0;//level of the pyramid that the robot is at    
     private boolean homePartOne=true;//used by homing sequence
@@ -45,6 +45,12 @@ public class Climber extends Subsystem {
         encoder.setReverseDirection(true);
         encoder.reset();
         encoder.start();
+        SmartDashboard.putNumber("climberHomingSpeed", homingSpeed);
+        SmartDashboard.putNumber("climberHomingReverseSpeed", homingReverseSpeed);
+        SmartDashboard.putNumber("climberElevatorSpeed", elevatorSpeed);
+        SmartDashboard.putNumber("climberEncoderMax", encoderMax);
+        SmartDashboard.putNumber("climberEncoderMin", encoderMin);
+        SmartDashboard.putNumber("climberLowerElevatorPartwayLimit", lowerElevatorPartwayLimit);
     }//end constructor
 
     //empty
@@ -62,6 +68,7 @@ public class Climber extends Subsystem {
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
+        getDashboardValues();
         if (!topSwitch.get()&&speed>0||!bottomSwitch.get()&&speed<0){
             motorTop.set(0);
             motorBottom.set(0);
@@ -81,12 +88,21 @@ public class Climber extends Subsystem {
         putData();
     }//end manualControl
     
+    public void getDashboardValues(){
+        homingSpeed=SmartDashboard.getNumber("climberHomingSpeed", homingSpeed);
+        homingReverseSpeed=SmartDashboard.getNumber("climberHomingReverseSpeed", homingReverseSpeed);
+        elevatorSpeed=SmartDashboard.getNumber("climberElevatorSpeed", elevatorSpeed);
+        encoderMax=SmartDashboard.getNumber("climberEncoderMax", encoderMax);
+        encoderMin=SmartDashboard.getNumber("climberEncoderMin", encoderMin);
+        lowerElevatorPartwayLimit=SmartDashboard.getNumber("climberLowerElevatorPartwayLimit", lowerElevatorPartwayLimit);
+    }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //auto climb!
     
     //raises the elevator, tries again if hooks don't catch
     public void raiseElevator(){
+        getDashboardValues();
         if (!getUpperLimit()){
             if (!getError(true)){
                 motorTop.set(elevatorSpeed);
@@ -108,6 +124,7 @@ public class Climber extends Subsystem {
     
     //lowers the elevator, tries again if hooks don't catch
     public void lowerElevator(){
+        getDashboardValues();
         if (!getLowerLimit()){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
@@ -129,6 +146,7 @@ public class Climber extends Subsystem {
     
     //lowers elevator partway for last pull-up at end
     public void lowerElevatorPartway(){
+        getDashboardValues();
         if (encoder.get()>lowerElevatorPartwayLimit){
             if (!getError(false)){
                 motorTop.set(-elevatorSpeed);
@@ -150,16 +168,19 @@ public class Climber extends Subsystem {
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
+        getDashboardValues();
         return !bottomSwitch.get()||encoder.get()<encoderMin;
     }//end getLowerLimit
     
     //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
     public boolean getPartwayLimit(){
+        getDashboardValues();
         return encoder.get()<lowerElevatorPartwayLimit;
     }//end getPartwayLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
+        getDashboardValues();
         return !topSwitch.get()||encoder.get()>encoderMax;
     }//end getUpperLimit
     
@@ -180,6 +201,7 @@ public class Climber extends Subsystem {
     
     //moves elevator to starting position and sets encoder
     public void homingSequence() {
+        getDashboardValues();
         if (homeUp){
             if (!topSwitch.get()&&homePartOne){
                 motorTop.set(homingSpeed);

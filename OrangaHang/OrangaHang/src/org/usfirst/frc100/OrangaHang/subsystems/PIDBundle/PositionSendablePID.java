@@ -24,17 +24,18 @@ public class PositionSendablePID {
     private final NetworkTable table;
 
     private String dashboardName(String key) {
-        return key;// + "_" + m_name;
+        return m_name + key;// + m_name;
     }//end dashboardName
     
     private String rawDashboardName(String key) {
-        return m_name + "_" + key;
+        return m_name + key;
     }//end dashboardName
 
     public PositionSendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
         m_base = new PositionPIDBase(distRatio, name);
         m_name = name;
-        table = NetworkTable.getTable("PIDSystems/" + name);
+//        table = NetworkTable.getTable("PIDSystems/" + name);
+        table = NetworkTable.getTable("SmartDashboard");
         PIDInit();
         m_source = source;
         m_output = output;

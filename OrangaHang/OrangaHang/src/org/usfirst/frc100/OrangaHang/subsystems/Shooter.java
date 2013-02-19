@@ -39,6 +39,9 @@ public class Shooter extends Subsystem {
         counterBack.reset();
         counterFront.start();
         counterBack.start();
+        SmartDashboard.putNumber("ShooterDumpSpeed", dumpSpeed);
+        SmartDashboard.putNumber("ShooterShootSpeed", shootSpeed);
+        SmartDashboard.putNumber("ShooterReverseSpeed", reverseSpeed);
     }//end constructor
     
     //empty
@@ -49,20 +52,20 @@ public class Shooter extends Subsystem {
     
     //set speed for dumping
     public void dumpFrisbees(){
-        motorFront.set(dumpSpeed);
-        motorBack.set(dumpSpeed);
+        motorFront.set(SmartDashboard.getNumber("ShooterDumpSpeed", dumpSpeed));
+        motorBack.set(SmartDashboard.getNumber("ShooterDumpSpeed", dumpSpeed));
     }//end dumpFrisbees
     
     //set speed for shooting
     public void shootFrisbees(){
-        motorFront.set(shootSpeed);
-        motorBack.set(shootSpeed);
+        motorFront.set(SmartDashboard.getNumber("ShooterShootSpeed", shootSpeed));
+        motorBack.set(SmartDashboard.getNumber("ShooterShootSpeed", shootSpeed));
     }//end shootFrisbees
     
     //runs shooter in reverse direction for intake
     public void runBackwards(){
-        motorFront.set(reverseSpeed);
-        motorBack.set(reverseSpeed);
+        motorFront.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
+        motorBack.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
     }//end runBackwards
     
     public void setFrontMotor(double s)
