@@ -95,6 +95,7 @@ public class OrangaHang extends IterativeRobot {
         updateWidgets.start();
         //manualTilt.start();
         testTilt.start();
+        CommandBase.safeAll();
     }//end teleopInit
 
     /**
@@ -114,6 +115,7 @@ public class OrangaHang extends IterativeRobot {
     
     public void testInit(){
         CommandBase.disableAll();
+        CommandBase.unSafeAll();
     }//end testInit
 
     //Load PID Info has been integrated into UpdateWidgets
