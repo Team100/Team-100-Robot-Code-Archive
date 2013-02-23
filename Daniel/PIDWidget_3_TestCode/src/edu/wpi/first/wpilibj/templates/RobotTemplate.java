@@ -27,6 +27,7 @@ public class RobotTemplate extends IterativeRobot {
     
     VelocitySendablePID mySendablePID;
     VelocitySendablePID myOtherSendablePID;
+    PositionSendablePID myPositionSendablePID;
     
     Encoder enc = new Encoder(1, 2);
     Victor motor = new Victor(1);
@@ -57,11 +58,13 @@ public class RobotTemplate extends IterativeRobot {
         };
         mySendablePID = new VelocitySendablePID("Test", source, period, output, 1.0);
         myOtherSendablePID = new VelocitySendablePID("Test2", source, period, output, 1.0);
+        myPositionSendablePID = new PositionSendablePID("Test3", source, output, 1.0);
         
         
 //        LiveWindow.addActuator("PID Thing", "PID Controller", mySendablePID);
         SmartDashboard.putData("Test", mySendablePID);
         SmartDashboard.putData("Test2", myOtherSendablePID);
+        SmartDashboard.putData("Test3", myPositionSendablePID);
         
         
     }
@@ -81,6 +84,8 @@ public class RobotTemplate extends IterativeRobot {
         System.out.println("P: " + mySendablePID.getP());
         System.out.println("What is my name? " + myOtherSendablePID.getName());
         System.out.println("P: " + myOtherSendablePID.getP());
+        System.out.println("What is my name? " + myPositionSendablePID.getName());
+        System.out.println("P: " + myPositionSendablePID.getP());
     }
     
     /**
