@@ -12,9 +12,9 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
  */
 public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     //Robot parts
-    private final SpeedController intakeMotor = RobotMap.intakeMotor;
-    private final DigitalInput intakeTopSwitch = RobotMap.intakeTopSwitch;//both switches are normally closed!
-    private final DigitalInput intakeBottomSwitch = RobotMap.intakeBottomSwitch;
+    private final SpeedController intakeMotor = RobotMap.frisbeeTransportMotor;
+    private final DigitalInput intakeTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
+    private final DigitalInput intakeBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     //Constants
     private final double shootingSpeed = .4;
     private final double intakeSpeed = -.2;

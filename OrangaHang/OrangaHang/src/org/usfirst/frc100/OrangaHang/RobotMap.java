@@ -35,8 +35,8 @@ public class RobotMap {
     public static final DigitalInput shooterFrontHallEffect = new DigitalInput(1);
     public static final DigitalInput shooterBackHallEffect = new DigitalInput(2);
     //Intake
-    public static final DigitalInput intakeTopSwitch = new DigitalInput(11);
-    public static final DigitalInput intakeBottomSwitch = new DigitalInput(12);
+    public static final DigitalInput frisbeeTransportTopSwitch = new DigitalInput(11);
+    public static final DigitalInput frisbeeTransportBottomSwitch = new DigitalInput(12);
     //add pressure switch?
     
     //Analog sensors
@@ -54,9 +54,9 @@ public class RobotMap {
     
     
     //PWM Outputs
-    //Drive Train
+    //Vector of all motors
     public static final Vector motors = new Vector();
-    
+    //Drive Train
     public static final Talon driveLeftMotor = new Talon(2);
     public static final Talon driveRightMotor = new Talon(1);
     public static final RobotDrive driveRobotDrive = new RobotDrive(driveLeftMotor, driveRightMotor);
@@ -66,17 +66,17 @@ public class RobotMap {
     //Shooter
     public static final Victor shooterFrontMotor = new Victor(5);
     public static final Victor shooterBackMotor = new Victor(6);
-    //Intake
-    public static final Victor intakeMotor = new Victor(8);
+    //FrisbeeTransport
+    public static final Victor frisbeeTransportMotor = new Victor(8);
     //Tower
     public static final Victor towerMotor = new Victor(7);
     
     
     //Solenoids
-    //Drive Train
-    public static final DoubleSolenoid driveGear = new DoubleSolenoid(1,2);
-    //Tower
-    public static final DoubleSolenoid towerArmPistons = new DoubleSolenoid(3,4);
+    //Shifter
+    public static final DoubleSolenoid shifterGear = new DoubleSolenoid(1,2);
+    //Fixed Arms
+    public static final DoubleSolenoid armPistons = new DoubleSolenoid(3,4);
     //Relays
     public static final Compressor compressor = new Compressor(14,1);
     public static final Relay cameraLights = new Relay(2);
@@ -91,7 +91,7 @@ public class RobotMap {
         motors.addElement(climberBottomMotor);
         motors.addElement(shooterFrontMotor);
         motors.addElement(shooterBackMotor);
-        motors.addElement(intakeMotor);
+        motors.addElement(frisbeeTransportMotor);
         motors.addElement(towerMotor);
         
         //LiveWindow display
@@ -101,9 +101,7 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "LeftMotor2", driveLeftMotor);
         LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
-        LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
-        LiveWindow.addActuator("DriveTrain", "Gear" , driveGear);
-        
+        LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);        
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
         LiveWindow.addSensor("Climber", "TopSwitch" , climberTopSwitch);
@@ -122,15 +120,20 @@ public class RobotMap {
         LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHallEffect);
         LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHallEffect);
         
-        //Intake
-        LiveWindow.addActuator("Intake", "Motor8", intakeMotor);
-        LiveWindow.addSensor("Intake", "TopSwitch" , intakeTopSwitch);
-        LiveWindow.addSensor("Intake", "BottomSwitch" , intakeBottomSwitch);
+        //Frisbee Transport
+        LiveWindow.addActuator("FrisbeeTransport", "Motor8", frisbeeTransportMotor);
+        LiveWindow.addSensor("FrisbeeTransport", "TopSwitch" , frisbeeTransportTopSwitch);
+        LiveWindow.addSensor("FrisbeeTransport", "BottomSwitch" , frisbeeTransportBottomSwitch);
         
         //Tower
         LiveWindow.addActuator("Tower", "Motor7", towerMotor);
         LiveWindow.addSensor("Tower", "Potent" , towerPotent);
-        LiveWindow.addActuator("Tower", "ArmPistons" , towerArmPistons);
+        
+        //Shifter
+        LiveWindow.addActuator("Shifter", "Gear" , shifterGear);
+        
+        //Fixed Arms
+        LiveWindow.addActuator("FixedArms", "ArmPistons" , armPistons);
         
         //Relays
         LiveWindow.addActuator("Relays", "Compressor" , compressor);
