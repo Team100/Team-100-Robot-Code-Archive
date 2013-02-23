@@ -103,6 +103,10 @@ public class Tower extends Subsystem implements SubsystemControl{
     }; //end anonym class PIDOutput
     private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, 1.0);
 
+    public void writePreferences() { //Might want to write some other stuff specific to the tower
+        pidTower.writePreferences();
+    }
+    
     public void setSetpoint(double setpoint) {
         pidTower.setSetpoint(setpoint);
     }//end setSetpoint
