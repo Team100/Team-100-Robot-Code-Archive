@@ -13,7 +13,9 @@ import org.usfirst.frc100.OrangaHang.OI;
  */
 public class QuickTurn extends CommandBase
 {
-    private double angle=90;
+    private double setpoint=90;
+    private double error;
+    
     public QuickTurn()
     {
         // Use requires() here to declare subsystem dependencies
@@ -25,21 +27,35 @@ public class QuickTurn extends CommandBase
     protected void initialize()
     {
         driveTrain.resetGyro();
-        angle*= (OI.driverRight.getX() >= 0.0 ? 1.0 : -1.0);
         
+        if(Math.abs(OI.driverRight.getX()) < 0.1)
+        {
+            setpoint = 0.0;
+        }
+        else
+        {
+            setpoint *= (OI.driverRight.getX() > 0.0 ? 1.0 : -1.0);
+        }
+        
+        SmartDashboard.putString("Is turning", "True");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        SmartDashboard.putString("Is turning", "True");
-        driveTrain.quickTurn(angle);
+        double angle = (-driveTrain.getGyro()); // -driveTrain.getGyro() b/c the gyro is upsidedown
+        error = setpoint - angle;
+        driveTrain.quickTurn(error);
+        
+        SmartDashboard.putNumber("Twist Value", error/90.0);
+        SmartDashboard.putNumber("Gyro Angle", angle);
+        SmartDashboard.putNumber("Error", error);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Math.abs(angle - driveTrain.getGyro()) < 0.8;
+        return Math.abs(error) < 1.5;
     }
 
     // Called once after isFinished returns true
