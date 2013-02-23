@@ -12,7 +12,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
  *
  * @author Team100
  */
-public class Pneumatics extends Subsystem {
+public class Pneumatics extends Subsystem implements SubsystemControl {
     Compressor compressor = RobotMap.compressor;
 
     public void initDefaultCommand() {
@@ -27,5 +27,12 @@ public class Pneumatics extends Subsystem {
     public void stopCompressor(){
         compressor.stop();
     }//end stopCompressor
+
+    public void disable() {
+        stopCompressor();
+    }
+
+    public void enable() {
+    }
     
 }//end Pneumatics

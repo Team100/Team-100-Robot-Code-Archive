@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import java.util.Vector;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -54,8 +55,11 @@ public class RobotMap {
     
     //PWM Outputs
     //Drive Train
+    public static final Vector motors = new Vector();
+    
     public static final Talon driveLeftMotor = new Talon(2);
     public static final Talon driveRightMotor = new Talon(1);
+    public static final RobotDrive driveRobotDrive = new RobotDrive(driveLeftMotor, driveRightMotor);
     //Climber
     public static final Victor climberTopMotor = new Victor(3);
     public static final Victor climberBottomMotor = new Victor(4);
@@ -79,6 +83,17 @@ public class RobotMap {
     
     //LiveWindow code
     public static void init(){
+        //Filling vector of motors
+        motors.addElement(driveLeftMotor);
+        motors.addElement(driveRightMotor);
+        motors.addElement(driveRobotDrive);
+        motors.addElement(climberTopMotor);
+        motors.addElement(climberBottomMotor);
+        motors.addElement(shooterFrontMotor);
+        motors.addElement(shooterBackMotor);
+        motors.addElement(intakeMotor);
+        motors.addElement(towerMotor);
+        
         //LiveWindow display
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
@@ -125,25 +140,16 @@ public class RobotMap {
 
     //puts safeties on all motors
     public static void safe() {
-        driveLeftMotor.setSafetyEnabled(true);
-        driveRightMotor.setSafetyEnabled(true);
-        climberTopMotor.setSafetyEnabled(true);
-        climberBottomMotor.setSafetyEnabled(true);
-        shooterFrontMotor.setSafetyEnabled(true);
-        shooterBackMotor.setSafetyEnabled(true);
-        intakeMotor.setSafetyEnabled(true);
-        towerMotor.setSafetyEnabled(true);
+        for (int i=0; i<motors.size(); i++){
+            ((MotorSafety)motors.elementAt(i)).setSafetyEnabled(true);
+            ((MotorSafety)motors.elementAt(i)).setExpiration(0.5);
+        }
     }//end safe
 
     //removes safeties from all motors (for LiveWindow)
     public static void unSafe() {
-        driveLeftMotor.setSafetyEnabled(false);
-        driveRightMotor.setSafetyEnabled(false);
-        climberTopMotor.setSafetyEnabled(false);
-        climberBottomMotor.setSafetyEnabled(false);
-        shooterFrontMotor.setSafetyEnabled(false);
-        shooterBackMotor.setSafetyEnabled(false);
-        intakeMotor.setSafetyEnabled(false);
-        towerMotor.setSafetyEnabled(false);
+        for (int i=0; i<motors.size(); i++){
+            ((MotorSafety)motors.elementAt(i)).setSafetyEnabled(false);
+        }
     }//end unSafe
 }//end RobotMap

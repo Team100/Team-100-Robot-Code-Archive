@@ -18,7 +18,7 @@ import org.usfirst.frc100.OrangaHang.FileRW;
  *
  * @author Sam
  */
-public class AutoMemory extends Subsystem{
+public class AutoMemory extends Subsystem implements SubsystemControl{
     
     
     Vector LeftMemory;
@@ -257,4 +257,10 @@ public class AutoMemory extends Subsystem{
             }
         }
     }    
+
+    public void disable() {
+    }
+
+    public void enable() {
+    }
 }
