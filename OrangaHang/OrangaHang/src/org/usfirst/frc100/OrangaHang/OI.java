@@ -55,12 +55,12 @@ public class OI {
     public static final JoystickButton tiltClimbButton = new JoystickButton(manipulator, 1);
     public static final JoystickButton tiltShootButton = new JoystickButton(manipulator, 2);
     public static final JoystickButton tiltIntakeButton = new JoystickButton(manipulator, 3);
-    //public static final JoystickButton tiltStartButton = new JoystickButton(manipulator, 4);
-    public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 4);
+    public static final JoystickButton tiltStartButton = new JoystickButton(manipulator, 4);
     public static final JoystickButton primeShootButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
+    public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 9);
 
     public OI()
     {
@@ -79,12 +79,12 @@ public class OI {
         tiltClimbButton.whenPressed(new TiltToClimb());
         tiltShootButton.whenPressed(new TiltToShoot());
         tiltIntakeButton.whenPressed(new TiltToIntake());
-        //tiltStartButton.whenPressed(new TiltToStart());
-        toggleArmsButton.whenPressed(new ToggleArms());
+        tiltStartButton.whenPressed(new TiltToStart());
         intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whileHeld(new FrisbeesToShoot());
+        toggleArmsButton.whenPressed(new ToggleArms());
         
         //SmartDashboardButtons
         
