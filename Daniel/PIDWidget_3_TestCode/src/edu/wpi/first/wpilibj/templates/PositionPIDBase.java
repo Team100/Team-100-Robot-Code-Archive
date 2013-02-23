@@ -55,6 +55,18 @@ public class PositionPIDBase {
         return enabled;
     }
     
+    public double getMaxOut() {
+        return kMaxOutput;
+    }
+    
+    public double getMinOut() {
+        return kMinOutput;
+    }
+    
+    public double getMaxVelocity() {
+        return kMaxVeloc;
+    }
+    
     public void setPID(double p, double i, double d) {
         kP = p;
         kD = d;
