@@ -83,4 +83,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
 
     public void enable() {
     }
+
+    public void writePreferences() {
+    }
 }//end Intake

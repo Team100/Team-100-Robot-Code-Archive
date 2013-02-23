@@ -175,5 +175,8 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 //        pidLeft.getValues();
         //pidTurn.getValues();
     }
+
+    public void writePreferences() {
+    }
     
 }//end DriveTrain

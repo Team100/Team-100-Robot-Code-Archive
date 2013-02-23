@@ -34,5 +34,8 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
 
     public void enable() {
     }
+
+    public void writePreferences() {
+    }
     
 }//end Pneumatics
