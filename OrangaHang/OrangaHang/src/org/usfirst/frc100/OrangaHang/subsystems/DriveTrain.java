@@ -105,10 +105,8 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     }//end alignToShoot
     
     public void quickTurn(double angle){
-        if (Math.abs(gyro.getAngle()-angle)>.8){
-            leftMotor.set(angle/90);
-            rightMotor.set(angle/90);
-        }
+        leftMotor.set(angle/90.0);
+        rightMotor.set(angle/-90.0);
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
