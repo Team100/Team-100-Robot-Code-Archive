@@ -27,9 +27,9 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kBackDistRatio = 3.0/12.0*Math.PI/4;
     private final double kFrontDistRatio = 3.0/12.0*Math.PI/4;
     //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private double dumpSpeed = 0.5;//change this eventually
-    private double shootSpeed = .2;
-    private double reverseSpeed = -.1;
+    private double dumpSpeed = 0.5;//FIXME
+    private double shootSpeed = .2;//FIXME
+    private double reverseSpeed = -.1;//FIXME
     
     //sets counters
     public Shooter(){
@@ -119,7 +119,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     public void writePreferences() {
         pidFront.writePreferences();
         pidBack.writePreferences();
-    }
+    }//end writePreferences
     
     public void disable(){
         setSetpoint(0.0);
@@ -127,8 +127,8 @@ public class Shooter extends Subsystem implements SubsystemControl{
         pidBack.disable();
         counterFront.reset();
         counterBack.reset();
-        motorFront.set(0);
-        motorBack.set(0);
+        motorFront.set(0.0);
+        motorBack.set(0.0);
     }//end disable
     
     public void enable(){

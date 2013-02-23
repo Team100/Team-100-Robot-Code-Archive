@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
-import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
+import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 
 /**

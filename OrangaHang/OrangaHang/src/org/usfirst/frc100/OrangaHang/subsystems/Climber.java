@@ -5,13 +5,10 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
  *
@@ -24,10 +21,7 @@ public class Climber extends Subsystem implements SubsystemControl{
     private final SpeedController motorBottom = RobotMap.climberBottomMotor;
     private final DigitalInput topSwitch = RobotMap.climberTopSwitch;
     private final DigitalInput bottomSwitch = RobotMap.climberBottomSwitch;
-    private final DigitalInput poleSwitch = RobotMap.climberPoleSwitch;
     //Constants
-    //FIXME: dist ratio is totally wrong; figure out real ratio
-    private final double kClimberDistRatio = 1440 / ((18.0/30.0)*(7.5/12.0*3.14159));//encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet
     boolean homeUp=false;//automatically home elevator to top or bottom
     double elevatorSpeed=1;//speed that elevator will move
     double homingSpeed=.5;//speed for homingSequence method
@@ -59,13 +53,6 @@ public class Climber extends Subsystem implements SubsystemControl{
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    //tells SmartDashboard if the climber has reached the pole
-    public void readyClimber(){
-        if(poleSwitch.get()){
-            SmartDashboard.putString("Ready?", "YES");
-        }
-    }//end readyClimber
-    
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
         getDashboardValues();
@@ -95,7 +82,8 @@ public class Climber extends Subsystem implements SubsystemControl{
         encoderMax=SmartDashboard.getNumber("climberEncoderMax", encoderMax);
         encoderMin=SmartDashboard.getNumber("climberEncoderMin", encoderMin);
         lowerElevatorPartwayLimit=SmartDashboard.getNumber("climberLowerElevatorPartwayLimit", lowerElevatorPartwayLimit);
-    }
+    }//end getDashboardValues
+    
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //auto climb!
@@ -255,42 +243,20 @@ public class Climber extends Subsystem implements SubsystemControl{
         encoder.reset();
     }//end resetEncoder
     
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //FIXME: remove PID if we don't use it
-    
-    //PID control
-    PIDSource sourceClimber = new PIDSource(){
-        public double pidGet(){
-            SmartDashboard.putNumber("encoderClimber_raw", encoder.getRaw());
-            return encoder.getRaw();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputClimber = new PIDOutput(){
-        public void pidWrite(double output){
-            motorTop.set(output);
-            motorBottom.set(output);
-        }
-    };//end anonym class PIDOutput
-    
-//    private PositionSendablePID pidClimber = new PositionSendablePID("Climber",sourceClimber, outputClimber, kClimberDistRatio);   
-   
-    public void setSetpoint(double setpoint){
-//        pidClimber.setSetpoint(setpoint);
-    }//end setSetpoint
-    
     public void disable(){
-//        pidClimber.disable();
+        stop();
     }//end disable
     
     public void enable(){
-//        pidClimber.enable();
+
     }//end enable
 
     public void stop() {
         motorTop.set(0);
         motorBottom.set(0);
-    }
+    }//end stop
 
     public void writePreferences() {
-    }
+    }//end writePreferences
+    
 }//end Climber
