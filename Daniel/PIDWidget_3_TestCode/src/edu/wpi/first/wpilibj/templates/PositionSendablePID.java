@@ -91,6 +91,16 @@ public class PositionSendablePID implements Sendable{
 //        table.putNumber(dashboardName("kMaxVeloc"), 0.0);
     }//end PIDInit
 
+    public void writePreferences() {
+        prefs.putString(m_name + "p", "" + m_base.getP());
+        prefs.putString(m_name + "i", "" + m_base.getI());
+        prefs.putString(m_name + "d", "" + m_base.getD());
+        prefs.putString(m_name + "maxOut", "" + m_base.getMaxOut());
+        prefs.putString(m_name + "minOut", "" + m_base.getMinOut());
+        prefs.putString(m_name + "maxVelocity", "" + m_base.getMaxVelocity());
+        prefs.save();
+    }
+    
     public void getValues() {
        myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         try {

@@ -89,7 +89,14 @@ public class VelocitySendablePID implements Sendable {
         return m_name;
     }
     
-  
+    public void writePrefrences() {
+        prefs.putString(m_name + "p", "" + m_base.getP());
+        prefs.putString(m_name + "i", "" + m_base.getI());
+        prefs.putString(m_name + "d", "" + m_base.getD());
+        prefs.putString(m_name + "maxOut", "" + m_base.getMaxOutput());
+        prefs.putString(m_name + "minOut", "" + m_base.getMinOutput());
+        prefs.save();
+    }
     
     public void getValues() {
         myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
