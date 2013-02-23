@@ -11,7 +11,6 @@ import org.usfirst.frc100.OrangaHang.OI;
  * @author Team100
  */
 public class ManualTilt extends CommandBase {
-    double position;
     public ManualTilt() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -20,18 +19,17 @@ public class ManualTilt extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        tower.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        position=tower.getPotentiometer();
-        if (Math.abs(OI.manipulator.getThrottle())>.5){
-            tower.setSetpoint(position+(OI.manipulator.getThrottle()/100));
-        }
+        tower.testTilter(OI.manipulator.getThrottle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        // runs until interrupted
         return false;
     }
 
