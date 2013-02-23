@@ -1,7 +1,9 @@
 package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Vector;
 import org.usfirst.frc100.OrangaHang.OI;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.AutoMemory;
@@ -12,6 +14,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.FrisbeeTransport;
 import org.usfirst.frc100.OrangaHang.subsystems.Pneumatics;
 import org.usfirst.frc100.OrangaHang.subsystems.Shifter;
 import org.usfirst.frc100.OrangaHang.subsystems.Shooter;
+import org.usfirst.frc100.OrangaHang.subsystems.SubsystemControl;
 import org.usfirst.frc100.OrangaHang.subsystems.Tower;
 //import org.usfirst.frc100.Robot2013.subsystems.ExampleSubsystem;
 
@@ -33,6 +36,7 @@ public abstract class CommandBase extends Command {
     public static AutoMemory autoMemory = new AutoMemory();
     public static Shifter shifter = new Shifter();
     public static FixedArms fixedArms = new FixedArms();
+    public static Vector subsystems = new Vector();
     
     // Create a single static instance of all of your subsystems
     //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
@@ -45,35 +49,35 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
 
-        // Show what command your subsystem is running on the SmartDashboard
-        SmartDashboard.putData(climber);
-        SmartDashboard.putData(shooter);
-        SmartDashboard.putData(driveTrain);
-        SmartDashboard.putData(frisbeeTransport);
-        SmartDashboard.putData(pneumatics);
-        SmartDashboard.putData(tower);
-        SmartDashboard.putData(autoMemory);
-        SmartDashboard.putData(shifter);
-        SmartDashboard.putData(fixedArms);
+        subsystems.addElement(climber);
+        subsystems.addElement(shooter);
+        subsystems.addElement(driveTrain);
+        subsystems.addElement(frisbeeTransport);
+        subsystems.addElement(pneumatics);
+        subsystems.addElement(tower);
+        subsystems.addElement(autoMemory);
+        subsystems.addElement(shifter);
+        subsystems.addElement(fixedArms);
         
+        // Show what command your subsystem is running on the SmartDashboard
+        for (int i=0; i<subsystems.size(); i++){
+            SmartDashboard.putData((Subsystem)subsystems.elementAt(i));
+        }
+
     }//end init
     
     public static void safeAll(){
-        driveTrain.safe();
         RobotMap.safe();
     }//end safeAll
     
     public static void unSafeAll(){
-        driveTrain.unSafe();
         RobotMap.unSafe();
     }//end unSafeAll
     
     public static void disableAll(){
-        shooter.disable();
-        climber.disable();
-        driveTrain.disable();
-        tower.disable();
-        pneumatics.stopCompressor();
+        for (int i=0; i<subsystems.size(); i++){
+            ((SubsystemControl)subsystems.elementAt(i)).disable();
+        }
     }//end disable
     
     public CommandBase(String name) {

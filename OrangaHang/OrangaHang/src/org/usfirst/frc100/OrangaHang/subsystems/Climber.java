@@ -17,7 +17,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  *
  * @author Team100
  */
-public class Climber extends Subsystem {
+public class Climber extends Subsystem implements SubsystemControl{
     //Robot parts
     private final Encoder encoder = RobotMap.climberEncoder;
     private final SpeedController motorTop = RobotMap.climberTopMotor;

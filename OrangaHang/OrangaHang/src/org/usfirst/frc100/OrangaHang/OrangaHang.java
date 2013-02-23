@@ -36,6 +36,7 @@ public class OrangaHang extends IterativeRobot {
     UpdateWidgets updateWidgets;
     //ManualTilt manualTilt;
     TestTilter testTilt;
+    Timer timer = new Timer();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -60,6 +61,8 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.safeAll();
         reproduce.start();
         initializeAll();
+        timer.reset();
+        timer.start();
     }//end autonomousInit
 
     /**
@@ -75,6 +78,8 @@ public class OrangaHang extends IterativeRobot {
         SmartDashboard.putData(CommandBase.pneumatics);
         SmartDashboard.putData(CommandBase.tower);
         SmartDashboard.putData(CommandBase.autoMemory);
+        SmartDashboard.putNumber("Period", timer.get());
+        timer.reset();
     }//end autonomousPeriodic
 
     public void teleopInit() {
@@ -96,6 +101,8 @@ public class OrangaHang extends IterativeRobot {
         updateWidgets.start();
         //manualTilt.start();
         testTilt.start();
+        timer.reset();
+        timer.start();
     }//end teleopInit
 
     /**
@@ -104,6 +111,8 @@ public class OrangaHang extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         testIO();
+        SmartDashboard.putNumber("Period", timer.get());
+        timer.reset();
     }//end teleopPeriodic
     
     /**

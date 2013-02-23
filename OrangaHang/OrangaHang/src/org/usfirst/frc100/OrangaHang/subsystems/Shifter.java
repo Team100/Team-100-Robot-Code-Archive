@@ -12,7 +12,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
  *
  * @author Student
  */
-public class Shifter extends Subsystem {
+public class Shifter extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid shifter = RobotMap.driveGear;
 
     // Put methods for controlling this subsystem
@@ -44,5 +44,11 @@ public class Shifter extends Subsystem {
     public boolean isHighGear()
     {
         return shifter.get().equals(DoubleSolenoid.Value.kForward);
+    }
+
+    public void disable() {
+    }
+
+    public void enable() {
     }
 }
