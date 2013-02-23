@@ -34,6 +34,8 @@ public class OrangaHang extends IterativeRobot {
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
+    DigitalModule myModule = DigitalModule.getInstance(1);
+    AnalogModule myAnalogModule = AnalogModule.getInstance(1);
     //ManualTilt manualTilt;
     TestTilter testTilt;
     Timer timer = new Timer();
@@ -131,14 +133,14 @@ public class OrangaHang extends IterativeRobot {
     
     public void testIO(){
         NetworkTable table = NetworkTable.getTable("Status");
-        table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
+        table.putNumber("dioData", myModule.getAllDIO());
         
         for(int i = 1; i <= 10; i++) {
-            table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
+            table.putNumber("pwm" + i, myModule.getPWM(i));
         }
         
         for(int i = 1; i <= 8; i++) {
-            table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
+            table.putNumber("analog" + i, ((int)(myAnalogModule.getVoltage(i) * 1000) / 1000.0));
         }
     }//end testIO
 
