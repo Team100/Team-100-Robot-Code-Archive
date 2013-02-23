@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Isis
  */
-public class VelocityPIDBase {
+public class VelocityPIDBase{
     private boolean enabled = false;
     private String name;
     //Previous value variables
@@ -29,6 +29,30 @@ public class VelocityPIDBase {
     private double setpoint = 0.0;
     private double kDistRatio;
 
+    public synchronized double getP() {
+        return kP;
+    }
+    
+    public synchronized double getI() {
+        return kI;
+    }
+    
+    public synchronized double getD() {
+        return kD;
+    }
+    
+    public synchronized double getMaxOutput() {
+        return kMaxOutput;
+    }
+    
+    public synchronized double getMinOutput() {
+        return kMinOutput;
+    }
+    
+    public synchronized boolean getEnabled() {
+        return enabled;
+    }
+    
     private void resetValues(){
         input = 0.0;
         prevDist = 0.0;
@@ -43,7 +67,7 @@ public class VelocityPIDBase {
     }//end constructor
 
     private String dashboardName(String key) {
-        return key + "_" + name;
+        return key; // + "_" + name;
     }//end dashboardName
     
     public double calculate(double threadPeriod, double sensorPeriod){
@@ -99,12 +123,18 @@ public class VelocityPIDBase {
     public synchronized void setSetpoint(double sp){
         setpoint = sp;
     }//end setVelocSetpt
-    private synchronized double getSetpoint (){
+    public synchronized double getSetpoint (){
         return setpoint;
     }//end getSetpoint
 
     public boolean isEnabled() {
         return enabled;
+    }
+    
+    public void setPID(double p, double i, double d) {
+        kP = p;
+        kI = i;
+        kD = d;
     }
     
     //check enable/disable of robot

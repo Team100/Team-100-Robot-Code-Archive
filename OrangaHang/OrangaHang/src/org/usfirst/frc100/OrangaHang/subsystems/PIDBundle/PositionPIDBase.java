@@ -39,6 +39,40 @@ public class PositionPIDBase {
         filtDist = 0.0;
     }//end resetValues
 
+    public double getP() {
+        return kP;
+    }
+    
+    public double getI() {
+        return kI;
+    }
+    
+    public double getD() {
+        return kD;
+    }
+    
+    public boolean getEnabled() {
+        return enabled;
+    }
+    
+    public double getMaxOut() {
+        return kMaxOutput;
+    }
+    
+    public double getMinOut() {
+        return kMinOutput;
+    }
+    
+    public double getMaxVelocity() {
+        return kMaxVeloc;
+    }
+    
+    public void setPID(double p, double i, double d) {
+        kP = p;
+        kD = d;
+        kI = i;
+    }
+    
     public PositionPIDBase(double distRatio, String key){
         kDistRatio = distRatio;
         name = key;
@@ -117,7 +151,7 @@ public class PositionPIDBase {
     public synchronized void setSetpoint(double sp){
         setpoint = sp;
     }//end setVelocSetpt
-    private synchronized double getSetpoint (){
+    public synchronized double getSetpoint (){
         return setpoint;
     }//end getSetpoint
 

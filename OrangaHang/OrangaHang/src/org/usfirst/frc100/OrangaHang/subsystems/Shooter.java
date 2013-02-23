@@ -125,6 +125,11 @@ public class Shooter extends Subsystem implements SubsystemControl{
         pidBack.setSetpoint(setpoint);
     }//end setSetpoint
     
+    public void writePreferences() {
+        pidFront.writePreferences();
+        pidBack.writePreferences();
+    }
+    
     public void disable(){
         setSetpoint(0.0);
         pidFront.disable();
