@@ -11,4 +11,5 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 public interface SubsystemControl {
     void disable();
     void enable();
+    void writePreferences();
 }

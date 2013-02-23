@@ -290,4 +290,7 @@ public class Climber extends Subsystem implements SubsystemControl{
         motorTop.set(0);
         motorBottom.set(0);
     }
+
+    public void writePreferences() {
+    }
 }//end Climber
