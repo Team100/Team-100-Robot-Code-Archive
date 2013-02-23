@@ -4,8 +4,6 @@
 
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  * @author Team100
@@ -21,12 +19,13 @@ public class PrimeToDump extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         //SmartDashboard.putNumber("DumpSetpoint", 0.0);
-        shooter.disable();
+        shooter.enable();
+        shooter.setSetpoint(20);//FIXME
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.dumpFrisbees();
+        //shooter.dumpFrisbees(); use if no PID
     }
 
     // Make this return true when this Command no longer needs to run execute()
