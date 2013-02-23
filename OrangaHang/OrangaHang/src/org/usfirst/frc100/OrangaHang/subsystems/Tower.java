@@ -20,8 +20,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  *
  * @author Team100
  */
-public class Tower extends Subsystem
-{
+public class Tower extends Subsystem implements SubsystemControl{
     Preferences p = Preferences.getInstance();
     //Robot parts
     private final AnalogChannel potentiometer = RobotMap.towerPotent;

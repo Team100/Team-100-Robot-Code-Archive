@@ -15,7 +15,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
  *
  * @author Isis
  */
-public class Shooter extends Subsystem {
+public class Shooter extends Subsystem implements SubsystemControl{
     //Robot parts
     private final DigitalInput hallFront = RobotMap.shooterFrontHallEffect;
     private final DigitalInput hallBack = RobotMap.shooterBackHallEffect;

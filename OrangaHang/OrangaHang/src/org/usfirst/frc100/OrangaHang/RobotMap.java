@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import java.util.Vector;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -34,8 +35,8 @@ public class RobotMap {
     public static final DigitalInput shooterFrontHallEffect = new DigitalInput(1);
     public static final DigitalInput shooterBackHallEffect = new DigitalInput(2);
     //Intake
-    public static final DigitalInput intakeTopSwitch = new DigitalInput(11);
-    public static final DigitalInput intakeBottomSwitch = new DigitalInput(12);
+    public static final DigitalInput frisbeeTransportTopSwitch = new DigitalInput(11);
+    public static final DigitalInput frisbeeTransportBottomSwitch = new DigitalInput(12);
     //add pressure switch?
     
     //Analog sensors
@@ -53,32 +54,46 @@ public class RobotMap {
     
     
     //PWM Outputs
+    //Vector of all motors
+    public static final Vector motors = new Vector();
     //Drive Train
     public static final Talon driveLeftMotor = new Talon(2);
     public static final Talon driveRightMotor = new Talon(1);
+    public static final RobotDrive driveRobotDrive = new RobotDrive(driveLeftMotor, driveRightMotor);
     //Climber
     public static final Victor climberTopMotor = new Victor(3);
     public static final Victor climberBottomMotor = new Victor(4);
     //Shooter
     public static final Victor shooterFrontMotor = new Victor(5);
     public static final Victor shooterBackMotor = new Victor(6);
-    //Intake
-    public static final Victor intakeMotor = new Victor(8);
+    //FrisbeeTransport
+    public static final Victor frisbeeTransportMotor = new Victor(8);
     //Tower
     public static final Victor towerMotor = new Victor(7);
     
     
     //Solenoids
-    //Drive Train
-    public static final DoubleSolenoid driveGear = new DoubleSolenoid(1,2);
-    //Tower
-    public static final DoubleSolenoid towerArmPistons = new DoubleSolenoid(3,4);
+    //Shifter
+    public static final DoubleSolenoid shifterGear = new DoubleSolenoid(1,2);
+    //Fixed Arms
+    public static final DoubleSolenoid armPistons = new DoubleSolenoid(3,4);
     //Relays
     public static final Compressor compressor = new Compressor(14,1);
     public static final Relay cameraLights = new Relay(2);
     
     //LiveWindow code
     public static void init(){
+        //Filling vector of motors
+        motors.addElement(driveLeftMotor);
+        motors.addElement(driveRightMotor);
+        motors.addElement(driveRobotDrive);
+        motors.addElement(climberTopMotor);
+        motors.addElement(climberBottomMotor);
+        motors.addElement(shooterFrontMotor);
+        motors.addElement(shooterBackMotor);
+        motors.addElement(frisbeeTransportMotor);
+        motors.addElement(towerMotor);
+        
         //LiveWindow display
         //Drive Train
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveRightEncoder);
@@ -86,9 +101,7 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "LeftMotor2", driveLeftMotor);
         LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
-        LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);
-        LiveWindow.addActuator("DriveTrain", "Gear" , driveGear);
-        
+        LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);        
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
         LiveWindow.addSensor("Climber", "TopSwitch" , climberTopSwitch);
@@ -107,15 +120,20 @@ public class RobotMap {
         LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHallEffect);
         LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHallEffect);
         
-        //Intake
-        LiveWindow.addActuator("Intake", "Motor8", intakeMotor);
-        LiveWindow.addSensor("Intake", "TopSwitch" , intakeTopSwitch);
-        LiveWindow.addSensor("Intake", "BottomSwitch" , intakeBottomSwitch);
+        //Frisbee Transport
+        LiveWindow.addActuator("FrisbeeTransport", "Motor8", frisbeeTransportMotor);
+        LiveWindow.addSensor("FrisbeeTransport", "TopSwitch" , frisbeeTransportTopSwitch);
+        LiveWindow.addSensor("FrisbeeTransport", "BottomSwitch" , frisbeeTransportBottomSwitch);
         
         //Tower
         LiveWindow.addActuator("Tower", "Motor7", towerMotor);
         LiveWindow.addSensor("Tower", "Potent" , towerPotent);
-        LiveWindow.addActuator("Tower", "ArmPistons" , towerArmPistons);
+        
+        //Shifter
+        LiveWindow.addActuator("Shifter", "Gear" , shifterGear);
+        
+        //Fixed Arms
+        LiveWindow.addActuator("FixedArms", "ArmPistons" , armPistons);
         
         //Relays
         LiveWindow.addActuator("Relays", "Compressor" , compressor);
@@ -125,25 +143,16 @@ public class RobotMap {
 
     //puts safeties on all motors
     public static void safe() {
-        driveLeftMotor.setSafetyEnabled(true);
-        driveRightMotor.setSafetyEnabled(true);
-        climberTopMotor.setSafetyEnabled(true);
-        climberBottomMotor.setSafetyEnabled(true);
-        shooterFrontMotor.setSafetyEnabled(true);
-        shooterBackMotor.setSafetyEnabled(true);
-        intakeMotor.setSafetyEnabled(true);
-        towerMotor.setSafetyEnabled(true);
+        for (int i=0; i<motors.size(); i++){
+            ((MotorSafety)motors.elementAt(i)).setSafetyEnabled(true);
+            ((MotorSafety)motors.elementAt(i)).setExpiration(0.5);
+        }
     }//end safe
 
     //removes safeties from all motors (for LiveWindow)
     public static void unSafe() {
-        driveLeftMotor.setSafetyEnabled(false);
-        driveRightMotor.setSafetyEnabled(false);
-        climberTopMotor.setSafetyEnabled(false);
-        climberBottomMotor.setSafetyEnabled(false);
-        shooterFrontMotor.setSafetyEnabled(false);
-        shooterBackMotor.setSafetyEnabled(false);
-        intakeMotor.setSafetyEnabled(false);
-        towerMotor.setSafetyEnabled(false);
+        for (int i=0; i<motors.size(); i++){
+            ((MotorSafety)motors.elementAt(i)).setSafetyEnabled(false);
+        }
     }//end unSafe
 }//end RobotMap

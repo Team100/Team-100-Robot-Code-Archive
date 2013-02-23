@@ -34,8 +34,11 @@ public class OrangaHang extends IterativeRobot {
     ManualClimb manualClimb;
     Drive drive;
     UpdateWidgets updateWidgets;
+    DigitalModule myModule = DigitalModule.getInstance(1);
+    AnalogModule myAnalogModule = AnalogModule.getInstance(1);
     //ManualTilt manualTilt;
     TestTilter testTilt;
+    Timer timer = new Timer();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -60,6 +63,8 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.safeAll();
         reproduce.start();
         initializeAll();
+        timer.reset();
+        timer.start();
     }//end autonomousInit
 
     /**
@@ -75,6 +80,8 @@ public class OrangaHang extends IterativeRobot {
         SmartDashboard.putData(CommandBase.pneumatics);
         SmartDashboard.putData(CommandBase.tower);
         SmartDashboard.putData(CommandBase.autoMemory);
+        SmartDashboard.putNumber("Period", timer.get());
+        timer.reset();
     }//end autonomousPeriodic
 
     public void teleopInit() {
@@ -96,6 +103,8 @@ public class OrangaHang extends IterativeRobot {
         updateWidgets.start();
         //manualTilt.start();
         testTilt.start();
+        timer.reset();
+        timer.start();
     }//end teleopInit
 
     /**
@@ -104,6 +113,8 @@ public class OrangaHang extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         testIO();
+        SmartDashboard.putNumber("Period", timer.get());
+        timer.reset();
     }//end teleopPeriodic
     
     /**
@@ -122,14 +133,14 @@ public class OrangaHang extends IterativeRobot {
     
     public void testIO(){
         NetworkTable table = NetworkTable.getTable("Status");
-        table.putNumber("dioData", DigitalModule.getInstance(1).getAllDIO());
+        table.putNumber("dioData", myModule.getAllDIO());
         
         for(int i = 1; i <= 10; i++) {
-            table.putNumber("pwm" + i, DigitalModule.getInstance(1).getPWM(i));
+            table.putNumber("pwm" + i, myModule.getPWM(i));
         }
         
         for(int i = 1; i <= 8; i++) {
-            table.putNumber("analog" + i, ((int)(AnalogModule.getInstance(1).getVoltage(i) * 1000) / 1000.0));
+            table.putNumber("analog" + i, ((int)(myAnalogModule.getVoltage(i) * 1000) / 1000.0));
         }
     }//end testIO
 

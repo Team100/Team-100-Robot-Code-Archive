@@ -12,7 +12,7 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
  *
  * @author Team100
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements SubsystemControl {
     //Robot parts
     private final SpeedController rightMotor = RobotMap.driveRightMotor;
     private final SpeedController leftMotor = RobotMap.driveLeftMotor;
@@ -20,7 +20,7 @@ public class DriveTrain extends Subsystem {
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
-    private final RobotDrive robotDrive=new RobotDrive(leftMotor, rightMotor);//add to robotMap?
+    private final RobotDrive robotDrive=RobotMap.driveRobotDrive;
     //Constants
     //circumference/ticks
     private final double kRightDistRatio = ((4.0/12.0*Math.PI))/1440;
@@ -34,16 +34,6 @@ public class DriveTrain extends Subsystem {
         rightEncoder.start();
         gyro.reset();
     }//end constructor
-    
-    //removes safeties from the robotDrive
-    public void unSafe(){
-        robotDrive.setSafetyEnabled(false);
-    }//end unSafe
-    
-    //puts safeties on the robotDrive
-    public void safe(){
-        robotDrive.setSafetyEnabled(true);
-    }//end safe
     
     //creates a new Drive
     public void initDefaultCommand() {
