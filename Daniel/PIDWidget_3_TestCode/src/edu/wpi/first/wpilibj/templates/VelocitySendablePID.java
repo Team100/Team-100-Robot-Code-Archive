@@ -6,6 +6,7 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
  */
 public class VelocitySendablePID implements Sendable {
     private boolean myFirst = true;
+    private Preferences prefs = Preferences.getInstance();
     
     private final PIDSource m_source;
     private final PIDSource m_period;
@@ -87,6 +89,8 @@ public class VelocitySendablePID implements Sendable {
         return m_name;
     }
     
+  
+    
     public void getValues() {
         myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         try {
@@ -94,35 +98,35 @@ public class VelocitySendablePID implements Sendable {
         } catch (java.lang.ClassCastException ex) {
             m_base.setKP(myTable.getNumber("p"));
         } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) { //Catches if the table key isnt defined yet
-            myTable.putString("p", "0.0"); //TODO: Load from Preferences instead of static variable
+            myTable.putString("p", prefs.getString(m_name + "p", "0.0")); //TODO: Load from Preferences instead of static variable
         }
         try {
             m_base.setKI(Double.parseDouble(myTable.getString("i")));
         } catch (java.lang.ClassCastException ex) {
             m_base.setKI(myTable.getNumber("i"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("i", "0.0");
+            myTable.putString("i", prefs.getString(m_name + "i", "0.0"));
         }
         try {
             m_base.setKD(Double.parseDouble(myTable.getString("d")));
         } catch (java.lang.ClassCastException ex) {
             m_base.setKD(myTable.getNumber("d"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("d", "0.0");
+            myTable.putString("d", prefs.getString(m_name + "d", "0.0"));
         }
         try {
             m_base.setMaxOutput(Double.parseDouble(myTable.getString("maxOut")));
         } catch (java.lang.ClassCastException ex) {
             m_base.setMaxOutput(myTable.getNumber("maxOut"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("maxOut", "0.0");
+            myTable.putString("maxOut", prefs.getString(m_name + "maxOut", "0.0"));
         }
         try {
             m_base.setMinOutput(Double.parseDouble(myTable.getString("minOut")));
         } catch (java.lang.ClassCastException ex) {
             m_base.setMinOutput(myTable.getNumber("minOut"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("minOut", "0.0");
+            myTable.putString("minOut", prefs.getString(m_name + "minOut", "0.0"));
         }
         myTable = NetworkTable.getTable(m_name);
     }//end getValues
