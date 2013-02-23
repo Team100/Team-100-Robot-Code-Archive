@@ -5,16 +5,12 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.TestTilter;
-import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
  *
@@ -32,13 +28,13 @@ public class Tower extends Subsystem implements SubsystemControl{
     private double kStartPosition = p.getDouble("kTowerStartPos", 700.0);
     private double kMaxPos = p.getDouble("kTowerMaxPos", 700);
     private double kMinPos = p.getDouble("kTowerMinPos", 50);
+    private double kTolerance = 50;//FIXME
+    private double kTiltSpeed = 0.7;//FIXME
     
-    
-
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new TestTilter());
+        //setDefaultCommand(new ManualTilt());
     }//end initDefaultCommand
     
     public Tower() {
@@ -48,30 +44,10 @@ public class Tower extends Subsystem implements SubsystemControl{
         SmartDashboard.putNumber("kTowerStartPos", kStartPosition);
         SmartDashboard.putNumber("kTowerMaxPos", kMaxPos);
         SmartDashboard.putNumber("kTowerMinPos", kMinPos);
-    }
-    
-    public void manualControl(double s)
-    {
-        if(potentiometer.getValue()>=68.0 && s>=0)
-        {
-            motor.set(s);
-        }
-        else if(potentiometer.getValue()<=0.0 && s<0)
-        {
-            motor.set(s);
-        }
-    }
-    
-    //calculates and returns the angle of the tower
-    public double getPotentiometer(){
-        return potentiometer.getValue();
-    }//end getPotentiometer()
+    }//end constructor
     
     public void testTilter(double speed){
         getDashboardValues();
-        double pot=getPotentiometer();
-        double max=kMaxPos;
-        double min=kMinPos;
         motor.set(-speed);
         SmartDashboard.putNumber("Tower_manual",speed);
         SmartDashboard.putNumber("Joystick",OI.manipulator.getThrottle());
@@ -87,57 +63,60 @@ public class Tower extends Subsystem implements SubsystemControl{
         //if(pot<max&&pot>min){
         //    motor.set(speed);        
         //}
-    }
-
-    //PID control
-    PIDSource sourceTower = new PIDSource() {
-        public double pidGet() {
-            SmartDashboard.putNumber("potVoltage_raw", potentiometer.getValue());
-            return potentiometer.getValue();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputTower = new PIDOutput() {
-        public void pidWrite(double output) {
-            motor.set(-output);
-        }
-    }; //end anonym class PIDOutput
-    private PositionSendablePID pidTower = new PositionSendablePID("Tower", sourceTower, outputTower, 1.0);
-
-    public void writePreferences() { //Might want to write some other stuff specific to the tower
-        pidTower.writePreferences();
-    }
-    
-    public void setSetpoint(double setpoint) {
-        pidTower.setSetpoint(setpoint);
-    }//end setSetpoint
+    }//end testTilter
 
     public void tiltToClimb() {
-        enable();
-        pidTower.setSetpoint(kClimbPosition);
+        if (potentiometer.getValue() < kClimbPosition + kTolerance && potentiometer.getValue()> kClimbPosition - kTolerance ){
+            motor.set(0.0);
+        } else if (potentiometer.getValue() > kClimbPosition + kTolerance) {
+            motor.set(kTiltSpeed);
+        } else if(potentiometer.getValue() < kClimbPosition - kTolerance){
+            motor.set(-kTiltSpeed);
+        }
     }//end tiltToClimb
 
     public void tiltToShoot() {
-        enable();
-        pidTower.setSetpoint(kShootPosition);
-    }//end tiltToClimb
+        if (potentiometer.getValue() < kShootPosition + kTolerance && potentiometer.getValue()> kShootPosition - kTolerance ){
+            motor.set(0.0);
+        } else if (potentiometer.getValue() > kShootPosition + kTolerance) {
+            motor.set(kTiltSpeed);
+        } else if (potentiometer.getValue() < kShootPosition - kTolerance){
+            motor.set(-kTiltSpeed);
+        }
+    }//end tiltToShoot
 
     public void tiltToIntake() {
-        enable();
-       pidTower.setSetpoint(kIntakePosition);
+        if (potentiometer.getValue() < kIntakePosition + kTolerance && potentiometer.getValue()> kIntakePosition - kTolerance ){
+            motor.set(0.0);
+        } else if (potentiometer.getValue() > kIntakePosition + kTolerance) {
+            motor.set(kTiltSpeed);
+        } else if (potentiometer.getValue() < kIntakePosition - kTolerance){
+            motor.set(-kTiltSpeed);
+        }
     }//end tiltToIntake
     
     public void tiltToStart(){
-        enable();
-       pidTower.setSetpoint(kStartPosition);
+        if (potentiometer.getValue() < kStartPosition + kTolerance && potentiometer.getValue()> kStartPosition - kTolerance ){
+            motor.set(0.0);
+        } else if (potentiometer.getValue() > kStartPosition + kTolerance) {
+            motor.set(kTiltSpeed);
+        } else if (potentiometer.getValue() < kStartPosition - kTolerance) {
+            motor.set(-kTiltSpeed);
+        }
     }//end tiltToStart
-
+    
+    //SubsystemControl interface ops - DO NOT REMOVE
     public void disable() {
-        pidTower.disable();
+        motor.set(0.0);
     }//end disable
 
     public void enable() {
-        pidTower.enable();
+        
     }//end enable
+    
+    public void writePreferences() { //Might want to write some other stuff specific to the tower
+        
+    }//end writePreferences
     
     public void getDashboardValues(){
         kClimbPosition=SmartDashboard.getNumber("kTowerClimbPos", kClimbPosition);
@@ -146,5 +125,6 @@ public class Tower extends Subsystem implements SubsystemControl{
         kStartPosition=SmartDashboard.getNumber("kTowerStartPos", kStartPosition);
         kMaxPos=SmartDashboard.getNumber("kTowerMaxPos", kMaxPos);
         kMinPos=SmartDashboard.getNumber("kTowerMinPos", kMinPos);
-    }
+    }//end getDashboardValues
+    
 }//end Tower

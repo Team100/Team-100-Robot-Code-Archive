@@ -67,17 +67,8 @@ public class Shooter extends Subsystem implements SubsystemControl{
         motorFront.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
         motorBack.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
     }//end runBackwards
-    
-    public void setFrontMotor(double s)
-    {
-        motorFront.set(s);
-    }
-    
-    public void setBackMotor(double s)
-    {
-        motorBack.set(s);
-    }
-    
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //PID Control
     
     //shooterFront
