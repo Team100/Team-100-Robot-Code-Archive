@@ -25,7 +25,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public FrisbeeTransport(){
         SmartDashboard.putNumber("FrisbeeBeltShootingSpeed", kShootingSpeed);
         SmartDashboard.putNumber("FrisbeeBeltIntakeSpeed", kIntakeSpeed);
-    }
+    }//end constructor
     
     //empty
     public void initDefaultCommand() {
@@ -65,4 +65,5 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
 
     public void writePreferences() {
     }//end writePreferences
+    
 }//end Intake
