@@ -18,14 +18,14 @@ public class PrimeToShoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //SmartDashboard.putNumber("ShootSetpoint", 0.0);
+        //TODO: do this inside shootFrisbees, if PID is enabled
         shooter.enable();
         shooter.setSetpoint(30);//FIXME
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //TODO: select PID or not via preferences        
+        //TODO: select PID or not via preferences, inside shootFrisbees
         //shooter.shootFrisbees(); use if no PID
     }
 
@@ -36,7 +36,6 @@ public class PrimeToShoot extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        shooter.setSetpoint(0.0);
         shooter.disable();
     }
 

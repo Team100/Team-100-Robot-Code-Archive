@@ -74,8 +74,6 @@ public class OrangaHang extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putData("Reproduce", reproduce);
-
         SmartDashboard.putNumber("Period", timer.get());
         timer.reset();
     }//end autonomousPeriodic

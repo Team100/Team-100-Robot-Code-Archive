@@ -42,7 +42,6 @@ public class Climb extends CommandGroup {
     //prepares climber subsystem
     protected void initialize() {
         CommandBase.climber.resetLevel();
-        //CommandBase.climber.enable();
     }//end initialize
 
     //stops climber

@@ -43,15 +43,11 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     
     ////////////////////////////////////////////////////////////////////////////
     private void initSendableChooser(){
-        System.out.println("Initializing Autonomous Sendable Chooser");
         chooser = new SendableChooser();
-        
-        
         chooser.addDefault("NoAutonomous", "NoAutonomous");    
         SmartDashboard.putData("Sendable Chooser", chooser);
         
-        int i = 0;
-        
+        int i = 0;        
         while(AutoList.indexOf(',', i) != -1){
             String sub = AutoList.substring(i, AutoList.indexOf(',', i));
             i = AutoList.indexOf(',', i)+1;
