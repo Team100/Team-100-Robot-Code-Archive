@@ -12,19 +12,19 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
  */
 public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     //Robot parts
-    private final SpeedController intakeMotor = RobotMap.frisbeeTransportMotor;
-    private final DigitalInput intakeTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
-    private final DigitalInput intakeBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
+    private final SpeedController frisbeeTransportMotor = RobotMap.frisbeeTransportMotor;
+    private final DigitalInput frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
+    private final DigitalInput frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     //Constants
-    private final double shootingSpeed = .4;
-    private final double intakeSpeed = -.2;
+    private final double kShootingSpeed = .4;
+    private final double kIntakeSpeed = -.2;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
     public FrisbeeTransport(){
-        SmartDashboard.putNumber("FrisbeeBeltShootingSpeed", shootingSpeed);
-        SmartDashboard.putNumber("FrisbeeBeltIntakeSpeed", intakeSpeed);
+        SmartDashboard.putNumber("FrisbeeBeltShootingSpeed", kShootingSpeed);
+        SmartDashboard.putNumber("FrisbeeBeltIntakeSpeed", kIntakeSpeed);
     }
     
     //empty
@@ -35,36 +35,34 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     
     //call to load frisbees, does NOT run shooter wheels
     public void takeFrisbees(){
-        SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
-        SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
-        if(intakeBottomSwitch.get()){
-            intakeMotor.set(SmartDashboard.getNumber("intakeSpeed", intakeSpeed));
+        //returns true when NOT hitting limit
+        if(frisbeeTransportBottomSwitch.get()){
+            frisbeeTransportMotor.set(SmartDashboard.getNumber("FrisbeeBeltIntakeSpeed", kIntakeSpeed));
         }
         else {
-            intakeMotor.set(0);
+            frisbeeTransportMotor.set(0.0);
         }
     }//end takeFrisbees
     
     //slowly moves frisbees into shooter, does NOT run shooter wheels
     public void shootFrisbees(){
-        SmartDashboard.putBoolean("IntakeBottomSwitch", intakeBottomSwitch.get());
-        SmartDashboard.putBoolean("IntakeTopSwitch", intakeTopSwitch.get());
-        if(intakeTopSwitch.get()){
-            intakeMotor.set(SmartDashboard.getNumber("shootingSpeed", shootingSpeed));
+        //returns true when NOT hitting limit
+        if(frisbeeTransportTopSwitch.get()){
+            frisbeeTransportMotor.set(SmartDashboard.getNumber("FrisbeeBeltShootingSpeed", kShootingSpeed));
         }
         else {
-            intakeMotor.set(0);
+            frisbeeTransportMotor.set(0.0);
         }
     }//end shootFrisbees
 
     //stops the motor
     public void disable() {
-        intakeMotor.set(0);
-    }
+        frisbeeTransportMotor.set(0.0);
+    }//end disable
 
     public void enable() {
-    }
+    }//end enable
 
     public void writePreferences() {
-    }
+    }//end writePreferences
 }//end Intake
