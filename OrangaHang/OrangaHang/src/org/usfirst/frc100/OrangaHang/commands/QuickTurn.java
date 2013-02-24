@@ -13,70 +13,51 @@ import org.usfirst.frc100.OrangaHang.OI;
  */
 public class QuickTurn extends CommandBase
 {
+    private boolean isFinished = false;
     private double setpoint;
-    private double angle;
-    private double error;
-    private double kP = 0.011;
-    private double kDB = 0.19;
     
     public QuickTurn()
     {
         // Use requires() here to declare subsystem dependencies
         requires(driveTrain);
-        SmartDashboard.putNumber("QuickTurnP", kP);
-        SmartDashboard.putNumber("QuickTurnDeadband", kDB);
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
         driveTrain.resetGyro();
-        
+        // Joystick position determines direction of the turn
         if(Math.abs(OI.driverRight.getX()) < 0.1)
         {
             setpoint = 0.0;
+            isFinished = true;
         }
         else
         {
-            setpoint = 90 * (OI.driverRight.getX()>0.0 ? 1.0:-1.0);
+            setpoint = 90.0 * (OI.driverRight.getX()>0.0 ? 1.0:-1.0);
+            isFinished = false;
         }
-        
-        kP = SmartDashboard.getNumber("QuickTurnP");
-        kDB = SmartDashboard.getNumber("QuickTurnDeadband");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        angle = (-driveTrain.getGyro()); // -driveTrain.getGyro() b/c the gyro is upsidedown
-        error = setpoint - angle;
-        if(isFinished())
-        {
+        if (isFinished) {
             return;
         }
-        double twist = error * kP;
-        
-        if(Math.abs(twist) < kDB)
-        {
-            twist = kDB * (twist>0.0 ? 1.0:-1.0);
-        }
-        driveTrain.quickTurn(twist);
-        
-        SmartDashboard.putNumber("QuickTurnTwist", twist);
-        SmartDashboard.putNumber("QuickTurnGyro", angle);
-        SmartDashboard.putNumber("QuickTurnError", error);
+        isFinished = driveTrain.quickTurn(setpoint);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Math.abs(angle) >= Math.abs(setpoint);
+        return isFinished;
     }
 
     // Called once after isFinished returns true
     protected void end()
     {
-        driveTrain.stop();
+        driveTrain.disable();
     }
 
     // Called when another command which requires one or more of the same
