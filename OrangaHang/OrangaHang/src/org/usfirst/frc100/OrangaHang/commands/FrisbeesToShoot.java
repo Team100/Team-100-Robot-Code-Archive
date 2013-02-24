@@ -32,7 +32,7 @@ public class FrisbeesToShoot extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        frisbeeTransport.stop();
+        frisbeeTransport.disable();
     }
 
     // Called when another command which requires one or more of the same

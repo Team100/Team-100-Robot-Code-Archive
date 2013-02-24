@@ -44,7 +44,7 @@ public class LowerElevator extends CommandBase {
     protected void end() {
         //this is only in LowerElevator, NOT RaiseElevator
         climber.nextLevel();
-        climber.stop();
+        climber.disable();
     }
 
     // Called when another command which requires one or more of the same

@@ -23,9 +23,9 @@ public class FixedArms extends Subsystem implements SubsystemControl {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    //switches arms from raised to lowered
+    //switches arms from raised to lowered, and vice versa
     public void toggleArms(){
-        //reverse=down
+        //reverse=down, forward=up
         if(armPistons.get().equals(DoubleSolenoid.Value.kReverse)){
             armPistons.set(DoubleSolenoid.Value.kForward);
         } else {
@@ -33,11 +33,6 @@ public class FixedArms extends Subsystem implements SubsystemControl {
         }
     }//end deployArms
     
-    //sets arms to down position
-    public void stowArms(){
-        armPistons.set(DoubleSolenoid.Value.kReverse);
-    }//end stowArms
-
     public void disable() {
     }
 

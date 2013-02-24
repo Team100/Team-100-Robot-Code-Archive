@@ -21,31 +21,22 @@ public class Shifter extends Subsystem implements SubsystemControl {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        
-        
     }
     
     public void shiftHighGear()
     {
-        if(!isHighGear())
-        {
+        if(shifter.get().equals(DoubleSolenoid.Value.kReverse)) {
             shifter.set(DoubleSolenoid.Value.kForward);
         }
     }
     
     public void shiftLowGear()
     {
-        if(isHighGear())
-        {
+        if(shifter.get().equals(DoubleSolenoid.Value.kForward)) {
             shifter.set(DoubleSolenoid.Value.kReverse);
         }
     }
     
-    public boolean isHighGear()
-    {
-        return shifter.get().equals(DoubleSolenoid.Value.kForward);
-    }
-
     public void disable() {
     }
 

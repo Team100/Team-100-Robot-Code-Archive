@@ -45,15 +45,14 @@ public class Climb extends CommandGroup {
         //CommandBase.climber.enable();
     }//end initialize
 
+    //stops climber
+    protected void end() {
+        CommandBase.climber.disable();
+    }//end end
+    
     //calls end
     protected void interrupted() {
         end();
     }//end interrupted
 
-    //stops climber
-    protected void end() {
-        CommandBase.climber.stop();
-        CommandBase.climber.disable();
-    }//end end
-    
 }//end Climb CommandGroup
