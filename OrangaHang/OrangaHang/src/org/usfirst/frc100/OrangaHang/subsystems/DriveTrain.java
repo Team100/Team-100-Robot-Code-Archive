@@ -33,6 +33,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         leftEncoder.start();
         rightEncoder.start();
         gyro.reset();
+        // FIXME: put into preferences
+        SmartDashboard.putNumber("DriveTrainQuickTurnP", 0.011);
+        SmartDashboard.putNumber("DriveTrainQuickTurnDeadband", 0.19);
     }//end constructor
     
     //creates a new Drive
@@ -50,15 +53,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
-        SmartDashboard.putNumber("LEFT ENCODER", leftEncoder.get());
-        SmartDashboard.putNumber("RIGHT ENCODER", rightEncoder.get());
-        SmartDashboard.putNumber("GYRO", gyro.getAngle());
+        SmartDashboard.putNumber("DriveTrainEncoderL", leftEncoder.get());
+        SmartDashboard.putNumber("DriveTrainEncoderR", rightEncoder.get());
+        SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
     }// end arcadeDrive
-    
-    public void stop(){
-        leftMotor.set(0.0);
-        rightMotor.set(0.0);
-    }
     
     public void resetGyro()
     {
@@ -86,9 +84,31 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         
     }//end alignToShoot
     
-    public void quickTurn(double twist){
+    public boolean quickTurn(double setpoint) {
+        // Proportional quickturn algorithm
+        double angle = -getGyro(); // -driveTrain.getGyro() b/c the gyro is upsidedown
+        double error = setpoint - angle;
+        double kP = SmartDashboard.getNumber("DriveTrainQuickTurnP", 0.011);
+        double kDB = SmartDashboard.getNumber("DriveTrainQuickTurnDeadband", 0.19);
+        double twist = error * kP;
+        double magnitude = Math.abs(twist);
+        if(magnitude < kDB) {
+            twist = kDB * (twist>0.0 ? 1.0:-1.0);
+        } else if (magnitude > 1.0) {
+            twist = (twist>0.0 ? 1.0:-1.0);
+        }
+        
+        SmartDashboard.putNumber("DriveTrainQuickTurnTwist", twist);
+        SmartDashboard.putNumber("DriveTrainQuickTurnError", error);
+        SmartDashboard.putNumber("DriveTrainEncoderL", leftEncoder.get());
+        SmartDashboard.putNumber("DriveTrainEncoderR", rightEncoder.get());
+        SmartDashboard.putNumber("DriveTrainGyro", angle);
+        
         leftMotor.set(-twist);
         rightMotor.set(twist);
+ 
+        // Done once we pass the setpoint
+        return Math.abs(angle) >= Math.abs(setpoint);
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
