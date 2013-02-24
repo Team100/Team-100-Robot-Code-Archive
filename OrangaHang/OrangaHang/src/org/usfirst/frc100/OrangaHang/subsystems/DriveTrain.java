@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
-import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.Drive;
-import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.PositionSendablePID;
 
 /**
  *
@@ -22,10 +20,14 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final RobotDrive robotDrive=RobotMap.driveRobotDrive;
     //Constants
-    //circumference/ticks
     private final double kRightDistRatio = ((4.0/12.0*Math.PI))/1440;
     private final double kLeftDistRatio = ((4.0/12.0*Math.PI))/1440;
-    private final double ultraDistRatio = 0.009794921875;
+    private final double kUltraDistRatio = 0.009794921875;
+    //Preferences defaults
+    private final double kDefaultShootLimitVoltage = 1.2;
+    private final double kDefaultQuickTurnProportion = 0.011;
+    private final double kDefaultQuickTurnDeadband = 0.19;
+    //Tuneables
     private double setpoint;
     
     //starts encoders
@@ -33,46 +35,49 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         leftEncoder.start();
         rightEncoder.start();
         gyro.reset();
-        // FIXME: put into preferences
-        SmartDashboard.putNumber("DriveTrainQuickTurnP", 0.011);
-        SmartDashboard.putNumber("DriveTrainQuickTurnDeadband", 0.19);
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("DriveTrainShootLimitVoltage")) {
+            p.putDouble("DriveTrainShootLimitVoltage", kDefaultShootLimitVoltage);
+        }
+        if (!p.containsKey("DriveTrainQuickTurnP")) {
+            p.putDouble("DriveTrainQuickTurnP", kDefaultQuickTurnProportion);
+        }
+        if (!p.containsKey("DriveTrainQuickTurnDeadband")) {
+            p.putDouble("DriveTrainQuickTurnDeadband", kDefaultQuickTurnDeadband);
+        }
     }//end constructor
     
     //creates a new Drive
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
         setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
     public void tankDrive(double leftSpeed, double rightSpeed){
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
+        SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
     }//end tankDrive
     
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
     public void arcadeDrive(double y, double x){
         robotDrive.arcadeDrive(y, x);
-        SmartDashboard.putNumber("DriveTrainEncoderL", leftEncoder.get());
-        SmartDashboard.putNumber("DriveTrainEncoderR", rightEncoder.get());
         SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
     }// end arcadeDrive
     
-    public void resetGyro()
-    {
+    public void resetGyro() {
         gyro.reset();
-    }
+    }//end resetGyro
 
-    public double getGyro()
-    {
+    public double getGyro() {
         return gyro.getAngle();
-    }
+    }//end getGyro
     
     //aligns robot for shooting
-    public void alignToShoot(double left, double right){
-        
-        if(ultraDist.getVoltage() < 1.2) {
-            if(left > 0) {
+    public void alignToShoot(double left, double right) {
+        Preferences p = Preferences.getInstance();
+        final double kShootLimitVoltage = p.getDouble("DriveTrainShootLimitVoltage", 0.0);
+        if (ultraDist.getVoltage() < kShootLimitVoltage) {
+            if (left > 0) {
                 leftMotor.set(0);
                 rightMotor.set(0);
             } else {
@@ -81,15 +86,15 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         } else {
             arcadeDrive(left, right);
         }
-        
     }//end alignToShoot
     
     public boolean quickTurn(double setpoint) {
         // Proportional quickturn algorithm
+        Preferences p = Preferences.getInstance();
+        final double kP = p.getDouble("DriveTrainQuickTurnP", 0.0);
+        final double kDB = p.getDouble("DriveTrainQuickTurnDeadband", 0.0);
         double angle = -getGyro(); // -driveTrain.getGyro() b/c the gyro is upsidedown
         double error = setpoint - angle;
-        double kP = SmartDashboard.getNumber("DriveTrainQuickTurnP", 0.011);
-        double kDB = SmartDashboard.getNumber("DriveTrainQuickTurnDeadband", 0.19);
         double twist = error * kP;
         double magnitude = Math.abs(twist);
         if(magnitude < kDB) {
@@ -98,10 +103,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
             twist = (twist>0.0 ? 1.0:-1.0);
         }
         
-        SmartDashboard.putNumber("DriveTrainQuickTurnTwist", twist);
-        SmartDashboard.putNumber("DriveTrainQuickTurnError", error);
-        SmartDashboard.putNumber("DriveTrainEncoderL", leftEncoder.get());
-        SmartDashboard.putNumber("DriveTrainEncoderR", rightEncoder.get());
         SmartDashboard.putNumber("DriveTrainGyro", angle);
         
         leftMotor.set(-twist);
@@ -109,7 +110,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
  
         // Done once we pass the setpoint
         return Math.abs(angle) >= Math.abs(setpoint);
-    }
+    }//end quickTurn
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //FIXME: remove PID code if we don't use it
@@ -148,10 +149,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 //        pidLeft.setSetpoint(setpoint);
     }//end setSetpoint
     
-    public double getSetpoint()
-    {
+    public double getSetpoint() {
         return this.setpoint;
-    }
+    }//end getSetpoint
     
     public void disable(){
         setSetpoint(0.0);
@@ -171,14 +171,14 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
  //       pidRight.enable();
  //       pidLeft.enable();
     }//end enable
-    public void resetValues()
-    {
+    
+    public void resetValues() {
 //        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
 //        pidLeft.getValues();
         //pidTurn.getValues();
-    }
+    }//end resetValues
 
     public void writePreferences() {
-    }
+    }//end writePreferences
     
 }//end DriveTrain
