@@ -5,6 +5,7 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,35 +18,49 @@ import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
  */
 public class Climber extends Subsystem implements SubsystemControl{
     //Robot parts
-    private final Encoder encoder = RobotMap.climberEncoder;
-    private final SpeedController motorTop = RobotMap.climberTopMotor;
-    private final SpeedController motorBottom = RobotMap.climberBottomMotor;
-    private final DigitalInput topSwitch = RobotMap.climberTopSwitch;
-    private final DigitalInput bottomSwitch = RobotMap.climberBottomSwitch;
+    private final Encoder climberEncoder = RobotMap.climberEncoder;
+    private final SpeedController climberTopMotor = RobotMap.climberTopMotor;
+    private final SpeedController climberBottomMotor = RobotMap.climberBottomMotor;
+    private final DigitalInput climberTopSwitch = RobotMap.climberTopSwitch;
+    private final DigitalInput climberBottomSwitch = RobotMap.climberBottomSwitch;
     //Constants
-    boolean homeUp = false;//automatically home elevator to top or bottom
-    double kElevatorSpeed = 1.0;//speed that elevator will move
-    double kHomingSpeed = 0.5;//speed for homingSequence method
-    private double kHomingReverseSpeed = 0.1;//not very fast
-    private double kEncoderMax = 5000;//highest point elevator should reach
-    private double encoderMin=0;//lowest point elevator should reach
-    private double lowerElevatorPartwayLimit;//how far the robot has to pull itself up the third time
+    //TODO: calibrate all constants
+    private final double kDefaultElevatorSpeed = 1.0;//speed that elevator will move
+    private final double kDefaultHomingSpeed = 0.5;//speed for homingSequence method
+    private final double kDefaultHomingReverseSpeed = 0.1;//not very fast
+    private final double kDefaultEncoderMax = 5000;//highest point elevator should reach
+    private final double kDefaultEncoderMin = 0;//lowest point elevator should reach
+    private final double kDefaultLowerElevatorPartwayLimit = 3500;//how far the robot has to pull itself up the third time
     //other variables
-    int level=0;//level of the pyramid that the robot is at    
-    private boolean homePartOne=true;//used by homing sequence
+    private int level = 0;//level of the pyramid that the robot is at    
+    private boolean homeUp = false;//automatically home elevator to top or bottom
+    private boolean homePartOne = true;//used by homing sequence
 
-    //sets encoder
+    //sets climberEncoder
     public Climber(){
         //FIXME: figure out real direction
-        encoder.setReverseDirection(true);
-        encoder.reset();
-        encoder.start();
-        SmartDashboard.putNumber("climberHomingSpeed", kHomingSpeed);
-        SmartDashboard.putNumber("climberHomingReverseSpeed", kHomingReverseSpeed);
-        SmartDashboard.putNumber("climberElevatorSpeed", kElevatorSpeed);
-        SmartDashboard.putNumber("climberEncoderMax", kEncoderMax);
-        SmartDashboard.putNumber("climberEncoderMin", encoderMin);
-        SmartDashboard.putNumber("climberLowerElevatorPartwayLimit", lowerElevatorPartwayLimit);
+        climberEncoder.setReverseDirection(true);
+        climberEncoder.reset();
+        climberEncoder.start();
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("ClimberElevatorSpeed")) {
+            p.putDouble("ClimberElevatorSpeed", kDefaultElevatorSpeed);
+        }
+        if (!p.containsKey("ClimberEncoderMax")) {
+            p.putDouble("ClimberEncoderMax", kDefaultEncoderMax);
+        }
+        if (!p.containsKey("ClimberEncoderMin")) {
+            p.putDouble("ClimberEncoderMin", kDefaultEncoderMin);
+        }
+        if (!p.containsKey("ClimberLowerElevatorPartwayLimit")) {
+            p.putDouble("ClimberLowerElevatorPartwayLimit", kDefaultLowerElevatorPartwayLimit);
+        }
+        if (!p.containsKey("ClimberHomingSpeed")) {
+            p.putDouble("ClimberHomingSpeed", kDefaultHomingSpeed);
+        }
+        if (!p.containsKey("ClimberHomingReverseSpeed")) {
+            p.putDouble("ClimberHomingReverseSpeed", kDefaultHomingReverseSpeed);
+        }
     }//end constructor
 
     //empty
@@ -55,34 +70,24 @@ public class Climber extends Subsystem implements SubsystemControl{
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
-        getDashboardValues();
-        if (!topSwitch.get()&&speed>0||!bottomSwitch.get()&&speed<0){
-            motorTop.set(0);
-            motorBottom.set(0);
+        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
+            climberTopMotor.set(0);
+            climberBottomMotor.set(0);
         }
-        if (!topSwitch.get()&&speed<0){
-            motorTop.set(speed);
-            motorBottom.set(speed);
+        if (!climberTopSwitch.get()&&speed<0){
+            climberTopMotor.set(speed);
+            climberBottomMotor.set(speed);
         }
-        if (!bottomSwitch.get()&&speed>0){
-            motorTop.set(speed);
-            motorBottom.set(speed);
+        if (!climberBottomSwitch.get()&&speed>0){
+            climberTopMotor.set(speed);
+            climberBottomMotor.set(speed);
         }
-        if(topSwitch.get()&&bottomSwitch.get()){
-            motorTop.set(speed);
-            motorBottom.set(speed);
+        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
+            climberTopMotor.set(speed);
+            climberBottomMotor.set(speed);
         }
         putData();
     }//end manualControl
-    
-    public void getDashboardValues(){
-        kHomingSpeed=SmartDashboard.getNumber("climberHomingSpeed", kHomingSpeed);
-        kHomingReverseSpeed=SmartDashboard.getNumber("climberHomingReverseSpeed", kHomingReverseSpeed);
-        kElevatorSpeed=SmartDashboard.getNumber("climberElevatorSpeed", kElevatorSpeed);
-        kEncoderMax=SmartDashboard.getNumber("climberEncoderMax", kEncoderMax);
-        encoderMin=SmartDashboard.getNumber("climberEncoderMin", encoderMin);
-        lowerElevatorPartwayLimit=SmartDashboard.getNumber("climberLowerElevatorPartwayLimit", lowerElevatorPartwayLimit);
-    }//end getDashboardValues
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -90,91 +95,98 @@ public class Climber extends Subsystem implements SubsystemControl{
     
     //raises the elevator, tries again if hooks don't catch
     public void raiseElevator(){
-        getDashboardValues();
+        Preferences p = Preferences.getInstance();
+        final double kElevatorSpeed = p.getDouble("ClimberElevatorSpeed", 0.0);
         if (!getUpperLimit()){
             if (!getError(true)){
-                motorTop.set(kElevatorSpeed);
-                motorBottom.set(kElevatorSpeed);
+                climberTopMotor.set(kElevatorSpeed);
+                climberBottomMotor.set(kElevatorSpeed);
             }
             else {
                 if (!getLowerLimit()){
-                    motorTop.set(-kElevatorSpeed);
-                    motorBottom.set(-kElevatorSpeed);
+                    climberTopMotor.set(-kElevatorSpeed);
+                    climberBottomMotor.set(-kElevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            climberTopMotor.set(0);
+            climberBottomMotor.set(0);
         }
         putData();
     }//end raiseElevator
     
     //lowers the elevator, tries again if hooks don't catch
     public void lowerElevator(){
-        getDashboardValues();
+        Preferences p = Preferences.getInstance();
+        final double kElevatorSpeed = p.getDouble("ClimberElevatorSpeed", 0.0);
         if (!getLowerLimit()){
             if (!getError(false)){
-                motorTop.set(-kElevatorSpeed);
-                motorBottom.set(-kElevatorSpeed);
+                climberTopMotor.set(-kElevatorSpeed);
+                climberBottomMotor.set(-kElevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
-                    motorTop.set(kElevatorSpeed);
-                    motorBottom.set(kElevatorSpeed);
+                    climberTopMotor.set(kElevatorSpeed);
+                    climberBottomMotor.set(kElevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            climberTopMotor.set(0);
+            climberBottomMotor.set(0);
         }
         putData();
     }//end lowerElevator
     
     //lowers elevator partway for last pull-up at end
     public void lowerElevatorPartway(){
-        getDashboardValues();
-        if (encoder.get()>lowerElevatorPartwayLimit){
+        Preferences p = Preferences.getInstance();
+        final double kElevatorSpeed = p.getDouble("ClimberElevatorSpeed", 0.0);
+        final double kLowerElevatorPartwayLimit = p.getDouble("ClimberLowerElevatorPartwayLimit", 0.0);
+        if (climberEncoder.get() > kLowerElevatorPartwayLimit){
             if (!getError(false)){
-                motorTop.set(-kElevatorSpeed);
-                motorBottom.set(-kElevatorSpeed);
+                climberTopMotor.set(-kElevatorSpeed);
+                climberBottomMotor.set(-kElevatorSpeed);
             }
             else {
                 if (!getUpperLimit()){
-                    motorTop.set(kElevatorSpeed);
-                    motorBottom.set(kElevatorSpeed);
+                    climberTopMotor.set(kElevatorSpeed);
+                    climberBottomMotor.set(kElevatorSpeed);
                 }
             }
         }
         else {
-            motorTop.set(0);
-            motorBottom.set(0);
+            climberTopMotor.set(0);
+            climberBottomMotor.set(0);
         }
         putData();
     }//end lowerElevatorPartway
     
     //whether the elevator has reached the bottom
     public boolean getLowerLimit(){
-        getDashboardValues();
-        return !bottomSwitch.get()||encoder.get()<encoderMin;
+        Preferences p = Preferences.getInstance();
+        final double kEncoderMin = p.getDouble("ClimberEncoderMin", 0.0);
+        return !climberBottomSwitch.get()||climberEncoder.get() < kEncoderMin;
     }//end getLowerLimit
     
     //whether the elevator has reached the partway limit (for climbing to third level of pyramid)
     public boolean getPartwayLimit(){
-        getDashboardValues();
-        return encoder.get()<lowerElevatorPartwayLimit;
+        Preferences p = Preferences.getInstance();
+        final double kLowerElevatorPartwayLimit = p.getDouble("ClimberLowerElevatorPartwayLimit", 0.0);
+        return climberEncoder.get() < kLowerElevatorPartwayLimit;
     }//end getPartwayLimit
     
     //whether the elevator has reached the top
     public boolean getUpperLimit(){
-        getDashboardValues();
-        return !topSwitch.get()||encoder.get()>kEncoderMax;
+        Preferences p = Preferences.getInstance();
+        final double kEncoderMax = p.getDouble("ClimberEncoderMax", 0.0);
+        return !climberTopSwitch.get()||climberEncoder.get() > kEncoderMax;
     }//end getUpperLimit
     
     //called when robot goes up a level of the pyramid
     public void nextLevel(){
-        level+=1;
+        level += 1;
     }//end nextLevel
     
     //which level of the pyramid the robot is on
@@ -184,51 +196,52 @@ public class Climber extends Subsystem implements SubsystemControl{
     
     //resets level to zero
     public void resetLevel(){
-        level=0;
+        level = 0;
     }//end resetLevel
     
-    //moves elevator to starting position and sets encoder
+    //moves elevator to starting position and sets climberEncoder
     public void homingSequence() {
-        getDashboardValues();
-        if (homeUp){
-            if (!topSwitch.get()&&homePartOne){
-                motorTop.set(kHomingSpeed);
-                motorBottom.set(kHomingSpeed);
+        Preferences p = Preferences.getInstance();
+        final double kHomingSpeed = p.getDouble("ClimberHomingSpeed", 0.0);
+        final double kHomingReverseSpeed = p.getDouble("ClimberHomingReverseSpeed", 0.0);
+        if (homeUp) {
+            if (!climberTopSwitch.get() && homePartOne) {
+                climberTopMotor.set(kHomingSpeed);
+                climberBottomMotor.set(kHomingSpeed);
             }
-            if (topSwitch.get()){
-                motorTop.set(-kHomingReverseSpeed);
-                motorBottom.set(-kHomingReverseSpeed);
-                homePartOne=false;
+            if (climberTopSwitch.get()) {
+                climberTopMotor.set(-kHomingReverseSpeed);
+                climberBottomMotor.set(-kHomingReverseSpeed);
+                homePartOne = false;
             }
-            if (!topSwitch.get()&&!homePartOne){
-                motorTop.set(0);
-                motorBottom.set(0);
-                encoder.reset();
+            if (!climberTopSwitch.get() && !homePartOne) {
+                climberTopMotor.set(0);
+                climberBottomMotor.set(0);
+                climberEncoder.reset();
             }
-        }
-        
-        else{
-            if (!bottomSwitch.get()&&homePartOne){
-                motorTop.set(-kHomingSpeed);
-                motorBottom.set(-kHomingSpeed);
+        } else {
+            if (!climberBottomSwitch.get() && homePartOne) {
+                climberTopMotor.set(-kHomingSpeed);
+                climberBottomMotor.set(-kHomingSpeed);
             }
-            if (bottomSwitch.get()){
-                motorTop.set(kHomingReverseSpeed);
-                motorBottom.set(kHomingReverseSpeed);
-                homePartOne=false;
+            if (climberBottomSwitch.get()) {
+                climberTopMotor.set(kHomingReverseSpeed);
+                climberBottomMotor.set(kHomingReverseSpeed);
+                homePartOne = false;
             }
-            if (!bottomSwitch.get()&&!homePartOne){
-                motorTop.set(0);
-                motorBottom.set(0);
-                encoder.reset();
+            if (!climberBottomSwitch.get() && !homePartOne) {
+                climberTopMotor.set(0);
+                climberBottomMotor.set(0);
+                climberEncoder.reset();
             }
         }
     }//end homingSequence
     
     //displays data on smartdashboard
+    //TODO: conform to convention! (no spaces)
     public void putData(){
         SmartDashboard.putNumber("Climber Level", level);
-        SmartDashboard.putNumber("Climber Encoder", encoder.get()*.0004);
+        SmartDashboard.putNumber("Climber Encoder", climberEncoder.get()*.0004);
         SmartDashboard.putBoolean("Climber Upper Limit", getUpperLimit());
         SmartDashboard.putBoolean("Climber Lower Limit", getLowerLimit());
     }//end putData
@@ -238,14 +251,14 @@ public class Climber extends Subsystem implements SubsystemControl{
         return false;
     }//end getError
 
-    //resets the encoder
+    //resets the climberEncoder
     public void resetEncoder() {
-        encoder.reset();
+        climberEncoder.reset();
     }//end resetEncoder
     
     public void disable(){
-        motorTop.set(0);
-        motorBottom.set(0);
+        climberTopMotor.set(0);
+        climberBottomMotor.set(0);
     }//end disable
     
     public void enable(){
