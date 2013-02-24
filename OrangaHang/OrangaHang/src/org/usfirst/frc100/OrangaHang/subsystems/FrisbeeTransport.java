@@ -1,6 +1,7 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,15 +17,20 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     private final DigitalInput frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
     private final DigitalInput frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     //Constants
-    private final double kShootingSpeed = .4;
-    private final double kIntakeSpeed = -.2;
+    private final double kDefaultShootingSpeed = 0.4;
+    private final double kDefaultIntakeSpeed = -0.2;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
     public FrisbeeTransport(){
-        SmartDashboard.putNumber("FrisbeeBeltShootingSpeed", kShootingSpeed);
-        SmartDashboard.putNumber("FrisbeeBeltIntakeSpeed", kIntakeSpeed);
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("FrisbeeBeltIntakeSpeed")) {
+            p.putDouble("FrisbeeBeltIntakeSpeed", kDefaultIntakeSpeed);
+        }
+        if (!p.containsKey("FrisbeeBeltShootingSpeed")) {
+            p.putDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed);
+        }
     }//end constructor
     
     //empty
@@ -37,7 +43,8 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void takeFrisbees(){
         //returns true when NOT hitting limit
         if(frisbeeTransportBottomSwitch.get()){
-            frisbeeTransportMotor.set(SmartDashboard.getNumber("FrisbeeBeltIntakeSpeed", kIntakeSpeed));
+            Preferences p = Preferences.getInstance();
+            frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltIntakeSpeed", kDefaultIntakeSpeed));
         }
         else {
             frisbeeTransportMotor.set(0.0);
@@ -48,7 +55,8 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void shootFrisbees(){
         //returns true when NOT hitting limit
         if(frisbeeTransportTopSwitch.get()){
-            frisbeeTransportMotor.set(SmartDashboard.getNumber("FrisbeeBeltShootingSpeed", kShootingSpeed));
+            Preferences p = Preferences.getInstance();
+            frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
         }
         else {
             frisbeeTransportMotor.set(0.0);
