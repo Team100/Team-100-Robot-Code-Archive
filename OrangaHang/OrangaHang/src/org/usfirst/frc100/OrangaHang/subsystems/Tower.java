@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.OI;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 
 /**
  *
@@ -32,9 +33,7 @@ public class Tower extends Subsystem implements SubsystemControl{
     private double kTiltSpeed = 0.7;//FIXME
     
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-        //setDefaultCommand(new ManualTilt());
+        setDefaultCommand(new ManualTilt());
     }//end initDefaultCommand
     
     public Tower() {
