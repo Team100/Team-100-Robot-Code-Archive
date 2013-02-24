@@ -13,9 +13,8 @@ import org.usfirst.frc100.OrangaHang.OI;
 public class Intake extends CommandBase {
     
     public Intake() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(frisbeeTransport);
+        requires(shooter);
     }
 
     // Called just before this Command runs the first time
@@ -35,7 +34,7 @@ public class Intake extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        frisbeeTransport.stop();
+        frisbeeTransport.disable();
         shooter.disable();
     }
 

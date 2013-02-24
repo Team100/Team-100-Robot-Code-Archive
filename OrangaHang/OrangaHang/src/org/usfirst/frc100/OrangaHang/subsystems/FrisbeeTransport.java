@@ -58,11 +58,8 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     }//end shootFrisbees
 
     //stops the motor
-    public void stop() {
-        intakeMotor.set(0);
-    }//end stop
-
     public void disable() {
+        intakeMotor.set(0);
     }
 
     public void enable() {

@@ -19,9 +19,7 @@ public class Memorize extends CommandBase{
     }
 
     protected void initialize() {
-        System.out.println("Beginning Collection");
         autoMemory.beginCollection();
-        SmartDashboard.putBoolean("Collecting", true);
     }
 
     /**
@@ -35,20 +33,19 @@ public class Memorize extends CommandBase{
     } 
 
     protected boolean isFinished() {
+        //TODO: run for 15 seconds
         return false;
     }
 
-    protected void interrupted() {
-        end();
-    }
-    
     protected void end() {
         try {
             autoMemory.stopCollection();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        
-        SmartDashboard.putBoolean("Collecting", false);
-    } 
+        }        
+    }
+    
+    protected void interrupted() {
+        end();
+    }    
 }

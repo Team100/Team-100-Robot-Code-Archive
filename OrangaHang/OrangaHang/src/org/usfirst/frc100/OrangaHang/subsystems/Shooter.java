@@ -21,15 +21,15 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final DigitalInput hallBack = RobotMap.shooterBackHallEffect;
     private final Victor motorFront = RobotMap.shooterFrontMotor;
     private final Victor motorBack = RobotMap.shooterBackMotor;
-    private Counter counterFront = new Counter(hallFront);
-    private Counter counterBack = new Counter(hallBack);
+    private final Counter counterFront = RobotMap.shooterCounterFront;
+    private final Counter counterBack = RobotMap.shooterCounterBack;
     //Constants
-    private final double kBackDistRatio = 3.0/12.0*Math.PI/4;
-    private final double kFrontDistRatio = 3.0/12.0*Math.PI/4;
-    //encoder ticks*(quadrature)/gearRatio*circumference*conversion to feet  
-    private double dumpSpeed = 0.5;//FIXME
-    private double shootSpeed = .2;//FIXME
-    private double reverseSpeed = -.1;//FIXME
+    //Use raw counter values in order to simplify calibration
+    private final double kBackDistRatio = 1.0; //3.0/12.0*Math.PI/4;
+    private final double kFrontDistRatio = 1.0; //3.0/12.0*Math.PI/4;  
+    private final double dumpSpeed = 0.5;//FIXME
+    private final double shootSpeed = .2;//FIXME
+    private final double reverseSpeed = -.1;//FIXME
     
     //sets counters
     public Shooter(){

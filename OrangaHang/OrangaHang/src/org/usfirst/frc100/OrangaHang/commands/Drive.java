@@ -24,20 +24,24 @@ public class Drive extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        //NOTE: change AlignToShoot if you change this
         driveTrain.arcadeDrive(-OI.driverLeft.getY(), -OI.driverRight.getX());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return false;//default command
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        // We don't stop the drivetrain motors here in order to smoothly
+        // transition to AlignToShoot
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }
