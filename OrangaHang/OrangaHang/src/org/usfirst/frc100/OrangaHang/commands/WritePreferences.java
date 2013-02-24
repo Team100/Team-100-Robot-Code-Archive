@@ -34,21 +34,8 @@ public class WritePreferences extends CommandBase {
         writePIDPreferences(table, "FrontShooter");
         table = NetworkTable.getTable("PIDSystems/BackShooterPID");
         writePIDPreferences(table, "BackShooter");
-        table = NetworkTable.getTable("SmartDashboard");
-        writePIDPreferences(table, "Tower");
-        table = NetworkTable.getTable("SmartDashboard");
-        writeTowerPreferences(table);
         //Save the Preferences
         p.save();
-    }
-    
-    private void writeTowerPreferences(NetworkTable t) {
-        p.putDouble("kTowerClimbPos", t.getNumber("kTowerClimbPos"));
-        p.putDouble("kTowerShootPos", t.getNumber("kTowerShootPos"));
-        p.putDouble("kTowerIntakePos", t.getNumber("kTowerIntakePos"));
-        p.putDouble("kTowerStartPos", t.getNumber("kTowerStartPos"));
-        p.putDouble("kTowerMaxPos", t.getNumber("kTowerMaxPos"));
-        p.putDouble("lTowerMinPos", t.getNumber("kTowerMinPos"));
     }
     
     private void writePIDPreferences(NetworkTable t, String s) {
