@@ -28,14 +28,17 @@ import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
  * directory.
  */
 public class OrangaHang extends IterativeRobot {
-
+    // Autonomous command
     Reproduce reproduce;
-    ManualClimb manualClimb;
-    Drive drive;
+    
+    // Teleop commands
     UpdateWidgets updateWidgets;
+    
+    // Get modules once, because it's expensive
     DigitalModule myModule = DigitalModule.getInstance(1);
     AnalogModule myAnalogModule = AnalogModule.getInstance(1);
-    ManualTilt manualTilt;
+    
+    // Loop period timer
     Timer timer = new Timer();
     
     /**
@@ -56,11 +59,12 @@ public class OrangaHang extends IterativeRobot {
     }//end disabledInit
     
     public void autonomousInit() {
+        initializeAll();
+
         // schedule the autonomous command (example)
         reproduce = new Reproduce();
-        CommandBase.safeAll();
         reproduce.start();
-        initializeAll();
+        
         timer.reset();
         timer.start();
     }//end autonomousInit
@@ -71,13 +75,7 @@ public class OrangaHang extends IterativeRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         SmartDashboard.putData("Reproduce", reproduce);
-        SmartDashboard.putData(CommandBase.climber);
-        SmartDashboard.putData(CommandBase.shooter);
-        SmartDashboard.putData(CommandBase.driveTrain);
-        SmartDashboard.putData(CommandBase.frisbeeTransport);
-        SmartDashboard.putData(CommandBase.pneumatics);
-        SmartDashboard.putData(CommandBase.tower);
-        SmartDashboard.putData(CommandBase.autoMemory);
+
         SmartDashboard.putNumber("Period", timer.get());
         timer.reset();
     }//end autonomousPeriodic
@@ -90,15 +88,15 @@ public class OrangaHang extends IterativeRobot {
         if (reproduce != null){
             reproduce.cancel();
         }
-        CommandBase.pneumatics.startCompressor();
-        manualClimb = new ManualClimb();
-        drive = new Drive();
+        // Redo full init sequence, in case we didn't run autonomous
+        initializeAll();
+
+        // Teleop relies on button-originated commands and default commands
+        
+        // FIXME: do we need UpdateWidgets?
         updateWidgets = new UpdateWidgets();
-        manualTilt = new ManualTilt();
-        manualClimb.start();
-        drive.start();
         updateWidgets.start();
-        manualTilt.start();
+
         timer.reset();
         timer.start();
     }//end teleopInit
@@ -141,11 +139,12 @@ public class OrangaHang extends IterativeRobot {
     }//end testIO
 
     private void initializeAll() {
+        CommandBase.safeAll();
         CommandBase.pneumatics.startCompressor();
 	CommandBase.shifter.shiftHighGear();
-	//CommandBase.tower.stowArms();//do BEFORE the match
         CommandBase.climber.homingSequence();
-        CommandBase.tower.enable();
-        //CommandBase.tower.tiltToStart();
+
+        //CommandBase.tower.stowArms();//do BEFORE the match
+        //CommandBase.tower.tiltToStart();//do BEFORE the match
     }//end initializeAll
 }//end OrangaHang
