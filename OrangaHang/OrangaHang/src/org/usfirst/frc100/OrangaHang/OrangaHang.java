@@ -51,7 +51,7 @@ public class OrangaHang extends IterativeRobot {
         // Initialize all subsystems
         CommandBase.init();
         RobotMap.init();
-       
+        SmartDashboard.putData(Scheduler.getInstance());
     }//end robotInit
 
     public void disabledInit(){
