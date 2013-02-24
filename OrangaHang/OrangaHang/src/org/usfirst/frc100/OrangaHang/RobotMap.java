@@ -30,7 +30,6 @@ public class RobotMap {
     public static final Encoder climberEncoder = new Encoder(7,8);
     public static final DigitalInput climberTopSwitch = new DigitalInput(9);
     public static final DigitalInput climberBottomSwitch = new DigitalInput(10);
-    public static final DigitalInput climberPoleSwitch = new DigitalInput(13);  
     //Shooter
     public static final DigitalInput shooterFrontHallEffect = new DigitalInput(1);
     public static final DigitalInput shooterBackHallEffect = new DigitalInput(2);
@@ -46,11 +45,6 @@ public class RobotMap {
     public static final ADXL345_I2C driveAccelerometer = new ADXL345_I2C(1, DataFormat_Range.k2G);
     //Tower
     public static final AnalogChannel towerPotent = new AnalogChannel(3);
-    //Climber
-    public static final AnalogChannel climberRightFixedIR = new AnalogChannel(4);
-    public static final AnalogChannel climberLeftFixedIR = new AnalogChannel(5);
-    public static final AnalogChannel climberRightMovingIR = new AnalogChannel(6);
-    public static final AnalogChannel climberLeftMovingIR = new AnalogChannel(7);
     
     
     //PWM Outputs
@@ -106,13 +100,8 @@ public class RobotMap {
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
         LiveWindow.addSensor("Climber", "TopSwitch" , climberTopSwitch);
         LiveWindow.addSensor("Climber", "BottomSwitch" , climberBottomSwitch);
-        LiveWindow.addSensor("Climber", "PoleSwitch" , climberPoleSwitch);
         LiveWindow.addActuator("Climber", "TopMotor3", climberTopMotor);
         LiveWindow.addActuator("Climber", "BottomMotor4", climberBottomMotor);
-        LiveWindow.addSensor("Climber", "RightFixedIR" , climberRightFixedIR);
-        LiveWindow.addSensor("Climber", "RightMovingIR" , climberRightMovingIR);
-        LiveWindow.addSensor("Climber", "LeftFixedIR" , climberLeftFixedIR);
-        LiveWindow.addSensor("Climber", "LeftMovingIR" , climberLeftMovingIR);
         
         //Shooter
         LiveWindow.addActuator("Shooter", "FrontMotor5", shooterFrontMotor);

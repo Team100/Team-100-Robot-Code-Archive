@@ -18,7 +18,6 @@ import org.usfirst.frc100.OrangaHang.commands.Drive;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
-import org.usfirst.frc100.OrangaHang.commands.TestTilter;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 
 /**
@@ -36,8 +35,7 @@ public class OrangaHang extends IterativeRobot {
     UpdateWidgets updateWidgets;
     DigitalModule myModule = DigitalModule.getInstance(1);
     AnalogModule myAnalogModule = AnalogModule.getInstance(1);
-    //ManualTilt manualTilt;
-    TestTilter testTilt;
+    ManualTilt manualTilt;
     Timer timer = new Timer();
     
     /**
@@ -96,13 +94,11 @@ public class OrangaHang extends IterativeRobot {
         manualClimb = new ManualClimb();
         drive = new Drive();
         updateWidgets = new UpdateWidgets();
-        //manualTilt = new ManualTilt();
-        testTilt = new TestTilter();
+        manualTilt = new ManualTilt();
         manualClimb.start();
         drive.start();
         updateWidgets.start();
-        //manualTilt.start();
-        testTilt.start();
+        manualTilt.start();
         timer.reset();
         timer.start();
     }//end teleopInit

@@ -42,16 +42,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         setDefaultCommand(new Drive());
     }//end initDefaultCommand
     
-    public void setLeftMotor(double s)
-    {
-        leftMotor.set(s);
-    }
-    
-    public void setRightMotor(double s)
-    {
-        rightMotor.set(s);
-    }
-    
     public void tankDrive(double leftSpeed, double rightSpeed){
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
@@ -177,6 +167,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 //        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
 //        pidLeft.getValues();
         //pidTurn.getValues();
+    }
+
+    public void writePreferences() {
     }
     
 }//end DriveTrain

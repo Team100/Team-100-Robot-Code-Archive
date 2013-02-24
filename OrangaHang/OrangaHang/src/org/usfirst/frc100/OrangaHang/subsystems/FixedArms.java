@@ -43,4 +43,7 @@ public class FixedArms extends Subsystem implements SubsystemControl {
 
     public void enable() {
     }
+
+    public void writePreferences() {
+    }
 }

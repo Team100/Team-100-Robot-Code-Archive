@@ -56,22 +56,6 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
             intakeMotor.set(0);
         }
     }//end shootFrisbees
-    
-    //sets motor to a given value, has safeties
-    public void manualControl(double d){
-        if (!intakeTopSwitch.get()&&d>0||!intakeBottomSwitch.get()&&d<0){
-            intakeMotor.set(0);
-        }
-        if (!intakeTopSwitch.get()&&d<0){
-            intakeMotor.set(d);
-        }
-        if (!intakeBottomSwitch.get()&&d>0){
-            intakeMotor.set(d);
-        }
-        if(intakeTopSwitch.get()&&intakeBottomSwitch.get()){
-            intakeMotor.set(d);
-        }
-    }//end manualControl
 
     //stops the motor
     public void stop() {
@@ -82,5 +66,8 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     }
 
     public void enable() {
+    }
+
+    public void writePreferences() {
     }
 }//end Intake
