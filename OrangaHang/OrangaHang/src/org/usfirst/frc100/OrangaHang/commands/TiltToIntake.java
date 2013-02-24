@@ -26,7 +26,7 @@ public class TiltToIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        isFinished = tower.tiltToIntake();
+        isFinished = tower.tiltToPosition("TowerIntakePos");
     }
 
     // Make this return true when this Command no longer needs to run execute()

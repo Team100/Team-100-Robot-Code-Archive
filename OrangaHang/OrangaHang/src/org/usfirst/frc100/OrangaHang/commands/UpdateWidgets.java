@@ -53,7 +53,6 @@ public class UpdateWidgets extends CommandBase {
         artificialHorizonTable =NetworkTable.getTable("ArtificialHorizon");
         initializePIDTable(backShooterTable, "BackShooter");
         initializePIDTable(frontShooterTable, "FrontShooter");
-        initializePIDTable(towerTable, "Tower");
         initializePositionTable(positionTable);
         //Other Stuff
         myGyro = RobotMap.driveGyro;
@@ -67,7 +66,6 @@ public class UpdateWidgets extends CommandBase {
     protected void execute() {
         updatePIDWidget(frontShooterTable, "FrontShooter");
         updatePIDWidget(backShooterTable, "BackShooter");
-        updatePIDWidget(towerTable, "Tower");
         updatePositionTable(positionTable);
         updateArtificialHorizonTable(artificialHorizonTable);
     }

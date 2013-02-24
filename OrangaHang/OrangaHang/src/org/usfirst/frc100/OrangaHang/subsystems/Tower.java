@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc100.OrangaHang.OI;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 
@@ -18,108 +16,75 @@ import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
  * @author Team100
  */
 public class Tower extends Subsystem implements SubsystemControl{
-    Preferences p = Preferences.getInstance();
     //Robot parts
-    private final AnalogChannel potentiometer = RobotMap.towerPotent;
-    private final Victor motor = RobotMap.towerMotor;
+    private final AnalogChannel towerPotent = RobotMap.towerPotent;
+    private final Victor towerMotor = RobotMap.towerMotor;
     //Constants
-    private double kClimbPosition = p.getDouble("kTowerClimbPos", 275.0);
-    private double kShootPosition = p.getDouble("kTowerShootPos", 100.0);
-    private double kIntakePosition = p.getDouble("kTowerIntakePos", 275.0);
-    private double kStartPosition = p.getDouble("kTowerStartPos", 700.0);
-    private double kMaxPos = p.getDouble("kTowerMaxPos", 700);
-    private double kMinPos = p.getDouble("kTowerMinPos", 50);
-    private double kTolerance = 50;//FIXME
-    private double kTiltSpeed = 0.7;//FIXME
+    //TODO: calibrate all values
+    private final double kDefaultClimbPosition = 275.0;
+    private final double kDefaultShootPosition = 100.0;
+    private final double kDefaultIntakePosition = 275.0;
+    private final double kDefaultStartPosition = 700.0;
+    private final double kDefaultTolerance = 50;
+    private final double kDefaultTiltSpeed = 0.7;
     
     public void initDefaultCommand() {
         setDefaultCommand(new ManualTilt());
     }//end initDefaultCommand
     
     public Tower() {
-        SmartDashboard.putNumber("kTowerClimbPos", kClimbPosition);
-        SmartDashboard.putNumber("kTowerShootPos", kShootPosition);
-        SmartDashboard.putNumber("kTowerIntakePos", kIntakePosition);
-        SmartDashboard.putNumber("kTowerStartPos", kStartPosition);
-        SmartDashboard.putNumber("kTowerMaxPos", kMaxPos);
-        SmartDashboard.putNumber("kTowerMinPos", kMinPos);
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("TowerClimbPos")) {
+            p.putDouble("TowerClimbPos", kDefaultClimbPosition);
+        }
+        if (!p.containsKey("TowerShootPos")) {
+            p.putDouble("TowerShootPos", kDefaultShootPosition);
+        }
+        if (!p.containsKey("TowerIntakePos")) {
+            p.putDouble("TowerIntakePos", kDefaultIntakePosition);
+        }
+        if (!p.containsKey("TowerStartPos")) {
+            p.putDouble("TowerStartPos", kDefaultStartPosition);
+        }
+        if (!p.containsKey("TowerTolerance")) {
+            p.putDouble("TowerTolerance", kDefaultTolerance);
+        }
+        if (!p.containsKey("TowerTiltSpeed")) {
+            p.putDouble("TowerTiltSpeed", kDefaultTiltSpeed);
+        }
     }//end constructor
     
     public void manualTilt(double speed){
-        getDashboardValues();
-        motor.set(-speed);
-        SmartDashboard.putNumber("Tower_manual",speed);
-        SmartDashboard.putNumber("Joystick",OI.manipulator.getThrottle());
+        towerMotor.set(-speed);
     }//end manualTilt
 
-    public boolean tiltToClimb() {
-        if (potentiometer.getValue() < kClimbPosition + kTolerance && potentiometer.getValue()> kClimbPosition - kTolerance ){
-            motor.set(0.0);
+    public boolean tiltToPosition(String key) {
+        Preferences p = Preferences.getInstance();
+        final double kPosition = p.getDouble(key, 0.0);
+        final double kTolerance = p.getDouble("TowerTolerance", 0.0);
+        final double kTiltSpeed = p.getDouble("TowerTiltSpeed", 0.0);
+        if (towerPotent.getValue() < kPosition + kTolerance && towerPotent.getValue()> kPosition - kTolerance ){
+            towerMotor.set(0.0);
             return true;
-        } else if (potentiometer.getValue() > kClimbPosition + kTolerance) {
-            motor.set(kTiltSpeed);
-        } else if(potentiometer.getValue() < kClimbPosition - kTolerance){
-            motor.set(-kTiltSpeed);
+        } else if (towerPotent.getValue() > kPosition + kTolerance) {
+            towerMotor.set(kTiltSpeed);
+        } else if(towerPotent.getValue() < kPosition - kTolerance){
+            towerMotor.set(-kTiltSpeed);
         }
         return false;
-    }//end tiltToClimb
-
-    public boolean tiltToShoot() {
-        if (potentiometer.getValue() < kShootPosition + kTolerance && potentiometer.getValue()> kShootPosition - kTolerance ){
-            motor.set(0.0);
-            return true;
-        } else if (potentiometer.getValue() > kShootPosition + kTolerance) {
-            motor.set(kTiltSpeed);
-        } else if (potentiometer.getValue() < kShootPosition - kTolerance){
-            motor.set(-kTiltSpeed);
-        }
-        return false;
-    }//end tiltToShoot
-
-    public boolean tiltToIntake() {
-        if (potentiometer.getValue() < kIntakePosition + kTolerance && potentiometer.getValue()> kIntakePosition - kTolerance ){
-            motor.set(0.0);
-            return true;
-        } else if (potentiometer.getValue() > kIntakePosition + kTolerance) {
-            motor.set(kTiltSpeed);
-        } else if (potentiometer.getValue() < kIntakePosition - kTolerance){
-            motor.set(-kTiltSpeed);
-        }
-        return false;
-    }//end tiltToIntake
-    
-    public boolean tiltToStart(){
-        if (potentiometer.getValue() < kStartPosition + kTolerance && potentiometer.getValue()> kStartPosition - kTolerance ){
-            motor.set(0.0);
-            return true;
-        } else if (potentiometer.getValue() > kStartPosition + kTolerance) {
-            motor.set(kTiltSpeed);
-        } else if (potentiometer.getValue() < kStartPosition - kTolerance) {
-            motor.set(-kTiltSpeed);
-        }
-        return false;
-    }//end tiltToStart
+    }//end tiltToPosition
     
     //SubsystemControl interface ops - DO NOT REMOVE
     public void disable() {
-        motor.set(0.0);
+        towerMotor.set(0.0);
     }//end disable
 
     public void enable() {
         
     }//end enable
     
-    public void writePreferences() { //Might want to write some other stuff specific to the tower
-        
+    public void writePreferences() {
+        //nothing special to do
     }//end writePreferences
-    
-    public void getDashboardValues(){
-        kClimbPosition=SmartDashboard.getNumber("kTowerClimbPos", kClimbPosition);
-        kShootPosition=SmartDashboard.getNumber("kTowerShootPos", kShootPosition);
-        kIntakePosition=SmartDashboard.getNumber("kTowerIntakePos", kIntakePosition);
-        kStartPosition=SmartDashboard.getNumber("kTowerStartPos", kStartPosition);
-        kMaxPos=SmartDashboard.getNumber("kTowerMaxPos", kMaxPos);
-        kMinPos=SmartDashboard.getNumber("kTowerMinPos", kMinPos);
-    }//end getDashboardValues
     
 }//end Tower
