@@ -244,17 +244,13 @@ public class Climber extends Subsystem implements SubsystemControl{
     }//end resetEncoder
     
     public void disable(){
-        stop();
+        motorTop.set(0);
+        motorBottom.set(0);
     }//end disable
     
     public void enable(){
 
     }//end enable
-
-    public void stop() {
-        motorTop.set(0);
-        motorBottom.set(0);
-    }//end stop
 
     public void writePreferences() {
     }//end writePreferences

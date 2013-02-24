@@ -79,19 +79,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
             arcadeDrive(left, right);
         }
         
-//        if(Math.abs(gyro.getAngle()) > 2) {
-//            leftMotor.set(gyro.getAngle() / 20);
-//            rightMotor.set(gyro.getAngle() / -20);
-//        } else {
-//            if(ultraDist.getVoltage() > 1.0) {
-//                leftMotor.set(1.0);
-//                rightMotor.set(-1.0);
-//            } else {
-//                leftMotor.set(0);
-//                rightMotor.set(0);
-//            }
-//        }
-        
     }//end alignToShoot
     
     public void quickTurn(double angle){
@@ -147,6 +134,8 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         setSetpoint(0.0);
  //       pidRight.disable();
  //       pidLeft.disable();
+        leftMotor.set(0.0);
+        rightMotor.set(0.0);
         rightEncoder.reset();
         leftEncoder.reset();
     }//end disable
