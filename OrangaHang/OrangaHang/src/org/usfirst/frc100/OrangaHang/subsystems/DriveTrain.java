@@ -55,6 +55,11 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         SmartDashboard.putNumber("GYRO", gyro.getAngle());
     }// end arcadeDrive
     
+    public void stop(){
+        leftMotor.set(0.0);
+        rightMotor.set(0.0);
+    }
+    
     public void resetGyro()
     {
         gyro.reset();
@@ -94,11 +99,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         
     }//end alignToShoot
     
-    public void quickTurn(double angle){
-        if (Math.abs(gyro.getAngle()-angle)>.8){
-            leftMotor.set(angle/90);
-            rightMotor.set(angle/90);
-        }
+    public void quickTurn(double twist){
+        leftMotor.set(-twist);
+        rightMotor.set(twist);
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

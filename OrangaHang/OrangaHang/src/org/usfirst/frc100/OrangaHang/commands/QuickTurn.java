@@ -13,39 +13,70 @@ import org.usfirst.frc100.OrangaHang.OI;
  */
 public class QuickTurn extends CommandBase
 {
-    private double angle=90;
+    private double setpoint;
+    private double angle;
+    private double error;
+    private double kP = 0.011;
+    private double kDB = 0.19;
+    
     public QuickTurn()
     {
         // Use requires() here to declare subsystem dependencies
         requires(driveTrain);
-//        driveTrain.resetValues();
+        SmartDashboard.putNumber("QuickTurnP", kP);
+        SmartDashboard.putNumber("QuickTurnDeadband", kDB);
     }
 
     // Called just before this Command runs the first time
     protected void initialize()
     {
         driveTrain.resetGyro();
-        angle*= (OI.driverRight.getX() >= 0.0 ? 1.0 : -1.0);
         
+        if(Math.abs(OI.driverRight.getX()) < 0.1)
+        {
+            setpoint = 0.0;
+        }
+        else
+        {
+            setpoint = 90 * (OI.driverRight.getX()>0.0 ? 1.0:-1.0);
+        }
+        
+        kP = SmartDashboard.getNumber("QuickTurnP");
+        kDB = SmartDashboard.getNumber("QuickTurnDeadband");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        SmartDashboard.putString("Is turning", "True");
-        driveTrain.quickTurn(angle);
+        angle = (-driveTrain.getGyro()); // -driveTrain.getGyro() b/c the gyro is upsidedown
+        error = setpoint - angle;
+        if(isFinished())
+        {
+            return;
+        }
+        double twist = error * kP;
+        
+        if(Math.abs(twist) < kDB)
+        {
+            twist = kDB * (twist>0.0 ? 1.0:-1.0);
+        }
+        driveTrain.quickTurn(twist);
+        
+        SmartDashboard.putNumber("QuickTurnTwist", twist);
+        SmartDashboard.putNumber("QuickTurnGyro", angle);
+        SmartDashboard.putNumber("QuickTurnError", error);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Math.abs(angle - driveTrain.getGyro()) < 0.8;
+        return Math.abs(angle) >= Math.abs(setpoint);
     }
 
     // Called once after isFinished returns true
     protected void end()
     {
-        SmartDashboard.putString("Is turning", "False");
+        driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
