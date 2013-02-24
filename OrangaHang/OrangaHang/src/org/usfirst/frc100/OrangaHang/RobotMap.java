@@ -12,16 +12,6 @@ import java.util.Vector;
  * floating around.
  */
 public class RobotMap {
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static final int leftMotor = 1;
-    // public static final int rightMotor = 2;
-    
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static final int rangefinderPort = 1;
-    // public static final int rangefinderModule = 1;
-    
     //Digital I/O sensors
     //Drive Train
     public static final Encoder driveRightEncoder = new Encoder(3,4);
@@ -33,6 +23,8 @@ public class RobotMap {
     //Shooter
     public static final DigitalInput shooterFrontHallEffect = new DigitalInput(1);
     public static final DigitalInput shooterBackHallEffect = new DigitalInput(2);
+    public static final Counter shooterCounterFront = new Counter(shooterFrontHallEffect);
+    public static final Counter shooterCounterBack = new Counter(shooterBackHallEffect);
     //Intake
     public static final DigitalInput frisbeeTransportTopSwitch = new DigitalInput(11);
     public static final DigitalInput frisbeeTransportBottomSwitch = new DigitalInput(12);
@@ -95,6 +87,8 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "LeftMotor2", driveLeftMotor);
         LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
+        //ADXL345_I2C doesn't implement LiveWindowSendable
+        //LiveWindow.addSensor("DriveTrain", "Accelerometer", driveAccelerometer);
         LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);        
         //Climber
         LiveWindow.addSensor("Climber", "ClimberEncoder" , climberEncoder);
@@ -108,6 +102,8 @@ public class RobotMap {
         LiveWindow.addActuator("Shooter", "BackMotor6", shooterBackMotor);
         LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHallEffect);
         LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHallEffect);
+        LiveWindow.addSensor("Shooter", "FrontCounter", shooterCounterFront);
+        LiveWindow.addSensor("Shooter", "BackCounter", shooterCounterBack);
         
         //Frisbee Transport
         LiveWindow.addActuator("FrisbeeTransport", "Motor8", frisbeeTransportMotor);

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 
 /**
  *
@@ -49,8 +50,7 @@ public class Climber extends Subsystem implements SubsystemControl{
 
     //empty
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ManualClimb());
     }//end initDefaultCommand
     
     //sets climber speed to given value, has built-in safeties
@@ -244,17 +244,13 @@ public class Climber extends Subsystem implements SubsystemControl{
     }//end resetEncoder
     
     public void disable(){
-        stop();
+        motorTop.set(0);
+        motorBottom.set(0);
     }//end disable
     
     public void enable(){
 
     }//end enable
-
-    public void stop() {
-        motorTop.set(0);
-        motorBottom.set(0);
-    }//end stop
 
     public void writePreferences() {
     }//end writePreferences

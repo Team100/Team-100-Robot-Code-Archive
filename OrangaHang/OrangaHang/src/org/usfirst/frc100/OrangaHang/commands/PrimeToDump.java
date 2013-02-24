@@ -18,13 +18,14 @@ public class PrimeToDump extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //SmartDashboard.putNumber("DumpSetpoint", 0.0);
+        //TODO: do this inside dumpFrisbees, if PID is enabled
         shooter.enable();
         shooter.setSetpoint(20);//FIXME
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        //TODO: select PID or not via preferences, inside dumpFrisbees
         //shooter.dumpFrisbees(); use if no PID
     }
 
@@ -35,7 +36,6 @@ public class PrimeToDump extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        shooter.setSetpoint(0.0);
         shooter.disable();
     }
 

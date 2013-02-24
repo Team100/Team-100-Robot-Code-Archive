@@ -21,7 +21,6 @@ public class Reproduce extends CommandBase{
     Vector primeshootbutton;
     
     public Reproduce(){
-        System.out.println("Created Reproduce");
         requires(autoMemory);
         requires(driveTrain);
         requires(shooter);
@@ -86,10 +85,6 @@ public class Reproduce extends CommandBase{
         return false;
     }
     
-    protected void interrupted() {
-        end();
-    }
-
     /**
      * Sets all autoMemory.Reproduce inputs to zero and false
      * @see autoMemory.Reproduce
@@ -97,7 +92,9 @@ public class Reproduce extends CommandBase{
     protected void end() {
         //autoMemory.Reproduce(0,0,false,false);
         position = 0;
-        SmartDashboard.putBoolean("Reproducing", false);
-        System.out.println("Finished");
+    }
+
+    protected void interrupted() {
+        end();
     }
 }

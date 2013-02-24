@@ -61,6 +61,7 @@ public class OI {
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
     public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 9);
+    // button 10 is available
 
     public OI()
     {
@@ -87,11 +88,8 @@ public class OI {
         toggleArmsButton.whenPressed(new ToggleArms());
         
         //SmartDashboardButtons
-        
         SmartDashboard.putData(new Memorize());
         SmartDashboard.putData(new WritePreferences());
-        //SmartDashboard.putData(new Reproduce());
-        SmartDashboard.putString("Name Autonomous Procedure","InsertHere");
     }//end constructor
     
 }//end OI
