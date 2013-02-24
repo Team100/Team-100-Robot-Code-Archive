@@ -25,6 +25,7 @@ public class PrimeToDump extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        //TODO: select PID or not via preferences
         //shooter.dumpFrisbees(); use if no PID
     }
 

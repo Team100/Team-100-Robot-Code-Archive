@@ -45,63 +45,59 @@ public class Tower extends Subsystem implements SubsystemControl{
         SmartDashboard.putNumber("kTowerMinPos", kMinPos);
     }//end constructor
     
-    public void testTilter(double speed){
+    public void manualTilt(double speed){
         getDashboardValues();
         motor.set(-speed);
         SmartDashboard.putNumber("Tower_manual",speed);
         SmartDashboard.putNumber("Joystick",OI.manipulator.getThrottle());
-        //if (pot<max&&speed>0||pot>min&&speed<0){
-        //   motor.set(speed);
-        //}
-        //if (pot<min&&speed<0){
-        //    motor.set(0);        
-        //}
-        //if (pot>max&&speed>0){
-        //    motor.set(0);
-        //}
-        //if(pot<max&&pot>min){
-        //    motor.set(speed);        
-        //}
-    }//end testTilter
+    }//end manualTilt
 
-    public void tiltToClimb() {
+    public boolean tiltToClimb() {
         if (potentiometer.getValue() < kClimbPosition + kTolerance && potentiometer.getValue()> kClimbPosition - kTolerance ){
             motor.set(0.0);
+            return true;
         } else if (potentiometer.getValue() > kClimbPosition + kTolerance) {
             motor.set(kTiltSpeed);
         } else if(potentiometer.getValue() < kClimbPosition - kTolerance){
             motor.set(-kTiltSpeed);
         }
+        return false;
     }//end tiltToClimb
 
-    public void tiltToShoot() {
+    public boolean tiltToShoot() {
         if (potentiometer.getValue() < kShootPosition + kTolerance && potentiometer.getValue()> kShootPosition - kTolerance ){
             motor.set(0.0);
+            return true;
         } else if (potentiometer.getValue() > kShootPosition + kTolerance) {
             motor.set(kTiltSpeed);
         } else if (potentiometer.getValue() < kShootPosition - kTolerance){
             motor.set(-kTiltSpeed);
         }
+        return false;
     }//end tiltToShoot
 
-    public void tiltToIntake() {
+    public boolean tiltToIntake() {
         if (potentiometer.getValue() < kIntakePosition + kTolerance && potentiometer.getValue()> kIntakePosition - kTolerance ){
             motor.set(0.0);
+            return true;
         } else if (potentiometer.getValue() > kIntakePosition + kTolerance) {
             motor.set(kTiltSpeed);
         } else if (potentiometer.getValue() < kIntakePosition - kTolerance){
             motor.set(-kTiltSpeed);
         }
+        return false;
     }//end tiltToIntake
     
-    public void tiltToStart(){
+    public boolean tiltToStart(){
         if (potentiometer.getValue() < kStartPosition + kTolerance && potentiometer.getValue()> kStartPosition - kTolerance ){
             motor.set(0.0);
+            return true;
         } else if (potentiometer.getValue() > kStartPosition + kTolerance) {
             motor.set(kTiltSpeed);
         } else if (potentiometer.getValue() < kStartPosition - kTolerance) {
             motor.set(-kTiltSpeed);
         }
+        return false;
     }//end tiltToStart
     
     //SubsystemControl interface ops - DO NOT REMOVE

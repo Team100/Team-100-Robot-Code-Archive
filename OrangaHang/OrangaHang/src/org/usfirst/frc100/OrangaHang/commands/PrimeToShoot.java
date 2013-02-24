@@ -25,6 +25,7 @@ public class PrimeToShoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        //TODO: select PID or not via preferences        
         //shooter.shootFrisbees(); use if no PID
     }
 

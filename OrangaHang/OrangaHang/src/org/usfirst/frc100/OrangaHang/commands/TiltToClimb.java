@@ -11,6 +11,7 @@ import org.usfirst.frc100.OrangaHang.OI;
  * @author Team100
  */
 public class TiltToClimb extends CommandBase {
+    private boolean isFinished = false;
     
     public TiltToClimb() {
         // Use requires() here to declare subsystem dependencies
@@ -20,16 +21,17 @@ public class TiltToClimb extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        tower.tiltToClimb();
+        isFinished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute(){
+        isFinished = tower.tiltToClimb();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (OI.manipulator.getThrottle() > 0.5) || (OI.manipulator.getThrottle() < -0.5);
+        return (isFinished || (OI.manipulator.getThrottle() > 0.5) || (OI.manipulator.getThrottle() < -0.5));
     }
 
     // Called once after isFinished returns true

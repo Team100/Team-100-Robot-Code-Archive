@@ -35,6 +35,7 @@ public class Memorize extends CommandBase{
     } 
 
     protected boolean isFinished() {
+        //TODO: run for 15 seconds
         return false;
     }
 
