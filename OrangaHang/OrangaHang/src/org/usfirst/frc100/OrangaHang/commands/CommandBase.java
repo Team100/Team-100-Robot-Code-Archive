@@ -87,5 +87,10 @@ public abstract class CommandBase extends Command {
     public CommandBase() {
         super();
     }//end constructor
-    
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run. Call end() by default.
+    protected void interrupted() {
+        end();
+    }
 }//end CommandBase

@@ -61,6 +61,7 @@ public class OI {
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
     public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 9);
+    // button 10 is available
 
     public OI()
     {
