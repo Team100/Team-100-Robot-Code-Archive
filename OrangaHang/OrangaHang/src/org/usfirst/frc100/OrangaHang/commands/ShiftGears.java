@@ -40,5 +40,6 @@ public class ShiftGears extends CommandBase {
     // subsystems is scheduled to run
     protected void interrupted()
     {
+        end();
     }
 }
