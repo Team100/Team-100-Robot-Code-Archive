@@ -18,15 +18,11 @@ public class PrimeToShoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //TODO: do this inside shootFrisbees, if PID is enabled
-        shooter.enable();
-        shooter.setSetpoint(30);//FIXME
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //TODO: select PID or not via preferences, inside shootFrisbees
-        //shooter.shootFrisbees(); use if no PID
+        shooter.shootFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()

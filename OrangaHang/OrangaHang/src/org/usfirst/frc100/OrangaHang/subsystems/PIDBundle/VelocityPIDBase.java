@@ -127,7 +127,7 @@ public class VelocityPIDBase{
         return setpoint;
     }//end getSetpoint
 
-    public boolean isEnabled() {
+    public synchronized boolean isEnabled() {
         return enabled;
     }
     

@@ -18,15 +18,11 @@ public class PrimeToDump extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //TODO: do this inside dumpFrisbees, if PID is enabled
-        shooter.enable();
-        shooter.setSetpoint(20);//FIXME
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //TODO: select PID or not via preferences, inside dumpFrisbees
-        //shooter.dumpFrisbees(); use if no PID
+        shooter.dumpFrisbees();
     }
 
     // Make this return true when this Command no longer needs to run execute()
