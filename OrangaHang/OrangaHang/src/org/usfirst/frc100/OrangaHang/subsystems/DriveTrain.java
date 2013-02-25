@@ -118,7 +118,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     //driveRight
     PIDSource sourceRight = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("encoderRight_raw", rightEncoder.getRaw());
             return rightEncoder.getRaw();
         }
     }; //end anonym class PIDSource
@@ -132,7 +131,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     //driveLeft
     PIDSource sourceLeft = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("encoderLeft_raw", leftEncoder.get());
             return leftEncoder.get();
         }
     }; //end anonym class PIDSource
@@ -171,12 +169,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
  //       pidRight.enable();
  //       pidLeft.enable();
     }//end enable
-    
-    public void resetValues() {
-//        pidRight.getValues(); // Extremly misleading name; doesn't return anything. Resets all constants
-//        pidLeft.getValues();
-        //pidTurn.getValues();
-    }//end resetValues
 
     public void writePreferences() {
     }//end writePreferences

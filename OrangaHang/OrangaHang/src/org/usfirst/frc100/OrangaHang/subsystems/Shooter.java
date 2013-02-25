@@ -2,12 +2,11 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
 
@@ -17,8 +16,6 @@ import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
  */
 public class Shooter extends Subsystem implements SubsystemControl{
     //Robot parts
-    private final DigitalInput hallFront = RobotMap.shooterFrontHallEffect;
-    private final DigitalInput hallBack = RobotMap.shooterBackHallEffect;
     private final Victor motorFront = RobotMap.shooterFrontMotor;
     private final Victor motorBack = RobotMap.shooterBackMotor;
     private final Counter counterFront = RobotMap.shooterCounterFront;
@@ -26,10 +23,15 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //Constants
     //Use raw counter values in order to simplify calibration
     private final double kBackDistRatio = 1.0; //3.0/12.0*Math.PI/4;
-    private final double kFrontDistRatio = 1.0; //3.0/12.0*Math.PI/4;  
-    private final double dumpSpeed = 0.5;//FIXME
-    private final double shootSpeed = .2;//FIXME
-    private final double reverseSpeed = -.1;//FIXME
+    private final double kFrontDistRatio = 1.0; //3.0/12.0*Math.PI/4;
+    //Preferences defaults
+    //TODO: calibrate all constants
+    private final double kDefaultDumpSpeed = 0.5;
+    private final double kDefaultShootSpeed = 0.2;
+    private final double kDefaultReverseSpeed = -0.1;
+    private final double kDefaultDumpSetpoint = 10.0;
+    private final double kDefaultShootSetpoint = 50.0;
+    private final boolean kDefaultPIDEnable = true;
     
     //sets counters
     public Shooter(){
@@ -39,9 +41,25 @@ public class Shooter extends Subsystem implements SubsystemControl{
         counterBack.reset();
         counterFront.start();
         counterBack.start();
-        SmartDashboard.putNumber("ShooterDumpSpeed", dumpSpeed);
-        SmartDashboard.putNumber("ShooterShootSpeed", shootSpeed);
-        SmartDashboard.putNumber("ShooterReverseSpeed", reverseSpeed);
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("ShooterDumpSpeed")) {
+            p.putDouble("ShooterDumpSpeed", kDefaultDumpSpeed);
+        }
+        if (!p.containsKey("ShooterShootSpeed")) {
+            p.putDouble("ShooterShootSpeed", kDefaultShootSpeed);
+        }
+        if (!p.containsKey("ShooterReverseSpeed")) {
+            p.putDouble("ShooterReverseSpeed", kDefaultReverseSpeed);
+        }
+        if (!p.containsKey("ShooterDumpSetpoint")) {
+            p.putDouble("ShooterDumpSetpoint", kDefaultDumpSetpoint);
+        }
+        if (!p.containsKey("ShooterShootSetpoint")) {
+            p.putDouble("ShooterShootSetpoint", kDefaultShootSetpoint);
+        }
+        if (!p.containsKey("ShooterPIDEnable")) {
+            p.putBoolean("ShooterPIDEnable", kDefaultPIDEnable);
+        }
     }//end constructor
     
     //empty
@@ -52,21 +70,47 @@ public class Shooter extends Subsystem implements SubsystemControl{
     
     //set speed for dumping
     public void dumpFrisbees(){
-        motorFront.set(SmartDashboard.getNumber("ShooterDumpSpeed", dumpSpeed));
-        motorBack.set(SmartDashboard.getNumber("ShooterDumpSpeed", dumpSpeed));
+        Preferences p = Preferences.getInstance();
+        final boolean kPIDEnable = p.getBoolean("ShooterPIDEnable", true);
+        if (kPIDEnable){
+            final double kDumpSetpoint = p.getDouble("ShooterDumpSetpoint", 0.0);
+            pidFront.setSetpoint(kDumpSetpoint);
+            pidBack.setSetpoint(kDumpSetpoint/2.0);
+            if (!isEnabled()){
+                enable();
+            }
+        } else { 
+            final double kDumpSpeed = p.getDouble("ShooterDumpSpeed", 0.0);
+            motorFront.set(kDumpSpeed);
+            motorBack.set(kDumpSpeed/2.0);
+        }
     }//end dumpFrisbees
     
     //set speed for shooting
     public void shootFrisbees(){
-        motorFront.set(SmartDashboard.getNumber("ShooterShootSpeed", shootSpeed));
-        motorBack.set(SmartDashboard.getNumber("ShooterShootSpeed", shootSpeed));
+        Preferences p = Preferences.getInstance();
+        final boolean kPIDEnable = p.getBoolean("ShooterPIDEnable", true);
+        if (kPIDEnable){
+            final double kShootSetpoint = p.getDouble("ShooterShootSetpoint", 0.0);
+            pidFront.setSetpoint(kShootSetpoint);
+            pidBack.setSetpoint(kShootSetpoint/2.0);
+            if (!isEnabled()){
+                enable();
+            }
+        } else { 
+            final double kShootSpeed = p.getDouble("ShooterShootSpeed", 0.0);
+            motorFront.set(kShootSpeed);
+            motorBack.set(kShootSpeed/2.0);
+        }
     }//end shootFrisbees
     
     //runs shooter in reverse direction for intake
-    public void runBackwards(){
-        motorFront.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
-        motorBack.set(SmartDashboard.getNumber("ShooterReverseSpeed", reverseSpeed));
-    }//end runBackwards
+    public void intakeFrisbees(){
+        Preferences p = Preferences.getInstance();
+        final double kReverseSpeed = p.getDouble("ShooterReverseSpeed", 0.0);
+        motorFront.set(kReverseSpeed);
+        motorBack.set(kReverseSpeed);
+    }//end intakeFrisbees
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //PID Control
@@ -74,13 +118,11 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //shooterFront
     PIDSource sourceFront = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("counterFront_raw", counterFront.get());
             return counterFront.get();
         }
     }; //end anonym class PIDSource
     PIDSource periodFront = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("periodFront", counterFront.getPeriod());
             return counterFront.getPeriod();
         }
     };//end anonym class PIDSource periodFront
@@ -94,13 +136,11 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //shooterBack
     PIDSource sourceBack = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("counterBack_raw", counterBack.get());
             return counterBack.get();
         }
     }; //end anonym class PIDSource
     PIDSource periodBack = new PIDSource(){
         public double pidGet(){
-            SmartDashboard.putNumber("periodBack", counterBack.getPeriod());
             return counterBack.getPeriod();
         }
     };//end anonym class PIDSource periodFront
@@ -120,6 +160,10 @@ public class Shooter extends Subsystem implements SubsystemControl{
         pidFront.writePreferences();
         pidBack.writePreferences();
     }//end writePreferences
+    
+    private boolean isEnabled(){
+        return (pidFront.isEnabled() && pidBack.isEnabled());
+    }//end isEnabled
     
     public void disable(){
         setSetpoint(0.0);

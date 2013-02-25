@@ -142,6 +142,10 @@ public class VelocitySendablePID implements Sendable {
         m_base.setSetpoint(setpoint);
     }//end setSetpoint
     
+    public boolean isEnabled(){
+        return m_base.isEnabled();
+    }//end isEnabled
+    
     public void enable(){
         m_base.enable();
     }//end enable
