@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  * @author Student
  */
 public class PyramidLevel extends Widget{
-    public static final String NAME = "Pyramid";
+    public static final String NAME = "ClimberLevel";
     public static final DataType[] TYPES = { DataType.NUMBER };
     
     private double value = 0;

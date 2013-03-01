@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
  * @author Student
  */
 public class Climber extends Widget{
-    public static final String NAME = "Climber Position";
+    public static final String NAME = "ClimberPosition";
     public static final DataType[] TYPES = { DataType.NUMBER };
     
     private double value = 0;

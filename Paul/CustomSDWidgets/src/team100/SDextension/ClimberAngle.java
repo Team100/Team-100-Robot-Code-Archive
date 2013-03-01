@@ -21,7 +21,7 @@ import java.lang.Math;
  * @author Student
  */
 public class ClimberAngle extends Widget{
-    public static final String NAME = "Climber Angle";
+    public static final String NAME = "ClimberAngle";
     public static final DataType[] TYPES = { DataType.NUMBER };
     
     private double value = 0;
