@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  * @author Student
  */
 public class Hook extends Widget{
-    public static final String NAME = "Hooked/Unhooked";
+    public static final String NAME = "ClimberHook";
     public static final DataType[] TYPES = { DataType.BOOLEAN };
     
     private Boolean value = false;

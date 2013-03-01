@@ -21,7 +21,7 @@ import java.lang.Math;
  * @author Student
  */
 public class RobotTilt extends Widget{
-    public static final String NAME = "Climber Tilt Meter";
+    public static final String NAME = "ClimberTilt";
     public static final DataType[] TYPES = { DataType.NUMBER };
     
     private double value = 0;
