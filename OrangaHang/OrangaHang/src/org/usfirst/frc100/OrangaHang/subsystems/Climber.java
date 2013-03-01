@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 
 /**
@@ -240,10 +241,13 @@ public class Climber extends Subsystem implements SubsystemControl{
     //displays data on smartdashboard
     //TODO: conform to convention! (no spaces)
     public void putData(){
-        SmartDashboard.putNumber("Climber Level", level);
-        SmartDashboard.putNumber("Climber Encoder", climberEncoder.get()*.0004);
-        SmartDashboard.putBoolean("Climber Upper Limit", getUpperLimit());
-        SmartDashboard.putBoolean("Climber Lower Limit", getLowerLimit());
+        Preferences p=Preferences.getInstance();
+        double max=p.getDouble("ClimberEncoderMax", kDefaultEncoderMax);
+        double min=p.getDouble("ClimberEncoderMin", kDefaultEncoderMin);
+        SmartDashboard.putNumber("ClimberLevel", level);
+        SmartDashboard.putNumber("ClimberPosition", (climberEncoder.get()-min)/(max-min));
+        SmartDashboard.putBoolean("ClimberUpperLimit", getUpperLimit());
+        SmartDashboard.putBoolean("ClimberLowerLimit", getLowerLimit());
     }//end putData
 
     //returns whether an error occured; not yet implemented
