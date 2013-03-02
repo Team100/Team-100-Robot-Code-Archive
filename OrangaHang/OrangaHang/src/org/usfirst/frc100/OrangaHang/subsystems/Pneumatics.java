@@ -33,6 +33,7 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
     }
 
     public void enable() {
+        compressor.start();
     }
 
     public void writePreferences() {

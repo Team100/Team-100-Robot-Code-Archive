@@ -121,7 +121,7 @@ public class RobotMap {
         LiveWindow.addActuator("FixedArms", "ArmPistons" , armPistons);
         
         //Relays
-        LiveWindow.addActuator("Relays", "Compressor" , compressor);
+        LiveWindow.addSensor("Relays", "Compressor" , compressor);
         LiveWindow.addActuator("Relays", "CameraLights" , cameraLights);        
         
     }//end init
