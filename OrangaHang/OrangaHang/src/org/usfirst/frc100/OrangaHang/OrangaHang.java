@@ -119,6 +119,7 @@ public class OrangaHang extends IterativeRobot {
     public void testInit(){
         CommandBase.disableAll();
         CommandBase.unSafeAll();
+        CommandBase.pneumatics.enable();//starts the compressor
     }//end testInit
 
     //Load PID Info has been integrated into UpdateWidgets
