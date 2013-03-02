@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final double kLeftDistRatio = ((4.0/12.0*Math.PI))/1440;
     private final double kUltraDistRatio = 0.009794921875;
     //Preferences defaults
+    private final boolean kDefaultReverseDirection = false;
     private final double kDefaultShootLimitVoltage = 1.2;
     private final double kDefaultQuickTurnProportion = 0.011;
     private final double kDefaultQuickTurnDeadband = 0.19;
@@ -45,6 +46,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         if (!p.containsKey("DriveTrainQuickTurnDeadband")) {
             p.putDouble("DriveTrainQuickTurnDeadband", kDefaultQuickTurnDeadband);
         }
+        if (!p.containsKey("DriveTrainReverseDirection")) {
+            p.putBoolean("DriveTrainReverseDirection", kDefaultReverseDirection);
+        }
     }//end constructor
     
     //creates a new Drive
@@ -60,6 +64,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
     public void arcadeDrive(double y, double x){
+        Preferences p = Preferences.getInstance();
+        final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
         robotDrive.arcadeDrive(y, x);
         SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
     }// end arcadeDrive
@@ -171,6 +179,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     }//end enable
 
     public void writePreferences() {
+        
     }//end writePreferences
     
 }//end DriveTrain
