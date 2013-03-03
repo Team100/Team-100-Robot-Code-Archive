@@ -24,27 +24,26 @@ public class WritePreferences extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         p = Preferences.getInstance();
-        table = NetworkTable.getTable("PIDSystems");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //The syntax for naming keys of PID Widgets is      name + (kP | kI | kD | kMaxOutput | kMinOutput | kMaxVeloc)
-        table = NetworkTable.getTable("PIDSystems/FrontShooterPID");
+        table = NetworkTable.getTable("SmartDasbhaord/FrontShooter");
         writePIDPreferences(table, "FrontShooter");
-        table = NetworkTable.getTable("PIDSystems/BackShooterPID");
+        table = NetworkTable.getTable("SmartDashboard/BackShooter");
         writePIDPreferences(table, "BackShooter");
         //Save the Preferences
         p.save();
     }
     
     private void writePIDPreferences(NetworkTable t, String s) {
-        p.putDouble(s + "kP", t.getNumber("kP"));
-        p.putDouble(s + "kI", t.getNumber("kI"));
-        p.putDouble(s + "kD", t.getNumber("kD"));
-        p.putDouble(s + "kMaxOutput", t.getNumber("kMaxOutput"));
-        p.putDouble(s + "kMinOutput", t.getNumber("kMinOutput"));
-        p.putDouble(s + "kMaxVeloc", t.getNumber("kMaxVeloc"));
+        p.putDouble(s + "P", t.getNumber("P"));
+        p.putDouble(s + "I", t.getNumber("I"));
+        p.putDouble(s + "D", t.getNumber("D"));
+        p.putDouble(s + "MaxOutput", t.getNumber("MaxOutput"));
+        p.putDouble(s + "MinOutput", t.getNumber("MinOutput"));
+        p.putDouble(s + "MaxVelocity", t.getNumber("MaxVelocity"));
     }
 
     // Make this return true when this Command no longer needs to run execute()

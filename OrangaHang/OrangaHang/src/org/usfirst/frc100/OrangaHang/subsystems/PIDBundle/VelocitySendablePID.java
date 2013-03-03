@@ -71,15 +71,12 @@ public class VelocitySendablePID implements Sendable {
         m_thread = new TimedThread(callable);
         m_thread.setPeriod(50);//TODO: add to preferences and widget
         m_thread.start();
+        
+        SmartDashboard.putData(m_name, this);
     }//end VelocitySendablePID
 
     private void PIDInit() {
         initTable(myTable);
-//        myTable.putNumber(dashboardName("hohoho"), 1337);
-//        myTable.putNumber(dashboardName("kI"), 0.0);
-//        myTable.putNumber(dashboardName("kD"), 0.0);
-//        myTable.putNumber(dashboardName("kMaxOutput"), 0.0);
-//        myTable.putNumber(dashboardName("kMinOutput"), 0.0);
     }//end PIDInit
 
     public String getSmartDashboardType(){
@@ -91,50 +88,50 @@ public class VelocitySendablePID implements Sendable {
     }
     
     public void writePreferences() {
-        prefs.putString(m_name + "p", "" + m_base.getP());
-        prefs.putString(m_name + "i", "" + m_base.getI());
-        prefs.putString(m_name + "d", "" + m_base.getD());
-        prefs.putString(m_name + "maxOut", "" + m_base.getMaxOutput());
-        prefs.putString(m_name + "minOut", "" + m_base.getMinOutput());
+        prefs.putString(m_name + "P", "" + m_base.getP());
+        prefs.putString(m_name + "I", "" + m_base.getI());
+        prefs.putString(m_name + "D", "" + m_base.getD());
+        prefs.putString(m_name + "MaxOutput", "" + m_base.getMaxOutput());
+        prefs.putString(m_name + "MinOutput", "" + m_base.getMinOutput());
         prefs.save();
     }
     
     public void getValues() {
         myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         try {
-            m_base.setKP(Double.parseDouble(myTable.getString("p")));
+            m_base.setKP(Double.parseDouble(myTable.getString("P")));
         } catch (java.lang.ClassCastException ex) {
-            m_base.setKP(myTable.getNumber("p"));
+            m_base.setKP(myTable.getNumber("P"));
         } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) { //Catches if the table key isnt defined yet
-            myTable.putString("p", prefs.getString(m_name + "p", "0.0")); //TODO: Load from Preferences instead of static variable
+            myTable.putString("P", prefs.getString(m_name + "P", "0.0")); //TODO: Load from Preferences instead of static variable
         }
         try {
-            m_base.setKI(Double.parseDouble(myTable.getString("i")));
+            m_base.setKI(Double.parseDouble(myTable.getString("I")));
         } catch (java.lang.ClassCastException ex) {
-            m_base.setKI(myTable.getNumber("i"));
+            m_base.setKI(myTable.getNumber("I"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("i", prefs.getString(m_name + "i", "0.0"));
+            myTable.putString("I", prefs.getString(m_name + "I", "0.0"));
         }
         try {
-            m_base.setKD(Double.parseDouble(myTable.getString("d")));
+            m_base.setKD(Double.parseDouble(myTable.getString("D")));
         } catch (java.lang.ClassCastException ex) {
-            m_base.setKD(myTable.getNumber("d"));
+            m_base.setKD(myTable.getNumber("D"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("d", prefs.getString(m_name + "d", "0.0"));
+            myTable.putString("D", prefs.getString(m_name + "D", "0.0"));
         }
         try {
-            m_base.setMaxOutput(Double.parseDouble(myTable.getString("maxOut")));
+            m_base.setMaxOutput(Double.parseDouble(myTable.getString("MinOutput")));
         } catch (java.lang.ClassCastException ex) {
-            m_base.setMaxOutput(myTable.getNumber("maxOut"));
+            m_base.setMaxOutput(myTable.getNumber("MinOutput"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("maxOut", prefs.getString(m_name + "maxOut", "0.0"));
+            myTable.putString("MinOutput", prefs.getString(m_name + "MinOutput", "0.0"));
         }
         try {
-            m_base.setMinOutput(Double.parseDouble(myTable.getString("minOut")));
+            m_base.setMinOutput(Double.parseDouble(myTable.getString("MinOutput")));
         } catch (java.lang.ClassCastException ex) {
-            m_base.setMinOutput(myTable.getNumber("minOut"));
+            m_base.setMinOutput(myTable.getNumber("MinOutput"));
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("minOut", prefs.getString(m_name + "minOut", "0.0"));
+            myTable.putString("MinOutput", prefs.getString(m_name + "MinOutput", "0.0"));
         }
         myTable = NetworkTable.getTable(m_name);
     }//end getValues
@@ -179,47 +176,8 @@ public class VelocitySendablePID implements Sendable {
     public void stopLiveWindowMode() {
     }
 
-//      DEPRECATED -------------------------------------------
-//    private ITableListener listener = new ITableListener() {
-//        public void valueChanged(ITable table, String key, Object value, boolean isNew) {
-//            if (key.equals("p") || key.equals("i") || key.equals("d")) {
-//                if (m_base.getP() != Double.parseDouble(table.getString("p")) || m_base.getI() != Double.parseDouble(table.getString("i")) || 
-//                        m_base.getD() != Double.parseDouble(table.getString("d"))) {
-//                    m_base.setPID(Double.parseDouble(table.getString("p")), Double.parseDouble(table.getString("i")), Double.parseDouble(table.getString("d")));
-//                }
-//            } else if (key.equals("setpoint")) {
-//                if (m_base.getSetpoint() != ((Double) value).doubleValue()) {
-//                    setSetpoint(((Double) value).doubleValue());
-//                }
-//            } else if (key.equals("enabled")) {
-//                if (m_base.getEnabled() != ((Boolean) value).booleanValue()) {
-//                    if (((Boolean) value).booleanValue()) {
-//                        enable();
-//                    } else {
-//                        disable();
-//                    }
-//                }
-//            }
-//        }
-//    };
-    
-
     public void initTable(ITable itable) {
-//        DEPRECATED --------------------------- Keep this method to implement Sendable
-//        if(myTable!=null && myFirst) {
-//            myTable.removeTableListener(listener);
-//        }
-//        if(myTable!=null && myFirst){
-//            myTable.putNumber("p", m_base.getP());
-//            myTable.putNumber("i", m_base.getI());
-//            myTable.putNumber("d", m_base.getD());
-//            myTable.putNumber("maxOut", m_base.getMaxOutput());
-//            myTable.putNumber("minOut", m_base.getMinOutput());
-//            myTable.putNumber("setpoint", m_base.getSetpoint());
-//            myTable.putBoolean("enabled", m_base.getEnabled());
-//            myTable.addTableListener(listener, false);
-//            myFirst = false;
-//        }
+        
     }
 
     public ITable getTable() {
