@@ -57,12 +57,12 @@ public class PIDWidget_3 extends AbstractTableWidget{
         minOutLabel = new JLabel("Min Output:");
         maxVelLabel = new JLabel("Max Velocity:");
         
-        pField = new StringTableField("p");
-        iField = new StringTableField("i");
-        dField = new StringTableField("d");
-        maxOutField = new StringTableField("maxOut");
-        minOutField = new StringTableField("minOut");
-        maxVelField = new StringTableField("maxVelocity");
+        pField = new StringTableField("P");
+        iField = new StringTableField("I");
+        dField = new StringTableField("D");
+        maxOutField = new StringTableField("MaxOutput");
+        minOutField = new StringTableField("MinOutput");
+        maxVelField = new StringTableField("MaxVelocity");
         
         columns = 10;
         pField.setColumns(columns);
@@ -107,7 +107,7 @@ public class PIDWidget_3 extends AbstractTableWidget{
 
     @Override
     public void propertyChanged(Property prprt) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     
 }

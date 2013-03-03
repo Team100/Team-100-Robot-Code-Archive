@@ -25,10 +25,7 @@ import org.usfirst.frc100.OrangaHang.RobotMap;
  */
 public class UpdateWidgets extends CommandBase {
     
-    NetworkTable frontShooterTable;
-    NetworkTable backShooterTable;
     NetworkTable positionTable;
-    NetworkTable towerTable;
     NetworkTable artificialHorizonTable;
     Gyro myGyro;
     Encoder leftEncoder;
@@ -45,14 +42,8 @@ public class UpdateWidgets extends CommandBase {
         //Preferences pointer
         p = Preferences.getInstance();
         //Widget Tables
-        backShooterTable = NetworkTable.getTable("PIDSystems/BackShooterPID");
-        frontShooterTable = NetworkTable.getTable("PIDSystems/FrontShooterPID");
         positionTable = NetworkTable.getTable("PositionData");
-        towerTable = NetworkTable.getTable("SmartDashboard");
-//        towerTable = NetworkTable.getTable("PIDSystems/Tower");
-        artificialHorizonTable =NetworkTable.getTable("ArtificialHorizon");
-        initializePIDTable(backShooterTable, "BackShooter");
-        initializePIDTable(frontShooterTable, "FrontShooter");
+        artificialHorizonTable = NetworkTable.getTable("ArtificialHorizon");
         initializePositionTable(positionTable);
         //Other Stuff
         myGyro = RobotMap.driveGyro;
@@ -64,8 +55,6 @@ public class UpdateWidgets extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        updatePIDWidget(frontShooterTable, "FrontShooter");
-        updatePIDWidget(backShooterTable, "BackShooter");
         updatePositionTable(positionTable);
         updateArtificialHorizonTable(artificialHorizonTable);
     }
@@ -84,33 +73,14 @@ public class UpdateWidgets extends CommandBase {
     protected void interrupted() {
     }
     
-    private void initializePIDTable(NetworkTable table, String name) {
-        //Setpoint gets loaded by individual PID systems in ___
-        table.putNumber(name + "kP", p.getDouble(name + "kP", 0.0));
-        table.putNumber(name + "kI", p.getDouble(name + "kI", 0.0));
-        table.putNumber(name + "kD", p.getDouble(name + "kD", 0.0));
-        table.putNumber(name + "InstVeloc", 0.0);
-        table.putNumber(name + "kMaxVeloc", p.getDouble(name + "kMaxVeloc", 0.0));
-        table.putNumber(name + "kMaxOutput", p.getDouble(name + "kMaxOutput", 0.0));
-        table.putNumber(name + "kMinOutput", p.getDouble(name + "kMinOutput", 0.0));
-        table.putNumber(name + "Output", 0.0);
-        table.putNumber(name + "Time", 0.0);
-        table.putBoolean(name + "Enabled", false);
-    }
-
     private void initializePositionTable(NetworkTable table) {
         table.putNumber("Heading", 0.0);
         table.putNumber("EncoderDistance", 0.0);
     }
     
     private void updateArtificialHorizonTable(NetworkTable table){
-        table.putNumber("pitch", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kY));
-        table.putNumber("roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
-    }
-    
-    private void updatePIDWidget(NetworkTable table, String name) {
-        table.putNumber(name + "Time", System.currentTimeMillis()/1000.0);
-        //PID Widget Data is being handled by PID Sendables (Other than Time!)
+        table.putNumber("Pitch", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kY));
+        table.putNumber("Roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
     }
     
     private void updatePositionTable(NetworkTable table) {
