@@ -30,10 +30,6 @@ public class PositionSendablePID implements Sendable{
     private static NetworkTable myTable;
 
     private String dashboardName(String key) {
-        return m_name + key;// + m_name;
-    }//end dashboardName
-    
-    private String rawDashboardName(String key) {
         return m_name + key;
     }//end dashboardName
 
@@ -48,8 +44,7 @@ public class PositionSendablePID implements Sendable{
     public PositionSendablePID(String name, PIDSource source, PIDOutput output, double distRatio) {
         m_base = new PositionPIDBase(distRatio, name);
         m_name = name;
-//        table = NetworkTable.getTable("PIDSystems/" + name);
-        myTable = NetworkTable.getTable(m_name);
+        myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         PIDInit();
         m_source = source;
         m_output = output;
@@ -66,10 +61,10 @@ public class PositionSendablePID implements Sendable{
                 m_base.setInput(input);
                 getValues();
                 double result = m_base.calculate(timer.get());
-                myTable.putNumber(dashboardName("Output"), result);
-                myTable.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
-//                SmartDashboard.putNumber(rawDashboardName("PositionInput"), input);
-//                SmartDashboard.putNumber(rawDashboardName("PositionResult"), result);
+                //The following do not go in the widget table b/c not displayed by widget
+                SmartDashboard.putNumber(dashboardName("Input"), input);
+                SmartDashboard.putNumber(dashboardName("Output"), result);
+                SmartDashboard.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
                 timer.reset();
                 if (m_base.isEnabled()) {
                     m_output.pidWrite(result);
@@ -85,13 +80,7 @@ public class PositionSendablePID implements Sendable{
 
     private void PIDInit() {
         
-//        table.putNumber(dashboardName("kP"), 0.0);
-//        
-//        table.putNumber(dashboardName("kI"), 0.0);
-//        table.putNumber(dashboardName("kD"), 0.0);
-//        table.putNumber(dashboardName("kMaxOutput"), 0.0);
-//        table.putNumber(dashboardName("kMinOutput"), 0.0);
-//        table.putNumber(dashboardName("kMaxVeloc"), 0.0);
+
     }//end PIDInit
 
     public void writePreferences() {
@@ -105,7 +94,6 @@ public class PositionSendablePID implements Sendable{
     }
     
     public void getValues() {
-       myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         try {
             m_base.setKP(Double.parseDouble(myTable.getString("P")));
         } catch (java.lang.ClassCastException ex) {
@@ -148,7 +136,6 @@ public class PositionSendablePID implements Sendable{
         } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
             myTable.putString("MaxVelocity", prefs.getString(m_name + "MaxVelocity", "0.0"));
         }
-        myTable = NetworkTable.getTable(m_name);
     }//end getValues
     
     public void setSetpoint(double setpoint) {
@@ -164,10 +151,6 @@ public class PositionSendablePID implements Sendable{
         m_output.pidWrite(0.0);
     }//end disable
 
-    
-    
-    
-    
     public void initTable(ITable itable) {
         //Nothing
     }

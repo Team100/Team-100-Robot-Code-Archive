@@ -9,11 +9,9 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 /**
  *
@@ -32,17 +30,13 @@ public class VelocitySendablePID implements Sendable {
     private static NetworkTable myTable;
 
     private String dashboardName(String key) {
-        return key;// + "_" + m_name;
-    }//end dashboardName
-    
-    private String rawDashboardName(String key) {
-        return m_name + "_" + key;
+        return m_name + key;
     }//end dashboardName
     
     public VelocitySendablePID(String name, PIDSource source, PIDSource period, PIDOutput output, double distRatio) {
         m_base = new VelocityPIDBase(distRatio, name);
         m_name = name;
-        myTable = NetworkTable.getTable(m_name);
+        myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         PIDInit();
         m_source = source;
         m_period = period;
@@ -58,10 +52,10 @@ public class VelocitySendablePID implements Sendable {
                 m_base.setInput(input);
                 getValues();
                 double result = m_base.calculate(timer.get(), m_period.pidGet());
-                myTable.putNumber(dashboardName("Output"), result);
-                myTable.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
-//                SmartDashboard.putNumber(rawDashboardName("VelocityInput"), input);
-//                SmartDashboard.putNumber(rawDashboardName("VelocityResult"), result);
+                //The following do not go in the widget table b/c not displayed by widget
+                SmartDashboard.putNumber(dashboardName("Input"), input);
+                SmartDashboard.putNumber(dashboardName("Output"), result);
+                SmartDashboard.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
                 timer.reset();
                 if (m_base.isEnabled()){
                     m_output.pidWrite(result);
@@ -76,7 +70,7 @@ public class VelocitySendablePID implements Sendable {
     }//end VelocitySendablePID
 
     private void PIDInit() {
-        initTable(myTable);
+        
     }//end PIDInit
 
     public String getSmartDashboardType(){
@@ -97,12 +91,11 @@ public class VelocitySendablePID implements Sendable {
     }
     
     public void getValues() {
-        myTable = NetworkTable.getTable("SmartDashboard/" + m_name);
         try {
             m_base.setKP(Double.parseDouble(myTable.getString("P")));
         } catch (java.lang.ClassCastException ex) {
             m_base.setKP(myTable.getNumber("P"));
-        } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) { //Catches if the table key isnt defined yet
+        } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) { //Catches if the table key isn't defined yet
             myTable.putString("P", prefs.getString(m_name + "P", "0.0")); //TODO: Load from Preferences instead of static variable
         }
         try {
@@ -133,7 +126,6 @@ public class VelocitySendablePID implements Sendable {
         }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
             myTable.putString("MinOutput", prefs.getString(m_name + "MinOutput", "0.0"));
         }
-        myTable = NetworkTable.getTable(m_name);
     }//end getValues
     
     public void setSetpoint(double setpoint) {
@@ -152,10 +144,6 @@ public class VelocitySendablePID implements Sendable {
         m_base.disable();
         m_output.pidWrite(0.0);
     }//end disable
-
-    public void updateTable() {
-        
-    }
     
     public double getP() {
         return m_base.getP();
