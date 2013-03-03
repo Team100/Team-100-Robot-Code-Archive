@@ -55,11 +55,11 @@ public class PositionPIDBase {
         return enabled;
     }
     
-    public double getMaxOut() {
+    public double getMaxOutput() {
         return kMaxOutput;
     }
     
-    public double getMinOut() {
+    public double getMinOutput() {
         return kMinOutput;
     }
     

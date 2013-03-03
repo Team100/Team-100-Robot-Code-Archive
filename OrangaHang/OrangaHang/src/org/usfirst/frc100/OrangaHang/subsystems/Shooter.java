@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
 
@@ -131,8 +132,9 @@ public class Shooter extends Subsystem implements SubsystemControl{
             motorFront.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidFront = new VelocitySendablePID("front",sourceFront, periodFront, outputFront, kFrontDistRatio);
+    private VelocitySendablePID pidFront = new VelocitySendablePID("FrontShooter",sourceFront, periodFront, outputFront, kFrontDistRatio);
     
+        
     //shooterBack
     PIDSource sourceBack = new PIDSource(){
         public double pidGet(){
@@ -149,7 +151,8 @@ public class Shooter extends Subsystem implements SubsystemControl{
              motorBack.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidBack = new VelocitySendablePID("back",sourceBack, periodBack, outputBack, kBackDistRatio);
+    private VelocitySendablePID pidBack = new VelocitySendablePID("BackShooter",sourceBack, periodBack, outputBack, kBackDistRatio);
+    
     
     public void setSetpoint(double setpoint){
         pidFront.setSetpoint(setpoint);
