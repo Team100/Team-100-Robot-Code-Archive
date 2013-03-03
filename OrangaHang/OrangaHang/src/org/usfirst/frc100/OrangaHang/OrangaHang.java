@@ -14,9 +14,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
-import org.usfirst.frc100.OrangaHang.commands.Drive;
-import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
-import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
+import org.usfirst.frc100.OrangaHang.commands.HomeClimber;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 
@@ -94,6 +92,9 @@ public class OrangaHang extends IterativeRobot {
         // FIXME: do we need UpdateWidgets?
         updateWidgets = new UpdateWidgets();
         updateWidgets.start();
+        
+        HomeClimber homeClimber = new HomeClimber();
+        homeClimber.start();
 
         timer.reset();
         timer.start();
@@ -141,7 +142,6 @@ public class OrangaHang extends IterativeRobot {
         CommandBase.safeAll();
         CommandBase.pneumatics.startCompressor();
 	CommandBase.shifter.shiftHighGear();
-        CommandBase.climber.homingSequence();
 
         //CommandBase.tower.stowArms();//do BEFORE the match
         //CommandBase.tower.tiltToStart();//do BEFORE the match
