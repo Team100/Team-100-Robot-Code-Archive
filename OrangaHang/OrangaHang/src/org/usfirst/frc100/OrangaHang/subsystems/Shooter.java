@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.ShooterOff;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
 
 /**
@@ -67,6 +68,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ShooterOff());
     }//end initDefaultCommand
     
     //set speed for dumping
