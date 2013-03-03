@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.OrangaHang.RobotMap;
+import org.usfirst.frc100.OrangaHang.commands.FrisbeeTransportOff;
 
 /**
  *
@@ -36,6 +37,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand (new FrisbeeTransportOff());
     }//end initDefaultCommand
     
     //call to load frisbees, does NOT run shooter wheels
