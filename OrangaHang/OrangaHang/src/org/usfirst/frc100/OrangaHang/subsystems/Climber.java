@@ -36,6 +36,7 @@ public class Climber extends Subsystem implements SubsystemControl{
     private int level = 0;//level of the pyramid that the robot is at    
     private boolean homeUp = false;//automatically home elevator to top or bottom
     private boolean homePartOne = true;//used by homing sequence
+    public boolean doneHoming=false;
 
     //sets climberEncoder
     public Climber(){
@@ -234,6 +235,7 @@ public class Climber extends Subsystem implements SubsystemControl{
                 climberTopMotor.set(0);
                 climberBottomMotor.set(0);
                 climberEncoder.reset();
+                doneHoming=true;
             }
         }
     }//end homingSequence
