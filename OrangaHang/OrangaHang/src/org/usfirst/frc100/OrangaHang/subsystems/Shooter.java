@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.ShooterOff;
 import org.usfirst.frc100.OrangaHang.subsystems.PIDBundle.VelocitySendablePID;
@@ -28,12 +27,12 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kFrontDistRatio = 1.0; //3.0/12.0*Math.PI/4;
     //Preferences defaults
     //TODO: calibrate all constants
-    private final double kDefaultDumpSpeed = 0.5;
-    private final double kDefaultShootSpeed = 0.2;
+    private final double kDefaultDumpSpeed = 0.3;
+    private final double kDefaultShootSpeed = 0.7;
     private final double kDefaultReverseSpeed = -0.1;
     private final double kDefaultDumpSetpoint = 10.0;
     private final double kDefaultShootSetpoint = 50.0;
-    private final boolean kDefaultPIDEnable = true;
+    private final boolean kDefaultPIDEnable = false;
     
     //sets counters
     public Shooter(){
@@ -83,6 +82,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
                 enable();
             }
         } else { 
+            disablePID();
             final double kDumpSpeed = p.getDouble("ShooterDumpSpeed", 0.0);
             motorFront.set(kDumpSpeed);
             motorBack.set(kDumpSpeed/2.0);
@@ -101,6 +101,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
                 enable();
             }
         } else { 
+            disablePID();
             final double kShootSpeed = p.getDouble("ShooterShootSpeed", 0.0);
             motorFront.set(kShootSpeed);
             motorBack.set(kShootSpeed/2.0);
@@ -109,6 +110,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     
     //runs shooter in reverse direction for intake
     public void intakeFrisbees(){
+        disablePID();
         Preferences p = Preferences.getInstance();
         final double kReverseSpeed = p.getDouble("ShooterReverseSpeed", 0.0);
         motorFront.set(kReverseSpeed);
@@ -169,11 +171,15 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private boolean isEnabled(){
         return (pidFront.isEnabled() && pidBack.isEnabled());
     }//end isEnabled
-    
-    public void disable(){
+
+    private void disablePID() {
         setSetpoint(0.0);
         pidFront.disable();
         pidBack.disable();
+    }
+    
+    public void disable(){
+        disablePID();
         counterFront.reset();
         counterBack.reset();
         motorFront.set(0.0);

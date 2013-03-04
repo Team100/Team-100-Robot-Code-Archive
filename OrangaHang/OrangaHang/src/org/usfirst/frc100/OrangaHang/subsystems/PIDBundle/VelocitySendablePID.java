@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.tables.ITable;
  * @author Isis
  */
 public class VelocitySendablePID implements Sendable {
-    private boolean myFirst = true;
     private Preferences prefs = Preferences.getInstance();
     
     private final PIDSource m_source;
@@ -41,6 +40,7 @@ public class VelocitySendablePID implements Sendable {
         m_source = source;
         m_period = period;
         m_output = output;
+
         Callable callable = new Callable() {
             Timer timer = new Timer();
             public void call() {
@@ -85,47 +85,33 @@ public class VelocitySendablePID implements Sendable {
         prefs.putString(m_name + "P", "" + m_base.getP());
         prefs.putString(m_name + "I", "" + m_base.getI());
         prefs.putString(m_name + "D", "" + m_base.getD());
-        prefs.putString(m_name + "MaxOutput", "" + m_base.getMaxOutput());
         prefs.putString(m_name + "MinOutput", "" + m_base.getMinOutput());
+        prefs.putString(m_name + "MaxOutput", "" + m_base.getMaxOutput());
         prefs.save();
     }
     
+    private double getValueFromTable(String key) {
+        double value;
+        try {
+            value = Double.parseDouble(myTable.getString(key));
+        } catch (java.lang.ClassCastException ex) {
+            value = myTable.getNumber(key);
+        } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
+            //Catches if the table key isn't defined yet
+            //Initialize from preferences
+            String stringValue = prefs.getString(dashboardName(key), "0.0");
+            myTable.putString(key, stringValue);
+            value = Double.parseDouble(stringValue);
+        }
+        return value;
+    }
+    
     public void getValues() {
-        try {
-            m_base.setKP(Double.parseDouble(myTable.getString("P")));
-        } catch (java.lang.ClassCastException ex) {
-            m_base.setKP(myTable.getNumber("P"));
-        } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) { //Catches if the table key isn't defined yet
-            myTable.putString("P", prefs.getString(m_name + "P", "0.0")); //TODO: Load from Preferences instead of static variable
-        }
-        try {
-            m_base.setKI(Double.parseDouble(myTable.getString("I")));
-        } catch (java.lang.ClassCastException ex) {
-            m_base.setKI(myTable.getNumber("I"));
-        }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("I", prefs.getString(m_name + "I", "0.0"));
-        }
-        try {
-            m_base.setKD(Double.parseDouble(myTable.getString("D")));
-        } catch (java.lang.ClassCastException ex) {
-            m_base.setKD(myTable.getNumber("D"));
-        }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("D", prefs.getString(m_name + "D", "0.0"));
-        }
-        try {
-            m_base.setMaxOutput(Double.parseDouble(myTable.getString("MinOutput")));
-        } catch (java.lang.ClassCastException ex) {
-            m_base.setMaxOutput(myTable.getNumber("MinOutput"));
-        }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("MinOutput", prefs.getString(m_name + "MinOutput", "0.0"));
-        }
-        try {
-            m_base.setMinOutput(Double.parseDouble(myTable.getString("MinOutput")));
-        } catch (java.lang.ClassCastException ex) {
-            m_base.setMinOutput(myTable.getNumber("MinOutput"));
-        }  catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
-            myTable.putString("MinOutput", prefs.getString(m_name + "MinOutput", "0.0"));
-        }
+        m_base.setKP(getValueFromTable("P"));
+        m_base.setKI(getValueFromTable("I"));
+        m_base.setKD(getValueFromTable("D"));
+        m_base.setMinOutput(getValueFromTable("MinOutput"));
+        m_base.setMaxOutput(getValueFromTable("MaxOutput"));
     }//end getValues
     
     public void setSetpoint(double setpoint) {

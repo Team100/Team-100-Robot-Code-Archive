@@ -6,11 +6,8 @@ package org.usfirst.frc100.OrangaHang.commands;
 
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 
@@ -30,7 +27,6 @@ public class UpdateWidgets extends CommandBase {
     Gyro myGyro;
     Encoder leftEncoder;
     Encoder rightEncoder;
-    Preferences p;
     
     public UpdateWidgets() {
         // Use requires() here to declare subsystem dependencies
@@ -39,8 +35,6 @@ public class UpdateWidgets extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //Preferences pointer
-        p = Preferences.getInstance();
         //Widget Tables
         positionTable = NetworkTable.getTable("PositionData");
         artificialHorizonTable = NetworkTable.getTable("ArtificialHorizon");
