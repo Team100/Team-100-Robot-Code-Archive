@@ -26,12 +26,6 @@ import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
  * directory.
  */
 public class OrangaHang extends IterativeRobot {
-    // Autonomous command
-    Reproduce reproduce;
-    
-    // Teleop commands
-    UpdateWidgets updateWidgets;
-    
     // Get modules once, because it's expensive
     DigitalModule myModule = DigitalModule.getInstance(1);
     AnalogModule myAnalogModule = AnalogModule.getInstance(1);
@@ -44,11 +38,11 @@ public class OrangaHang extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        // instantiate the command used for the autonomous period
-        //autonomousCommand = new ExampleCommand();
-        // Initialize all subsystems
-        CommandBase.init();
+        // Initialize all devices and subsystems
         RobotMap.init();
+        CommandBase.init();
+
+        // SD throws table key undefined exception "SmartDashboard/Scheduler/count"
         //SmartDashboard.putData(Scheduler.getInstance());
     }//end robotInit
 
@@ -60,7 +54,7 @@ public class OrangaHang extends IterativeRobot {
         initializeAll();
 
         // schedule the autonomous command (example)
-        reproduce = new Reproduce();
+        Reproduce reproduce = new Reproduce();
         reproduce.start();
         
         timer.reset();
@@ -81,16 +75,14 @@ public class OrangaHang extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (reproduce != null){
-            reproduce.cancel();
-        }
+        Scheduler.getInstance().removeAll();
+
         // Redo full init sequence, in case we didn't run autonomous
         initializeAll();
 
         // Teleop relies on button-originated commands and default commands
         
-        // FIXME: do we need UpdateWidgets?
-        updateWidgets = new UpdateWidgets();
+        UpdateWidgets updateWidgets = new UpdateWidgets();
         updateWidgets.start();
         
         HomeClimber homeClimber = new HomeClimber();
@@ -115,9 +107,11 @@ public class OrangaHang extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+        // Scheduler is not invoked
     }//end testPeriodic
     
     public void testInit(){
+        Scheduler.getInstance().removeAll();        
         CommandBase.disableAll();
         CommandBase.unSafeAll();
         CommandBase.pneumatics.enable();//starts the compressor
@@ -138,11 +132,18 @@ public class OrangaHang extends IterativeRobot {
         }
     }//end testIO
 
-    private void initializeAll() {
-        // Throws table key undefined exception "SmartDashboard/Scheduler/count"
-        //SmartDashboard.putData(Scheduler.getInstance());
-        CommandBase.safeAll();
-        CommandBase.pneumatics.startCompressor();
+    private void initializeAll() {        
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("RobotSafetyEnabled")) {
+            p.putBoolean("RobotSafetyEnabled", false);
+        }
+        if (p.getBoolean("RobotSafetyEnabled", false)) {
+            CommandBase.safeAll();
+        } else {
+            CommandBase.unSafeAll();
+        }
+        
+        CommandBase.pneumatics.enable();
 	CommandBase.shifter.shiftHighGear();
 
         //CommandBase.tower.stowArms();//do BEFORE the match

@@ -67,7 +67,6 @@ public class RobotMap {
     public static final Compressor compressor = new Compressor(14,1);
     public static final Relay cameraLights = new Relay(2);
     
-    //LiveWindow code
     public static void init(){
         //Filling vector of motors
         motors.addElement(driveLeftMotor);
@@ -124,13 +123,19 @@ public class RobotMap {
         LiveWindow.addSensor("Relays", "Compressor" , compressor);
         LiveWindow.addActuator("Relays", "CameraLights" , cameraLights);        
         
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("RobotSafetyExpiration")) {
+            p.putDouble("RobotSafetyExpiration", 0.5);
+        }
     }//end init
 
     //puts safeties on all motors
     public static void safe() {
+        Preferences p = Preferences.getInstance();
+        final double expiration = p.getDouble("RobotSafetyExpiration", 0.0);
         for (int i=0; i<motors.size(); i++){
             ((MotorSafety)motors.elementAt(i)).setSafetyEnabled(true);
-            ((MotorSafety)motors.elementAt(i)).setExpiration(0.5);
+            ((MotorSafety)motors.elementAt(i)).setExpiration(expiration);
         }
     }//end safe
 
