@@ -3,22 +3,19 @@
     <property file="${user.home}/.sunspotfrc.properties"/>
     <property file="build.properties"/>
     <property file="${sunspot.home}/default.properties"/>
-    <!-- TODO: edit the following target according to your needs -->
-    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#compilesingle) -->
-    <target name="compile-selected-files-in-src">
-        <fail unless="files">Must set property 'files'</fail>
-        <mkdir dir="build"/>
-        <javac destdir="build" includes="${files}" source="1.4" srcdir="src">
-            <classpath path="${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar"/>
-        </javac>
+    <target name="-profile-check">
+        <startprofiler freeform="true"/>
     </target>
     <!-- TODO: edit the following target according to your needs -->
-    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#compilesingle) -->
-    <target name="compile-selected-files-in-src">
-        <fail unless="files">Must set property 'files'</fail>
-        <mkdir dir="build"/>
-        <javac destdir="build" includes="${files}" source="1.4" srcdir="src">
-            <classpath path="${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar"/>
-        </javac>
+    <!-- (more info: http://netbeans.org/kb/articles/freeform-config.html#profilej2se) -->
+    <target depends="-profile-check" if="profiler.configured" name="profile-nb">
+        <path id="cp">
+            <!-- TODO configure the runtime classpath for your project here: -->
+        </path>
+        <!-- TODO configure the main class for your project here: -->
+        <java classname="some.main.Class" fork="true">
+            <classpath refid="cp"/>
+            <jvmarg line="${agent.jvmargs}"/>
+        </java>
     </target>
 </project>
