@@ -26,8 +26,8 @@ public class RobotMap {
     public static final Counter shooterCounterFront = new Counter(shooterFrontHallEffect);
     public static final Counter shooterCounterBack = new Counter(shooterBackHallEffect);
     //Intake
-    public static final DigitalInput frisbeeTransportTopSwitch = new DigitalInput(11);
-    public static final DigitalInput frisbeeTransportBottomSwitch = new DigitalInput(12);
+    public static final Counter frisbeeTransportTopSwitch = new Counter(11);
+    public static final Counter frisbeeTransportBottomSwitch = new Counter(12);
     //add pressure switch?
     
     //Analog sensors

@@ -4,8 +4,6 @@
 
 package org.usfirst.frc100.OrangaHang.commands;
 
-import org.usfirst.frc100.OrangaHang.OI;
-
 /**
  *
  * @author Team100
@@ -36,6 +34,7 @@ public class Intake extends CommandBase {
     protected void end() {
         frisbeeTransport.disable();
         shooter.disable();
+        frisbeeTransport.resetTop();
     }
 
     // Called when another command which requires one or more of the same

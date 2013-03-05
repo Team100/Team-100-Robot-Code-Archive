@@ -1,5 +1,6 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -14,11 +15,11 @@ import org.usfirst.frc100.OrangaHang.commands.FrisbeeTransportOff;
 public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     //Robot parts
     private final SpeedController frisbeeTransportMotor = RobotMap.frisbeeTransportMotor;
-    private final DigitalInput frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
-    private final DigitalInput frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
+    private final Counter frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
+    private final Counter frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     //Constants
-    private final double kDefaultShootingSpeed = 0.4;
-    private final double kDefaultIntakeSpeed = -0.2;
+    private final double kDefaultShootingSpeed = 0.2;
+    private final double kDefaultIntakeSpeed = -0.1;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -31,6 +32,10 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
         if (!p.containsKey("FrisbeeBeltShootingSpeed")) {
             p.putDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed);
         }
+        frisbeeTransportTopSwitch.reset();
+        frisbeeTransportBottomSwitch.reset();
+        frisbeeTransportTopSwitch.start();
+        frisbeeTransportBottomSwitch.start();
     }//end constructor
     
     //empty
@@ -43,7 +48,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     //call to load frisbees, does NOT run shooter wheels
     public void takeFrisbees(){
         //returns true when NOT hitting limit
-        if(frisbeeTransportBottomSwitch.get()){
+        if(frisbeeTransportBottomSwitch.get()==0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltIntakeSpeed", kDefaultIntakeSpeed));
         }
@@ -55,7 +60,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     //slowly moves frisbees into shooter, does NOT run shooter wheels
     public void shootFrisbees(){
         //returns true when NOT hitting limit
-        if(frisbeeTransportTopSwitch.get()){
+        if(frisbeeTransportTopSwitch.get()==0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
         }
@@ -64,6 +69,14 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
         }
     }//end shootFrisbees
 
+    public void resetTop(){
+        frisbeeTransportTopSwitch.reset();
+    }
+    
+    public void resetBottom(){
+        frisbeeTransportBottomSwitch.reset();
+    }
+    
     //stops the motor
     public void disable() {
         frisbeeTransportMotor.set(0.0);
