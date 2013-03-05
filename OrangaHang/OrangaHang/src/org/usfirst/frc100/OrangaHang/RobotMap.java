@@ -34,6 +34,7 @@ public class RobotMap {
     //Drive Train
     public static final Gyro driveGyro = new Gyro(1);
     public static final AnalogChannel driveUltrasonic = new AnalogChannel(2);
+    //03/04/13: Accelerometer constructor is hanging for some reason on practice bot
     //public static final ADXL345_I2C driveAccelerometer;
     //Tower
     public static final AnalogChannel towerPotent = new AnalogChannel(3);

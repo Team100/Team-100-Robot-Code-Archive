@@ -17,6 +17,8 @@ public class Intake extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        // Assumes we're not already at the top
+        frisbeeTransport.resetTop();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,7 +36,6 @@ public class Intake extends CommandBase {
     protected void end() {
         frisbeeTransport.disable();
         shooter.disable();
-        frisbeeTransport.resetTop();
     }
 
     // Called when another command which requires one or more of the same
