@@ -73,8 +73,8 @@ public class UpdateWidgets extends CommandBase {
     }
     
     private void updateArtificialHorizonTable(NetworkTable table){
-        table.putNumber("Pitch", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kY));
-        table.putNumber("Roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
+        //table.putNumber("Pitch", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kY));
+        //table.putNumber("Roll", RobotMap.driveAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX));
     }
     
     private void updatePositionTable(NetworkTable table) {
