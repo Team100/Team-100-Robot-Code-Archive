@@ -29,7 +29,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //TODO: calibrate all constants
     private final double kDefaultDumpSpeed = 0.3;
     private final double kDefaultShootSpeed = 0.7;
-    private final double kDefaultReverseSpeed = -0.1;
+    private final double kDefaultReverseSpeed = -0.2;
     private final double kDefaultDumpSetpoint = 10.0;
     private final double kDefaultShootSetpoint = 50.0;
     private final boolean kDefaultPIDEnable = false;
@@ -114,7 +114,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
         Preferences p = Preferences.getInstance();
         final double kReverseSpeed = p.getDouble("ShooterReverseSpeed", 0.0);
         motorFront.set(kReverseSpeed);
-        motorBack.set(kReverseSpeed);
+        motorBack.set(kReverseSpeed*2/3);
     }//end intakeFrisbees
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
