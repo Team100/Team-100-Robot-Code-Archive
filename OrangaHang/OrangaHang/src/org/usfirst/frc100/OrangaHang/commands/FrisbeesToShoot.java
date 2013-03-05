@@ -18,6 +18,8 @@ public class FrisbeesToShoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        // Assumes we're not already at the bottom
+        frisbeeTransport.resetBottom();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +35,6 @@ public class FrisbeesToShoot extends CommandBase {
     // Called once after isFinished returns true
     protected void end() {
         frisbeeTransport.disable();
-        frisbeeTransport.resetBottom();
     }
 
     // Called when another command which requires one or more of the same

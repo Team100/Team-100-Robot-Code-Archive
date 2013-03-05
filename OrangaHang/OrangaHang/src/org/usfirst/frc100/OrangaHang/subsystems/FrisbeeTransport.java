@@ -47,8 +47,9 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     
     //call to load frisbees, does NOT run shooter wheels
     public void takeFrisbees(){
-        //returns true when NOT hitting limit
-        if(frisbeeTransportBottomSwitch.get()==0){
+        //Hall-effect switch returns true when NOT hitting limit. 
+        //Non-zero counter implies we hit the switch.
+        if(frisbeeTransportBottomSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltIntakeSpeed", kDefaultIntakeSpeed));
         }
@@ -59,8 +60,9 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     
     //slowly moves frisbees into shooter, does NOT run shooter wheels
     public void shootFrisbees(){
-        //returns true when NOT hitting limit
-        if(frisbeeTransportTopSwitch.get()==0){
+        //Hall-effect switch returns true when NOT hitting limit.
+        //Non-zero counter implies we hit the switch.
+        if(frisbeeTransportTopSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
         }
