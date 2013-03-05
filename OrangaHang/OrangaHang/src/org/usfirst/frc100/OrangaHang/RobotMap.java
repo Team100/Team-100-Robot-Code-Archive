@@ -34,7 +34,7 @@ public class RobotMap {
     //Drive Train
     public static final Gyro driveGyro = new Gyro(1);
     public static final AnalogChannel driveUltrasonic = new AnalogChannel(2);
-    public static final ADXL345_I2C driveAccelerometer = new ADXL345_I2C(1, DataFormat_Range.k2G);
+    //public static final ADXL345_I2C driveAccelerometer;
     //Tower
     public static final AnalogChannel towerPotent = new AnalogChannel(3);
     
