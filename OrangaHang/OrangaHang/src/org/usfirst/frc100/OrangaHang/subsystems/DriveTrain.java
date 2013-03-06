@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final double kUltraDistRatio = 0.009794921875;
     //Preferences defaults
     private final boolean kDefaultReverseDirection = false;
-    private final double kDefaultShootLimitVoltage = 1.2;
+    private final double kDefaultShootLimitVoltage = 1.2; //try 0.3 for practice bot
     private final double kDefaultQuickTurnProportion = 0.011;
     private final double kDefaultQuickTurnDeadband = 0.19;
     //Tuneables
