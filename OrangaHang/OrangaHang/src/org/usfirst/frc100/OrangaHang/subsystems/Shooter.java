@@ -85,7 +85,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
             disablePID();
             final double kDumpSpeed = p.getDouble("ShooterDumpSpeed", 0.0);
             motorFront.set(kDumpSpeed);
-            motorBack.set(kDumpSpeed/2.0);
+            motorBack.set(kDumpSpeed);
         }
     }//end dumpFrisbees
     
