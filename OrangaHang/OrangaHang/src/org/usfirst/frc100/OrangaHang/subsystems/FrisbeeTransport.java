@@ -18,7 +18,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     private final Counter frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
     private final Counter frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     //Constants
-    private final double kDefaultShootingSpeed = 0.2;
+    private final double kDefaultShootingSpeed = 0.5;
     private final double kDefaultIntakeSpeed = -0.1;
     
     // Put methods for controlling this subsystem
