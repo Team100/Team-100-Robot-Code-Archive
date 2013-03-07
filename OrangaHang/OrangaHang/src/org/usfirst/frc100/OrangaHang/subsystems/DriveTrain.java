@@ -25,7 +25,8 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final double kUltraDistRatio = 0.009794921875;
     //Preferences defaults
     private final boolean kDefaultReverseDirection = false;
-    private final double kDefaultShootLimitVoltage = 0.3;//was 1.2 for comp bot
+    private final double kDefaultShootLimitVoltage = 0.62;//was 1.2 for comp bot
+    private final double kDefaultShootLimitTolerance = 0.01;
     private final double kDefaultQuickTurnProportion = 0.011;
     private final double kDefaultQuickTurnDeadband = 0.19;
     //Tuneables
@@ -39,6 +40,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         Preferences p = Preferences.getInstance();
         if (!p.containsKey("DriveTrainShootLimitVoltage")) {
             p.putDouble("DriveTrainShootLimitVoltage", kDefaultShootLimitVoltage);
+        }
+        if (!p.containsKey("DriveTrainShootLimitTolerance")) {
+            p.putDouble("DriveTrainShootLimitTolerance", kDefaultShootLimitTolerance);
         }
         if (!p.containsKey("DriveTrainQuickTurnP")) {
             p.putDouble("DriveTrainQuickTurnP", kDefaultQuickTurnProportion);
@@ -84,10 +88,13 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     public void alignToShoot(double left, double right) {
         Preferences p = Preferences.getInstance();
         final double kShootLimitVoltage = p.getDouble("DriveTrainShootLimitVoltage", 0.0);
-        if (ultraDist.getVoltage() < kShootLimitVoltage) {
-            if (left > 0) {
-                leftMotor.set(0);
-                rightMotor.set(0);
+        final double kShootLimitTolerance = p.getDouble("DriveTrainShootLimitTolerance", 0.0);
+        System.out.println("Rangefinder Voltage " + ultraDist.getVoltage());
+        if (ultraDist.getVoltage() < kShootLimitVoltage + kShootLimitTolerance
+                || ultraDist.getVoltage() < kShootLimitVoltage - kShootLimitTolerance) {
+            if (left > 0.0) {
+                leftMotor.set(0.0);
+                rightMotor.set(0.0);
             } else {
                 arcadeDrive(left, right);
             }
