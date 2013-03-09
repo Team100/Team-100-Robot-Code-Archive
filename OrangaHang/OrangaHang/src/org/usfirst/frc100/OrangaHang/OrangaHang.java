@@ -33,6 +33,8 @@ public class OrangaHang extends IterativeRobot {
     // Loop period timer
     Timer timer = new Timer();
     
+    
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -41,7 +43,6 @@ public class OrangaHang extends IterativeRobot {
         // Initialize all devices and subsystems
         RobotMap.init();
         CommandBase.init();
-
         // SD throws table key undefined exception "SmartDashboard/Scheduler/count"
         //SmartDashboard.putData(Scheduler.getInstance());
     }//end robotInit
@@ -67,6 +68,16 @@ public class OrangaHang extends IterativeRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         SmartDashboard.putNumber("Period", timer.get());
+        
+        if(timer.get()<.05){
+            try {
+                Thread.sleep((long)(50-timer.get()*1000));
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        
         timer.reset();
     }//end autonomousPeriodic
 
@@ -90,6 +101,9 @@ public class OrangaHang extends IterativeRobot {
 
         timer.reset();
         timer.start();
+        
+        
+        
     }//end teleopInit
 
     /**
@@ -99,6 +113,13 @@ public class OrangaHang extends IterativeRobot {
         Scheduler.getInstance().run();
         testIO();
         SmartDashboard.putNumber("Period", timer.get());
+        if(timer.get()<.05){
+            try {
+                Thread.sleep((long)(50-timer.get()*1000));
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
         timer.reset();
     }//end teleopPeriodic
     

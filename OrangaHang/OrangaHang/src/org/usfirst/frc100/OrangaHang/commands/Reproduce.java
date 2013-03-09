@@ -4,7 +4,6 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Vector;
 
 /**
@@ -30,7 +29,6 @@ public class Reproduce extends CommandBase{
     protected void initialize() {
         
         String file;
-        //file = "file:///autonomous/" + SmartDashboard.getString("Select Autonomous Procedure") + ".sam";
         file = "file:///autonomous/" + autoMemory.RequestName() + ".sam";
         System.out.println("Reproduce Init :" + file);
         
