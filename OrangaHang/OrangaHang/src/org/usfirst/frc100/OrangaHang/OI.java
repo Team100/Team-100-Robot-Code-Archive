@@ -72,7 +72,7 @@ public class OI {
         autoClimbButton.whenPressed(new Climb());
         
         //DriverRight commands
-        shiftGearsButton.whenPressed(new ShiftGears());
+        shiftGearsButton.whileHeld(new ShiftGears());
         shiftGearsButton.whenReleased(new ShiftGearsBack());
         quickTurnButton.whileHeld(new QuickTurn());
         
