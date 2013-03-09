@@ -81,10 +81,10 @@ public class VelocityPIDBase{
 
         //calculate instantaneous velocity
         double currDist = input * kDistRatio;
-        SmartDashboard.putNumber(dashboardName("currDist"), currDist);
+        //SmartDashboard.putNumber(dashboardName("currDist"), currDist);
         double deltaDist = currDist - prevDist; //currently unused, but don't delete yet
         double instVeloc = kDistRatio/sensorPeriod;
-        SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
+        //SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
         double error = goalVeloc - instVeloc;
 
         //goalVeloc distance is our integral
