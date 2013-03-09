@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,7 +33,6 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     String writeFile;
     
     public AutoMemory(){
-        initAuto();
         initSendableChooser();
         
     }
@@ -44,60 +44,31 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     ////////////////////////////////////////////////////////////////////////////
     private void initSendableChooser(){
         chooser = new SendableChooser();
-        chooser.addDefault("NoAutonomous", "NoAutonomous");    
-        SmartDashboard.putData("Sendable Chooser", chooser);
+        chooser.addDefault("Auto1", "Auto1");
+        chooser.addObject("Auto2", "Auto2");
+        chooser.addObject("Auto3", "Auto3");
+        chooser.addObject("Auto4", "Auto4");
+        chooser.addObject("Auto5", "Auto5");
         
+        
+        /*
         int i = 0;        
         while(AutoList.indexOf(',', i) != -1){
             String sub = AutoList.substring(i, AutoList.indexOf(',', i));
             i = AutoList.indexOf(',', i)+1;
             chooser.addObject(sub, sub);
-        }
+        }*/
+        SmartDashboard.putData("Sendable Chooser", chooser);
+        
     }
     
-    private static void updateSendableChooser(String str){
-        chooser.addObject(str, str);
-        SmartDashboard.putData("Sendable Chooser", chooser);
-    }
     ////////////////////////////////////////////////////////////////////////////
-    static Preferences pref = Preferences.getInstance();
-    private static void initAuto(){
-        AutoList = "";
-        if(pref.containsKey("autoList")){
-            AutoList = pref.getString("autoList", "");    
-        }else{
-            pref.putString("autoList", "");
-        }
-    }
 
     /**
      * Adds name to the list located in the preferences file. The it calls updateAuto
      * @see updateAuto
      * @param name
      */
-    public static void addAuto(String name){
-        System.out.println("addAuto Running");
-        String list = pref.getString("autoList", "");
-        if("".equals(list)){
-            list = name;
-        }else{
-            if(list.indexOf(name) == -1){
-                System.out.println("XXXXXXXXXXXXXXXXX:"+list.indexOf(name));
-                list = list.concat(","+ name);
-                
-            } 
-        }
-        pref.putString("autoList", list);
-        if("".equals(AutoList)){AutoList = AutoList.concat(name);
-        }else{
-            if(AutoList.indexOf(name) == -1){
-                AutoList = AutoList.concat(","+name);
-            }
-            
-        }
-        pref.save();
-        updateSendableChooser(name);
-    }
     
     ////////////////////////////////////////////////////////////////////////////
 
@@ -105,7 +76,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
      * Gets the path from the smartdashboard and then resets the Vectors - Replace w/ sendable chooser
      */
     public void beginCollection(){
-        writeFile = "file:///autonomous/" + SmartDashboard.getString("Name Autonomous Procedure") + ".sam";
+        writeFile = "file:///autonomous/" + chooser.getSelected().toString() + ".sam";
         System.out.println("AutoMemory,beginCollection" + writeFile);
         
         LeftMemory  = new Vector();
@@ -123,8 +94,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     
     public void stopCollection() throws IOException{
         this.write(writeFile);
-        addAuto(SmartDashboard.getString("Name Autonomous Procedure"));
-        System.out.println(SmartDashboard.getString("Name Autonomous Procedure") +": Saving on:" + writeFile);
+        System.out.println(chooser.getSelected().toString() +": Saving on:" + writeFile);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -210,21 +180,38 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
             char[] dataArray = data.toCharArray();
             StringBuffer buffer = new StringBuffer("");
             String buff;
+            boolean negative = false;
             for(int i = 0; i<dataArray.length;i++){
                 char c = dataArray[i];
                 if(c == ','){
                     //Has reached end of first value
                     buff = buffer.toString().substring(1);
                     System.out.println(buff);
-                    LeftMemory.addElement(Double.valueOf(buff));
-                    buffer.delete(0, buffer.length()-1);
+                    try{buff.charAt(0);
+                    }catch(StringIndexOutOfBoundsException ex){
+                        continue;
+                    }
                     
+                     
+                    Double value = Double.valueOf(buff);
+                    if(negative){
+                        value = Double.valueOf(-value.doubleValue());
+                    }
+                    System.out.println(value);
+                    LeftMemory.addElement(value);
+                    buffer.delete(0, buffer.length()-1);
+                    negative = false;
                 }else if(c=='['){
                     //Has reached end of 2nd value
                     buff = buffer.toString().substring(1);
-                    System.out.println(buff);
-                    RightMemory.addElement(Double.valueOf(buff));
+                    Double value = Double.valueOf(buff);
+                    if(negative){
+                        value = Double.valueOf(-value.doubleValue());
+                    }
+                    System.out.println(value);
+                    RightMemory.addElement(value);
                     buffer.delete(0, buffer.length()-1);
+                    negative = false;
                 }else if(c==']'){
                     //Has reached end of 3rd value
                     buff = buffer.toString().substring(1);
@@ -249,7 +236,9 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                     buffer.append(c);
                 }else if(c=='.'){
                     buffer.append(c);
-                } 
+                }else if (c=='-'){
+                    negative = true;
+                }
             }
         }
     }    
