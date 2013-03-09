@@ -23,20 +23,13 @@ public class Shifter extends Subsystem implements SubsystemControl {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void shiftHighGear()
-    {
-        System.out.println(shifter.get());
-        if(shifter.get().equals(DoubleSolenoid.Value.kReverse)) {
-            shifter.set(DoubleSolenoid.Value.kForward);
-        }
-    }
+    public void shiftHighGear() {
+        shifter.set(DoubleSolenoid.Value.kForward);
+    }//end shiftHighGear
     
-    public void shiftLowGear()
-    {
-        if(shifter.get().equals(DoubleSolenoid.Value.kForward)) {
-            shifter.set(DoubleSolenoid.Value.kReverse);
-        }
-    }
+    public void shiftLowGear() {
+        shifter.set(DoubleSolenoid.Value.kReverse);
+    }//end shiftLowGear
     
     public void disable() {
     }
