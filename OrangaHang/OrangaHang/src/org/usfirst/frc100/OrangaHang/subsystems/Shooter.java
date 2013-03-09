@@ -29,10 +29,11 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //TODO: calibrate all constants
     private final double kDefaultDumpSpeed = 0.3;
     private final double kDefaultShootSpeed = 1.0;
-    private final double kDefaultReverseSpeed = -0.2;
+    private final double kDefaultReverseSpeed = -0.3;
     private final double kDefaultDumpSetpoint = 10.0;
     private final double kDefaultShootSetpoint = 50.0;
-    private final boolean kDefaultPIDEnable = false;
+    private final boolean kDefaultPIDEnableShoot = false;
+    private final boolean kDefaultPIDEnableDump = true;
     
     //sets counters
     public Shooter(){
@@ -58,23 +59,24 @@ public class Shooter extends Subsystem implements SubsystemControl{
         if (!p.containsKey("ShooterShootSetpoint")) {
             p.putDouble("ShooterShootSetpoint", kDefaultShootSetpoint);
         }
-        if (!p.containsKey("ShooterPIDEnable")) {
-            p.putBoolean("ShooterPIDEnable", kDefaultPIDEnable);
+        if (!p.containsKey("ShooterPIDEnableShoot")) {
+            p.putBoolean("ShooterPIDEnableShoot", kDefaultPIDEnableShoot);
+        }
+        if (!p.containsKey("ShooterPIDEnableDump")) {
+            p.putBoolean("ShooterPIDEnableDump", kDefaultPIDEnableDump);
         }
     }//end constructor
     
     //empty
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
         setDefaultCommand(new ShooterOff());
     }//end initDefaultCommand
     
     //set speed for dumping
     public void dumpFrisbees(){
         Preferences p = Preferences.getInstance();
-        final boolean kPIDEnable = p.getBoolean("ShooterPIDEnable", true);
-        if (kPIDEnable){
+        final boolean kPIDEnableDump = p.getBoolean("ShooterPIDEnableDump", true);
+        if (kPIDEnableDump){
             final double kDumpSetpoint = p.getDouble("ShooterDumpSetpoint", 0.0);
             pidFront.setSetpoint(kDumpSetpoint);
             pidBack.setSetpoint(kDumpSetpoint/2.0);
@@ -92,8 +94,8 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //set speed for shooting
     public void shootFrisbees(){
         Preferences p = Preferences.getInstance();
-        final boolean kPIDEnable = p.getBoolean("ShooterPIDEnable", true);
-        if (kPIDEnable){
+        final boolean kPIDEnableShoot = p.getBoolean("ShooterPIDEnableShoot", true);
+        if (kPIDEnableShoot){
             final double kShootSetpoint = p.getDouble("ShooterShootSetpoint", 0.0);
             pidFront.setSetpoint(kShootSetpoint);
             pidBack.setSetpoint(kShootSetpoint/2.0);
@@ -136,7 +138,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
             motorFront.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidFront = new VelocitySendablePID("FrontShooter",sourceFront, periodFront, outputFront, kFrontDistRatio);
+    private VelocitySendablePID pidFront = new VelocitySendablePID("ShooterFront",sourceFront, periodFront, outputFront, kFrontDistRatio);
     
         
     //shooterBack
@@ -155,7 +157,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
              motorBack.set(output);
         }
     }; //end anonym class PIDOutput
-    private VelocitySendablePID pidBack = new VelocitySendablePID("BackShooter",sourceBack, periodBack, outputBack, kBackDistRatio);
+    private VelocitySendablePID pidBack = new VelocitySendablePID("ShooterBack",sourceBack, periodBack, outputBack, kBackDistRatio);
     
     
     public void setSetpoint(double setpoint){
