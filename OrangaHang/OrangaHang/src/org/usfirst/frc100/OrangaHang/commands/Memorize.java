@@ -27,7 +27,7 @@ public class Memorize extends CommandBase{
      * @see autoMemory
      */
     protected void execute() {
-        autoMemory.collectString(-OI.driverLeft.getY(), -OI.driverRight.getX(),
+        autoMemory.collectString(OI.driverLeft.getY(), OI.driverRight.getX(),
                 OI.shootButton.get(), OI.primeShootButton.get());
         
     } 
