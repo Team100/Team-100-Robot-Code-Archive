@@ -1,15 +1,15 @@
 <xml version="1.0">
 <dashboard>
 	<widget field="Period" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
-		<location x="176" y="352"/>
+		<location x="176" y="304"/>
 		<width>480</width>
-		<height>224</height>
+		<height>208</height>
 	</widget>
 	<widget field="ShooterBack" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
-		<location x="672" y="160"/>
+		<location x="672" y="144"/>
 	</widget>
 	<widget field="ShooterFront" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
-		<location x="672" y="16"/>
+		<location x="672" y="0"/>
 	</widget>
 	<widget field="ClimberUpperLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="177" y="2"/>
@@ -17,16 +17,16 @@
 		<height>30</height>
 	</widget>
 	<widget field="ClimberLowerLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="177" y="306"/>
+		<location x="177" y="274"/>
 		<width>111</width>
 		<height>30</height>
 	</widget>
 	<widget field="ClimberLevel" type="Number" class="team100.SDextension.PyramidLevel">
-		<location x="400" y="48"/>
+		<location x="400" y="32"/>
 		<height>240</height>
 	</widget>
 	<widget field="ClimberPosition" type="Number" class="team100.SDextension.Climber">
-		<location x="176" y="48"/>
+		<location x="176" y="32"/>
 		<height>240</height>
 	</widget>
 	<widget field="Shooter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
@@ -45,7 +45,7 @@
 		<location x="0" y="192"/>
 	</widget>
 	<widget field="Sendable Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="0" y="448"/>
+		<location x="0" y="384"/>
 	</widget>
 	<widget field="FrisbeeTransport" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
 		<location x="0" y="160"/>
@@ -63,21 +63,21 @@
 		<location x="0" y="32"/>
 	</widget>
 	<widget field="WritePreferences" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="320"/>
+		<location x="670" y="288"/>
 	</widget>
 	<widget field="Memorize" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="352"/>
+		<location x="672" y="319"/>
 	</widget>
 	<widget field="ModeChooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="0" y="384"/>
+		<location x="0" y="320"/>
 	</widget>
 	<static-widget class="team100.Team100Camera">
-		<location x="848" y="16"/>
-		<width>560</width>
-		<height>560</height>
+		<location x="848" y="0"/>
+		<width>512</width>
+		<height>512</height>
 	</static-widget>
 	<widget field="DriveTrainGyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
-		<location x="624" y="384"/>
+		<location x="624" y="352"/>
 		<width>240</width>
 	</widget>
 </dashboard>
