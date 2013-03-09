@@ -45,7 +45,7 @@
 		<location x="0" y="192"/>
 	</widget>
 	<widget field="Sendable Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="0" y="384"/>
+		<location x="0" y="320"/>
 	</widget>
 	<widget field="FrisbeeTransport" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
 		<location x="0" y="160"/>
