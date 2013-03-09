@@ -71,6 +71,27 @@
 	<widget field="ModeChooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="0" y="320"/>
 	</widget>
+	<widget field="ShooterFrontEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="208"/>
+	</widget>
+	<widget field="ShooterBackInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="176"/>
+	</widget>
+	<widget field="ShooterBackEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1672" y="144"/>
+	</widget>
+	<widget field="ShooterFrontInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="112"/>
+	</widget>
+	<widget field="ShooterBackOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="80"/>
+	</widget>
+	<widget field="ShooterFrontOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="44"/>
+	</widget>
+	<widget field="Incoming data" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="12"/>
+	</widget>
 	<static-widget class="team100.Team100Camera">
 		<location x="848" y="0"/>
 		<width>512</width>
