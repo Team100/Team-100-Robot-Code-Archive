@@ -25,6 +25,7 @@ public class Shifter extends Subsystem implements SubsystemControl {
     
     public void shiftHighGear()
     {
+        System.out.println(shifter.get());
         if(shifter.get().equals(DoubleSolenoid.Value.kReverse)) {
             shifter.set(DoubleSolenoid.Value.kForward);
         }
