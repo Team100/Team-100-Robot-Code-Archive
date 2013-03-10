@@ -4,9 +4,6 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-
 /**
  *
  * @author Daniel
@@ -15,6 +12,8 @@ public class WritePreferences extends CommandBase {
     public WritePreferences() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+        setRunWhenDisabled(true);
+        
     }
 
     // Called just before this Command runs the first time

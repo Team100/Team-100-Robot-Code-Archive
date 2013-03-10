@@ -50,6 +50,9 @@ public class OrangaHang extends IterativeRobot {
 
     public void disabledInit(){
 	CommandBase.disableAll();
+        
+        
+        
     }//end disabledInit
     
     public void autonomousInit() {
