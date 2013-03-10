@@ -72,8 +72,7 @@ public class PositionSendablePID implements Sendable{
                 }
             }
         };
-        m_thread = new TimedThread(callable);
-        m_thread.setPeriod(50);//TODO: add to preferences and widget
+        m_thread = new TimedThread(callable, dashboardName("Period"));
         m_thread.start();
         
         SmartDashboard.putData(m_name, this);
