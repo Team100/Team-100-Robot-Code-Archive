@@ -83,14 +83,15 @@ public abstract class CommandBase extends Command {
     }//end disable
     
     public static boolean isDebugMode(){
-        return(modeChooser.getSelected()=="d");
+        //return(modeChooser.getSelected()=="d");
+        return true;
     }
     
     public CommandBase(String name) {
         super(name);
         modeChooser.addDefault("Competition Mode", "c");
         modeChooser.addObject("Debug Mode", "d");
-        SmartDashboard.putData("ModeChooser", modeChooser);
+        //SmartDashboard.putData("ModeChooser", modeChooser);
     }//end constructor
 
     public CommandBase() {
