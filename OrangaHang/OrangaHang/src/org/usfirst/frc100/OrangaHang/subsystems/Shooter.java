@@ -31,7 +31,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kDefaultShootSpeed = 1.0;
     private final double kDefaultReverseSpeed = -0.3;
     private final double kDefaultDumpSetpoint = 50.0;
-    private final double kDefaultShootSetpoint = 50.0;
+    private final double kDefaultShootSetpoint = 100.0;
     private final boolean kDefaultPIDEnableShoot = false;
     private final boolean kDefaultPIDEnableDump = false;
     
