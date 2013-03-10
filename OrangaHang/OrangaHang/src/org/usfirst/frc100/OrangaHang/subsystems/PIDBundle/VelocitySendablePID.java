@@ -86,11 +86,11 @@ public class VelocitySendablePID implements Sendable {
     }
     
     public void writePreferences() {
-        prefs.putString(m_name + "P", "" + m_base.getP());
-        prefs.putString(m_name + "I", "" + m_base.getI());
-        prefs.putString(m_name + "D", "" + m_base.getD());
-        prefs.putString(m_name + "MinOutput", "" + m_base.getMinOutput());
-        prefs.putString(m_name + "MaxOutput", "" + m_base.getMaxOutput());
+        prefs.putDouble(m_name + "P", m_base.getP());
+        prefs.putDouble(m_name + "I", m_base.getI());
+        prefs.putDouble(m_name + "D", m_base.getD());
+        prefs.putDouble(m_name + "MinOutput",m_base.getMinOutput());
+        prefs.putDouble(m_name + "MaxOutput",m_base.getMaxOutput());
         prefs.save();
     }
     
@@ -103,9 +103,8 @@ public class VelocitySendablePID implements Sendable {
         } catch (edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException ex) {
             //Catches if the table key isn't defined yet
             //Initialize from preferences
-            String stringValue = prefs.getString(dashboardName(key), "0.0");
-            myTable.putString(key, stringValue);
-            value = Double.parseDouble(stringValue);
+            value = prefs.getDouble(dashboardName(key), 0.0);
+            myTable.putString(key, Double.toString(value));
         }
         return value;
     }
