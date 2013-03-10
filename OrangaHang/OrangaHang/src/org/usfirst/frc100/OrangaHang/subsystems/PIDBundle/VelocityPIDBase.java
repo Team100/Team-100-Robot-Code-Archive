@@ -9,10 +9,12 @@ package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
  * @author Isis
  */
 public class VelocityPIDBase{
+    //Current value variables
     private boolean enabled = false;
     private String name;
-    //Previous value variables
     private double input = 0.0;
+    private double totalDistError = 0.0;
+    //Previous value variables
     private double prevDist = 0.0; //previous encoder raw count divided by gear ratio
     private double prevWeightedInstVeloc = 0.0;
     private double goalDist = 0.0; //accumulated desired distances (products of kVelocSetpt & loopPeriod)
@@ -51,9 +53,14 @@ public class VelocityPIDBase{
         return enabled;
     }
     
+    public synchronized double getTotalError(){
+        return totalDistError;
+    }
+    
     private void resetValues(){
         input = 0.0;
         prevDist = 0.0;
+        totalDistError = 0.0;
         prevWeightedInstVeloc = 0.0;
         goalDist = 0.0;
         output = 0.0;
@@ -87,7 +94,6 @@ public class VelocityPIDBase{
 
         //goalVeloc distance is our integral
         //don't increase goalVeloc distance if kI is unset!
-        double totalDistError;
         if (kI == 0.0) {
             totalDistError = 0.0;
         } else {
