@@ -10,6 +10,7 @@ package org.usfirst.frc100.OrangaHang;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +18,7 @@ import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.HomeClimber;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
+import org.usfirst.frc100.OrangaHang.subsystems.SubsystemControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,7 +31,7 @@ public class OrangaHang extends IterativeRobot {
     // Get modules once, because it's expensive
     DigitalModule myModule = DigitalModule.getInstance(1);
     AnalogModule myAnalogModule = AnalogModule.getInstance(1);
-    
+    DriverStationLCD driverStation = DriverStationLCD.getInstance();
     // Loop period timer
     Timer timer = new Timer();
     
@@ -77,7 +79,7 @@ public class OrangaHang extends IterativeRobot {
             }
         }
         
-        
+        printDataToDriverStation();
         timer.reset();
     }//end autonomousPeriodic
 
@@ -120,6 +122,7 @@ public class OrangaHang extends IterativeRobot {
                 ex.printStackTrace();
             }
         }
+        printDataToDriverStation();
         timer.reset();
     }//end teleopPeriodic
     
@@ -170,4 +173,19 @@ public class OrangaHang extends IterativeRobot {
         //CommandBase.tower.stowArms();//do BEFORE the match
         //CommandBase.tower.tiltToStart();//do BEFORE the match
     }//end initializeAll
+    
+    private void printDataToDriverStation(){
+        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Climber: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString());
+        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+((Subsystem)CommandBase.subsystems.elementAt(1)).getCurrentCommand().toString());
+        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+((Subsystem)CommandBase.subsystems.elementAt(2)).getCurrentCommand().toString());
+        if ("FrisbeeTransportOff".equals(((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString())){
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+"Off");
+        }
+        else{
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString());
+        }
+        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tower: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString());
+        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+timer.get()+"");
+        driverStation.updateLCD();
+    }
 }//end OrangaHang

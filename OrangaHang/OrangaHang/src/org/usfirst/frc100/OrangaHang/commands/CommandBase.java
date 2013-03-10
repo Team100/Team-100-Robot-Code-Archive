@@ -98,7 +98,7 @@ public abstract class CommandBase extends Command {
         super();
         modeChooser.addDefault("Competition Mode", "c");
         modeChooser.addObject("Debug Mode", "d");
-        SmartDashboard.putData("ModeChooser", modeChooser);
+        //SmartDashboard.putData("ModeChooser", modeChooser);
     }//end constructor
 
     // Called when another command which requires one or more of the same
