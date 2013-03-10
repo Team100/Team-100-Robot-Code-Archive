@@ -63,6 +63,7 @@ public class PositionSendablePID implements Sendable{
                 if(CommandBase.isDebugMode()){
                     SmartDashboard.putNumber(dashboardName("Input"), input);
                     SmartDashboard.putNumber(dashboardName("Output"), result);
+                    SmartDashboard.putNumber(dashboardName("TotalError"), m_base.getTotalError());
                     SmartDashboard.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
                 }
                 timer.reset();

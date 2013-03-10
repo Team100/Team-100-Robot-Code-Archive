@@ -9,10 +9,11 @@ package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
  * @author Isis
  */
 public class PositionPIDBase {
+    //Current value variables
     private boolean enabled = false;
     private String name;
-    //Previous value variables
     private double input = 0.0;
+    //Previous value variables
     private double prevDist = 0.0; 
     private double totalDistError = 0.0; 
     private double output = 0.0;
@@ -65,6 +66,9 @@ public class PositionPIDBase {
         return kMaxVeloc;
     }
     
+    public synchronized double getTotalError(){
+        return totalDistError;
+    }
     public void setPID(double p, double i, double d) {
         kP = p;
         kD = d;
