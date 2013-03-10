@@ -4,7 +4,6 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import org.usfirst.frc100.OrangaHang.OI;
 
