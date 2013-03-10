@@ -175,17 +175,17 @@ public class OrangaHang extends IterativeRobot {
     }//end initializeAll
     
     private void printDataToDriverStation(){
-        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Climber: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString());
-        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+((Subsystem)CommandBase.subsystems.elementAt(1)).getCurrentCommand().toString());
-        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+((Subsystem)CommandBase.subsystems.elementAt(2)).getCurrentCommand().toString());
+        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Climber: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString()+"        ");
+        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+((Subsystem)CommandBase.subsystems.elementAt(1)).getCurrentCommand().toString()+"        ");
+        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+((Subsystem)CommandBase.subsystems.elementAt(2)).getCurrentCommand().toString()+"        ");
         if ("FrisbeeTransportOff".equals(((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString())){
-            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+"Off");
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+"Off"+"          ");
         }
         else{
-            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString());
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString()+"        ");
         }
-        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tower: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString());
-        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+timer.get()+"");
+        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tower: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString()+"        ");
+        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+timer.get()+"    ");
         driverStation.updateLCD();
     }
 }//end OrangaHang
