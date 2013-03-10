@@ -2,6 +2,7 @@ package org.usfirst.frc100.OrangaHang.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Vector;
 import org.usfirst.frc100.OrangaHang.OI;
@@ -37,6 +38,7 @@ public abstract class CommandBase extends Command {
     public static Shifter shifter = new Shifter();
     public static FixedArms fixedArms = new FixedArms();
     public static Vector subsystems = new Vector();
+    public static SendableChooser modeChooser = new SendableChooser();
     
     // Create a single static instance of all of your subsystems
     //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
@@ -80,12 +82,23 @@ public abstract class CommandBase extends Command {
         }
     }//end disable
     
+    public static boolean isDebugMode(){
+        //return(modeChooser.getSelected()=="d");
+        return true;
+    }
+    
     public CommandBase(String name) {
         super(name);
+        modeChooser.addDefault("Competition Mode", "c");
+        modeChooser.addObject("Debug Mode", "d");
+        //SmartDashboard.putData("ModeChooser", modeChooser);
     }//end constructor
 
     public CommandBase() {
         super();
+        modeChooser.addDefault("Competition Mode", "c");
+        modeChooser.addObject("Debug Mode", "d");
+        //SmartDashboard.putData("ModeChooser", modeChooser);
     }//end constructor
 
     // Called when another command which requires one or more of the same

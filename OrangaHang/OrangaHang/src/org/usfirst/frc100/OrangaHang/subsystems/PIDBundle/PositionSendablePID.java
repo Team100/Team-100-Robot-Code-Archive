@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
+import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 
 /**
  *
@@ -60,9 +61,11 @@ public class PositionSendablePID implements Sendable{
                 getValues();
                 double result = m_base.calculate(timer.get());
                 //The following do not go in the widget table b/c not displayed by widget
-                SmartDashboard.putNumber(dashboardName("Input"), input);
-                SmartDashboard.putNumber(dashboardName("Output"), result);
-                SmartDashboard.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
+                if(CommandBase.isDebugMode()){
+                    SmartDashboard.putNumber(dashboardName("Input"), input);
+                    SmartDashboard.putNumber(dashboardName("Output"), result);
+                    SmartDashboard.putBoolean(dashboardName("Enabled"), m_base.isEnabled());
+                }
                 timer.reset();
                 if (m_base.isEnabled()) {
                     m_output.pidWrite(result);

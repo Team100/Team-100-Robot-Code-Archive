@@ -92,10 +92,10 @@ public class PositionPIDBase {
 
         //calculate instantaneous velocity
         double currDist = input * kDistRatio;
-        SmartDashboard.putNumber(dashboardName("currDist"), currDist);
+        //SmartDashboard.putNumber(dashboardName("currDist"), currDist);
         double deltaDist = currDist - prevDist;
         double instVeloc = deltaDist / period;
-        SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
+        //SmartDashboard.putNumber(dashboardName("instVeloc"), instVeloc);
         
         //rectangular motion profile
         if (goalDist - filtDist > kMaxVeloc * period) {
@@ -107,7 +107,7 @@ public class PositionPIDBase {
         }
         double distError = filtDist - currDist;
         totalDistError += distError / period;
-        SmartDashboard.putNumber(dashboardName("distError"), distError);
+        //SmartDashboard.putNumber(dashboardName("distError"), distError);
         
         //capping our integral
         //don't increase totalDistError if kI is unset!
