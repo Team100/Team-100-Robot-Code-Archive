@@ -34,8 +34,7 @@ public class OrangaHang extends IterativeRobot {
     DriverStationLCD driverStation = DriverStationLCD.getInstance();
     // Loop period timer
     Timer timer = new Timer();
-    
-    
+    Timer timer2 = new Timer();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -45,6 +44,7 @@ public class OrangaHang extends IterativeRobot {
         // Initialize all devices and subsystems
         RobotMap.init();
         CommandBase.init();
+
         // SD throws table key undefined exception "SmartDashboard/Scheduler/count"
         //SmartDashboard.putData(Scheduler.getInstance());
     }//end robotInit
@@ -103,9 +103,8 @@ public class OrangaHang extends IterativeRobot {
 
         timer.reset();
         timer.start();
-        
-        
-        
+        timer2.reset();
+        timer2.start();
     }//end teleopInit
 
     /**
@@ -144,6 +143,11 @@ public class OrangaHang extends IterativeRobot {
     //Load PID Info has been integrated into UpdateWidgets
     
     public void testIO(){
+        if(timer2.get() < 0.5) {
+            return;
+        }
+        timer2.reset();
+        
         NetworkTable table = NetworkTable.getTable("Status");
         table.putNumber("dioData", myModule.getAllDIO());
         
