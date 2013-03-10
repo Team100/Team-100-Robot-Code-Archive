@@ -4,6 +4,7 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import java.util.Vector;
 
 /**
@@ -18,6 +19,9 @@ public class Reproduce extends CommandBase{
     Vector rightVector;
     Vector shootbutton;
     Vector primeshootbutton;
+    Vector timestamp;
+    
+    Timer timer = new Timer();
     
     public Reproduce(){
         requires(autoMemory);
@@ -27,6 +31,8 @@ public class Reproduce extends CommandBase{
     }
 
     protected void initialize() {
+        timer.reset();
+        timer.start();
         
         String file;
         file = "file:///autonomous/" + autoMemory.RequestName() + ".sam";
@@ -37,12 +43,9 @@ public class Reproduce extends CommandBase{
         rightVector = autoMemory.RequestRight();
         shootbutton = autoMemory.RequestShootButton();
         primeshootbutton = autoMemory.RequestPrimeShootButton();
+        timestamp = autoMemory.RequestTimeStamp();
         position = 0;
         this.setInterruptible(true);
-        
-        if("NoAutonomous".equals(autoMemory.getName())){
-            end();
-        }
     }
 
     /**
@@ -59,7 +62,7 @@ public class Reproduce extends CommandBase{
         Double right = (Double) rightVector.elementAt(position);
         Boolean sb = (Boolean) shootbutton.elementAt(position);
         Boolean psb = (Boolean) primeshootbutton.elementAt(position);
-        //autoMemory.Reproduce(left.doubleValue(), right.doubleValue(),sb.booleanValue(),psb.booleanValue());
+        Double time = (Double) timestamp.elementAt(position);
         
         //////////////////////////////////////////////////
         driveTrain.arcadeDrive(left.doubleValue(), right.doubleValue());
@@ -71,9 +74,18 @@ public class Reproduce extends CommandBase{
             frisbeeTransport.shootFrisbees();
         }
         
+        if(time.doubleValue() < timer.get()){
+                try {
+                    Thread.sleep((long)(timer.get()-time.doubleValue()));
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+        }
+        
         ////////////////////////////////////////////////////////////////////////
     
         position++;
+        
         }catch(ArrayIndexOutOfBoundsException ex){
             end();
         }
@@ -90,6 +102,7 @@ public class Reproduce extends CommandBase{
     protected void end() {
         //autoMemory.Reproduce(0,0,false,false);
         position = 0;
+        timer.stop();
     }
 
     protected void interrupted() {
