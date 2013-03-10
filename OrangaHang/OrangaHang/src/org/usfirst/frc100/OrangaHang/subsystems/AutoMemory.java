@@ -5,6 +5,7 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     Vector RightMemory;
     Vector ShootButton;
     Vector PrimeShootButton;
+    Vector TimeStamp;
     
     static SendableChooser chooser;
 
@@ -34,7 +36,6 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
     
     public AutoMemory(){
         initSendableChooser();
-        
     }
     
     protected void initDefaultCommand() {
@@ -83,13 +84,15 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
         RightMemory  = new Vector();
         ShootButton = new Vector();
         PrimeShootButton = new Vector();
+        TimeStamp = new Vector();
     }
     
-    public void collectString(double left, double right, boolean shootbutton, boolean primeshootbutton){
+    public void collectString(double left, double right, boolean shootbutton, boolean primeshootbutton, double timer){
        LeftMemory.addElement(String.valueOf(left));
        RightMemory.addElement(String.valueOf(right));
        ShootButton.addElement(Boolean.valueOf(shootbutton));
        PrimeShootButton.addElement(Boolean.valueOf(primeshootbutton));
+       TimeStamp.addElement(String.valueOf(timer));
     }
     
     public void stopCollection() throws IOException{
@@ -121,6 +124,9 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
         return PrimeShootButton;
     }
     
+    public Vector RequestTimeStamp(){
+        return TimeStamp;
+    }
  ///////////////////////////////////////////////////////////////////////////////   
     
     /**
@@ -138,6 +144,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
             String Right = (String) RightMemory.elementAt(i);
             String Shoot;
             String PrimeShoot;
+            String Time = (String) TimeStamp.elementAt(i);
             
             if(ShootButton.elementAt(i).equals(Boolean.TRUE)){
                 Shoot = "1";//True
@@ -151,7 +158,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                 PrimeShoot = "0";//False
             }
             
-            String point = Left + "," + Right + "[" + Shoot + "]" + PrimeShoot + ";";
+            String point = Left + "," + Right + "[" + Shoot + "]" + PrimeShoot + ";" + Time + "T";
             dos.writeUTF(point);
         }
 
@@ -175,6 +182,7 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
         RightMemory = new Vector();
         ShootButton = new Vector();
         PrimeShootButton = new Vector();
+        TimeStamp = new Vector();
 
         if(data != null){
             char[] dataArray = data.toCharArray();
@@ -186,36 +194,38 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                 if(c == ','){
                     //Has reached end of first value
                     buff = buffer.toString().substring(1);
-                    System.out.println(buff);
                     try{buff.charAt(0);
                     }catch(StringIndexOutOfBoundsException ex){
                         continue;
                     }
-                    
-                     
                     Double value = Double.valueOf(buff);
                     if(negative){
                         value = Double.valueOf(-value.doubleValue());
                     }
-                    System.out.println(value);
                     LeftMemory.addElement(value);
                     buffer.delete(0, buffer.length()-1);
                     negative = false;
                 }else if(c=='['){
-                    //Has reached end of 2nd value
+                    //Has reached end of 2nd value(Right Value)
                     buff = buffer.toString().substring(1);
+                    try{buff.charAt(0);
+                    }catch(StringIndexOutOfBoundsException ex){
+                        continue;
+                    }
                     Double value = Double.valueOf(buff);
                     if(negative){
                         value = Double.valueOf(-value.doubleValue());
                     }
-                    System.out.println(value);
                     RightMemory.addElement(value);
                     buffer.delete(0, buffer.length()-1);
                     negative = false;
                 }else if(c==']'){
-                    //Has reached end of 3rd value
+                    //Has reached end of 3rd value(ShootButton)
                     buff = buffer.toString().substring(1);
-                    System.out.println(buff);
+                    try{buff.charAt(0);
+                    }catch(StringIndexOutOfBoundsException ex){
+                        continue;
+                    }
                     if("1".equals(buff)){
                         ShootButton.addElement(Boolean.TRUE);
                     }else{
@@ -223,14 +233,27 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                     }
                     buffer.delete(0, buffer.length()-1);
                 }else if(c==';'){
-                    //Has reached end of 4th value
+                    //Has reached end of 4th value(PrimeShootButton)
                     buff = buffer.toString().substring(1);
-                    System.out.println(buff);
+                    try{buff.charAt(0);
+                    }catch(StringIndexOutOfBoundsException ex){
+                        continue;
+                    }
                     if("1".equals(buff)){
                         PrimeShootButton.addElement(Boolean.TRUE);
                     }else{
                         PrimeShootButton.addElement(Boolean.FALSE);
                     }
+                    buffer.delete(0, buffer.length()-1);
+                }else if(c=='T'){
+                    //Has reached end of 5th Value(TimeStamp)
+                    buff = buffer.toString().substring(1);
+                    try{buff.charAt(0);
+                    }catch(StringIndexOutOfBoundsException ex){
+                        continue;
+                    }
+                    Double value = Double.valueOf(buff);
+                    TimeStamp.addElement(value);
                     buffer.delete(0, buffer.length()-1);
                 }else if(c >= '0' && c <= '9'){
                     buffer.append(c);

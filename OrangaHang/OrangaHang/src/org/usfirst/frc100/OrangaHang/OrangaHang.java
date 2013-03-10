@@ -71,14 +71,6 @@ public class OrangaHang extends IterativeRobot {
         Scheduler.getInstance().run();
         SmartDashboard.putNumber("Period", timer.get());
         
-        if(timer.get()<.05){
-            try {
-                Thread.sleep((long)(50-timer.get()*1000));
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-        
         printDataToDriverStation();
         timer.reset();
     }//end autonomousPeriodic
@@ -115,13 +107,6 @@ public class OrangaHang extends IterativeRobot {
         Scheduler.getInstance().run();
         testIO();
         SmartDashboard.putNumber("Period", timer.get());
-        if(timer.get()<.05){
-            try {
-                Thread.sleep((long)(50-timer.get()*1000));
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
         printDataToDriverStation();
         timer.reset();
     }//end teleopPeriodic
