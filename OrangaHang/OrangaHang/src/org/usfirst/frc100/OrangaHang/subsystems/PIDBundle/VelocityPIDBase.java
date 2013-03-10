@@ -4,8 +4,6 @@
  */
 package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  * @author Isis
