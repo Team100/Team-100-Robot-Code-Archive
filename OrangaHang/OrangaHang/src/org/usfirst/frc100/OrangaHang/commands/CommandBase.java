@@ -86,16 +86,12 @@ public abstract class CommandBase extends Command {
         return(Preferences.getInstance().getBoolean("DebugMode", false));
     }//end isDebugMode
     
-    public CommandBase(String name) {
-        super(name);
+    public CommandBase() {
+        super();
         Preferences p =Preferences.getInstance();
         if(!p.containsKey("DebugMode")){
             p.putBoolean("DebugMode", false);
         }
-    }//end constructor
-
-    public CommandBase() {
-        super();
     }//end constructor
 
     // Called when another command which requires one or more of the same
