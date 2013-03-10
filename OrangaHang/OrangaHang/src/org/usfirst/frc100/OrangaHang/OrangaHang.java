@@ -18,7 +18,6 @@ import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.HomeClimber;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
-import org.usfirst.frc100.OrangaHang.subsystems.SubsystemControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the
