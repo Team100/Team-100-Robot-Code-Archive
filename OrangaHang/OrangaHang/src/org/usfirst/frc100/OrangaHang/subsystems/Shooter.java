@@ -30,10 +30,10 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kDefaultDumpSpeed = 0.3;
     private final double kDefaultShootSpeed = 1.0;
     private final double kDefaultReverseSpeed = -0.3;
-    private final double kDefaultDumpSetpoint = 20.0;
+    private final double kDefaultDumpSetpoint = 50.0;
     private final double kDefaultShootSetpoint = 50.0;
     private final boolean kDefaultPIDEnableShoot = false;
-    private final boolean kDefaultPIDEnableDump = true;
+    private final boolean kDefaultPIDEnableDump = false;
     
     //sets counters
     public Shooter(){
@@ -75,7 +75,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //set speed for dumping
     public void dumpFrisbees(){
         Preferences p = Preferences.getInstance();
-        final boolean kPIDEnableDump = p.getBoolean("ShooterPIDEnableDump", true);
+        final boolean kPIDEnableDump = p.getBoolean("ShooterPIDEnableDump", false);
         if (kPIDEnableDump){
             final double kDumpSetpoint = p.getDouble("ShooterDumpSetpoint", 0.0);
             pidFront.setSetpoint(kDumpSetpoint);
