@@ -238,6 +238,7 @@ public class Climber extends Subsystem implements SubsystemControl{
                 doneHoming=true;
             }
         }
+        putData();
     }//end homingSequence
     
     //displays data on smartdashboard
