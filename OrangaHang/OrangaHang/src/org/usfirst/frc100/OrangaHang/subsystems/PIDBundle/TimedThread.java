@@ -4,6 +4,7 @@
  */
 package org.usfirst.frc100.OrangaHang.subsystems.PIDBundle;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -12,21 +13,24 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class TimedThread implements Runnable {
 
-    Callable m_callable;
-    int m_period_ms = 10;
+    private Callable m_callable;
+    private String m_periodKey;
+    private final double kDefaultPeriod=.05;
 
-    public TimedThread(Callable callable) {
+    public TimedThread(Callable callable, String periodKey) {
         this.m_callable = callable;
+        this.m_periodKey = periodKey;
+        Preferences p =Preferences.getInstance();
+        if (!p.containsKey(m_periodKey)){
+            p.putDouble(m_periodKey, kDefaultPeriod);
+        }
     }
 
     public void run() {
         while (true) {
             m_callable.call();
-            int period;
-            synchronized (this) {
-                period = m_period_ms;
-            }
-            Timer.delay((double) period / 1000.0);
+            double period= Preferences.getInstance().getDouble(m_periodKey, kDefaultPeriod);
+            Timer.delay(period);
         }
     }
 
@@ -34,7 +38,4 @@ public class TimedThread implements Runnable {
         new Thread(this).start();
     }
     
-    public synchronized void setPeriod(int period){
-        m_period_ms = period;
-    }
 }//end TimedThread
