@@ -33,7 +33,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kDefaultDumpSetpoint = 50.0;
     private final double kDefaultShootSetpoint = 100.0;
     private final boolean kDefaultPIDEnableShoot = false;
-    private final boolean kDefaultPIDEnableDump = false;
+    private final boolean kDefaultPIDEnableDump = true;
     
     //sets counters
     public Shooter(){
