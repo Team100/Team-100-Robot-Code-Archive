@@ -2,6 +2,7 @@
 package org.usfirst.frc100.OrangaHang.subsystems;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
@@ -34,6 +35,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     private final double kDefaultShootSetpoint = 100.0;
     private final boolean kDefaultPIDEnableShoot = false;
     private final boolean kDefaultPIDEnableDump = false;
+    private final boolean kDefaultSliderEnableDump = true;
     
     //sets counters
     public Shooter(){
@@ -65,6 +67,9 @@ public class Shooter extends Subsystem implements SubsystemControl{
         if (!p.containsKey("ShooterPIDEnableDump")) {
             p.putBoolean("ShooterPIDEnableDump", kDefaultPIDEnableDump);
         }
+        if (!p.containsKey("ShooterSliderEnableDump")) {
+            p.putBoolean("ShooterSliderEnableDump", kDefaultSliderEnableDump);
+        }
     }//end constructor
     
     //empty
@@ -76,6 +81,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     public void dumpFrisbees(){
         Preferences p = Preferences.getInstance();
         final boolean kPIDEnableDump = p.getBoolean("ShooterPIDEnableDump", false);
+        final boolean kSliderEnableDump = p.getBoolean("ShooterSliderEnableDump", true);
         if (kPIDEnableDump){
             final double kDumpSetpoint = p.getDouble("ShooterDumpSetpoint", 0.0);
             pidFront.setSetpoint(kDumpSetpoint);
@@ -83,11 +89,17 @@ public class Shooter extends Subsystem implements SubsystemControl{
             if (!isEnabled()){
                 enable();
             }
-        } else { 
+        } else if (!kSliderEnableDump){ 
             disablePID();
             final double kDumpSpeed = p.getDouble("ShooterDumpSpeed", 0.0);
             motorFront.set(kDumpSpeed);
             motorBack.set(kDumpSpeed);
+        } else if (kSliderEnableDump){
+            disablePID();
+            DriverStation ds = DriverStation.getInstance();
+            final double kDumpSpeed = ds.getAnalogIn(1);
+            motorFront.set(kDumpSpeed/5.0);
+            motorBack.set(kDumpSpeed/5.0);
         }
     }//end dumpFrisbees
     
