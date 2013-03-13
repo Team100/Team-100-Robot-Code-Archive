@@ -17,16 +17,16 @@ import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
  */
 public class Tower extends Subsystem implements SubsystemControl{
     //Robot parts
-    private final AnalogChannel towerPotent = RobotMap.towerPotent;
+    private final AnalogChannel towerMagEncoder = RobotMap.towerMagEncoder;
     private final Victor towerMotor = RobotMap.towerMotor;
     //Constants
     //TODO: calibrate all values
-    private final double kDefaultClimbPosition = 275.0;
-    private final double kDefaultShootPosition = 100.0;
-    private final double kDefaultIntakePosition = 275.0;
-    private final double kDefaultStartPosition = 700.0;
-    private final double kDefaultTolerance = 50;
-    private final double kDefaultTiltSpeed = 0.7;
+    private final double kDefaultClimbPosition = 3.500;//FIXME needs to be voltage
+    private final double kDefaultShootPosition = 4.050;
+    private final double kDefaultIntakePosition = 3.667;//3.901
+    private final double kDefaultStartPosition = 2.744;
+    private final double kDefaultTolerance = 0.03;
+    private final double kDefaultTiltSpeed = 0.3;
     
     public void initDefaultCommand() {
         setDefaultCommand(new ManualTilt());
@@ -63,13 +63,16 @@ public class Tower extends Subsystem implements SubsystemControl{
         final double kPosition = p.getDouble(key, 0.0);
         final double kTolerance = p.getDouble("TowerTolerance", 0.0);
         final double kTiltSpeed = p.getDouble("TowerTiltSpeed", 0.0);
-        if (towerPotent.getValue() < kPosition + kTolerance && towerPotent.getValue()> kPosition - kTolerance ){
+        if (towerMagEncoder.getVoltage() < kPosition + kTolerance && towerMagEncoder.getVoltage() > kPosition - kTolerance){
             towerMotor.set(0.0);
+            System.out.println("Case 1");
             return true;
-        } else if (towerPotent.getValue() > kPosition + kTolerance) {
-            towerMotor.set(kTiltSpeed);
-        } else if(towerPotent.getValue() < kPosition - kTolerance){
+        } else if (towerMagEncoder.getVoltage() > kPosition + kTolerance) {
             towerMotor.set(-kTiltSpeed);
+            System.out.println("Case 2");
+        } else if(towerMagEncoder.getVoltage() < kPosition - kTolerance){
+            towerMotor.set(kTiltSpeed);
+            System.out.println("Case 3");
         }
         return false;
     }//end tiltToPosition

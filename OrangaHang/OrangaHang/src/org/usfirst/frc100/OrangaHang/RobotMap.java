@@ -37,7 +37,7 @@ public class RobotMap {
     //03/04/13: Accelerometer constructor is hanging for some reason on practice bot
     //public static final ADXL345_I2C driveAccelerometer;
     //Tower
-    public static final AnalogChannel towerPotent = new AnalogChannel(3);
+    public static final AnalogChannel towerMagEncoder = new AnalogChannel(3);
     
     
     //PWM Outputs
@@ -112,7 +112,7 @@ public class RobotMap {
         
         //Tower
         LiveWindow.addActuator("Tower", "Motor7", towerMotor);
-        LiveWindow.addSensor("Tower", "Potent" , towerPotent);
+        LiveWindow.addSensor("Tower", "Potent" , towerMagEncoder);
         
         //Shifter
         LiveWindow.addActuator("Shifter", "Gear" , shifterGear);
