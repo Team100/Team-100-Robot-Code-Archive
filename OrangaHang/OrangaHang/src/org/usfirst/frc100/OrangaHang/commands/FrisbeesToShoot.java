@@ -18,8 +18,7 @@ public class FrisbeesToShoot extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        // Assumes we're not already at the bottom
-        frisbeeTransport.resetBottom();
+        // Reset can't be in initialize, because the transport overshoots, so the hall-effect is triggered again
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,6 +34,7 @@ public class FrisbeesToShoot extends CommandBase {
     // Called once after isFinished returns true
     protected void end() {
         frisbeeTransport.disable();
+        frisbeeTransport.resetBottom();//I was right!
     }
 
     // Called when another command which requires one or more of the same
