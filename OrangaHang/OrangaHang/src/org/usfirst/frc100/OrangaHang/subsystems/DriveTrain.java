@@ -89,7 +89,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         Preferences p = Preferences.getInstance();
         final double kShootLimitVoltage = p.getDouble("DriveTrainShootLimitVoltage", 0.0);
         final double kShootLimitTolerance = p.getDouble("DriveTrainShootLimitTolerance", 0.0);
-        System.out.println("Rangefinder Voltage " + ultraDist.getVoltage());
+        //System.out.println("Rangefinder Voltage " + ultraDist.getVoltage());//for calibration, don't delete
         if (ultraDist.getVoltage() < kShootLimitVoltage + kShootLimitTolerance
                 || ultraDist.getVoltage() < kShootLimitVoltage - kShootLimitTolerance) {
             if (left > 0.0) {

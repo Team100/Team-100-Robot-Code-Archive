@@ -3,6 +3,7 @@ package org.usfirst.frc100.OrangaHang.subsystems;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.FrisbeeTransportOff;
@@ -16,6 +17,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     private final SpeedController frisbeeTransportMotor = RobotMap.frisbeeTransportMotor;
     private final Counter frisbeeTransportTopSwitch = RobotMap.frisbeeTransportTopSwitch;//both switches are normally closed!
     private final Counter frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
+    private final Timer timer = new Timer();
     //Constants
     private final double kDefaultShootingSpeed = 0.9;
     private final double kDefaultIntakeSpeed = -0.15;
@@ -48,7 +50,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void takeFrisbees(){
         //Hall-effect switch returns true when NOT hitting limit. 
         //Non-zero counter implies we hit the switch.
-        if(frisbeeTransportBottomSwitch.get() == 0){
+      if(frisbeeTransportBottomSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltIntakeSpeed", kDefaultIntakeSpeed));
         }
@@ -61,13 +63,17 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void shootFrisbees(){
         //Hall-effect switch returns true when NOT hitting limit.
         //Non-zero counter implies we hit the switch.
+        System.out.println(frisbeeTransportTopSwitch.get());
         if(frisbeeTransportTopSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
+            System.out.println("Case 1");
         }
         else {
-            frisbeeTransportMotor.set(0.0);
+            frisbeeTransportMotor.set(0.0); 
+            System.out.println("Case 2");
         }
+        System.out.println(frisbeeTransportMotor.get());
     }//end shootFrisbees
 
     public void resetTop(){
