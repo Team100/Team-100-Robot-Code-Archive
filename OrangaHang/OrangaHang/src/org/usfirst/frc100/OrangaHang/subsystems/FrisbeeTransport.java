@@ -67,13 +67,10 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
         if(frisbeeTransportTopSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
-            System.out.println("Case 1");
         }
         else {
             frisbeeTransportMotor.set(0.0); 
-            System.out.println("Case 2");
         }
-        System.out.println(frisbeeTransportMotor.get());
     }//end shootFrisbees
 
     public void resetTop(){
