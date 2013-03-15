@@ -35,7 +35,8 @@ public class Intake extends CommandBase {
     protected void end() {
         frisbeeTransport.disable();
         shooter.disable();
-        frisbeeTransport.resetTop();//I was right!
+        //Reset top so we can move up
+        frisbeeTransport.resetTop();
     }
 
     // Called when another command which requires one or more of the same
