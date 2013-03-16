@@ -63,7 +63,6 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     public void shootFrisbees(){
         //Hall-effect switch returns true when NOT hitting limit.
         //Non-zero counter implies we hit the switch.
-        System.out.println(frisbeeTransportTopSwitch.get());
         if(frisbeeTransportTopSwitch.get() == 0){
             Preferences p = Preferences.getInstance();
             frisbeeTransportMotor.set(p.getDouble("FrisbeeBeltShootingSpeed", kDefaultShootingSpeed));
