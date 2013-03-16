@@ -1,15 +1,14 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="team100.Team100Camera">
+		<location x="841" y="1"/>
+		<width>518</width>
+		<height>510</height>
+	</static-widget>
 	<widget field="Period" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
 		<location x="176" y="304"/>
 		<width>480</width>
 		<height>208</height>
-	</widget>
-	<widget field="ShooterBack" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
-		<location x="672" y="144"/>
-	</widget>
-	<widget field="ShooterFront" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
-		<location x="672" y="0"/>
 	</widget>
 	<widget field="ClimberUpperLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="177" y="2"/>
@@ -92,11 +91,6 @@
 	<widget field="Incoming data" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="1680" y="12"/>
 	</widget>
-	<static-widget class="team100.Team100Camera">
-		<location x="848" y="0"/>
-		<width>512</width>
-		<height>512</height>
-	</static-widget>
 	<widget field="DriveTrainGyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
 		<location x="624" y="352"/>
 		<width>240</width>

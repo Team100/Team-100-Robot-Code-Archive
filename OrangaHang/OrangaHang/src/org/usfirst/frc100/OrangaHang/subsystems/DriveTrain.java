@@ -25,12 +25,12 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final double kUltraDistRatio = 0.009794921875;
     //Preferences defaults
     private final boolean kDefaultReverseDirection = false;
-    private final double kDefaultShootLimitVoltage = 0.62;//was 1.2 for comp bot
-    private final double kDefaultShootLimitTolerance = 0.01;
+    private final double kDefaultShootLimitVoltage = 1.12;//was 1.2 for comp bot
     private final double kDefaultQuickTurnProportion = 0.011;
     private final double kDefaultQuickTurnDeadband = 0.19;
     //Tuneables
     private double setpoint;
+    private boolean hasBeenAchieved = false;
     
     //starts encoders
     public DriveTrain(){
@@ -40,9 +40,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         Preferences p = Preferences.getInstance();
         if (!p.containsKey("DriveTrainShootLimitVoltage")) {
             p.putDouble("DriveTrainShootLimitVoltage", kDefaultShootLimitVoltage);
-        }
-        if (!p.containsKey("DriveTrainShootLimitTolerance")) {
-            p.putDouble("DriveTrainShootLimitTolerance", kDefaultShootLimitTolerance);
         }
         if (!p.containsKey("DriveTrainQuickTurnP")) {
             p.putDouble("DriveTrainQuickTurnP", kDefaultQuickTurnProportion);
@@ -88,20 +85,21 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     public void alignToShoot(double left, double right) {
         Preferences p = Preferences.getInstance();
         final double kShootLimitVoltage = p.getDouble("DriveTrainShootLimitVoltage", 0.0);
-        final double kShootLimitTolerance = p.getDouble("DriveTrainShootLimitTolerance", 0.0);
-        //System.out.println("Rangefinder Voltage " + ultraDist.getVoltage());//for calibration, don't delete
-        if (ultraDist.getVoltage() < kShootLimitVoltage + kShootLimitTolerance
-                || ultraDist.getVoltage() < kShootLimitVoltage - kShootLimitTolerance) {
-            if (left > 0.0) {
-                leftMotor.set(0.0);
-                rightMotor.set(0.0);
-            } else {
-                arcadeDrive(left, right);
-            }
-        } else {
-            arcadeDrive(left, right);
+        double voltage =  ultraDist.getVoltage();
+        SmartDashboard.putNumber("RangefinderVoltage", voltage);//want to see on competition dashboard!!
+        System.out.println("RangefinderVoltage: " + voltage + " kShootLimitVoltage: "  + kShootLimitVoltage);
+        if (voltage <= kShootLimitVoltage ) {
+            hasBeenAchieved = true;
         }
+        if (left <= 0.0 && hasBeenAchieved){
+            left = 0.0;
+        }
+        arcadeDrive(left, right);
     }//end alignToShoot
+    
+    public void resetRangefinder(){
+        hasBeenAchieved = false;
+    }
     
     public boolean quickTurn(double setpoint) {
         // Proportional quickturn algorithm
