@@ -85,10 +85,16 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     public void alignToShoot(double left, double right) {
         Preferences p = Preferences.getInstance();
         final double kShootLimitVoltage = p.getDouble("DriveTrainShootLimitVoltage", 0.0);
-        double voltage =  ultraDist.getVoltage();
-        SmartDashboard.putNumber("RangefinderVoltage", voltage);//want to see on competition dashboard!!
-        System.out.println("RangefinderVoltage: " + voltage + " kShootLimitVoltage: "  + kShootLimitVoltage);
-        if (voltage <= kShootLimitVoltage ) {
+        double maxVoltage =  ultraDist.getVoltage();
+        for (int i=0; i<10; i++){
+            double voltage = ultraDist.getVoltage();
+            if (voltage>maxVoltage){
+                maxVoltage = voltage;
+            }
+        }
+        SmartDashboard.putNumber("RangefinderVoltage", maxVoltage);//want to see on competition dashboard!!
+        System.out.println("RangefinderVoltage: " + maxVoltage + " kShootLimitVoltage: "  + kShootLimitVoltage);
+        if (maxVoltage <= kShootLimitVoltage ) {
             hasBeenAchieved = true;
         }
         if (left <= 0.0 && hasBeenAchieved){
