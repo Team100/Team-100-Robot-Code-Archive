@@ -28,7 +28,6 @@ public class Tower extends Subsystem implements SubsystemControl{
     private final double kDefaultStartPosition = 0.4;
     private final double kDefaultTolerance = 0.05;
     private final double kDefaultTiltSpeed = 0.2;
-    private String prevPosition = " ";
     
     public void initDefaultCommand() {
         setDefaultCommand(new ManualTilt());
