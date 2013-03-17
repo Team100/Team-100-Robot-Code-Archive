@@ -60,11 +60,11 @@ public class OI {
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
     public static final JoystickButton primeDumpButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton intakeButton = new JoystickButton(manipulator, 8);
-    public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 9);
+    public static final JoystickButton primeIntakeButton = new JoystickButton(manipulator, 9);
+    public static final JoystickButton toggleArmsButton = new JoystickButton(manipulator, 10);
     // button 10 is available
 
-    public OI()
-    {
+    public OI() {
         //Assigning commands to buttons
 
         //DriverLeft commands
@@ -85,6 +85,7 @@ public class OI {
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whileHeld(new FrisbeesToShoot());
+        primeIntakeButton.whenPressed(new PrimeToIntake());
         toggleArmsButton.whenPressed(new ToggleArms());
         
         //SmartDashboardButtons
