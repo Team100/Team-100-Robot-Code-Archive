@@ -69,8 +69,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
-        robotDrive.arcadeDrive(y, x);
+        robotDrive.arcadeDrive(y, x+0.05);
         SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
+        SmartDashboard.putNumber("RangefinderVoltage", ultraDist.getVoltage());
     }// end arcadeDrive
     
     public void resetGyro() {
