@@ -1,0 +1,101 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="team100.Team100Camera">
+		<location x="841" y="1"/>
+		<width>518</width>
+		<height>510</height>
+	</static-widget>
+	<widget field="Period" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="176" y="304"/>
+		<width>480</width>
+		<height>208</height>
+	</widget>
+	<widget field="ClimberUpperLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="177" y="2"/>
+		<width>111</width>
+		<height>30</height>
+	</widget>
+	<widget field="ClimberLowerLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="177" y="274"/>
+		<width>111</width>
+		<height>30</height>
+	</widget>
+	<widget field="ClimberLevel" type="Number" class="team100.SDextension.PyramidLevel">
+		<location x="400" y="32"/>
+		<height>240</height>
+	</widget>
+	<widget field="ClimberPosition" type="Number" class="team100.SDextension.Climber">
+		<location x="176" y="32"/>
+		<height>240</height>
+	</widget>
+	<widget field="Shooter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="288"/>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="0" y="2"/>
+	</widget>
+	<widget field="Climber" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="256"/>
+	</widget>
+	<widget field="Shifter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="224"/>
+	</widget>
+	<widget field="FixedArms" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="192"/>
+	</widget>
+	<widget field="Sendable Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="320"/>
+	</widget>
+	<widget field="FrisbeeTransport" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="160"/>
+	</widget>
+	<widget field="Tower" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="128"/>
+	</widget>
+	<widget field="DriveTrain" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="96"/>
+	</widget>
+	<widget field="AutoMemory" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="64"/>
+	</widget>
+	<widget field="Pneumatics" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="32"/>
+	</widget>
+	<widget field="WritePreferences" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="670" y="288"/>
+	</widget>
+	<widget field="Memorize" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="672" y="319"/>
+	</widget>
+	<widget field="ModeChooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="320"/>
+	</widget>
+	<widget field="ShooterFrontEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="208"/>
+	</widget>
+	<widget field="ShooterBackInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="176"/>
+	</widget>
+	<widget field="ShooterBackEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1672" y="144"/>
+	</widget>
+	<widget field="ShooterFrontInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="112"/>
+	</widget>
+	<widget field="ShooterBackOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="80"/>
+	</widget>
+	<widget field="ShooterFrontOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="44"/>
+	</widget>
+	<widget field="Incoming data" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1680" y="12"/>
+	</widget>
+	<widget field="DriveTrainGyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+		<location x="624" y="352"/>
+		<width>240</width>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>
