@@ -77,15 +77,15 @@ public class OI {
         quickTurnButton.whileHeld(new QuickTurn());
         
         //Manipulator commands
-        tiltClimbButton.whenPressed(new TiltToClimb());
-        tiltShootButton.whenPressed(new TiltToShoot());
-        tiltIntakeButton.whenPressed(new TiltToIntake());
-        tiltStartButton.whenPressed(new TiltToStart());
+        tiltClimbButton.whileHeld(new TiltToClimb());
+        tiltShootButton.whileHeld(new TiltToShoot());
+        tiltIntakeButton.whileHeld(new TiltToIntake());
+        tiltStartButton.whileHeld(new TiltToStart());
         intakeButton.whileHeld(new Intake());
         primeShootButton.whileHeld(new PrimeToShoot());
         primeDumpButton.whileHeld(new PrimeToDump());
         shootButton.whileHeld(new FrisbeesToShoot());
-        primeIntakeButton.whenPressed(new PrimeToIntake());
+        primeIntakeButton.whileHeld(new PrimeToIntake());
         toggleArmsButton.whenPressed(new ToggleArms());
         
         //SmartDashboardButtons
