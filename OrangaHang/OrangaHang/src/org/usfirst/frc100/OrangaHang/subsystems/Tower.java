@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.ManualTilt;
 
@@ -21,12 +22,13 @@ public class Tower extends Subsystem implements SubsystemControl{
     private final Victor towerMotor = RobotMap.towerMotor;
     //Constants
     //TODO: calibrate all values
-    private final double kDefaultClimbPosition = 3.500;//FIXME needs to be voltage
-    private final double kDefaultShootPosition = 4.050;
-    private final double kDefaultIntakePosition = 3.667;//3.901
-    private final double kDefaultStartPosition = 2.744;
-    private final double kDefaultTolerance = 0.03;
-    private final double kDefaultTiltSpeed = 0.3;
+    private final double kDefaultClimbPosition = 1.60;//FIXME needs to be voltage
+    private final double kDefaultShootPosition = 2.05;
+    private final double kDefaultIntakePosition = 1.25;//3.901
+    private final double kDefaultStartPosition = 0.4;
+    private final double kDefaultTolerance = 0.05;
+    private final double kDefaultTiltSpeed = 0.2;
+    private String prevPosition = " ";
     
     public void initDefaultCommand() {
         setDefaultCommand(new ManualTilt());
@@ -56,6 +58,7 @@ public class Tower extends Subsystem implements SubsystemControl{
     
     public void manualTilt(double speed){
         towerMotor.set(-speed);
+        SmartDashboard.putNumber("MagEncoderVoltage", towerMagEncoder.getVoltage());
     }//end manualTilt
 
     public boolean tiltToPosition(String key) {
@@ -63,14 +66,16 @@ public class Tower extends Subsystem implements SubsystemControl{
         final double kPosition = p.getDouble(key, 0.0);
         final double kTolerance = p.getDouble("TowerTolerance", 0.0);
         final double kTiltSpeed = p.getDouble("TowerTiltSpeed", 0.0);
-        if (towerMagEncoder.getVoltage() < kPosition + kTolerance && towerMagEncoder.getVoltage() > kPosition - kTolerance){
+        double voltage = towerMagEncoder.getVoltage();
+        SmartDashboard.putNumber("MagEncoderVoltage", voltage);//only in debug mode
+        if (voltage < kPosition + kTolerance && voltage > kPosition - kTolerance){
             towerMotor.set(0.0);
             System.out.println("Case 1");
             return true;
-        } else if (towerMagEncoder.getVoltage() > kPosition + kTolerance) {
+        } else if (voltage > kPosition + kTolerance) {
             towerMotor.set(-kTiltSpeed);
             System.out.println("Case 2");
-        } else if(towerMagEncoder.getVoltage() < kPosition - kTolerance){
+        } else if(voltage < kPosition - kTolerance){
             towerMotor.set(kTiltSpeed);
             System.out.println("Case 3");
         }
