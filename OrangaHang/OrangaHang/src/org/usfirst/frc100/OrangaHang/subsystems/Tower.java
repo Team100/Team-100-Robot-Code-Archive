@@ -63,14 +63,15 @@ public class Tower extends Subsystem implements SubsystemControl{
         final double kPosition = p.getDouble(key, 0.0);
         final double kTolerance = p.getDouble("TowerTolerance", 0.0);
         final double kTiltSpeed = p.getDouble("TowerTiltSpeed", 0.0);
-        if (towerMagEncoder.getVoltage() < kPosition + kTolerance && towerMagEncoder.getVoltage() > kPosition - kTolerance){
+        double voltage = towerMagEncoder.getVoltage();
+        if (voltage < kPosition + kTolerance && voltage > kPosition - kTolerance){
             towerMotor.set(0.0);
             System.out.println("Case 1");
             return true;
-        } else if (towerMagEncoder.getVoltage() > kPosition + kTolerance) {
+        } else if (voltage > kPosition + kTolerance) {
             towerMotor.set(-kTiltSpeed);
             System.out.println("Case 2");
-        } else if(towerMagEncoder.getVoltage() < kPosition - kTolerance){
+        } else if(voltage < kPosition - kTolerance){
             towerMotor.set(kTiltSpeed);
             System.out.println("Case 3");
         }
