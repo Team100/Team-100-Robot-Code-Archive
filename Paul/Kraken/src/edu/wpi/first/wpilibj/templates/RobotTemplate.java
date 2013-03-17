@@ -28,17 +28,19 @@ public class RobotTemplate extends IterativeRobot {
     private Jaguar transport = new Jaguar(5);
     private Jaguar intakeA = new Jaguar(3);
     private Jaguar intakeB = new Jaguar(4);
+    private Jaguar turret = new Jaguar(2);
     private RobotDrive drive=new RobotDrive(ljag1, rjag1);;
     private Joystick leftJoystick = new Joystick(1);
     private Joystick rightJoystick = new Joystick(2);
     private Joystick manipulator = new Joystick(3);
     private SendableChooser driveChooser, joystickChooser;
-    private JoystickButton b1 = new JoystickButton (manipulator, 1);
-    private JoystickButton lTrig = new JoystickButton (leftJoystick, 1);
-    private JoystickButton b2 = new JoystickButton (manipulator, 2);
-    private JoystickButton rTrig = new JoystickButton (rightJoystick, 1);
-    private JoystickButton b3 = new JoystickButton (manipulator, 3);
-    private JoystickButton b4 = new JoystickButton (manipulator, 4);
+    private JoystickButton shootButton1 = new JoystickButton (manipulator, 5);
+    private JoystickButton shootButton2 = new JoystickButton (leftJoystick, 1);
+    private JoystickButton transportButton1 = new JoystickButton (manipulator, 6);
+    private JoystickButton transportButton2 = new JoystickButton (rightJoystick, 1);
+    private JoystickButton intakeButton1 = new JoystickButton (manipulator, 1);
+    private JoystickButton intakeButton2 = new JoystickButton (rightJoystick, 2);
+    private JoystickButton toggleTurretButton = new JoystickButton (leftJoystick, 2);
     
     
     public void robotInit() {
@@ -98,7 +100,7 @@ public class RobotTemplate extends IterativeRobot {
         }
         
         //Shooting
-        if (b1.get()||lTrig.get()){
+        if (shootButton1.get()||shootButton2.get()){
             frontShooter.set(-1);
             backShooter.set(1);
         }
@@ -106,7 +108,7 @@ public class RobotTemplate extends IterativeRobot {
             frontShooter.set(0);
             backShooter.set(0); 
         }
-        if (b2.get()||rTrig.get()){
+        if (transportButton1.get()||transportButton2.get()){
             transport.set(-1);
         }
         else{
@@ -114,18 +116,21 @@ public class RobotTemplate extends IterativeRobot {
         }
         
         //Intake
-        if (b3.get()){
-            //BROKEN
-            //intakeA.set(-1);
-        }
-        else{
-            intakeA.set(0); 
-        }
-        if (b4.get()){
+        if (intakeButton1.get()||intakeButton2.get()){
+            //intakeA.set(-1);BROKEN
             intakeB.set(-1);
         }
         else{
+            intakeA.set(0);
             intakeB.set(0); 
+        }
+        
+        //Turret
+        if (toggleTurretButton.get()){
+            turret.set(leftJoystick.getX());
+        }
+        else{
+            turret.set(manipulator.getX());
         }
     }
     
