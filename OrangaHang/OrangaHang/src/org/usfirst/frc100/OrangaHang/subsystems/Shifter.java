@@ -24,11 +24,11 @@ public class Shifter extends Subsystem implements SubsystemControl {
     }
     
     public void shiftHighGear() {
-        shifter.set(DoubleSolenoid.Value.kForward);
+        shifter.set(DoubleSolenoid.Value.kReverse);
     }//end shiftHighGear
     
     public void shiftLowGear() {
-        shifter.set(DoubleSolenoid.Value.kReverse);
+        shifter.set(DoubleSolenoid.Value.kForward);
     }//end shiftLowGear
     
     public void disable() {
