@@ -72,22 +72,25 @@ public class Climber extends Subsystem implements SubsystemControl{
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
-        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
-            climberTopMotor.set(0);
-            climberBottomMotor.set(0);
-        }
-        if (!climberTopSwitch.get()&&speed<0){
-            climberTopMotor.set(speed);
-            climberBottomMotor.set(speed);
-        }
-        if (!climberBottomSwitch.get()&&speed>0){
-            climberTopMotor.set(speed);
-            climberBottomMotor.set(speed);
-        }
-        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
-            climberTopMotor.set(speed);
-            climberBottomMotor.set(speed);
-        }
+        System.out.println(speed);
+//        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
+//            climberTopMotor.set(0);
+//            climberBottomMotor.set(0);
+//        }
+//        if (!climberTopSwitch.get()&&speed<0){
+//            climberTopMotor.set(speed);
+//            climberBottomMotor.set(-speed);
+//        }
+//        if (!climberBottomSwitch.get()&&speed>0){
+//            climberTopMotor.set(speed);
+//            climberBottomMotor.set(-speed);
+//        }
+//        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
+//            climberTopMotor.set(speed);
+//            climberBottomMotor.set(-speed);
+//        }
+        climberTopMotor.set(-speed);
+        climberBottomMotor.set(speed);
         putData();
     }//end manualControl
     

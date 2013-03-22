@@ -22,10 +22,10 @@ public class Tower extends Subsystem implements SubsystemControl{
     private final Victor towerMotor = RobotMap.towerMotor;
     //Constants
     //TODO: calibrate all values
-    private final double kDefaultClimbPosition = 1.60;//FIXME needs to be voltage
-    private final double kDefaultShootPosition = 2.05;
-    private final double kDefaultIntakePosition = 1.25;//3.901
-    private final double kDefaultStartPosition = 0.4;
+    private final double kDefaultClimbPosition = 4.1;//FIXME needs to be voltage
+    private final double kDefaultShootPosition = 4.276;
+    private final double kDefaultIntakePosition = 3.901;
+    private final double kDefaultStartPosition =  2.525;
     private final double kDefaultTolerance = 0.05;
     private final double kDefaultTiltSpeed = 0.2;
     
@@ -56,7 +56,7 @@ public class Tower extends Subsystem implements SubsystemControl{
     }//end constructor
     
     public void manualTilt(double speed){
-        towerMotor.set(-speed);
+        towerMotor.set(speed/4.0);
         SmartDashboard.putNumber("MagEncoderVoltage", towerMagEncoder.getVoltage());
     }//end manualTilt
 
