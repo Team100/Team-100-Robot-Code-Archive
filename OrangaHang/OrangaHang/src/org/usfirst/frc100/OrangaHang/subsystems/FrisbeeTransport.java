@@ -19,7 +19,7 @@ public class FrisbeeTransport extends Subsystem implements SubsystemControl {
     private final Counter frisbeeTransportBottomSwitch = RobotMap.frisbeeTransportBottomSwitch;
     private final Timer timer = new Timer();
     //Constants
-    private final double kDefaultShootingSpeed = 0.9;
+    private final double kDefaultShootingSpeed = 0.2;
     private final double kDefaultIntakeSpeed = -0.15;
     
     // Put methods for controlling this subsystem

@@ -93,7 +93,7 @@ public class OrangaHang extends IterativeRobot {
         updateWidgets.start();
         
         HomeClimber homeClimber = new HomeClimber();
-        homeClimber.start();
+        //homeClimber.start();
 
         timer.reset();
         timer.start();

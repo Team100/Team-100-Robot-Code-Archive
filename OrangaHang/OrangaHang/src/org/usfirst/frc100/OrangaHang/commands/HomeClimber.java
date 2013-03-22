@@ -4,6 +4,8 @@
  */
 package org.usfirst.frc100.OrangaHang.commands;
 
+import org.usfirst.frc100.OrangaHang.OI;
+
 /**
  *
  * @author Student
@@ -27,7 +29,7 @@ public class HomeClimber extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return climber.doneHoming;
+        return climber.doneHoming||Math.abs(OI.manipulator.getY())>.5;
     }
 
     // Called once after isFinished returns true

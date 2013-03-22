@@ -23,7 +23,7 @@ public class ManualTilt extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        tower.manualTilt((OI.manipulator.getThrottle())/5.0);
+        tower.manualTilt((OI.manipulator.getThrottle()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
