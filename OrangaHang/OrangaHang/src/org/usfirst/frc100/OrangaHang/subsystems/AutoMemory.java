@@ -198,7 +198,12 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                     }catch(StringIndexOutOfBoundsException ex){
                         continue;
                     }
-                    Double value = Double.valueOf(buff);
+                    Double value;
+                    try{value = Double.valueOf(buff);
+                    }catch(NumberFormatException ex){
+                        continue;
+                    }
+                    value = Double.valueOf(buff);
                     if(negative){
                         value = Double.valueOf(-value.doubleValue());
                     }
@@ -208,11 +213,16 @@ public class AutoMemory extends Subsystem implements SubsystemControl{
                 }else if(c=='['){
                     //Has reached end of 2nd value(Right Value)
                     buff = buffer.toString().substring(1);
+                    Double value;
                     try{buff.charAt(0);
                     }catch(StringIndexOutOfBoundsException ex){
                         continue;
                     }
-                    Double value = Double.valueOf(buff);
+                    try{value = Double.valueOf(buff);
+                    }catch(NumberFormatException ex){
+                        continue;
+                    }
+                    value = Double.valueOf(buff);
                     if(negative){
                         value = Double.valueOf(-value.doubleValue());
                     }

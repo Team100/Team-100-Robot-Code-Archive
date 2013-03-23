@@ -67,10 +67,11 @@ public class Reproduce extends CommandBase{
         //////////////////////////////////////////////////
         driveTrain.arcadeDrive(left.doubleValue(), right.doubleValue());
         
-        if(sb.booleanValue()){
-            shooter.shootFrisbees();
-        }
         if(psb.booleanValue()){
+            shooter.shootFrisbees();
+            System.out.println("Shooting");
+        }
+        if(sb.booleanValue()){
             frisbeeTransport.shootFrisbees();
         }
         
