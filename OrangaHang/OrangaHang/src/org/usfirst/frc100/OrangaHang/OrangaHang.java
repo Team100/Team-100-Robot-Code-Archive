@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
 import org.usfirst.frc100.OrangaHang.commands.HomeClimber;
 import org.usfirst.frc100.OrangaHang.commands.Reproduce;
+import org.usfirst.frc100.OrangaHang.commands.TiltToShoot;
 import org.usfirst.frc100.OrangaHang.commands.UpdateWidgets;
 
 /**
@@ -60,7 +61,10 @@ public class OrangaHang extends IterativeRobot {
 
         // schedule the autonomous command (example)
         Reproduce reproduce = new Reproduce();
+        TiltToShoot tts = new TiltToShoot();
+        tts.start();
         reproduce.start();
+       
         
         timer.reset();
         timer.start();
