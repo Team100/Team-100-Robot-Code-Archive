@@ -69,7 +69,6 @@ public class Reproduce extends CommandBase{
         
         if(psb.booleanValue()){
             shooter.shootFrisbees();
-            System.out.println("Shooting");
         }
         if(sb.booleanValue()){
             frisbeeTransport.shootFrisbees();

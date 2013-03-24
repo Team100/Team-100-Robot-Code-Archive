@@ -61,8 +61,6 @@ public class OrangaHang extends IterativeRobot {
 
         // schedule the autonomous command (example)
         Reproduce reproduce = new Reproduce();
-        TiltToShoot tts = new TiltToShoot();
-        tts.start();
         reproduce.start();
        
         
@@ -96,9 +94,9 @@ public class OrangaHang extends IterativeRobot {
         UpdateWidgets updateWidgets = new UpdateWidgets();
         updateWidgets.start();
         
-        HomeClimber homeClimber = new HomeClimber();
-        //homeClimber.start();
-
+        // We don't initialize the climber during autonomous because we only climb during teleop
+        CommandBase.climber.initialize();
+        
         timer.reset();
         timer.start();
         timer2.reset();
@@ -134,6 +132,7 @@ public class OrangaHang extends IterativeRobot {
     //Load PID Info has been integrated into UpdateWidgets
     
     public void testIO(){
+        // Don't do this every iteration because it's too expensive
         if(timer2.get() < 0.5) {
             return;
         }
