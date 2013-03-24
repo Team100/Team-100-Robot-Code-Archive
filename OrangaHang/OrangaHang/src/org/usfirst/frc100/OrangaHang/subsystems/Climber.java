@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.OrangaHang.RobotMap;
 import org.usfirst.frc100.OrangaHang.commands.CommandBase;
+import org.usfirst.frc100.OrangaHang.commands.HomeClimber;
 import org.usfirst.frc100.OrangaHang.commands.ManualClimb;
 
 /**
@@ -72,6 +73,12 @@ public class Climber extends Subsystem implements SubsystemControl{
     public void initDefaultCommand() {
         setDefaultCommand(new ManualClimb());
     }//end initDefaultCommand
+    
+    public void initialize() {
+        // FIXME: The climber cannot be homed if the limits and encoder are not functioning
+        HomeClimber homeClimber = new HomeClimber();
+        //homeClimber.start();
+    }
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
