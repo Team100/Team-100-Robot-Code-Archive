@@ -54,6 +54,9 @@ public class Climber extends Subsystem implements SubsystemControl{
         if (!p.containsKey("ClimberEncoderMin")) {
             p.putDouble("ClimberEncoderMin", kDefaultEncoderMin);
         }
+        if (!p.containsKey("ClimberEnforceLimits")) {
+            p.putBoolean("ClimberEnforceLimits", false);
+        }
         if (!p.containsKey("ClimberLowerElevatorPartwayLimit")) {
             p.putDouble("ClimberLowerElevatorPartwayLimit", kDefaultLowerElevatorPartwayLimit);
         }
@@ -72,25 +75,22 @@ public class Climber extends Subsystem implements SubsystemControl{
     
     //sets climber speed to given value, has built-in safeties
     public void manualControl(double speed){
-//        System.out.println(speed);
-//        if (!climberTopSwitch.get()&&speed>0||!climberBottomSwitch.get()&&speed<0){
-//            climberTopMotor.set(0);
-//            climberBottomMotor.set(0);
-//        }
-//        if (!climberTopSwitch.get()&&speed<0){
-//            climberTopMotor.set(speed);
-//            climberBottomMotor.set(-speed);
-//        }
-//        if (!climberBottomSwitch.get()&&speed>0){
-//            climberTopMotor.set(speed);
-//            climberBottomMotor.set(-speed);
-//        }
-//        if(climberTopSwitch.get()&&climberBottomSwitch.get()){
-//            climberTopMotor.set(speed);
-//            climberBottomMotor.set(-speed);
-//        }
-        climberTopMotor.set(-speed);
-        climberBottomMotor.set(speed);
+        // speed > 0 => down
+        // speed < 0 => up
+        Preferences p = Preferences.getInstance();
+        if (!p.getBoolean("ClimberEnforceLimits", false) ||
+            // neither limit hit   
+            (climberTopSwitch.get() && climberBottomSwitch.get()) ||
+            // top limit hit, but going down
+            (!climberTopSwitch.get() && speed > 0) ||
+            // bottom limit hit, but going up
+            (!climberBottomSwitch.get() && speed < 0)) {
+            climberTopMotor.set(-speed);
+            climberBottomMotor.set(speed);
+        } else {
+            climberTopMotor.set(0);
+            climberBottomMotor.set(0);
+        }
         putData();
     }//end manualControl
     
