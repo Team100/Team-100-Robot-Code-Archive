@@ -12,7 +12,7 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  *
  * @author Team100
  */
-public class Feeder extends Subsystem {
+public class Feeder extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid feederPistons = RobotMap.feederPistons;
     
     public void initDefaultCommand() {

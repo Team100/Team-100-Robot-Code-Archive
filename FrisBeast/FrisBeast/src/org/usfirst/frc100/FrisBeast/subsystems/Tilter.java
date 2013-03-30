@@ -12,7 +12,7 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  *
  * @author Team100
  */
-public class Tilter extends Subsystem {
+public class Tilter extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid tiltPistons = RobotMap.tiltPistons;
 
     public void initDefaultCommand() {
