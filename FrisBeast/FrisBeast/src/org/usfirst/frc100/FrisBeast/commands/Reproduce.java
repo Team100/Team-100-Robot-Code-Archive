@@ -12,7 +12,9 @@ import java.util.Vector;
  * @author Sam
  */
 public class Reproduce extends CommandBase{
-    
+    //FIXME: "BROKEN" when transferred to new project; check command calls 
+    //against new commands AND make sure nothing is commented out that needs
+    //to be in the code.
     int index;
     int position;
     Vector leftVector;
@@ -67,12 +69,12 @@ public class Reproduce extends CommandBase{
         //////////////////////////////////////////////////
         driveTrain.arcadeDrive(left.doubleValue(), right.doubleValue());
         
-        if(psb.booleanValue()){
-            shooter.shootFrisbees();
-        }
-        if(sb.booleanValue()){
-            frisbeeTransport.shootFrisbees();
-        }
+//        if(psb.booleanValue()){
+//            shooter.shootFrisbees();
+//        }
+//        if(sb.booleanValue()){
+//            frisbeeTransport.shootFrisbees();
+//        }
         
         if(time.doubleValue() < timer.get()){
                 try {

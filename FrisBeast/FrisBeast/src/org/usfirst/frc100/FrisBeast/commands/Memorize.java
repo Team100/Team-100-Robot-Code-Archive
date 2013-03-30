@@ -13,7 +13,8 @@ import org.usfirst.frc100.FrisBeast.OI;
  * @author Sam
  */
 public class Memorize extends CommandBase{
-    
+    //FIXME: "BROKEN" when transferred to new project; check command calls 
+    //against new commands.
     Timer timer = new Timer();
     
     public Memorize(){
@@ -32,7 +33,7 @@ public class Memorize extends CommandBase{
      */
     protected void execute() {
         autoMemory.collectString(OI.driverLeft.getY(), OI.driverRight.getX(),
-                OI.shootButton.get(), OI.primeShootButton.get(),timer.get());
+                OI.shootButton.get(), OI.primeHighSpeedButton.get(),timer.get());
         if(timer.get() > 15000){
             end();
         }
