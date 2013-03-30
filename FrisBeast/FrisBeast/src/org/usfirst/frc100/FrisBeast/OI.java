@@ -78,7 +78,7 @@ public class OI {
         //Manipulator commands
         primeHighSpeedButton.whileHeld(new PrimeHighSpeed());
         primeLowSpeedButton.whileHeld(new PrimeLowSpeed());
-        shootButton.whenPressed(new Shoot());
+        shootButton.whileHeld(new Shoot());
         toggleTiltButton.whenPressed(new ToggleTilt());
         memorizeButton.whenPressed(new Memorize());
         

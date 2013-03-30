@@ -5,7 +5,6 @@
 package org.usfirst.frc100.FrisBeast.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.FrisBeast.RobotMap;
 
@@ -15,25 +14,19 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  */
 public class Feeder extends Subsystem {
     private final DoubleSolenoid feederPistons = RobotMap.feederPistons;
-    Timer timer = new Timer();
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    public void moveFrisbeesToShoot(){
-        setReverse();
-        
-    }//end moveFrisbeesToShoot
-    
-    public void setForward(){
+    public void pushForward(){
         feederPistons.set(DoubleSolenoid.Value.kForward);
-    }//end setForward
+    }//end pushForward
     
-    public void setReverse(){
+    public void pullBack(){
         feederPistons.set(DoubleSolenoid.Value.kReverse);
-    }//end setReverse 
+    }//end pullBack 
     
     public void disable() {
     }//end disable
