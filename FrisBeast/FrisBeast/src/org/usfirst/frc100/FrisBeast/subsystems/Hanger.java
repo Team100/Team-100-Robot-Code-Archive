@@ -12,7 +12,7 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  *
  * @author Team100
  */
-public class Hanger extends Subsystem {
+public class Hanger extends Subsystem implements SubsystemControl{
    private final DoubleSolenoid hangerPistons = RobotMap.hangerPistons;
     
     public void initDefaultCommand() {
