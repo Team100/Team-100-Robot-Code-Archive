@@ -9,10 +9,15 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Shoot extends CommandBase {
     private final Timer timer = new Timer();
+    private final double delay;
+    
+    public Shoot(double d) {
+        delay = d;
+        requires(feeder);
+    }
     
     public Shoot() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        delay = feeder.getShootDelay();
         requires(feeder);
     }
 
@@ -29,7 +34,7 @@ public class Shoot extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (timer.get() >= 0.5);
+        return (timer.get() >= delay);
     }
 
     // Called once after isFinished returns true

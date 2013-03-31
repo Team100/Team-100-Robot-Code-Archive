@@ -63,7 +63,7 @@ public class OI {
     //Button 9: (empty)
     //Button 10: (empty)
     
-    public OI() {
+    public OI() {  
         //Assigning commands to buttons
 
         //DriverLeft commands

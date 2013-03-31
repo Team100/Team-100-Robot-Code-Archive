@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.FrisBeast.commands.Autonomous;
 import org.usfirst.frc100.FrisBeast.commands.CommandBase;
 
 /**
@@ -31,7 +32,10 @@ public class FrisBeast extends IterativeRobot {
     // Loop period periodTimer
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
-    
+    //Shooting delays
+    private final double kDefaultInitialDelay = 1.0;
+    private final double kDefaultNormalDelay = 0.5;
+    private final double kDefaultTimeout = 7.0;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -40,6 +44,14 @@ public class FrisBeast extends IterativeRobot {
         // Initialize all devices and subsystems
         RobotMap.init();
         CommandBase.init();
+        //Add autonomous prefs
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("AutonInitialDelay")) {
+            p.putDouble("AutonInitialDelay", kDefaultInitialDelay);
+        }
+        if (!p.containsKey("AutonTimeout")) {
+            p.putDouble("AutonTimeout", kDefaultTimeout);
+        }
     }//end robotInit
 
     public void disabledInit(){
@@ -48,9 +60,13 @@ public class FrisBeast extends IterativeRobot {
     
     public void autonomousInit() {
         initializeAll();
-        
-        //TODO: create autonomous command
-
+        //Autonomous
+        Preferences p = Preferences.getInstance();
+        final double kInitialDelay = p.getDouble("AutonInitialDelay", kDefaultInitialDelay);
+        final double kTimeout = p.getDouble("AutonTimeout", kDefaultTimeout);
+        Autonomous auton = new Autonomous(kInitialDelay, kTimeout);
+        auton.start();
+        //Timing
         periodTimer.reset();
         periodTimer.start();
     }//end autonomousInit
@@ -60,8 +76,7 @@ public class FrisBeast extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Period", periodTimer.get());
-        
+        SmartDashboard.putNumber("Period", periodTimer.get());  
         printDataToDriverStation();
         periodTimer.reset();
     }//end autonomousPeriodic
