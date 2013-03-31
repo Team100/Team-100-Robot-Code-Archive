@@ -17,7 +17,6 @@ import org.usfirst.frc100.FrisBeast.subsystems.Shifter;
 import org.usfirst.frc100.FrisBeast.subsystems.Shooter;
 import org.usfirst.frc100.FrisBeast.subsystems.Tilter;
 import org.usfirst.frc100.FrisBeast.subsystems.SubsystemControl;
-//import org.usfirst.frc100.Robot2013.subsystems.ExampleSubsystem;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -95,5 +94,6 @@ public abstract class CommandBase extends Command {
     // subsystems is scheduled to run. Call end() by default.
     protected void interrupted() {
         end();
-    }
+    }//end interrupted
+    
 }//end CommandBase
