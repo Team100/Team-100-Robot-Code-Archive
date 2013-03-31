@@ -70,21 +70,19 @@ public class RobotMap {
         LiveWindow.addActuator("DriveTrain", "LeftMotor2", driveLeftMotor);
         LiveWindow.addActuator("DriveTrain", "RightMotor1", driveRightMotor);
         LiveWindow.addSensor("DriveTrain", "Gyro" , driveGyro);
-        //ADXL345_I2C doesn't implement LiveWindowSendable
-        //LiveWindow.addSensor("DriveTrain", "Accelerometer", driveAccelerometer);
         LiveWindow.addSensor("DriveTrain", "Ultrasonic" , driveUltrasonic);        
         //Shooter
-        LiveWindow.addActuator("Shooter", "FrontMotor5", shooterFrontMotor);
-        LiveWindow.addActuator("Shooter", "BackMotor6", shooterBackMotor);
-        LiveWindow.addSensor("Shooter", "FrontHallEffect" , shooterFrontHalfEncoder);
-        LiveWindow.addSensor("Shooter", "BackHallEffect" , shooterBackHalfEncoder);
+        LiveWindow.addActuator("Shooter", "FrontMotor3", shooterFrontMotor);
+        LiveWindow.addActuator("Shooter", "BackMotor4", shooterBackMotor);
+        LiveWindow.addSensor("Shooter", "FrontHalfEncoder" , shooterFrontHalfEncoder);
+        LiveWindow.addSensor("Shooter", "BackHalfEncoder" , shooterBackHalfEncoder);
         LiveWindow.addSensor("Shooter", "FrontCounter", shooterCounterFront);
         LiveWindow.addSensor("Shooter", "BackCounter", shooterCounterBack);
         //Shifter
         LiveWindow.addActuator("Shifter", "Gear" , shifterGear);
         //Hanger
         LiveWindow.addActuator("Hanger", "HangerPistons" , hangerPistons);
-        //Shooter tilt
+        //Shooter tilt/Tilter
         LiveWindow.addActuator("ShooterTilt", "TiltPistons" , tiltPistons);
         //Feeder
         LiveWindow.addActuator("Feeder", "FeederPistons" , feederPistons);

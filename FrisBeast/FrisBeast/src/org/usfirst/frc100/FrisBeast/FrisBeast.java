@@ -27,12 +27,12 @@ import org.usfirst.frc100.FrisBeast.commands.UpdateWidgets;
  */
 public class FrisBeast extends IterativeRobot {
     // Get modules once, because it's expensive
-    DigitalModule myModule = DigitalModule.getInstance(1);
-    AnalogModule myAnalogModule = AnalogModule.getInstance(1);
+    DigitalModule digitalModule = DigitalModule.getInstance(1);
+    AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD driverStation = DriverStationLCD.getInstance();
-    // Loop period timer
-    Timer timer = new Timer();
-    Timer timer2 = new Timer();
+    // Loop period periodTimer
+    Timer periodTimer = new Timer();
+    Timer testIOTimer = new Timer();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -42,16 +42,10 @@ public class FrisBeast extends IterativeRobot {
         // Initialize all devices and subsystems
         RobotMap.init();
         CommandBase.init();
-
-        // SD throws table key undefined exception "SmartDashboard/Scheduler/count"
-        //SmartDashboard.putData(Scheduler.getInstance());
     }//end robotInit
 
     public void disabledInit(){
 	CommandBase.disableAll();
-        
-        
-        
     }//end disabledInit
     
     public void autonomousInit() {
@@ -60,10 +54,9 @@ public class FrisBeast extends IterativeRobot {
         // schedule the autonomous command (example)
         Reproduce reproduce = new Reproduce();
         reproduce.start();
-       
         
-        timer.reset();
-        timer.start();
+        periodTimer.reset();
+        periodTimer.start();
     }//end autonomousInit
 
     /**
@@ -71,10 +64,10 @@ public class FrisBeast extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Period", timer.get());
+        SmartDashboard.putNumber("Period", periodTimer.get());
         
         printDataToDriverStation();
-        timer.reset();
+        periodTimer.reset();
     }//end autonomousPeriodic
 
     public void teleopInit() {
@@ -92,10 +85,10 @@ public class FrisBeast extends IterativeRobot {
         UpdateWidgets updateWidgets = new UpdateWidgets();
         updateWidgets.start();
         
-        timer.reset();
-        timer.start();
-        timer2.reset();
-        timer2.start();
+        periodTimer.reset();
+        periodTimer.start();
+        testIOTimer.reset();
+        testIOTimer.start();
     }//end teleopInit
 
     /**
@@ -104,9 +97,9 @@ public class FrisBeast extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         testIO();
-        SmartDashboard.putNumber("Period", timer.get());
+        SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
-        timer.reset();
+        periodTimer.reset();
     }//end teleopPeriodic
     
     /**
@@ -128,20 +121,20 @@ public class FrisBeast extends IterativeRobot {
     
     public void testIO(){
         // Don't do this every iteration because it's too expensive
-        if(timer2.get() < 0.5) {
+        if(testIOTimer.get() < 0.5) {
             return;
         }
-        timer2.reset();
+        testIOTimer.reset();
         
         NetworkTable table = NetworkTable.getTable("Status");
-        table.putNumber("dioData", myModule.getAllDIO());
+        table.putNumber("dioData", digitalModule.getAllDIO());
         
         for(int i = 1; i <= 10; i++) {
-            table.putNumber("pwm" + i, myModule.getPWM(i));
+            table.putNumber("pwm" + i, digitalModule.getPWM(i));
         }
         
         for(int i = 1; i <= 8; i++) {
-            table.putNumber("analog" + i, ((int)(myAnalogModule.getVoltage(i) * 1000) / 1000.0));
+            table.putNumber("analog" + i, ((int)(analogModule.getVoltage(i) * 1000) / 1000.0));
         }
     }//end testIO
 
@@ -155,27 +148,19 @@ public class FrisBeast extends IterativeRobot {
         } else {
             CommandBase.unSafeAll();
         }
-        
         CommandBase.pneumatics.enable();
 	CommandBase.shifter.shiftHighGear();
-
-        //CommandBase.tower.stowArms();//do BEFORE the match
-        //CommandBase.tower.tiltToStart();//do BEFORE the match
     }//end initializeAll
     
     private void printDataToDriverStation(){
         //FIXME - many of these no longer exist
-//        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Climber: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString()+"        ");
+//        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString()+"        ");
 //        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+((Subsystem)CommandBase.subsystems.elementAt(1)).getCurrentCommand().toString()+"        ");
 //        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+((Subsystem)CommandBase.subsystems.elementAt(2)).getCurrentCommand().toString()+"        ");
-//        if ("FrisbeeTransportOff".equals(((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString())){
-//            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+"Off"+"          ");
-//        }
-//        else{
-//            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Intake: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString()+"        ");
-//        }
-//        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tower: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+timer.get()+"    ");
+//        driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString()+"        ");
+//        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString()+"        ");
+//        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+periodTimer.get()+"    ");
 //        driverStation.updateLCD();
-    }
-}//end OrangaHang
+    }//end printDataToDriverStation
+    
+}//end FrisBeast
