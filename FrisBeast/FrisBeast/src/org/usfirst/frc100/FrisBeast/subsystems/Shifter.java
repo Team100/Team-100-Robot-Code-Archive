@@ -36,8 +36,5 @@ public class Shifter extends Subsystem implements SubsystemControl {
 
     public void enable() {
     }//end enable
-
-    public void writePreferences() {
-    }//end writePreferences
     
 }//end Shifter

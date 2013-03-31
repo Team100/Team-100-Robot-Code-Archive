@@ -13,6 +13,7 @@ import java.util.Vector;
  */
 public class RobotMap {
     //Digital I/O sensors
+    //FIXME: encoder positions are likely to change
     //Drive Train
     public static final Encoder driveRightEncoder = new Encoder(3,4);
     public static final Encoder driveLeftEncoder = new Encoder(5,6);

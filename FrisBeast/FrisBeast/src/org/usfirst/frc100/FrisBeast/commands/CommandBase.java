@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Vector;
 import org.usfirst.frc100.FrisBeast.OI;
 import org.usfirst.frc100.FrisBeast.RobotMap;
-import org.usfirst.frc100.FrisBeast.subsystems.AutoMemory;
 import org.usfirst.frc100.FrisBeast.subsystems.DriveTrain;
 import org.usfirst.frc100.FrisBeast.subsystems.Hanger;
 import org.usfirst.frc100.FrisBeast.subsystems.Feeder;
@@ -32,7 +31,6 @@ public abstract class CommandBase extends Command {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Feeder feeder = new Feeder();
     public static Pneumatics pneumatics = new Pneumatics();
-    public static AutoMemory autoMemory = new AutoMemory();
     public static Shifter shifter = new Shifter();
     public static Tilter tilter = new Tilter();
     public static Vector subsystems = new Vector();
@@ -54,7 +52,6 @@ public abstract class CommandBase extends Command {
         subsystems.addElement(feeder);
         subsystems.addElement(pneumatics);
         subsystems.addElement(tilter);
-        subsystems.addElement(autoMemory);
         subsystems.addElement(shifter);
         
         // Show what command your subsystem is running on the SmartDashboard

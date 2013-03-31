@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.FrisBeast.commands.CommandBase;
-import org.usfirst.frc100.FrisBeast.commands.Reproduce;
-import org.usfirst.frc100.FrisBeast.commands.UpdateWidgets;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -50,11 +48,9 @@ public class FrisBeast extends IterativeRobot {
     
     public void autonomousInit() {
         initializeAll();
-
-        // schedule the autonomous command (example)
-        Reproduce reproduce = new Reproduce();
-        reproduce.start();
         
+        //TODO: create autonomous command
+
         periodTimer.reset();
         periodTimer.start();
     }//end autonomousInit
@@ -81,9 +77,6 @@ public class FrisBeast extends IterativeRobot {
         initializeAll();
 
         // Teleop relies on button-originated commands and default commands
-        
-        UpdateWidgets updateWidgets = new UpdateWidgets();
-        updateWidgets.start();
         
         periodTimer.reset();
         periodTimer.start();
@@ -153,14 +146,15 @@ public class FrisBeast extends IterativeRobot {
     }//end initializeAll
     
     private void printDataToDriverStation(){
-        //FIXME - many of these no longer exist
-//        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+((Subsystem)CommandBase.subsystems.elementAt(0)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+((Subsystem)CommandBase.subsystems.elementAt(1)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+((Subsystem)CommandBase.subsystems.elementAt(2)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+((Subsystem)CommandBase.subsystems.elementAt(3)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+((Subsystem)CommandBase.subsystems.elementAt(5)).getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+periodTimer.get()+"    ");
-//        driverStation.updateLCD();
+// pneumatic subsystems don't have default commands, so they can't be displayed here
+//        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+CommandBase.hanger.CurrentCommand().toString()+"        ");
+        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+CommandBase.shooter.getCurrentCommand().toString()+"        ");
+        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+CommandBase.driveTrain.getCurrentCommand().toString()+"        ");
+//        driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+CommandBase.feeder.getCurrentCommand().toString()+"        ");
+//        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+CommandBase.tilter.getCurrentCommand().toString()+"        ");
+//shifter, pneumatics
+        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+periodTimer.get()+"    ");
+        driverStation.updateLCD();
     }//end printDataToDriverStation
     
 }//end FrisBeast

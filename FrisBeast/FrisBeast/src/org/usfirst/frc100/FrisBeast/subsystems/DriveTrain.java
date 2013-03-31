@@ -71,7 +71,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
         robotDrive.arcadeDrive(y, x+0.05);
         SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
-        SmartDashboard.putNumber("RangefinderVoltage", ultraDist.getVoltage());
+        SmartDashboard.putNumber("DriveTrainRangefinderVoltage", ultraDist.getVoltage());
     }// end arcadeDrive
     
     public void resetGyro() {
@@ -93,8 +93,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
                 maxVoltage = voltage;
             }
         }
-        SmartDashboard.putNumber("RangefinderVoltage", maxVoltage);//want to see on competition dashboard!!
-        System.out.println("RangefinderVoltage: " + maxVoltage + " kShootLimitVoltage: "  + kShootLimitVoltage);
+        SmartDashboard.putNumber("DriveTrainRangefinderVoltage", maxVoltage);//want to see on competition dashboard!!
         if (maxVoltage <= kShootLimitVoltage ) {
             hasBeenAchieved = true;
         }
@@ -132,49 +131,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         return Math.abs(angle) >= Math.abs(setpoint);
     }//end quickTurn
     
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //FIXME: remove PID code if we don't use it
-    //PID Control
-    //driveRight
-    PIDSource sourceRight = new PIDSource(){
-        public double pidGet(){
-            return rightEncoder.getRaw();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputRight = new PIDOutput(){
-        public void pidWrite(double output){
-            rightMotor.set(output);
-        }
-    }; //end anonym class PIDOutput
-//    private PositionSendablePID pidRight = new PositionSendablePID("right",sourceRight, outputRight, kRightDistRatio);
-    
-    //driveLeft
-    PIDSource sourceLeft = new PIDSource(){
-        public double pidGet(){
-            return leftEncoder.get();
-        }
-    }; //end anonym class PIDSource
-    PIDOutput outputLeft = new PIDOutput(){
-        public void pidWrite(double output){
-             leftMotor.set(output);
-        }
-    }; //end anonym class PIDOutput
-//    private PositionSendablePID pidLeft = new PositionSendablePID("left",sourceLeft, outputLeft, kLeftDistRatio);
-    
-    public void setSetpoint(double setpoint){
-        this.setpoint = setpoint;
-//        pidRight.setSetpoint(setpoint);
-//        pidLeft.setSetpoint(setpoint);
-    }//end setSetpoint
-    
-    public double getSetpoint() {
-        return this.setpoint;
-    }//end getSetpoint
-    
     public void disable(){
-        setSetpoint(0.0);
- //       pidRight.disable();
- //       pidLeft.disable();
         leftMotor.set(0.0);
         rightMotor.set(0.0);
         rightEncoder.reset();
@@ -186,12 +143,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         leftEncoder.reset();
         rightEncoder.start();
         leftEncoder.start();
- //       pidRight.enable();
- //       pidLeft.enable();
     }//end enable
-
-    public void writePreferences() {
-        
-    }//end writePreferences
     
 }//end DriveTrain
