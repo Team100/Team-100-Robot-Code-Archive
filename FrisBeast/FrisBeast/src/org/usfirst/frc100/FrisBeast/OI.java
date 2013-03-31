@@ -61,7 +61,7 @@ public class OI {
     public static final JoystickButton primeLowSpeedButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton toggleTiltButton = new JoystickButton(manipulator, 8);
     //Button 9: (empty)
-    public static final JoystickButton memorizeButton = new JoystickButton(manipulator, 10);
+    //Button 10: (empty)
     
     public OI() {
         //Assigning commands to buttons
@@ -80,11 +80,6 @@ public class OI {
         primeLowSpeedButton.whileHeld(new PrimeLowSpeed());
         shootButton.whileHeld(new Shoot());
         toggleTiltButton.whenPressed(new ToggleTilt());
-        memorizeButton.whenPressed(new Memorize());
-        
-        //SmartDashboardButtons
-        SmartDashboard.putData(new Memorize());//FIXME: move to memorizeButton
-        SmartDashboard.putData(new WritePreferences());
     }//end constructor
     
 }//end OI

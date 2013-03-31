@@ -11,5 +11,4 @@ package org.usfirst.frc100.FrisBeast.subsystems;
 public interface SubsystemControl {
     void disable();
     void enable();
-    void writePreferences();
 }
