@@ -144,41 +144,41 @@ public class FrisBeast extends IterativeRobot {
     private void printDataToDriverStation(){
         //pneumatics systems have no default command, 
         //so need to account for null pointer case
-        String h = CommandBase.hanger.getCurrentCommand().toString();
-        if (h == null){
+        if (CommandBase.hanger.getCurrentCommand() == null) {
             driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+ h +"        ");
-
+            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: " + CommandBase.hanger.getCurrentCommand().toString() + "        ");
         }
-        driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+CommandBase.shooter.getCurrentCommand().toString()+"        ");
-        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+CommandBase.driveTrain.getCurrentCommand().toString()+"        ");
-        String f = CommandBase.feeder.getCurrentCommand().toString();
-        if (f == null){
+        if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeHighSpeed")) {
+            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: HighSpeed" + "        ");
+        } else if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeLowSpeed")) {
+            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: LowSpeed" + "        ");
+        } else {
+            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: " + CommandBase.shooter.getCurrentCommand().toString() + "        ");
+        }
+        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: " + CommandBase.driveTrain.getCurrentCommand().toString() + "        ");
+        if (CommandBase.feeder.getCurrentCommand() == null) {
             driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+ f +"        ");
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: " + CommandBase.feeder.getCurrentCommand().toString() + "        ");
         }
-        String t = CommandBase.tilter.getCurrentCommand().toString();
-        if (t == null){
+        if (CommandBase.tilter.getCurrentCommand() == null) {
             driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+ t +"        ");
+            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + "        ");
         }
-        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+periodTimer.get()+"    ");
+        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + "    ");
         
 //        //In case we want to see shifter/pneumatics instead on line 6
-//        String s = CommandBase.shifter.getCurrentCommand().toString();
-//        if (s == null){
+//        if (CommandBase.shifter.getCurrentCommand() == null){
 //           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: None" + "        ");
 //        } else  {
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: "+ s +"        ");
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: "+ CommandBase.shifter.getCurrentCommand().toString(); +"        ");
 //        }
-//        String p = CommandBase.pneumatics.getCurrentCommand().toString();
-//        if (p == null){
+//        if (CommandBase.pneumatics.getCurrentCommand() == null){
 //           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: None" + "        ");
 //        } else  {
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ p +"        ");
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ CommandBase.pneumatics.getCurrentCommand().toString(); +"        ");
 //        }
         
         driverStation.updateLCD();
