@@ -7,16 +7,16 @@ package org.usfirst.frc100.FrisBeast.commands;
 public class TiltDown extends CommandBase {
     
     public TiltDown() {
-        requires(hanger);
+        requires(tilter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        tilter.tiltDown();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        hanger.toggleHanger();
     }
 
     // Make this return true when this Command no longer needs to run execute()
