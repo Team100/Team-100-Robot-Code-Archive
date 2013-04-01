@@ -2,7 +2,6 @@ package org.usfirst.frc100.FrisBeast;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.FrisBeast.commands.*;
 
 /**
@@ -56,12 +55,12 @@ public class OI {
     //Button 2: (empty)
     //Button 3: (empty)
     //Button 4: (empty)
-    public static final JoystickButton primeHighSpeedButton = new JoystickButton(manipulator, 5);
+    public static final JoystickButton tiltUpButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
-    public static final JoystickButton primeLowSpeedButton = new JoystickButton(manipulator, 7);
-    public static final JoystickButton toggleTiltButton = new JoystickButton(manipulator, 8);
+    public static final JoystickButton tiltDownButton = new JoystickButton(manipulator, 7);
+    public static final JoystickButton primeHighSpeedButton = new JoystickButton(manipulator, 8);
     //Button 9: (empty)
-    //Button 10: (empty)
+    public static final JoystickButton primeLowSpeedButton = new JoystickButton(manipulator, 10);
     
     public OI() {  
         //Assigning commands to buttons
@@ -76,10 +75,11 @@ public class OI {
         quickTurnButton.whileHeld(new QuickTurn());
         
         //Manipulator commands
+        tiltUpButton.whenPressed(new TiltUp());
+        shootButton.whileHeld(new Shoot());
+        tiltDownButton.whenPressed(new TiltDown());
         primeHighSpeedButton.whileHeld(new PrimeHighSpeed());
         primeLowSpeedButton.whileHeld(new PrimeLowSpeed());
-        shootButton.whileHeld(new Shoot());
-        toggleTiltButton.whenPressed(new ToggleTilt());
     }//end constructor
     
 }//end OI

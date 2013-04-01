@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.FrisBeast.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -20,16 +16,13 @@ public class Tilter extends Subsystem implements SubsystemControl {
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    //changes shooter angle depending on whether we're shooting from in 
-    //front or behind the pyramid
-    public void toggleTilt(){
-        //FIXME: double sol positions
-        if(tiltPistons.get().equals(DoubleSolenoid.Value.kReverse)){
-            tiltPistons.set(DoubleSolenoid.Value.kForward);
-        } else {
-            tiltPistons.set(DoubleSolenoid.Value.kReverse);
-        }
-    }//end toggleTilt
+    public void tiltUp(){
+      tiltPistons.set(DoubleSolenoid.Value.kForward);
+    }//end tiltUp
+    
+    public void tiltDown(){
+       tiltPistons.set(DoubleSolenoid.Value.kReverse);
+    }//end tiltDown
     
     public void disable() {
     }//end disable

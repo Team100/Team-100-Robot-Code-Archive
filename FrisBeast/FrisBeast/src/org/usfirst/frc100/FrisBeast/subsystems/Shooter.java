@@ -46,13 +46,12 @@ public class Shooter extends Subsystem implements SubsystemControl{
         }
     }//end constructor
     
-    //empty
     public void initDefaultCommand() {
         setDefaultCommand(new ShooterOff());
     }//end initDefaultCommand
     
-    //Sets lower speed for shooting by one of three ways: PID, set speed, 
-    //or analog slider on driver station
+    //Sets lower speed for shooting by one of two ways: set speed from 
+    //preferences or analog slider on driver station.
     public void primeLowSpeed(){
         Preferences p = Preferences.getInstance();
         final boolean kSliderEnableLowSpeed = p.getBoolean("ShooterSliderEnableLowSpeed", kDefaultSliderEnableLowSpeed);
@@ -68,7 +67,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
         }
     }//end primeLowSpeed
     
-    //Sets high speed for shooting in one of two ways: PID or set speed.
+    //Sets high speed to set speed in preferences.
     public void primeHighSpeed(){
         Preferences p = Preferences.getInstance();
         final double kHighSpeed = p.getDouble("ShooterHighSpeed", 0.0);
