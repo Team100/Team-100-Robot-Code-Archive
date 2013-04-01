@@ -59,7 +59,7 @@ public class OI {
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
     public static final JoystickButton tiltDownButton = new JoystickButton(manipulator, 7);
     public static final JoystickButton primeHighSpeedButton = new JoystickButton(manipulator, 8);
-    //Button 9: (empty)
+    public static final JoystickButton unjamButton = new JoystickButton(manipulator, 9);
     public static final JoystickButton primeLowSpeedButton = new JoystickButton(manipulator, 10);
     
     public OI() {  
@@ -79,6 +79,7 @@ public class OI {
         shootButton.whileHeld(new Shoot());
         tiltDownButton.whenPressed(new TiltDown());
         primeHighSpeedButton.whileHeld(new PrimeHighSpeed());
+        unjamButton.whileHeld(new UnjamFrisbees());
         primeLowSpeedButton.whileHeld(new PrimeLowSpeed());
     }//end constructor
     
