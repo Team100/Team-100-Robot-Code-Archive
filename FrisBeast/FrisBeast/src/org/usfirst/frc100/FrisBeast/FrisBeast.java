@@ -34,12 +34,8 @@ public class FrisBeast extends IterativeRobot {
     Timer testIOTimer = new Timer();
     //Shooting delays
     private final double kDefaultInitialDelay = 1.0;
-    private final double kDefaultNormalDelay = 0.5;
     private final double kDefaultTimeout = 7.0;
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
+    
     public void robotInit() {
         // Initialize all devices and subsystems
         RobotMap.init();
@@ -71,9 +67,6 @@ public class FrisBeast extends IterativeRobot {
         periodTimer.start();
     }//end autonomousInit
 
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         SmartDashboard.putNumber("Period", periodTimer.get());  
@@ -82,10 +75,6 @@ public class FrisBeast extends IterativeRobot {
     }//end autonomousPeriodic
 
     public void teleopInit() {
-	// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
         Scheduler.getInstance().removeAll();
 
         // Redo full init sequence, in case we didn't run autonomous
@@ -99,9 +88,6 @@ public class FrisBeast extends IterativeRobot {
         testIOTimer.start();
     }//end teleopInit
 
-    /**
-     * This function is called periodically during operator control
-     */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         testIO();
@@ -110,9 +96,6 @@ public class FrisBeast extends IterativeRobot {
         periodTimer.reset();
     }//end teleopPeriodic
     
-    /**
-     * This function is called periodically during test mode
-     */
     public void testPeriodic() {
         LiveWindow.run();
         // Scheduler is not invoked
@@ -133,10 +116,8 @@ public class FrisBeast extends IterativeRobot {
             return;
         }
         testIOTimer.reset();
-        
         NetworkTable table = NetworkTable.getTable("Status");
         table.putNumber("dioData", digitalModule.getAllDIO());
-        
         for(int i = 1; i <= 10; i++) {
             table.putNumber("pwm" + i, digitalModule.getPWM(i));
         }
@@ -161,14 +142,45 @@ public class FrisBeast extends IterativeRobot {
     }//end initializeAll
     
     private void printDataToDriverStation(){
-// pneumatic subsystems don't have default commands, so they can't be displayed here
-//        driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+CommandBase.hanger.CurrentCommand().toString()+"        ");
+        //pneumatics systems have no default command, 
+        //so need to account for null pointer case
+        String h = CommandBase.hanger.getCurrentCommand().toString();
+        if (h == null){
+            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + "        ");
+        } else {
+            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: "+ h +"        ");
+
+        }
         driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: "+CommandBase.shooter.getCurrentCommand().toString()+"        ");
         driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: "+CommandBase.driveTrain.getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+CommandBase.feeder.getCurrentCommand().toString()+"        ");
-//        driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+CommandBase.tilter.getCurrentCommand().toString()+"        ");
-//shifter, pneumatics
+        String f = CommandBase.feeder.getCurrentCommand().toString();
+        if (f == null){
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + "        ");
+        } else {
+            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: "+ f +"        ");
+        }
+        String t = CommandBase.tilter.getCurrentCommand().toString();
+        if (t == null){
+            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + "        ");
+        } else {
+            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: "+ t +"        ");
+        }
         driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: "+periodTimer.get()+"    ");
+        
+//        //In case we want to see shifter/pneumatics instead on line 6
+//        String s = CommandBase.shifter.getCurrentCommand().toString();
+//        if (s == null){
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: None" + "        ");
+//        } else  {
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: "+ s +"        ");
+//        }
+//        String p = CommandBase.pneumatics.getCurrentCommand().toString();
+//        if (p == null){
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: None" + "        ");
+//        } else  {
+//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ p +"        ");
+//        }
+        
         driverStation.updateLCD();
     }//end printDataToDriverStation
     
