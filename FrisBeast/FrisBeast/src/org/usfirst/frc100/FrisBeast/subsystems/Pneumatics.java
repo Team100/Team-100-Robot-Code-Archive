@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.FrisBeast.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -18,7 +14,7 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    }
+    }//end initDefaultCommand
     
     public void startCompressor(){
         compressor.start();
@@ -30,10 +26,10 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
 
     public void disable() {
         stopCompressor();
-    }
+    }//end disable
 
     public void enable() {
         compressor.start();
-    }
+    }//end enable
 
 }//end Pneumatics

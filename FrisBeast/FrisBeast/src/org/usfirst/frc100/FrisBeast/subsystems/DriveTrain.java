@@ -20,16 +20,13 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     private final AnalogChannel ultraDist = RobotMap.driveUltrasonic;
     private final RobotDrive robotDrive=RobotMap.driveRobotDrive;
     //Constants
-    private final double kRightDistRatio = ((4.0/12.0*Math.PI))/1440;
-    private final double kLeftDistRatio = ((4.0/12.0*Math.PI))/1440;
     private final double kUltraDistRatio = 0.009794921875;
     //Preferences defaults
-    private final boolean kDefaultReverseDirection = false;
+    private final boolean kDefaultReverseDirection = false;//need to change this for comp bot b/c now driving "backward"
     private final double kDefaultShootLimitVoltage = 1.12;//was 1.2 for comp bot
     private final double kDefaultQuickTurnProportion = 0.011;
     private final double kDefaultQuickTurnDeadband = 0.19;
-    //Tuneables
-    private double setpoint;
+    //Other
     private boolean hasBeenAchieved = false;
     
     //starts encoders
@@ -105,7 +102,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     
     public void resetRangefinder(){
         hasBeenAchieved = false;
-    }
+    }//end resetRangefinder
     
     public boolean quickTurn(double setpoint) {
         // Proportional quickturn algorithm

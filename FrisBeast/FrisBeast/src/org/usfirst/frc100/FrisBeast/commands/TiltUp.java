@@ -4,19 +4,19 @@ package org.usfirst.frc100.FrisBeast.commands;
  *
  * @author Team100
  */
-public class ToggleHanger extends CommandBase {
+public class TiltUp extends CommandBase {
     
-    public ToggleHanger() {
-        requires(hanger);
+    public TiltUp() {
+        requires(tilter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        tilter.tiltUp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        hanger.toggleHanger();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,4 +33,5 @@ public class ToggleHanger extends CommandBase {
     protected void interrupted() {
         end();
     }
-}
+    
+}//end TiltUp

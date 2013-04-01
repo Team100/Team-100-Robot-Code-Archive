@@ -1,19 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.FrisBeast.commands;
 
 /**
  *
  * @author Team100
  */
-public class ToggleTilt extends CommandBase {
+public class TiltDown extends CommandBase {
     
-    public ToggleTilt() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-        requires(tilter);
+    public TiltDown() {
+        requires(hanger);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +16,7 @@ public class ToggleTilt extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        tilter.toggleTilt();
+        hanger.toggleHanger();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,4 +33,5 @@ public class ToggleTilt extends CommandBase {
     protected void interrupted() {
         end();
     }
-}
+    
+}//end TiltDown
