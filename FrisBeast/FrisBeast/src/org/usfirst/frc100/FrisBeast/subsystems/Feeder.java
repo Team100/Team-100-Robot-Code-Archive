@@ -32,11 +32,11 @@ public class Feeder extends Subsystem implements SubsystemControl {
     }//end getShootDelay
     
     public void pushForward(){
-        feederPistons.set(DoubleSolenoid.Value.kForward);
+        feederPistons.set(DoubleSolenoid.Value.kReverse);
     }//end pushForward
     
     public void pullBack(){
-        feederPistons.set(DoubleSolenoid.Value.kReverse);
+        feederPistons.set(DoubleSolenoid.Value.kForward);
     }//end pullBack 
     
     public void disable() {
