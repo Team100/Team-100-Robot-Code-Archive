@@ -24,6 +24,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //TODO: calibrate all constants
     private final double kDefaultLowSpeed = 0.3;
     private final double kDefaultHighSpeed = 1.0;
+    private final double kDefaultReverseSpeed = -0.2;
     private final boolean kDefaultSliderEnableLowSpeed = true;
     
     //sets counters
@@ -40,6 +41,9 @@ public class Shooter extends Subsystem implements SubsystemControl{
         }
         if (!p.containsKey("ShooterHighSpeed")) {
             p.putDouble("ShooterHighSpeed", kDefaultHighSpeed);
+        }
+        if (!p.containsKey("ShooterReverseSpeed")) {
+            p.putDouble("ShooterReverseSpeed", kDefaultReverseSpeed);
         }
         if (!p.containsKey("ShooterSliderEnableLowSpeed")) {
             p.putBoolean("ShooterSliderEnableLowSpeed", kDefaultSliderEnableLowSpeed);
@@ -74,6 +78,13 @@ public class Shooter extends Subsystem implements SubsystemControl{
         motorFront.set(kHighSpeed);
         motorBack.set(kHighSpeed);
     }//end primeHighSpeed
+    
+    public void runBackwards(){
+        Preferences p = Preferences.getInstance();
+        final double kReverseSpeed = p.getDouble("ShooterReverseSpeed", kDefaultReverseSpeed);
+        motorFront.set(kReverseSpeed);
+        motorBack.set(kReverseSpeed);
+    }//end runBackwards
     
     public void disable(){
         counterFront.reset();
