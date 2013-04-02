@@ -24,7 +24,7 @@ public class Shooter extends Subsystem implements SubsystemControl{
     //TODO: calibrate all constants
     private final double kDefaultLowSpeed = 0.3;
     private final double kDefaultHighSpeed = 1.0;
-    private final double kDefaultReverseSpeed = -0.2;
+    private final double kDefaultReverseSpeed = -1.0;
     private final boolean kDefaultSliderEnableLowSpeed = true;
     
     //sets counters
