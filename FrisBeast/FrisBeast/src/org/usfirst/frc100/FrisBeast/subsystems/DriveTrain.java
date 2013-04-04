@@ -55,9 +55,11 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     }//end initDefaultCommand
     
     public void tankDrive(double leftSpeed, double rightSpeed){
-        leftMotor.set(leftSpeed);
-        rightMotor.set(rightSpeed);
-        SmartDashboard.putNumber("DriveTrainGyro", -gyro.getAngle());//upside down
+        Preferences p = Preferences.getInstance();
+        final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
+        robotDrive.tankDrive(leftSpeed, rightSpeed);
     }//end tankDrive
     
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed

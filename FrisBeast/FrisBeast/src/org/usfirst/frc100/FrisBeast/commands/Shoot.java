@@ -9,36 +9,54 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Shoot extends CommandBase {
     private final Timer timer = new Timer();
-    private final double delay;
+    private final double backDuration;
+    private final double forwardDuration;
+    private final double initialWait;
+    private final double timeOut;
+
     
-    public Shoot(double d) {
-        delay = d;
-        requires(feeder);
-    }
-    
-    public Shoot() {
-        delay = feeder.getShootDelay();
+    public Shoot(double initialWait, double timeOut) {
+        this.initialWait=initialWait;
+        this.timeOut=timeOut;
+        backDuration = feeder.getShootBackDuration();
+        forwardDuration = feeder.getShootForwardDuration();
         requires(feeder);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        System.out.println("initialize");
         timer.reset();
         timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        feeder.pullBack();
+        if(timeSinceInitialized()>initialWait){
+            System.out.println("execute");
+            if (timer.get()<=backDuration){
+                feeder.pullBack();
+            }
+            else if (timer.get()<=forwardDuration+backDuration){
+                feeder.pushForward();
+            }else{
+                timer.reset();
+            }
+        }
+        else{
+            timer.reset();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (timer.get() >= delay);
+        System.out.println("isFinished");
+        return (this.timeSinceInitialized()>timeOut);
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("end");
         feeder.pushForward();
         timer.stop();
     }

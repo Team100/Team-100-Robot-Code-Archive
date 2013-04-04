@@ -29,10 +29,8 @@ public class Autonomous extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-        addParallel(new PrimeHighSpeed(), timeout);//second parameter is timeout. Stops shooter wheels so we don't kill the battery
-        addSequential(new Shoot(initialDelay));
-        addSequential(new Shoot());
-        addSequential(new Shoot());
+        //addParallel(new PrimeHighSpeed(), timeout);//second parameter is timeout. Stops shooter wheels so we don't kill the battery
+        //addSequential(new Shoot());
     }//end constructor
     
 }//end Autonomous

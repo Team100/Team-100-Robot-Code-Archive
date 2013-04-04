@@ -43,12 +43,12 @@ public class OI {
     
     //Button declarations
     //DriverLeft button declarations
-    public static final JoystickButton straightShootButton = new JoystickButton(driverLeft, 1);
+    //public static final JoystickButton straightShootButton = new JoystickButton(driverLeft, 1);
     public static final JoystickButton hangButton = new JoystickButton(driverLeft, 2);
     
     //DriverRight button declarations
     public static final JoystickButton shiftGearsButton = new JoystickButton(driverRight, 1);
-    public static final JoystickButton quickTurnButton = new JoystickButton(driverRight, 2);
+    //public static final JoystickButton quickTurnButton = new JoystickButton(driverRight, 2);
     
     //Manipulator button declarations
     //Button 1: (empty)
@@ -66,17 +66,17 @@ public class OI {
         //Assigning commands to buttons
 
         //DriverLeft commands
-        straightShootButton.whileHeld(new AlignToShoot());
+        //straightShootButton.whileHeld(new AlignToShoot());
         hangButton.whenPressed(new ToggleHanger());
         
         //DriverRight commands
         shiftGearsButton.whileHeld(new ShiftGears());
         shiftGearsButton.whenReleased(new ShiftGearsBack());
-        quickTurnButton.whileHeld(new QuickTurn());
+        //quickTurnButton.whileHeld(new QuickTurn());
         
         //Manipulator commands
         tiltUpButton.whenPressed(new TiltUp());
-        shootButton.whileHeld(new Shoot());
+        shootButton.whileHeld(new Shoot(0,180));
         tiltDownButton.whenPressed(new TiltDown());
         primeHighSpeedButton.whileHeld(new PrimeHighSpeed());
         unjamButton.whileHeld(new UnjamFrisbees());

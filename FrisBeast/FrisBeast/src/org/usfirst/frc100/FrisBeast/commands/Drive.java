@@ -25,7 +25,7 @@ public class Drive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //NOTE: change AlignToShoot if you change this
-        driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX());//put inverted for both back in for comp bot
+        driveTrain.tankDrive(OI.driverRight.getY(), OI.driverLeft.getY());//put inverted for both back in for comp bot
     }
 
     // Make this return true when this Command no longer needs to run execute()
