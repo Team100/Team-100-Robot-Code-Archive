@@ -11,12 +11,15 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  */
 public class Feeder extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid feederPistons = RobotMap.feederPistons;
-    private final double kDefaultShootDelay = 0.5;
+    private final double kDefaultShootDelay = 1.0;
     
     public Feeder(){
         Preferences p = Preferences.getInstance();
-        if(!p.containsKey("FeederShootDelay")) {
-            p.putDouble("FeederShootDelay", kDefaultShootDelay);
+        if(!p.containsKey("FeederShootBackDuration")) {
+            p.putDouble("FeederShootBackDuration", kDefaultShootDelay);
+        }
+        if(!p.containsKey("FeederShootForwardDuration")) {
+            p.putDouble("FeederShootForwardDuration", kDefaultShootDelay);
         }
     }//end constructor
     
@@ -25,9 +28,15 @@ public class Feeder extends Subsystem implements SubsystemControl {
         //setDefaultCommand(new MySpecialCommand());
     }//end initDefaultCommand
     
-    public double getShootDelay(){
+    public double getShootBackDuration(){
         Preferences p = Preferences.getInstance();
-        final double kShootDelay = p.getDouble("FeederShootDelay", kDefaultShootDelay);
+        final double kShootDelay = p.getDouble("FeederShootBackDuration", kDefaultShootDelay);
+        return kShootDelay;
+    }//end getShootDelay
+    
+    public double getShootForwardDuration(){
+        Preferences p = Preferences.getInstance();
+        final double kShootDelay = p.getDouble("FeederShootForwardDuration", kDefaultShootDelay);
         return kShootDelay;
     }//end getShootDelay
     

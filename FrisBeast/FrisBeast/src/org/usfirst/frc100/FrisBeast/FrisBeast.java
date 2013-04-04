@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.FrisBeast.commands.Autonomous;
 import org.usfirst.frc100.FrisBeast.commands.CommandBase;
+import org.usfirst.frc100.FrisBeast.commands.PrimeHighSpeed;
+import org.usfirst.frc100.FrisBeast.commands.Shoot;
+import org.usfirst.frc100.FrisBeast.commands.TiltDown;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -60,8 +63,12 @@ public class FrisBeast extends IterativeRobot {
         Preferences p = Preferences.getInstance();
         final double kInitialDelay = p.getDouble("AutonInitialDelay", kDefaultInitialDelay);
         final double kTimeout = p.getDouble("AutonTimeout", kDefaultTimeout);
-        Autonomous auton = new Autonomous(kInitialDelay, kTimeout);
-        auton.start();
+        TiltDown down = new TiltDown();
+        down.start();
+        PrimeHighSpeed high = new PrimeHighSpeed();
+        high.start();
+        Shoot shoot = new Shoot(kInitialDelay, kTimeout);
+        shoot.start();
         //Timing
         periodTimer.reset();
         periodTimer.start();
