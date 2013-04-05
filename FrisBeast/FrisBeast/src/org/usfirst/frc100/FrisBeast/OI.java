@@ -44,7 +44,7 @@ public class OI {
     //Button declarations
     //DriverLeft button declarations
     //public static final JoystickButton straightShootButton = new JoystickButton(driverLeft, 1);
-    public static final JoystickButton hangButton = new JoystickButton(driverLeft, 2);
+    public static final JoystickButton hangButton = new JoystickButton(driverLeft, 1);
     
     //DriverRight button declarations
     public static final JoystickButton shiftGearsButton = new JoystickButton(driverRight, 1);
