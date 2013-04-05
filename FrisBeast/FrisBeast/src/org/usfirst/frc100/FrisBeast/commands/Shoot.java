@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Shoot extends CommandBase {
     private final Timer timer = new Timer();
-    private final double backDuration;
-    private final double forwardDuration;
+    private double backDuration;
+    private double forwardDuration;
     private final double initialWait;
     private final double timeOut;
 
@@ -18,14 +18,13 @@ public class Shoot extends CommandBase {
     public Shoot(double initialWait, double timeOut) {
         this.initialWait=initialWait;
         this.timeOut=timeOut;
-        backDuration = feeder.getShootBackDuration();
-        forwardDuration = feeder.getShootForwardDuration();
         requires(feeder);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        System.out.println("initialize");
+        backDuration = feeder.getShootBackDuration();
+        forwardDuration = feeder.getShootForwardDuration();        
         timer.reset();
         timer.start();
     }

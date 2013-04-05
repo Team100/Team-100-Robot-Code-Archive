@@ -11,7 +11,7 @@ import org.usfirst.frc100.FrisBeast.RobotMap;
  */
 public class Feeder extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid feederPistons = RobotMap.feederPistons;
-    private final double kDefaultShootDelay = 1.0;
+    private final double kDefaultShootDelay = 0.3;
     
     public Feeder(){
         Preferences p = Preferences.getInstance();
