@@ -18,13 +18,18 @@ public class Hanger extends Subsystem implements SubsystemControl{
     
     //extends or retracts hooks on hanger for, well, hanging
     public void toggleHanger(){
-        //FIXME: double sol positions
+        //forward is down, reverse is up
         if(hangerPistons.get().equals(DoubleSolenoid.Value.kReverse)){
             hangerPistons.set(DoubleSolenoid.Value.kForward);
         } else {
             hangerPistons.set(DoubleSolenoid.Value.kReverse);
         }
     }//end toggleHanger
+    
+    public void retractHanger(){
+        //forward is down, reverse is up
+        hangerPistons.set(DoubleSolenoid.Value.kForward);
+    }//end retractHanger
     
     public void disable() {
     }//end disable

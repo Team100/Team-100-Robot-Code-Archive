@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.FrisBeast.commands.Autonomous;
 import org.usfirst.frc100.FrisBeast.commands.CommandBase;
+import org.usfirst.frc100.FrisBeast.commands.LastSecondHang;
 import org.usfirst.frc100.FrisBeast.commands.PrimeHighSpeed;
 import org.usfirst.frc100.FrisBeast.commands.Shoot;
 import org.usfirst.frc100.FrisBeast.commands.TiltDown;
@@ -31,13 +32,18 @@ public class FrisBeast extends IterativeRobot {
     // Get modules once, because it's expensive
     DigitalModule digitalModule = DigitalModule.getInstance(1);
     AnalogModule analogModule = AnalogModule.getInstance(1);
-    DriverStationLCD driverStation = DriverStationLCD.getInstance();
+    DriverStationLCD dsLCD = DriverStationLCD.getInstance();
+    DriverStation ds = DriverStation.getInstance();
     // Loop period periodTimer
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
     //Shooting delays
     private final double kDefaultInitialDelay = 1.0;
     private final double kDefaultTimeout = 7.0;
+    private final boolean kDefaultLastSecondOn = true;
+    private final double kDefaultLastSecondTimeout = 10.0;
+    
+    private LastSecondHang hang = null;
     
     public void robotInit() {
         // Initialize all devices and subsystems
@@ -50,6 +56,12 @@ public class FrisBeast extends IterativeRobot {
         }
         if (!p.containsKey("AutonTimeout")) {
             p.putDouble("AutonTimeout", kDefaultTimeout);
+        }
+        if (!p.containsKey("HangerLastSecondOn")) {
+            p.putBoolean("HangerLastSecondOn", kDefaultLastSecondOn);
+        }
+        if (!p.containsKey("HangerLastSecondTimeout")) {
+            p.putDouble("HangerLastSecondTimeout", kDefaultLastSecondTimeout);
         }
     }//end robotInit
 
@@ -82,6 +94,7 @@ public class FrisBeast extends IterativeRobot {
     }//end autonomousPeriodic
 
     public void teleopInit() {
+        hang = null;
         Scheduler.getInstance().removeAll();
 
         // Redo full init sequence, in case we didn't run autonomous
@@ -96,6 +109,15 @@ public class FrisBeast extends IterativeRobot {
     }//end teleopInit
 
     public void teleopPeriodic() {
+        Preferences p = Preferences.getInstance();
+        final boolean kLastSecondOn = p.getBoolean("HangerLastSecondOn", kDefaultLastSecondOn);
+        final double kLastSecondTimeout = p.getDouble("HangerLastSecondTimeout", kDefaultLastSecondTimeout);
+        double matchTime = ds.getMatchTime();
+        if (matchTime >= kLastSecondTimeout && hang == null && kLastSecondOn){
+            hang = new LastSecondHang();
+            hang.start();
+        }
+        SmartDashboard.putNumber("MatchTime", matchTime);
         Scheduler.getInstance().run();
         testIO();
         SmartDashboard.putNumber("Period", periodTimer.get());
@@ -152,43 +174,43 @@ public class FrisBeast extends IterativeRobot {
         //pneumatics systems have no default command, 
         //so need to account for null pointer case
         if (CommandBase.hanger.getCurrentCommand() == null) {
-            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser1, 1, "Hanger: " + CommandBase.hanger.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: " + CommandBase.hanger.getCurrentCommand().toString() + "        ");
         }
         if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeHighSpeed")) {
-            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: HighSpeed" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: HighSpeed" + "        ");
         } else if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeLowSpeed")) {
-            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: LowSpeed" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: LowSpeed" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser2, 1, "Shooter: " + CommandBase.shooter.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: " + CommandBase.shooter.getCurrentCommand().toString() + "        ");
         }
-        driverStation.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: " + CommandBase.driveTrain.getCurrentCommand().toString() + "        ");
+        dsLCD.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: " + CommandBase.driveTrain.getCurrentCommand().toString() + "        ");
         if (CommandBase.feeder.getCurrentCommand() == null) {
-            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser4, 1, "Feeder: " + CommandBase.feeder.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: " + CommandBase.feeder.getCurrentCommand().toString() + "        ");
         }
         if (CommandBase.tilter.getCurrentCommand() == null) {
-            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + "        ");
         } else {
-            driverStation.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + "        ");
         }
-        driverStation.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + "    ");
+        dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + "    ");
         
 //        //In case we want to see shifter/pneumatics instead on line 6
 //        if (CommandBase.shifter.getCurrentCommand() == null){
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: None" + "        ");
+//           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Shifter: None" + "        ");
 //        } else  {
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Shifter: "+ CommandBase.shifter.getCurrentCommand().toString(); +"        ");
+//           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Shifter: "+ CommandBase.shifter.getCurrentCommand().toString(); +"        ");
 //        }
 //        if (CommandBase.pneumatics.getCurrentCommand() == null){
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: None" + "        ");
+//           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Compressor: None" + "        ");
 //        } else  {
-//           driverStation.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ CommandBase.pneumatics.getCurrentCommand().toString(); +"        ");
+//           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ CommandBase.pneumatics.getCurrentCommand().toString(); +"        ");
 //        }
         
-        driverStation.updateLCD();
+        dsLCD.updateLCD();
     }//end printDataToDriverStation
     
 }//end FrisBeast
