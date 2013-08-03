@@ -4,7 +4,7 @@ package org.usfirst.frc100.Mk3.subsystems;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.Mk3.RobotMap;
 import org.usfirst.frc100.Mk3.commands.ShooterOff;
@@ -15,10 +15,10 @@ import org.usfirst.frc100.Mk3.commands.ShooterOff;
  */
 public class Shooter extends Subsystem implements SubsystemControl{
     //Robot parts
-    private final Victor motorFront = RobotMap.shooterFrontMotor;
-    private final Victor motorBack = RobotMap.shooterBackMotor;
-    private final Counter counterFront = RobotMap.shooterCounterFront;
-    private final Counter counterBack = RobotMap.shooterCounterBack;
+    private final Talon motorFront = RobotMap.shooterFrontMotor;
+    private final Talon motorBack = RobotMap.shooterBackMotor;
+//    private final Counter counterFront = RobotMap.shooterCounterFront;
+//    private final Counter counterBack = RobotMap.shooterCounterBack;
     //Constants
     //Preferences defaults
     //TODO: calibrate all constants
@@ -29,12 +29,12 @@ public class Shooter extends Subsystem implements SubsystemControl{
     
     //sets counters
     public Shooter(){
-        counterFront.setMaxPeriod(1.0);
-        counterBack.setMaxPeriod(1.0);
-        counterFront.reset();
-        counterBack.reset();
-        counterFront.start();
-        counterBack.start();
+//        counterFront.setMaxPeriod(1.0);
+//        counterBack.setMaxPeriod(1.0);
+//        counterFront.reset();
+//        counterBack.reset();
+//        counterFront.start();
+//        counterBack.start();
         Preferences p = Preferences.getInstance();
         if (!p.containsKey("ShooterLowSpeed")) {
             p.putDouble("ShooterLowSpeed", kDefaultLowSpeed);
@@ -87,17 +87,17 @@ public class Shooter extends Subsystem implements SubsystemControl{
     }//end runBackwards
     
     public void disable(){
-        counterFront.reset();
-        counterBack.reset();
+//        counterFront.reset();
+//        counterBack.reset();
         motorFront.set(0.0);
         motorBack.set(0.0);
     }//end disable
     
     public void enable(){
-        counterFront.reset();
-        counterBack.reset();
-        counterFront.start();
-        counterBack.start();
+//        counterFront.reset();
+//        counterBack.reset();
+//        counterFront.start();
+//        counterBack.start();
     }//end enable
     
 }// end Shooter

@@ -16,10 +16,10 @@ public class RobotMap {
     public static final Encoder driveRightEncoder = new Encoder(3,4);
     public static final Encoder driveLeftEncoder = new Encoder(5,6);
     //Shooter
-    public static final DigitalInput shooterFrontHalfEncoder = new DigitalInput(1);
-    public static final DigitalInput shooterBackHalfEncoder = new DigitalInput(2);
-    public static final Counter shooterCounterFront = new Counter(shooterFrontHalfEncoder);
-    public static final Counter shooterCounterBack = new Counter(shooterBackHalfEncoder);
+//    public static final DigitalInput shooterFrontHalfEncoder = new DigitalInput(1);
+//    public static final DigitalInput shooterBackHalfEncoder = new DigitalInput(2);
+//    public static final Counter shooterCounterFront = new Counter(shooterFrontHalfEncoder);
+//    public static final Counter shooterCounterBack = new Counter(shooterBackHalfEncoder);
     //Frisbee sensors
     public static final DigitalInput hopperFrisbeeSensor = new DigitalInput(7);
     public static final DigitalInput shooterFrisbeeSensor = new DigitalInput(8);
@@ -39,8 +39,8 @@ public class RobotMap {
     public static final Talon driveRightMotor = new Talon(1);
     public static final RobotDrive driveRobotDrive = new RobotDrive(driveLeftMotor, driveRightMotor);
     //Shooter
-    public static final Victor shooterFrontMotor = new Victor(3);
-    public static final Victor shooterBackMotor = new Victor(4);
+    public static final Talon shooterFrontMotor = new Talon(3);
+    public static final Talon shooterBackMotor = new Talon(4);
     //Intake
     public static final Talon intakeFrisbeeMotor = new Talon(5);
     public static final Talon intakeTiltMotor = new Talon(6);
@@ -77,8 +77,8 @@ public class RobotMap {
         //Shooter
         LiveWindow.addActuator("Shooter", "FrontMotor3", shooterFrontMotor);
         LiveWindow.addActuator("Shooter", "BackMotor4", shooterBackMotor);
-        LiveWindow.addSensor("Shooter", "FrontCounter", shooterCounterFront);
-        LiveWindow.addSensor("Shooter", "BackCounter", shooterCounterBack);
+//        LiveWindow.addSensor("Shooter", "FrontCounter", shooterCounterFront);
+//        LiveWindow.addSensor("Shooter", "BackCounter", shooterCounterBack);
         LiveWindow.addActuator("Shooter", "TiltPistons" , tiltPistons);
         //Shifter
         LiveWindow.addActuator("Shifter", "Gear" , shifterGear);

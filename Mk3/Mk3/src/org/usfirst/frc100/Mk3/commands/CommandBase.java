@@ -3,19 +3,11 @@ package org.usfirst.frc100.Mk3.commands;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Vector;
 import org.usfirst.frc100.Mk3.OI;
 import org.usfirst.frc100.Mk3.RobotMap;
-import org.usfirst.frc100.Mk3.subsystems.DriveTrain;
-import org.usfirst.frc100.Mk3.subsystems.Hanger;
-import org.usfirst.frc100.Mk3.subsystems.Feeder;
-import org.usfirst.frc100.Mk3.subsystems.Pneumatics;
-import org.usfirst.frc100.Mk3.subsystems.Shifter;
-import org.usfirst.frc100.Mk3.subsystems.Shooter;
-import org.usfirst.frc100.Mk3.subsystems.Tilter;
-import org.usfirst.frc100.Mk3.subsystems.SubsystemControl;
+import org.usfirst.frc100.Mk3.subsystems.*;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -28,6 +20,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     public static Hanger hanger = new Hanger();
     public static Shooter shooter = new Shooter();
+    public static Intake intake = new Intake();
     public static DriveTrain driveTrain = new DriveTrain();
     public static Feeder feeder = new Feeder();
     public static Pneumatics pneumatics = new Pneumatics();
@@ -48,6 +41,7 @@ public abstract class CommandBase extends Command {
 
         subsystems.addElement(hanger);
         subsystems.addElement(shooter);
+        subsystems.addElement(intake);
         subsystems.addElement(driveTrain);
         subsystems.addElement(feeder);
         subsystems.addElement(pneumatics);

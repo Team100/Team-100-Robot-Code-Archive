@@ -12,8 +12,8 @@ import org.usfirst.frc100.Mk3.commands.Drive;
  */
 public class DriveTrain extends Subsystem implements SubsystemControl {
     //Robot parts
-    private final SpeedController rightMotor = RobotMap.driveRightMotor;
-    private final SpeedController leftMotor = RobotMap.driveLeftMotor;
+    private final Talon rightMotor = RobotMap.driveRightMotor;
+    private final Talon leftMotor = RobotMap.driveLeftMotor;
     private final Encoder rightEncoder = RobotMap.driveRightEncoder;
     private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
     private final Gyro gyro = RobotMap.driveGyro;
