@@ -50,9 +50,9 @@ public class OI {
         
         //Manipulator commands
         runIntakeButton.whileHeld(new RunIntake());
-        runIntakeButton.whenPressed(new TiltIntake(1));
-        runIntakeButton.whenPressed(new TiltIntake(2));
-        runIntakeButton.whenPressed(new TiltIntake(3));
+        tiltIntakeUpButton.whenPressed(new TiltIntake(1));
+        tiltIntakeDownButton.whenPressed(new TiltIntake(2));
+        tiltIntakeTestButton.whenPressed(new TiltIntake(3));
         tiltUpButton.whenPressed(new TiltUp());
         shootButton.whileHeld(new Shoot(0,180));
         tiltDownButton.whenPressed(new TiltDown());
