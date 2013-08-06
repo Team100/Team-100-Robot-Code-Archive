@@ -33,11 +33,12 @@ public class RobotTemplate extends IterativeRobot
     private Encoder R_encoder = new Encoder(1, 2, true);
     
     private boolean isFin1;
-    //private boolean isFin2;
+    private boolean isFin2;
     private double L_encoderVal;
     private double R_encoderVal;
     private double encoderVal;
     private double encoderErr;
+    private double distOut;
     private double gyroErr;
 
 
@@ -70,17 +71,17 @@ public class RobotTemplate extends IterativeRobot
     
     public void disabledInit()
     {
-        gyro.reset();
+        //gyro.reset();
         L_encoder.reset();
         R_encoder.reset();
     }
     
     public void disabledPeriodic()
     {
-        SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
-        SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
         SmartDashboard.putNumber("Left drive", L_encoder.get()); // 1st feet: 234.0; 2nd feet: 236.0; 3rd feet: 228.0; about 233 per foot
         SmartDashboard.putNumber("Right drive", R_encoder.get()); // 1st feet: 163.0; 2nd feet: 153.0; 3rd feet: 159.0; about about 158 per foot
+        SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
     }
     
     public void autonomousInit()
@@ -89,7 +90,7 @@ public class RobotTemplate extends IterativeRobot
         L_encoder.reset();
         R_encoder.reset();
         isFin1 = false;
-        //isFin2 = false;
+        isFin2 = false;
     }
     
     /**
@@ -99,13 +100,13 @@ public class RobotTemplate extends IterativeRobot
     {
         if(!isFin1)
         {
-            isFin1 = driveStraight(4);
+            isFin1 = driveStraight(6);
         }
-        /*if(!isFin2 && isFin1)
+        if(!isFin2 && isFin1)
         {
-            isFin2 = driveStraight(-2);
-        }*/
-        if(isFin1 /*&& isFin2*/)
+            isFin2 = driveStraight(-6);
+        }
+        if(isFin1 && isFin2)
         {
             drive.arcadeDrive(0, 0);
         }
@@ -113,8 +114,9 @@ public class RobotTemplate extends IterativeRobot
         SmartDashboard.putNumber("Left drive", L_encoder.get());
         SmartDashboard.putNumber("Right drive", R_encoder.get());
         SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
         SmartDashboard.putBoolean("isFIn1", isFin1);
-        SmartDashboard.putBoolean("isFIn2", true);
+        SmartDashboard.putBoolean("isFIn2", isFin2);
     }
     
     
@@ -152,7 +154,7 @@ public class RobotTemplate extends IterativeRobot
             }
             else
             {
-                drive.arcadeDrive(-leftJoystick.getY(), gyro.getAngle() / 80); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
+                drive.arcadeDrive(-leftJoystick.getY(), gyro.getAngle() / 22.0); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
             }
         }
         if (driveChooser.getSelected().equals("arcade2"))
@@ -167,9 +169,10 @@ public class RobotTemplate extends IterativeRobot
             }
         }
         
-        SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
         SmartDashboard.putNumber("Left drive", L_encoder.get());
         SmartDashboard.putNumber("Right drive", R_encoder.get());
+        SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
     }
     
     /**
@@ -187,6 +190,8 @@ public class RobotTemplate extends IterativeRobot
             ljag2 = new Jaguar(7);
             //rjag1 = new Jaguar(8); motor is unplugged
             rjag2 = new Jaguar(9);
+            ljag2.enableDeadbandElimination(true);
+            rjag2.enableDeadbandElimination(true);
             drive = new RobotDrive(ljag2, rjag2);
         }
         if (robotChooser.getSelected().equals("hammer")){
@@ -222,17 +227,19 @@ public class RobotTemplate extends IterativeRobot
      */
     public boolean driveStraight(double dist)
     {
-        L_encoderVal = L_encoder.get() / 233.0; // converts encoder value to feet
-        R_encoderVal = R_encoder.get() / 159.0; // converts encoder value to feet
+        L_encoderVal = L_encoder.get() / 239.0; // converts encoder value to feet
+        R_encoderVal = R_encoder.get() / 164.0; // converts encoder value to feet
         encoderVal = (L_encoderVal + R_encoderVal) / 2; // averages out encoder values
         encoderErr = dist - encoderVal;
+        distOut = encoderErr*0.5 + (Math.abs(dist)/dist)*0.2; // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
         
         SmartDashboard.putNumber("Encoder Value", encoderVal);
-        SmartDashboard.putNumber("Gyro Value", gyroErr);
         SmartDashboard.putNumber("Error", encoderErr);
+        SmartDashboard.putNumber("Speed Output", distOut);
+        SmartDashboard.putNumber("Gyro Value", gyroErr);
         
-        if(Math.abs(encoderErr) < 0.05 && Math.abs(gyroErr) < 3.0)
+        if(Math.abs(encoderErr) < 0.06 && Math.abs(gyroErr) < 4.5)
         {
             L_encoder.reset();
             R_encoder.reset();
@@ -240,7 +247,7 @@ public class RobotTemplate extends IterativeRobot
         }
         else
         {
-            drive.arcadeDrive(encoderErr * 0.5, gyroErr / 90); // Encoder kP = 0.5; Gyro kP = 1/90
+            drive.arcadeDrive(distOut, gyroErr / 20.0); // Gyro kP = 1/20.0;
             return false; // returns false if robot still hasn't reached its goal yet
         }
     }
