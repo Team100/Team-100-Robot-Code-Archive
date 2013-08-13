@@ -32,7 +32,7 @@ public class Shoot extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(timeSinceInitialized()>initialWait){
-            System.out.println("execute");
+            //System.out.println("execute");
             if (timer.get()<=backDuration){
                 feeder.pullBack();
             }
@@ -49,7 +49,7 @@ public class Shoot extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        System.out.println("isFinished");
+        //System.out.println("isFinished");
         return (this.timeSinceInitialized()>timeOut);
     }
 
