@@ -31,9 +31,10 @@ public class RobotTemplate extends IterativeRobot
     private Gyro gyro = new Gyro(1);
     private Encoder L_encoder = new Encoder(4, 3, true);
     private Encoder R_encoder = new Encoder(1, 2, true);
-    
-    private boolean isFin1;
-    private boolean isFin2;
+
+    private Preferences pref;
+
+    private int state;
     private double L_encoderVal;
     private double R_encoderVal;
     private double encoderVal;
@@ -61,21 +62,23 @@ public class RobotTemplate extends IterativeRobot
         robotChooser.addObject("Hammerhead", "hammer");
         robotChooser.addObject("Kraken", "kraken");
         robotChooser.addObject("Kitbot", "kit");
+        pref = Preferences.getInstance();
         SmartDashboard.putData("Drive Mode", driveChooser);
         SmartDashboard.putData("Joysticks", joystickChooser);
         SmartDashboard.putData("Robot", robotChooser);
         assignRobot();
+        addPref();
         L_encoder.start();
         R_encoder.start();
     }
-    
+
     public void disabledInit()
     {
         //gyro.reset();
         L_encoder.reset();
         R_encoder.reset();
     }
-    
+
     public void disabledPeriodic()
     {
         SmartDashboard.putNumber("Left drive", L_encoder.get()); // 1st feet: 234.0; 2nd feet: 236.0; 3rd feet: 228.0; about 233 per foot
@@ -83,106 +86,131 @@ public class RobotTemplate extends IterativeRobot
         SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
     }
-    
+
     public void autonomousInit()
     {
         gyro.reset();
         L_encoder.reset();
         R_encoder.reset();
-        isFin1 = false;
-        isFin2 = false;
+        state = 0;
     }
-    
+
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic()
     {
-        if(!isFin1)
+        switch(state)
         {
-            isFin1 = driveStraight(6);
-        }
-        if(!isFin2 && isFin1)
-        {
-            isFin2 = driveStraight(-6);
-        }
-        if(isFin1 && isFin2)
-        {
-            drive.arcadeDrive(0, 0);
+            case(0):
+                state++;
+                break;
+            case(1):
+                if(driveStraight(pref.getDouble("AutoDist_0", 0.0))) state++;
+                break;
+            case(2):
+                state++;
+                break;
+            case(3):
+                if(driveStraight(pref.getDouble("AutoDist_1", 0.0))) state++;
+                break;
+            case(4):
+                state++;
+                break;
+            case(5):
+                if(driveStraight(pref.getDouble("AutoDist_2", 0.0))) state++;
+                break;
+            case(6):
+                state++;
+                break;
+            case(7):
+                if(driveStraight(pref.getDouble("AutoDist_3", 0.0))) state++;
+                break;
+            case(8):
+                state++;
+                break;
+            case(9):
+                if(driveStraight(pref.getDouble("AutoDist_4", 0.0))) state++;
+                break;
+            case(10):
+                state++;
+                break;
+            default:
+                drive.arcadeDrive(0, 0);
+                break;
         }
 
         SmartDashboard.putNumber("Left drive", L_encoder.get());
         SmartDashboard.putNumber("Right drive", R_encoder.get());
         SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
-        SmartDashboard.putBoolean("isFIn1", isFin1);
-        SmartDashboard.putBoolean("isFIn2", isFin2);
+        SmartDashboard.putNumber("isFIn", state);
     }
-    
-    
+
+
     public void teleopInit()
     {
         gyro.reset();
         L_encoder.reset();
         R_encoder.reset();
     }
-    
+
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic()
     {
         /**
-         * uses sendable chooser to use any control config. the driver wants
+         * uses sendable chooser to use any control configuration the driver wants
          */
         if (driveChooser.getSelected().equals("tank"))
         {
             if (joystickChooser.getSelected().equals("two"))
             {
-                drive.tankDrive(-leftJoystick.getY(), -rightJoystick.getY()); // The Joysticks have their Y Axes inverted
-            } 
+                drive.tankDrive(-leftJoystick.getY(), -rightJoystick.getY()); // The Joysticks have their Y Axes reversed
+            }
             else
             {
-                drive.tankDrive(-leftJoystick.getY(), -leftJoystick.getThrottle()); // The Joysticks have their Y Axes inverted
+                drive.tankDrive(-leftJoystick.getY(), -leftJoystick.getThrottle()); // The Joysticks have their Y Axes reversed
             }
         }
         if (driveChooser.getSelected().equals("arcade1"))
         {
             if(!leftButton1.get())
             {
-                drive.arcadeDrive(-leftJoystick.getY(), -leftJoystick.getX()); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
+                drive.arcadeDrive(-leftJoystick.getY(), -leftJoystick.getX()); // The Joysticks have their Y Axes reveresed and Arcade drive uses reversed rotate values
             }
             else
             {
-                drive.arcadeDrive(-leftJoystick.getY(), gyro.getAngle() / 22.0); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
+                drive.arcadeDrive(-leftJoystick.getY(), gyro.getAngle() / 22.0); // The Joysticks have their Y Axes reversed and Arcade drive uses reversed rotate values
             }
         }
         if (driveChooser.getSelected().equals("arcade2"))
         {
             if (joystickChooser.getSelected().equals("two"))
             {
-                drive.arcadeDrive(-leftJoystick.getY(), -rightJoystick.getX()); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
+                drive.arcadeDrive(-leftJoystick.getY(), -rightJoystick.getX()); // The Joysticks have their Y Axes reversed and Arcade drive uses reversed rotate values
             }
             else
             {
-                drive.arcadeDrive(-leftJoystick.getY(), -leftJoystick.getTwist()); // The Joysticks have their Y Axes inverted and Arcade drive uses inverted rotate values
+                drive.arcadeDrive(-leftJoystick.getY(), -leftJoystick.getTwist()); // The Joysticks have their Y Axes reversed and Arcade drive uses reversed rotate values
             }
         }
-        
+
         SmartDashboard.putNumber("Left drive", L_encoder.get());
         SmartDashboard.putNumber("Right drive", R_encoder.get());
         SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
         SmartDashboard.putNumber("Gyro Voltage", AnalogModule.getInstance(1).getVoltage(1));
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic()
     {
-    
+
     }
-    
+
     public void assignRobot()
     {
         if (robotChooser.getSelected().equals("gwrath")){
@@ -219,7 +247,64 @@ public class RobotTemplate extends IterativeRobot
             drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         }
     }
-    
+
+    /**
+     * If the preference doesn't exist it will create it with a default value
+     */
+    public void addPref()
+    {
+        if (!pref.containsKey("LeftEncoderRatio"))
+        {
+            pref.putDouble("LeftEncoderRatio", 233.0);
+        }
+        if (!pref.containsKey("RightEncoderRatio"))
+        {
+            pref.putDouble("RightEncoderRatio", 158.0);
+        }
+        if (!pref.containsKey("Encoder_kP"))
+        {
+            pref.putDouble("Encoder_kP", 0.5);
+        }
+        if (!pref.containsKey("OutputMin"))
+        {
+            pref.putDouble("OutputMin", .2);
+        }
+        if (!pref.containsKey("DistBuffer"))
+        {
+            pref.putDouble("DistBuffer", 0.06);
+        }
+
+        if (!pref.containsKey("Gyro_kP"))
+        {
+            pref.putDouble("Gyro_kP", 1/18);
+        }
+        if (!pref.containsKey("AngleBuffer"))
+        {
+            pref.putDouble("AngleBuffer", 4.5);
+        }
+
+        if (!pref.containsKey("AutoDist_0"))
+        {
+            pref.putDouble("AutoDist_0", 0.0);
+        }
+        if (!pref.containsKey("AutDist_1"))
+        {
+            pref.putDouble("AutoDist_1", 0.0);
+        }
+        if (!pref.containsKey("AutoDist_2"))
+        {
+            pref.putDouble("AutoDist_2", 0.0);
+        }
+        if (!pref.containsKey("AutoDist_3"))
+        {
+            pref.putDouble("AutoDist_3", 0.0);
+        }
+        if (!pref.containsKey("AutoDist_4"))
+        {
+            pref.putDouble("AutoDist_4", 0.0);
+        }
+    }
+
     /**
      * this method uses a basic proportion control loop to get the robot to
      * drive a certain distance forward
@@ -227,19 +312,19 @@ public class RobotTemplate extends IterativeRobot
      */
     public boolean driveStraight(double dist)
     {
-        L_encoderVal = L_encoder.get() / 239.0; // converts encoder value to feet
-        R_encoderVal = R_encoder.get() / 164.0; // converts encoder value to feet
+        L_encoderVal = L_encoder.get() / pref.getDouble("LeftEncoderRatio", 0.0); // converts encoder value to feet
+        R_encoderVal = R_encoder.get() / pref.getDouble("RightEncoderRatio", 0.0); // converts encoder value to feet
         encoderVal = (L_encoderVal + R_encoderVal) / 2; // averages out encoder values
         encoderErr = dist - encoderVal;
-        distOut = encoderErr*0.5 + (Math.abs(dist)/dist)*0.2; // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
+        distOut = encoderErr*pref.getDouble("Encoder_kP", 0.0) + (Math.abs(dist)/dist)*pref.getDouble("OutputMin",0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
-        
+
         SmartDashboard.putNumber("Encoder Value", encoderVal);
         SmartDashboard.putNumber("Error", encoderErr);
         SmartDashboard.putNumber("Speed Output", distOut);
         SmartDashboard.putNumber("Gyro Value", gyroErr);
-        
-        if(Math.abs(encoderErr) < 0.06 && Math.abs(gyroErr) < 4.5)
+
+        if(Math.abs(encoderErr) < pref.getDouble("DistBuffer", 0.0) && Math.abs(gyroErr) < pref.getDouble("AngleBuffer", 0.0))
         {
             L_encoder.reset();
             R_encoder.reset();
@@ -247,7 +332,7 @@ public class RobotTemplate extends IterativeRobot
         }
         else
         {
-            drive.arcadeDrive(distOut, gyroErr / 20.0); // Gyro kP = 1/20.0;
+            drive.arcadeDrive(distOut, gyroErr * pref.getDouble("gyro_kP", 0.0)); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
             return false; // returns false if robot still hasn't reached its goal yet
         }
     }
