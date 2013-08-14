@@ -34,6 +34,7 @@ public class Mk3 extends IterativeRobot {
     AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
     DriverStation ds = DriverStation.getInstance();
+    Autonomous autoCommand = new Autonomous();
     // Loop period periodTimer
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
@@ -72,15 +73,16 @@ public class Mk3 extends IterativeRobot {
     public void autonomousInit() {
         initializeAll();
         //Autonomous
-        Preferences p = Preferences.getInstance();
-        final double kInitialDelay = p.getDouble("AutonInitialDelay", kDefaultInitialDelay);
-        final double kTimeout = p.getDouble("AutonTimeout", kDefaultTimeout);
-        TiltDown down = new TiltDown();
-        down.start();
-        PrimeHighSpeed high = new PrimeHighSpeed();
-        high.start();
-        Shoot shoot = new Shoot(kInitialDelay, kTimeout);
-        shoot.start();
+//        Preferences p = Preferences.getInstance();
+//        final double kInitialDelay = p.getDouble("AutonInitialDelay", kDefaultInitialDelay);
+//        final double kTimeout = p.getDouble("AutonTimeout", kDefaultTimeout);
+//        TiltDown down = new TiltDown();
+//        down.start();
+//        PrimeHighSpeed high = new PrimeHighSpeed();
+//        high.start();
+//        Shoot shoot = new Shoot(kInitialDelay, kTimeout);
+//        shoot.start();
+        autoCommand.start();
         //Timing
         periodTimer.reset();
         periodTimer.start();
@@ -173,30 +175,31 @@ public class Mk3 extends IterativeRobot {
     private void printDataToDriverStation(){
         //pneumatics systems have no default command, 
         //so need to account for null pointer case
+        String spaces="                 ";
         if (CommandBase.hanger.getCurrentCommand() == null) {
-            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + spaces);
         } else {
-            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: " + CommandBase.hanger.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: " + CommandBase.hanger.getCurrentCommand().toString() + spaces);
         }
         if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeHighSpeed")) {
-            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: HighSpeed" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: HighSpeed" + spaces);
         } else if (CommandBase.shooter.getCurrentCommand().toString().equals("PrimeLowSpeed")) {
-            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: LowSpeed" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: LowSpeed" + spaces);
         } else {
-            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: " + CommandBase.shooter.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser2, 1, "Shooter: " + CommandBase.shooter.getCurrentCommand().toString() + spaces);
         }
-        dsLCD.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: " + CommandBase.driveTrain.getCurrentCommand().toString() + "        ");
+        dsLCD.println(DriverStationLCD.Line.kUser3, 1, "DriveTrain: " + CommandBase.driveTrain.getCurrentCommand().toString() + spaces);
         if (CommandBase.feeder.getCurrentCommand() == null) {
-            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: None" + spaces);
         } else {
-            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: " + CommandBase.feeder.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser4, 1, "Feeder: " + CommandBase.feeder.getCurrentCommand().toString() + spaces);
         }
         if (CommandBase.tilter.getCurrentCommand() == null) {
-            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: None" + spaces);
         } else {
-            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + "        ");
+            dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + spaces);
         }
-        dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + "    ");
+        dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + spaces);
         
 //        //In case we want to see shifter/pneumatics instead on line 6
 //        if (CommandBase.shifter.getCurrentCommand() == null){

@@ -84,9 +84,6 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         if (!p.containsKey("AutoDist_3")) {
             p.putDouble("AutoDist_3", 0.0);
         }
-        if (!p.containsKey("AutoDist_4")) {
-            p.putDouble("AutoDist_4", 0.0);
-        }
     }//end constructor
 
     //creates a new Drive
@@ -99,6 +96,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
+        if(kReverseDirection){
+            robotDrive.tankDrive(rightSpeed, leftSpeed);
+            return;
+        }
         robotDrive.tankDrive(leftSpeed, rightSpeed);
     }//end tankDrive
 
