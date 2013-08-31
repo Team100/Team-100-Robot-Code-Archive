@@ -14,7 +14,7 @@ public class RobotMap {
     //Digital I/O sensors
     //Drive Train
     public static final Encoder driveRightEncoder = new Encoder(3,4);
-    public static final Encoder driveLeftEncoder = new Encoder(5,6);
+    public static final Encoder driveLeftEncoder = new Encoder(5,6,true); // the 'true' means the encoder is mounted backwards
     //Shooter
 //    public static final DigitalInput shooterFrontHalfEncoder = new DigitalInput(1);
 //    public static final DigitalInput shooterBackHalfEncoder = new DigitalInput(2);

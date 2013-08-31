@@ -72,17 +72,19 @@ public class Mk3 extends IterativeRobot {
     
     public void autonomousInit() {
         initializeAll();
-        //Autonomous
-//        Preferences p = Preferences.getInstance();
-//        final double kInitialDelay = p.getDouble("AutonInitialDelay", kDefaultInitialDelay);
-//        final double kTimeout = p.getDouble("AutonTimeout", kDefaultTimeout);
-//        TiltDown down = new TiltDown();
-//        down.start();
-//        PrimeHighSpeed high = new PrimeHighSpeed();
-//        high.start();
-//        Shoot shoot = new Shoot(kInitialDelay, kTimeout);
-//        shoot.start();
-        autoCommand.start();
+        if(false){
+            autoCommand.start();
+        }
+        else{
+            final double kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
+            final double kTimeout = Preferences.getInstance().getDouble("AutonTimeout", kDefaultTimeout);
+            TiltDown down = new TiltDown();
+            down.start();
+            PrimeHighSpeed high = new PrimeHighSpeed();
+            high.start();
+            Shoot shoot = new Shoot(kInitialDelay, kTimeout);
+            shoot.start();
+        }
         //Timing
         periodTimer.reset();
         periodTimer.start();

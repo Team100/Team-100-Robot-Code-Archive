@@ -52,10 +52,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
             p.putBoolean("DriveTrainReverseDirection", kDefaultReverseDirection);
         }
         if (!p.containsKey("LeftEncoderRatio")) {
-            p.putDouble("LeftEncoderRatio", 233.0);
+            p.putDouble("LeftEncoderRatio", 4.875);
         }
         if (!p.containsKey("RightEncoderRatio")) {
-            p.putDouble("RightEncoderRatio", 158.0);
+            p.putDouble("RightEncoderRatio", 4.875);
         }
         if (!p.containsKey("Encoder_kP")) {
             p.putDouble("Encoder_kP", 0.5);
@@ -105,6 +105,8 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
     public void arcadeDrive(double y, double x) {
+        SmartDashboard.putNumber("RightEncoder", rightEncoder.get());
+        SmartDashboard.putNumber("LeftEncoder", leftEncoder.get());
         Preferences p = Preferences.getInstance();
         final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
@@ -153,9 +155,11 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
     }//end quickTurn
 
     public boolean driveStraight(double dist) {
+        SmartDashboard.putNumber("RightEncoder", rightEncoder.get());
+        SmartDashboard.putNumber("LeftEncoder", leftEncoder.get());
         Preferences p = Preferences.getInstance();
-        L_encoderVal = leftEncoder.get() / p.getDouble("LeftEncoderRatio", 0.0); // converts encoder value to feet
-        R_encoderVal = rightEncoder.get() / p.getDouble("RightEncoderRatio", 0.0); // converts encoder value to feet
+        L_encoderVal = leftEncoder.get() / p.getDouble("LeftEncoderRatio", 0.0); // converts encoder value to inches; encoder ratio should be about 58.76
+        R_encoderVal = rightEncoder.get() / p.getDouble("RightEncoderRatio", 0.0); // converts encoder value to inches
         encoderVal = (L_encoderVal + R_encoderVal) / 2; // averages out encoder values
         encoderErr = dist - encoderVal;
         distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(dist) / dist) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
