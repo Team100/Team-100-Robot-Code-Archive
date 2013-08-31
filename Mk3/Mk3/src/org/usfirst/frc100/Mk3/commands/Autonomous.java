@@ -31,11 +31,13 @@ public class Autonomous extends CommandBase {
         timer.reset();
         pauseTimer.reset();
         timer.start();
+        shooter.primeHighSpeed();
+        pause(20);
     }
 
     //executes a step in the autonomous sequence based on state
     protected void execute() {
-        intake.tiltToPosition(2);
+        //intake.tiltToPosition(2);
         if(pauseTimer.get()<delay){
             return;
         }
@@ -55,6 +57,7 @@ public class Autonomous extends CommandBase {
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_1", 0.0))) {
                     state++;
                     pause(20);
+                    shooter.primeHighSpeed();
                     timer.reset();
                 }
                 break;
@@ -71,6 +74,7 @@ public class Autonomous extends CommandBase {
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_3", 0.0))) {
                     state++;
                     pause(20);
+                    shooter.primeHighSpeed();
                     timer.reset();
                 }
                 break;

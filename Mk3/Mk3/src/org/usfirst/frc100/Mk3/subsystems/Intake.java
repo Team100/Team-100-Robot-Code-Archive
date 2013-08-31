@@ -5,8 +5,10 @@
 package org.usfirst.frc100.Mk3.subsystems;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.*;
 import org.usfirst.frc100.Mk3.RobotMap;
+import org.usfirst.frc100.Mk3.commands.ManualTilt;
+
 
 /**
  *
@@ -28,6 +30,7 @@ public class Intake extends Subsystem implements SubsystemControl {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ManualTilt());
     }
 
     public Intake() {
@@ -84,6 +87,10 @@ public class Intake extends Subsystem implements SubsystemControl {
     public void disable() {
         frisbeeMotor.set(0.0);
         tiltMotor.set(0.0);
+    }
+    
+    public void manualTilt(double i){
+        tiltMotor.set(i/2);
     }
 
     public void enable() {
