@@ -59,6 +59,9 @@ public class RobotTemplate extends IterativeRobot {
     }
 
     public void assignRobot() {
+        if(ljag1!=null){
+            return;
+        }
         if (robotChooser.getSelected().equals("gwrath")) {
             ljag1 = new Jaguar(6);
             ljag2 = new Jaguar(7);
