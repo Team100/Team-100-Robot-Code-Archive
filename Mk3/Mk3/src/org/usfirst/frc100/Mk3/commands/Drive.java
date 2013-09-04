@@ -4,6 +4,7 @@
  */
 package org.usfirst.frc100.Mk3.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import org.usfirst.frc100.Mk3.OI;
 
 /**
@@ -11,6 +12,8 @@ import org.usfirst.frc100.Mk3.OI;
  * @author Paul
  */
 public class Drive extends CommandBase {
+    boolean inLowGear=false;//uses variable so that it doesn't interfere with shift button
+    Preferences p=Preferences.getInstance();
     
     public Drive() {
         // Use requires() here to declare subsystem dependencies
@@ -25,8 +28,15 @@ public class Drive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //NOTE: change AlignToShoot if you change this
-        driveTrain.arcadeDrive(OI.driverRight.getX(), OI.driverLeft.getY());//put inverted for both back in for comp bot
-        
+        if(Math.abs(OI.driverRight.getX())>p.getDouble("ShiftWhenTurningThreshold", 0.5) &&!inLowGear){
+            shifter.shiftLowGear();
+            inLowGear=true;
+        }
+        if(Math.abs(OI.driverRight.getX())<=p.getDouble("ShiftWhenTurningThreshold", 0.5)&&inLowGear){
+            shifter.shiftHighGear();
+            inLowGear=false;
+        }
+        driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX());//put inverted for both back in for comp bot
     }
 
     // Make this return true when this Command no longer needs to run execute()
