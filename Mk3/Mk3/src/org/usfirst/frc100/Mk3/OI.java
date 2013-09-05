@@ -49,7 +49,8 @@ public class OI {
         //quickTurnButton.whileHeld(new QuickTurn());
         
         //Manipulator commands
-        runIntakeButton.whileHeld(new RunIntake());
+        //runIntakeButton.whileHeld(new RunIntake());
+        runIntakeButton.whenPressed(new DriveStraight());
         tiltIntakeUpButton.whenPressed(new TiltIntake(1));
         tiltIntakeDownButton.whenPressed(new TiltIntake(2));
         tiltIntakeTestButton.whenPressed(new TiltIntake(3));

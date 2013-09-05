@@ -5,6 +5,7 @@
 package org.usfirst.frc100.Mk3.commands;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc100.Mk3.OI;
 
 /**
@@ -12,8 +13,9 @@ import org.usfirst.frc100.Mk3.OI;
  * @author Paul
  */
 public class Drive extends CommandBase {
-    boolean inLowGear=false;//uses variable so that it doesn't interfere with shift button
+    boolean isTurning=false;//uses variable so that it doesn't interfere with shift button
     Preferences p=Preferences.getInstance();
+    Timer t= new Timer();
     
     public Drive() {
         // Use requires() here to declare subsystem dependencies
@@ -28,13 +30,15 @@ public class Drive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //NOTE: change AlignToShoot if you change this
-        if(Math.abs(OI.driverRight.getX())>p.getDouble("ShiftWhenTurningThreshold", 0.5) &&!inLowGear){
+        if(Math.abs(OI.driverRight.getX())>p.getDouble("ShiftWhenTurningThreshold", 0.5) &&!isTurning){
             shifter.shiftLowGear();
-            inLowGear=true;
+            t.reset();
+            t.start();
+            isTurning=true;
         }
-        if(Math.abs(OI.driverRight.getX())<=p.getDouble("ShiftWhenTurningThreshold", 0.5)&&inLowGear){
+        if(Math.abs(OI.driverRight.getX())<=p.getDouble("ShiftWhenTurningThreshold", 0.5)&&isTurning&&t.get()>p.getDouble("ShiftWhenTurningDelay", 1.5)){
             shifter.shiftHighGear();
-            inLowGear=false;
+            isTurning=false;
         }
         driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX());//put inverted for both back in for comp bot
     }
