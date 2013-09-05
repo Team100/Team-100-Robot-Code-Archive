@@ -31,7 +31,10 @@ public class Shoot extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(timeSinceInitialized()>initialWait){
+        if (shooter.getCurrentCommand() == null){//was giving null pointer exeptions
+            return;
+        }
+        if(timeSinceInitialized()>initialWait&&!"ShooterOff".equals(shooter.getCurrentCommand().toString())){
             //System.out.println("execute");
             if (timer.get()<=backDuration){
                 feeder.pullBack();

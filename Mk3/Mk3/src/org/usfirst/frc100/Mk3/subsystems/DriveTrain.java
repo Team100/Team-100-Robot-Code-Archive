@@ -87,6 +87,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         if (!p.containsKey("ShiftWhenTurningThreshold")) {
             p.putDouble("ShiftWhenTurningThreshold", 0.5);
         }
+        if (!p.containsKey("ShiftWhenTurningDelay")) {
+            p.putDouble("ShiftWhenTurningDelay", 1.5);
+        }
     }//end constructor
 
     //creates a new Drive
@@ -163,12 +166,14 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         encoderErr = dist - encoderVal;
         distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(dist) / dist) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
+        SmartDashboard.putNumber("encoderErr", encoderErr);
+        SmartDashboard.putNumber("distOut", distOut);
         if (Math.abs(encoderErr) < p.getDouble("DistBuffer", 0.0) && Math.abs(gyroErr) < p.getDouble("AngleBuffer", 0.0)) {
             leftEncoder.reset();
             rightEncoder.reset();
             return true; // returns true when robot gets to its goal
         } else {
-            robotDrive.arcadeDrive(distOut, gyroErr * p.getDouble("gyro_kP", 0.0)); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
+            robotDrive.arcadeDrive(-distOut, gyroErr * p.getDouble("gyro_kP", 0.0)); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
             return false; // returns false if robot still hasn't reached its goal yet
         }
     }//end driveStraight
