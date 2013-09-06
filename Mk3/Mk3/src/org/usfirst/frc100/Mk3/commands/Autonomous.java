@@ -32,7 +32,7 @@ public class Autonomous extends CommandBase {
         pauseTimer.reset();
         timer.start();
         shooter.primeHighSpeed();
-        pause(20);
+        pause(1);
     }
 
     //executes a step in the autonomous sequence based on state
@@ -50,13 +50,13 @@ public class Autonomous extends CommandBase {
             case (1):
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_0", 0.0))) {//code in this block is called once when the drive command ends
                     state++;
-                    pause(20);
+                    pause(1);
                 }
                 break;
             case (2):
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_1", 0.0))) {
                     state++;
-                    pause(20);
+                    pause(1);
                     shooter.primeHighSpeed();
                     timer.reset();
                 }
@@ -67,13 +67,13 @@ public class Autonomous extends CommandBase {
             case (4):
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_2", 0.0))) {
                     state++;
-                    pause(20);
+                    pause(1);
                 }
                 break;
             case (5):
                 if (driveTrain.driveStraight(pref.getDouble("AutoDist_3", 0.0))) {
                     state++;
-                    pause(20);
+                    pause(1);
                     shooter.primeHighSpeed();
                     timer.reset();
                 }
