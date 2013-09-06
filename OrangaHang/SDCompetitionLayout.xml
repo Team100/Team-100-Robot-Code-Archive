@@ -1,0 +1,201 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="MatchTime" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="392" y="48"/>
+	</widget>
+	<widget field="Incoming data" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="492"/>
+	</widget>
+	<widget field="DriveTrainRangefinderVoltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="1027" y="436"/>
+		<width>314</width>
+		<height>270</height>
+	</widget>
+	<widget field="DriveTrainGyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="8" y="93"/>
+	</widget>
+	<widget field="Period" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="11" y="125"/>
+		<width>590</width>
+		<height>366</height>
+	</widget>
+	<widget field="Shooter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="172" y="93"/>
+	</widget>
+	<widget field="Shifter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="176" y="63"/>
+	</widget>
+	<widget field="Tilter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="36" y="64"/>
+	</widget>
+	<widget field="Pneumatics" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="156" y="34"/>
+	</widget>
+	<widget field="Feeder" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="176" y="8"/>
+	</widget>
+	<widget field="DriveTrain" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="11" y="36"/>
+	</widget>
+	<widget field="Hanger" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="26" y="8"/>
+	</widget>
+	<static-widget class="team100.smartdashboard.extensions.IOWidget">
+		<location x="618" y="22"/>
+		<width>251</width>
+		<height>310</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="888" y="18"/>
+		<width>445</width>
+		<height>379</height>
+	</static-widget>
+</dashboard>
+<live-window>
+	<widget field="Shooter" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="BackCounter" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<widget field="FrontHalfEncoder" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="36"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<widget field="BackHalfEncoder" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="56"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<widget field="BackMotor4" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="76"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="FrontCounter" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="122"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<widget field="FrontMotor3" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="142"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<location x="967" y="47"/>
+		<width>305</width>
+		<height>195</height>
+	</widget>
+	<widget field="DriveTrain" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="RightEncoder" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="16"/>
+			<height>98</height>
+			<width>293</width>
+		</widget>
+		<widget field="LeftEncoder" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="114"/>
+			<height>98</height>
+			<width>293</width>
+		</widget>
+		<widget field="Ultrasonic" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="212"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<widget field="Gyro" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="232"/>
+			<height>150</height>
+			<width>293</width>
+		</widget>
+		<widget field="RightMotor1" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="382"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="LeftMotor2" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="428"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<location x="574" y="26"/>
+		<width>305</width>
+		<height>481</height>
+	</widget>
+	<widget field="Relays" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Compressor" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="18" y="16"/>
+			<height>23</height>
+			<width>120</width>
+		</widget>
+		<widget field="CameraLights" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="39"/>
+			<height>20</height>
+			<width>145</width>
+		</widget>
+		<location x="87" y="107"/>
+		<width>157</width>
+		<height>66</height>
+	</widget>
+	<widget field="Hanger" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="HangerPistons" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>149</width>
+		</widget>
+		<location x="336" y="229"/>
+		<width>161</width>
+		<height>43</height>
+	</widget>
+	<widget field="ShooterTilt" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="TiltPistons" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>125</width>
+		</widget>
+		<location x="366" y="39"/>
+		<width>137</width>
+		<height>43</height>
+	</widget>
+	<widget field="Feeder" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="FeederPistons" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>147</width>
+		</widget>
+		<location x="380" y="123"/>
+		<width>159</width>
+		<height>43</height>
+	</widget>
+	<widget field="Shifter" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Gear" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>92</width>
+		</widget>
+		<location x="131" y="440"/>
+		<width>104</width>
+		<height>43</height>
+	</widget>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Relay[1,1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.RelayController">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>121</width>
+		</widget>
+		<widget field="Analog[1,1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="36"/>
+			<height>20</height>
+			<width>121</width>
+		</widget>
+		<widget field="Analog[1,8]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="56"/>
+			<height>20</height>
+			<width>121</width>
+		</widget>
+		<location x="114" y="214"/>
+		<width>133</width>
+		<height>83</height>
+	</widget>
+</live-window>
+</xml>
