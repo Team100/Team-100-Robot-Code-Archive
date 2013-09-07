@@ -72,7 +72,7 @@ public class Mk3 extends IterativeRobot {
     
     public void autonomousInit() {
         initializeAll();
-        if(true){
+        if(false){
             autoCommand.start();
         }
         else{
