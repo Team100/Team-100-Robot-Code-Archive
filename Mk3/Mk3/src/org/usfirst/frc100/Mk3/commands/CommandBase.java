@@ -12,12 +12,14 @@ import org.usfirst.frc100.Mk3.subsystems.*;
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
  * CommandBase stores creates and stores each control system. To access a
- * subsystem elsewhere in your code in your code use CommandBase.exampleSubsystem
- * @author Author
+ * subsystem elsewhere in your code in your code use
+ * CommandBase.exampleSubsystem
  */
 public abstract class CommandBase extends Command {
+// Create a single static instance of all of your subsystems
 
     public static OI oi;
+    public static Vector subsystems = new Vector();
     public static Hanger hanger = new Hanger();
     public static Shooter shooter = new Shooter();
     public static Intake intake = new Intake();
@@ -26,10 +28,6 @@ public abstract class CommandBase extends Command {
     public static Pneumatics pneumatics = new Pneumatics();
     public static Shifter shifter = new Shifter();
     public static Tilter tilter = new Tilter();
-    public static Vector subsystems = new Vector();
-    
-    // Create a single static instance of all of your subsystems
-    //public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -47,36 +45,35 @@ public abstract class CommandBase extends Command {
         subsystems.addElement(pneumatics);
         subsystems.addElement(tilter);
         subsystems.addElement(shifter);
-        
-        // Show what command your subsystem is running on the SmartDashboard
-        for (int i=0; i<subsystems.size(); i++){
-            SmartDashboard.putData((Subsystem)subsystems.elementAt(i));
-        }
 
+        // Show what command your subsystem is running on the SmartDashboard
+        for (int i = 0; i < subsystems.size(); i++) {
+            SmartDashboard.putData((Subsystem) subsystems.elementAt(i));
+        }
     }//end init
-    
-    public static void safeAll(){
+
+    public static void safeAll() {
         RobotMap.safe();
     }//end safeAll
-    
-    public static void unSafeAll(){
+
+    public static void unSafeAll() {
         RobotMap.unSafe();
     }//end unSafeAll
-    
-    public static void disableAll(){
-        for (int i=0; i<subsystems.size(); i++){
-            ((SubsystemControl)subsystems.elementAt(i)).disable();
+
+    public static void disableAll() {
+        for (int i = 0; i < subsystems.size(); i++) {
+            ((SubsystemControl) subsystems.elementAt(i)).disable();
         }
     }//end disable
-    
-    public static boolean isDebugMode(){
-        return(Preferences.getInstance().getBoolean("DebugMode", false));
+
+    public static boolean isDebugMode() {
+        return (Preferences.getInstance().getBoolean("DebugMode", false));
     }//end isDebugMode
-    
+
     public CommandBase() {
         super();
-        Preferences p =Preferences.getInstance();
-        if(!p.containsKey("DebugMode")){
+        Preferences p = Preferences.getInstance();
+        if (!p.containsKey("DebugMode")) {
             p.putBoolean("DebugMode", false);
         }
     }//end constructor
@@ -86,5 +83,4 @@ public abstract class CommandBase extends Command {
     protected void interrupted() {
         end();
     }//end interrupted
-    
 }//end CommandBase

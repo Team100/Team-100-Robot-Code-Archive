@@ -1,31 +1,34 @@
-//ShiftGears activates the pneumatics in order to shift gears.
-//It currently (2-17-13) acts as a toggle. 
 package org.usfirst.frc100.Mk3.commands;
 
-/**
- *
- * @author Team100
- */
-public class ShiftGears extends CommandBase {
+import edu.wpi.first.wpilibj.Preferences;
 
-    public ShiftGears() {
+/**
+ * Will drive straight forward however many feet is listed under "AutoDist_0".
+ */
+public class DriveStraight extends CommandBase {
+
+    boolean isFinished = false;
+
+    public DriveStraight() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-        //does NOT require drivetrain so doesn't interrupt drive command
+        requires(driveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shifter.shiftLowGear();
+        driveTrain.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        if (driveTrain.driveStraight(Preferences.getInstance().getDouble("AutoDist_0", 0.0))) {
+            isFinished = true;
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isFinished;
     }
 
     // Called once after isFinished returns true
@@ -35,6 +38,5 @@ public class ShiftGears extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }
