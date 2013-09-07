@@ -4,13 +4,10 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc100.Mk3;
-
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +27,7 @@ import org.usfirst.frc100.Mk3.commands.TiltDown;
  */
 public class Mk3 extends IterativeRobot {
     // Get modules once, because it's expensive
+
     DigitalModule digitalModule = DigitalModule.getInstance(1);
     AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
@@ -43,15 +41,14 @@ public class Mk3 extends IterativeRobot {
     private final double kDefaultTimeout = 7.0;
     private final boolean kDefaultLastSecondOn = true;
     private final double kDefaultLastSecondTimeout = 10.0;
-    
     private LastSecondHang hang = null;
-    
+
     public void robotInit() {
         // Initialize all devices and subsystems
         RobotMap.init();
         CommandBase.init();
         //Add autonomous prefs
-        Preferences p = Preferences.getInstance();
+        Preferences p = Preferences.getInstance(); //Preferences are used to store and change constants without having to reboot the robot.
         if (!p.containsKey("AutonInitialDelay")) {
             p.putDouble("AutonInitialDelay", kDefaultInitialDelay);
         }
@@ -66,16 +63,15 @@ public class Mk3 extends IterativeRobot {
         }
     }//end robotInit
 
-    public void disabledInit(){
-	CommandBase.disableAll();
+    public void disabledInit() {
+        CommandBase.disableAll();
     }//end disabledInit
-    
+
     public void autonomousInit() {
         initializeAll();
-        if(false){
+        if (false) { //Returns false so autoCommand won't run
             autoCommand.start();
-        }
-        else{
+        } else { //This else block will shoot all the Discs in the hooper.
             final double kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
             final double kTimeout = Preferences.getInstance().getDouble("AutonTimeout", kDefaultTimeout);
             TiltDown down = new TiltDown();
@@ -92,7 +88,7 @@ public class Mk3 extends IterativeRobot {
 
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Period", periodTimer.get());  
+        SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
         periodTimer.reset();
     }//end autonomousPeriodic
@@ -105,7 +101,7 @@ public class Mk3 extends IterativeRobot {
         initializeAll();
 
         // Teleop relies on button-originated commands and default commands
-        
+
         periodTimer.reset();
         periodTimer.start();
         testIOTimer.reset();
@@ -117,7 +113,7 @@ public class Mk3 extends IterativeRobot {
         final boolean kLastSecondOn = p.getBoolean("HangerLastSecondOn", kDefaultLastSecondOn);
         final double kLastSecondTimeout = p.getDouble("HangerLastSecondTimeout", kDefaultLastSecondTimeout);
         double matchTime = ds.getMatchTime();
-        if (matchTime >= kLastSecondTimeout && hang == null && kLastSecondOn){
+        if (matchTime >= kLastSecondTimeout && hang == null && kLastSecondOn) { //Will attempt to hang during the final seconds of the match
             hang = new LastSecondHang();
             hang.start();
         }
@@ -128,39 +124,39 @@ public class Mk3 extends IterativeRobot {
         printDataToDriverStation();
         periodTimer.reset();
     }//end teleopPeriodic
-    
+
     public void testPeriodic() {
         LiveWindow.run();
         // Scheduler is not invoked
     }//end testPeriodic
-    
-    public void testInit(){
-        Scheduler.getInstance().removeAll();        
+
+    public void testInit() {
+        Scheduler.getInstance().removeAll();
         CommandBase.disableAll();
         CommandBase.unSafeAll();
         CommandBase.pneumatics.enable();//starts the compressor
     }//end testInit
 
     //Load PID Info has been integrated into UpdateWidgets
-    
-    public void testIO(){
+    //Code used for Debuging
+    public void testIO() {
         // Don't do this every iteration because it's too expensive
-        if(testIOTimer.get() < 0.5) {
+        if (testIOTimer.get() < 0.5) {
             return;
         }
         testIOTimer.reset();
         NetworkTable table = NetworkTable.getTable("Status");
         table.putNumber("dioData", digitalModule.getAllDIO());
-        for(int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             table.putNumber("pwm" + i, digitalModule.getPWM(i));
         }
-        
-        for(int i = 1; i <= 8; i++) {
-            table.putNumber("analog" + i, ((int)(analogModule.getVoltage(i) * 1000) / 1000.0));
+
+        for (int i = 1; i <= 8; i++) {
+            table.putNumber("analog" + i, ((int) (analogModule.getVoltage(i) * 1000) / 1000.0));
         }
     }//end testIO
 
-    private void initializeAll() {        
+    private void initializeAll() {
         Preferences p = Preferences.getInstance();
         if (!p.containsKey("RobotSafetyEnabled")) {
             p.putBoolean("RobotSafetyEnabled", false);
@@ -171,13 +167,14 @@ public class Mk3 extends IterativeRobot {
             CommandBase.unSafeAll();
         }
         CommandBase.pneumatics.enable();
-	CommandBase.shifter.shiftHighGear();
+        CommandBase.shifter.shiftHighGear();
     }//end initializeAll
-    
-    private void printDataToDriverStation(){
-        //pneumatics systems have no default command, 
+
+    //Data used to debug
+    private void printDataToDriverStation() {
+        //pneumatics systems have no default command,
         //so need to account for null pointer case
-        String spaces="                 ";
+        String spaces = "                 ";
         if (CommandBase.hanger.getCurrentCommand() == null) {
             dsLCD.println(DriverStationLCD.Line.kUser1, 1, "Hanger: None" + spaces);
         } else {
@@ -202,7 +199,7 @@ public class Mk3 extends IterativeRobot {
             dsLCD.println(DriverStationLCD.Line.kUser5, 1, "Tilter: " + CommandBase.tilter.getCurrentCommand().toString() + spaces);
         }
         dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Period: " + periodTimer.get() + spaces);
-        
+
 //        //In case we want to see shifter/pneumatics instead on line 6
 //        if (CommandBase.shifter.getCurrentCommand() == null){
 //           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Shifter: None" + "        ");
@@ -214,8 +211,7 @@ public class Mk3 extends IterativeRobot {
 //        } else  {
 //           dsLCD.println(DriverStationLCD.Line.kUser6, 1, "Compressor: "+ CommandBase.pneumatics.getCurrentCommand().toString(); +"        ");
 //        }
-        
+
         dsLCD.updateLCD();
     }//end printDataToDriverStation
-    
 }//end FrisBeast

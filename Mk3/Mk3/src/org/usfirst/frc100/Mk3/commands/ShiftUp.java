@@ -1,22 +1,18 @@
-//ShiftGears activates the pneumatics in order to shift gears.
-//It currently (2-17-13) acts as a toggle. 
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Activates the pneumatics in order to shift the gears up.
  */
-public class ShiftGears extends CommandBase {
+public class ShiftUp extends CommandBase {
 
-    public ShiftGears() {
+    public ShiftUp() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         //does NOT require drivetrain so doesn't interrupt drive command
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shifter.shiftLowGear();
+        shifter.shiftHighGear();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -1,11 +1,10 @@
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Toggles position of hanger arms.
  */
 public class ToggleHanger extends CommandBase {
-    
+
     public ToggleHanger() {
         requires(hanger);
     }
