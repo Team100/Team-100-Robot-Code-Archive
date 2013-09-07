@@ -1,18 +1,18 @@
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- * Runs the rollers on the intake.
+ * Activates the pneumatics in order to shift the gears up.
  */
-public class RunIntake extends CommandBase {
+public class ShiftUp extends CommandBase {
 
-    public RunIntake() {
+    public ShiftUp() {
         // Use requires() here to declare subsystem dependencies
-        requires(intake);
+        //does NOT require drivetrain so doesn't interrupt drive command
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        intake.runIntake();
+        shifter.shiftHighGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -21,12 +21,11 @@ public class RunIntake extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false; //whileHeld
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        intake.disable();
     }
 
     // Called when another command which requires one or more of the same

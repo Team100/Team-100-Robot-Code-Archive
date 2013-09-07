@@ -2,20 +2,10 @@ package org.usfirst.frc100.Mk3.commands;
 
 import org.usfirst.frc100.Mk3.OI;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Student
- */
 public class ManualTilt extends CommandBase {
-    
+
     public ManualTilt() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(intake);
     }
 
