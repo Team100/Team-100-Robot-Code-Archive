@@ -1,11 +1,10 @@
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Raises shooter.
  */
 public class TiltUp extends CommandBase {
-    
+
     public TiltUp() {
         requires(tilter);
     }
@@ -33,5 +32,4 @@ public class TiltUp extends CommandBase {
     protected void interrupted() {
         end();
     }
-    
 }//end TiltUp

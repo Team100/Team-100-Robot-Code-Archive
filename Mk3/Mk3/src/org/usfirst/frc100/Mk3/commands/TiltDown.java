@@ -1,11 +1,10 @@
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Lowers shooter.
  */
 public class TiltDown extends CommandBase {
-    
+
     public TiltDown() {
         requires(tilter);
     }
@@ -33,5 +32,4 @@ public class TiltDown extends CommandBase {
     protected void interrupted() {
         end();
     }
-    
 }//end TiltDown

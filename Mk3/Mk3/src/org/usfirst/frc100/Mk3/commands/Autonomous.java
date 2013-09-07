@@ -4,20 +4,23 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * @author Team100
+ * This program will be called during Autonomous. It will drive forward, with
+ * the intake running so as to pick up discs, then it will drive back to get
+ * into scoring position before actually shooting. This command is no longer
+ * used now that we have taken off the intake. It has been replaced by code
+ * written directly into the autonomousInit method.
  */
-
 public class Autonomous extends CommandBase {
 
     int state = 0;
     int shotNumber = 0;
     double backDuration;
     double forwardDuration;
-    Preferences pref = Preferences.getInstance();
+    Preferences p = Preferences.getInstance();
     private Timer timer = new Timer(), pauseTimer = new Timer();
-    int delay = 0;
-    
-    //requires necessary subsystems
+    double delay = 0;
+
+    //Requires necessary subsystems
     public Autonomous() {
         requires(driveTrain);
         requires(shooter);
@@ -25,39 +28,41 @@ public class Autonomous extends CommandBase {
         requires(feeder);
     }
 
-    //runs the intake for the duration of the command and sets the timer
+    //Runs the intake for the duration of the command and sets the timer
     protected void initialize() {
         intake.runIntake();
         timer.reset();
         pauseTimer.reset();
         timer.start();
         shooter.primeHighSpeed();
-        pause(20);
+        pause(1.0); //Will wait 1 sec. for the shooter to get up to speed
     }
 
-    //executes a step in the autonomous sequence based on state
+    //Executes a step in the autonomous sequence based on state
     protected void execute() {
         //intake.tiltToPosition(2);
-        if(pauseTimer.get()<delay){
+        if (pauseTimer.get() < delay) {
             return;
         }
-        delay=0;
+        delay = 0;
         timer.start();
+
+        //In hindsight we should have made this sequence a commandGroup
         switch (state) {
             case (0):
-                shoot(3);//will automatically increase state when completed and turn off shooter
+                shoot(3); //Will automatically increase state and turn off the shooter when completed
                 break;
             case (1):
-                if (driveTrain.driveStraight(pref.getDouble("AutoDist_0", 0.0))) {//code in this block is called once when the drive command ends
+                if (driveTrain.driveStraight(p.getDouble("AutoDist_0", 0.0))) { //The if statement returns true once the driveStraight method finishes
                     state++;
-                    pause(20);
+                    pause(0.020); //Will wait 20 miliseconds for the robot to fully stop after driving
                 }
                 break;
             case (2):
-                if (driveTrain.driveStraight(pref.getDouble("AutoDist_1", 0.0))) {
+                if (driveTrain.driveStraight(p.getDouble("AutoDist_1", 0.0))) {
                     state++;
-                    pause(20);
                     shooter.primeHighSpeed();
+                    pause(0.020);
                     timer.reset();
                 }
                 break;
@@ -65,16 +70,16 @@ public class Autonomous extends CommandBase {
                 shoot(4);
                 break;
             case (4):
-                if (driveTrain.driveStraight(pref.getDouble("AutoDist_2", 0.0))) {
+                if (driveTrain.driveStraight(p.getDouble("AutoDist_2", 0.0))) {
                     state++;
-                    pause(20);
+                    pause(0.020);
                 }
                 break;
             case (5):
-                if (driveTrain.driveStraight(pref.getDouble("AutoDist_3", 0.0))) {
+                if (driveTrain.driveStraight(p.getDouble("AutoDist_3", 0.0))) {
                     state++;
-                    pause(20);
                     shooter.primeHighSpeed();
+                    pause(0.020);
                     timer.reset();
                 }
                 break;
@@ -90,7 +95,7 @@ public class Autonomous extends CommandBase {
 
     //determines if past the last state
     protected boolean isFinished() {
-        return state>6;
+        return state > 6;
     }
 
     //disables subsytems
@@ -104,7 +109,7 @@ public class Autonomous extends CommandBase {
     protected void interrupted() {
         end();
     }
-    
+
     //fires an amount of shots, then increases state
     public void shoot(int times) {
         backDuration = feeder.getShootBackDuration();
@@ -123,12 +128,12 @@ public class Autonomous extends CommandBase {
             shooter.disable();
         }
     }
-    
+
     //makes the command wait an amount of time and pauses the timer
-    public void pause(int time){
+    public void pause(double time) {
         pauseTimer.reset();
         pauseTimer.start();
-        delay=time;
+        delay = time;
         timer.stop();
     }
 }//end Autonomous

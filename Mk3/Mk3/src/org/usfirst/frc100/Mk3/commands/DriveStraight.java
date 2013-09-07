@@ -1,20 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.commands;
 
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
- *
- * @author Student
+ * Will drive straight forward however many feet is listed under "AutoDist_0".
  */
 public class DriveStraight extends CommandBase {
-    boolean isFinished=false;
+
+    boolean isFinished = false;
+
     public DriveStraight() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -25,7 +22,7 @@ public class DriveStraight extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if (driveTrain.driveStraight(Preferences.getInstance().getDouble("AutoDist_0", 0.0))) {
-            isFinished=true;
+            isFinished = true;
         }
     }
 
