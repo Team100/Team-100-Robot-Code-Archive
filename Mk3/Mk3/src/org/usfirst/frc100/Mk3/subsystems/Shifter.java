@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -9,8 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc100.Mk3.RobotMap;
 
 /**
- *
- * @author Student
+ * Changes gears.
  */
 public class Shifter extends Subsystem implements SubsystemControl {
     private final DoubleSolenoid shifter = RobotMap.shifterGear;

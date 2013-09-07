@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Student
+ * Command for when shooter isn't doing anything (default command).
  */
 public class ShooterOff extends CommandBase {
-    
+
     public ShooterOff() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
