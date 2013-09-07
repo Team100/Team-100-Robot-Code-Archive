@@ -1,18 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Called during the final second of the match. Will lower the hanging arms just
+ * in case we're under the pyramid.
  */
 public class LastSecondHang extends CommandBase {
-    
+
     public LastSecondHang() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(hanger);
     }
 

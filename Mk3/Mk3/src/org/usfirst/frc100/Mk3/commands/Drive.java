@@ -1,25 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.commands;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc100.Mk3.OI;
 
-/**
- *
- * @author Paul
- */
 public class Drive extends CommandBase {
-    boolean isTurning=false;//uses variable so that it doesn't interfere with shift button
-    Preferences p=Preferences.getInstance();
-    Timer t= new Timer();
-    
+
+    boolean isTurning = false; //Uses variable so that it doesn't interfere with shift button
+    Preferences p = Preferences.getInstance();
+    Timer t = new Timer();
+
     public Drive() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(driveTrain);
     }
 
@@ -29,23 +21,24 @@ public class Drive extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //NOTE: change AlignToShoot if you change this
-        if(Math.abs(OI.driverRight.getX())>p.getDouble("ShiftWhenTurningThreshold", 0.5) &&!isTurning){
-            shifter.shiftLowGear();
+        //Because our robot only has 4 wheels we have to shift down whenever we turn
+        if (Math.abs(OI.driverRight.getX()) > p.getDouble("ShiftWhenTurningThreshold", 0.5) && !isTurning) {
+            shifter.shiftLowGear(); //Shifts down when the driver starts to turn
             t.reset();
             t.start();
-            isTurning=true;
+            isTurning = true;
         }
-        if(Math.abs(OI.driverRight.getX())<=p.getDouble("ShiftWhenTurningThreshold", 0.5)&&isTurning&&t.get()>p.getDouble("ShiftWhenTurningDelay", 1.5)){
-            shifter.shiftHighGear();
-            isTurning=false;
+        if (Math.abs(OI.driverRight.getX()) <= p.getDouble("ShiftWhenTurningThreshold", 0.5) && isTurning && t.get() > p.getDouble("ShiftWhenTurningDelay", 1.5)) {
+            shifter.shiftHighGear(); //Shifts back up when the driver stops turning
+            isTurning = false;
         }
-        driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX());//put inverted for both back in for comp bot
+
+        driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX()); //Double joystick arcade drive
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;//default command
+        return false; //default command
     }
 
     // Called once after isFinished returns true

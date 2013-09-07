@@ -1,18 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Runs the shooter wheels at high speed.
  */
 public class PrimeHighSpeed extends CommandBase {
-    
+
     public PrimeHighSpeed() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
     }
 
@@ -27,7 +21,7 @@ public class PrimeHighSpeed extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return this.timeSinceInitialized()>7;//whileHeld
+        return this.timeSinceInitialized() > 7.0; //whileHeld
     }
 
     // Called once after isFinished returns true

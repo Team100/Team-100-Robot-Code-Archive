@@ -1,8 +1,7 @@
 package org.usfirst.frc100.Mk3.commands;
 
 /**
- *
- * @author Team100
+ * Attempts to unjam discs caught in shooter.
  */
 public class UnjamFrisbees extends CommandBase {
     
