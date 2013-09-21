@@ -11,12 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc100.Mk3.commands.Autonomous;
-import org.usfirst.frc100.Mk3.commands.CommandBase;
-import org.usfirst.frc100.Mk3.commands.LastSecondHang;
-import org.usfirst.frc100.Mk3.commands.PrimeHighSpeed;
-import org.usfirst.frc100.Mk3.commands.Shoot;
-import org.usfirst.frc100.Mk3.commands.TiltDown;
+import org.usfirst.frc100.Mk3.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,14 +28,18 @@ public class Mk3 extends IterativeRobot {
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
     DriverStation ds = DriverStation.getInstance();
     Autonomous autoCommand = new Autonomous();
+    Shoot shoot;
     // Loop period periodTimer
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
+    Timer autoTimer = new Timer();
     //Shooting delays
     private final double kDefaultInitialDelay = 1.0;
     private final double kDefaultTimeout = 7.0;
     private final boolean kDefaultLastSecondOn = true;
     private final double kDefaultLastSecondTimeout = 10.0;
+    double kTimeout;
+    double kInitialDelay;
     private LastSecondHang hang = null;
 
     public void robotInit() {
@@ -72,14 +71,16 @@ public class Mk3 extends IterativeRobot {
         if (false) { //Returns false so autoCommand won't run
             autoCommand.start();
         } else { //This else block will shoot all the Discs in the hooper.
-            final double kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
-            final double kTimeout = Preferences.getInstance().getDouble("AutonTimeout", kDefaultTimeout);
-            TiltDown down = new TiltDown();
-            down.start();
+            kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
+            kTimeout = Preferences.getInstance().getDouble("AutonTimeout", kDefaultTimeout);
+            TiltUp up = new TiltUp();
+            up.start();
             PrimeHighSpeed high = new PrimeHighSpeed();
             high.start();
-            Shoot shoot = new Shoot(kInitialDelay, kTimeout);
+            shoot = new Shoot(kInitialDelay, kTimeout);
             shoot.start();
+            autoTimer.reset();
+            autoTimer.start();
         }
         //Timing
         periodTimer.reset();
@@ -91,6 +92,12 @@ public class Mk3 extends IterativeRobot {
         SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
         periodTimer.reset();
+        if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
+            CommandBase.driveTrain.arcadeDrive(.75, 0);//reversed
+        }
+        else{
+            CommandBase.driveTrain.disable();
+        }
     }//end autonomousPeriodic
 
     public void teleopInit() {
