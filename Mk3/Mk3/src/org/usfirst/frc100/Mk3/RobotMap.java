@@ -13,18 +13,19 @@ import java.util.Vector;
 public class RobotMap {
 //Digital I/O sensors
     //Drive Train
-
     public static final Encoder driveRightEncoder = new Encoder(3, 4);
     public static final Encoder driveLeftEncoder = new Encoder(5, 6, true); //The 'true' means the encoder is mounted backwards
     //Frisbee sensors
     public static final DigitalInput hopperFrisbeeSensor = new DigitalInput(7);
     public static final DigitalInput shooterFrisbeeSensor = new DigitalInput(8);
     public static final DigitalInput intakeFrisbeeSensor = new DigitalInput(9);
+    //intake
+    public static final DigitalInput intakeLimit = new DigitalInput(11);
 //Analog sensors
     //Drive Train
     public static final Gyro driveGyro = new Gyro(1);
     //Intake
-    public static final AnalogChannel intakeTiltPotentiometer = new AnalogChannel(2);
+    //public static final AnalogChannel intakeTiltPotentiometer = new AnalogChannel(2);
 //PWM Outputs
     //Vector of all motors
     public static final Vector motors = new Vector();
@@ -79,7 +80,7 @@ public class RobotMap {
         //Intake
         LiveWindow.addActuator("Intake", "IntakeFrisbeeMotor", intakeFrisbeeMotor);
         LiveWindow.addActuator("Intake", "IntakeTiltMotor", intakeTiltMotor);
-        LiveWindow.addSensor("Intake", "IntakeTiltPotentiometer", intakeTiltPotentiometer);
+        //LiveWindow.addSensor("Intake", "IntakeTiltPotentiometer", intakeTiltPotentiometer);
         //Frisbee sensors
         LiveWindow.addSensor("FrisbeeSensors", "HopperFrisbeeSensor", hopperFrisbeeSensor);
         LiveWindow.addSensor("FrisbeeSensors", "ShooterFrisbeeSensor", shooterFrisbeeSensor);

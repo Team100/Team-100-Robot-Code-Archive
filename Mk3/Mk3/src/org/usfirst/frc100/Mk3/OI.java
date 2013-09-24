@@ -22,7 +22,7 @@ public class OI {
     //Manipulator button declarations
     public static final JoystickButton runIntakeButton = new JoystickButton(manipulator, 1);
     public static final JoystickButton tiltIntakeUpButton = new JoystickButton(manipulator, 2);
-    public static final JoystickButton tiltIntakeDownButton = new JoystickButton(manipulator, 3);
+    //public static final JoystickButton tiltIntakeDownButton = new JoystickButton(manipulator, 3);
     public static final JoystickButton DriveStraightButton = new JoystickButton(manipulator, 4);
     public static final JoystickButton tiltUpButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
@@ -43,8 +43,7 @@ public class OI {
 
         //Manipulator commands
         runIntakeButton.whenPressed(new RunIntake());
-        tiltIntakeUpButton.whenPressed(new TiltIntake(1));
-        tiltIntakeDownButton.whenPressed(new TiltIntake(2));
+        tiltIntakeUpButton.whileHeld(new TiltIntake());
         DriveStraightButton.whenPressed(new DriveStraight());
         tiltUpButton.whenPressed(new TiltUp());
         shootButton.whileHeld(new Shoot(0, 180));

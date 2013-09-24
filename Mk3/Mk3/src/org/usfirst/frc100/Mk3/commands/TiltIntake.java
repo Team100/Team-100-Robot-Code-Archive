@@ -5,14 +5,12 @@ package org.usfirst.frc100.Mk3.commands;
  */
 public class TiltIntake extends CommandBase {
 
-    int position = 0;
     boolean done = false;
 
-    public TiltIntake(int position) {
+    public TiltIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(intake);
-        this.position = position;
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +19,7 @@ public class TiltIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        intake.tiltToPosition(position);
+        intake.tiltToPosition();
         if (intake.inPosition) {
             done = true;
         }

@@ -12,7 +12,8 @@ public class Intake extends Subsystem implements SubsystemControl {
 
     private final Talon frisbeeMotor = RobotMap.intakeFrisbeeMotor;
     private final Talon tiltMotor = RobotMap.intakeTiltMotor;
-    private final AnalogChannel tiltPotentiometer = RobotMap.intakeTiltPotentiometer;
+    //private final AnalogChannel tiltPotentiometer = RobotMap.intakeTiltPotentiometer;
+    private final DigitalInput limit = RobotMap.intakeLimit;
     private final double kDefaultIntakeSpeed = .5;
     private final double kDefaultIntakePotentiometerError = 5;
     private final double kDefaultIntakeTiltSpeed = .5;
@@ -54,35 +55,17 @@ public class Intake extends Subsystem implements SubsystemControl {
         frisbeeMotor.set(p.getDouble("IntakeSpeed", 0.0));
     }
 
-    public void tiltToPosition(int endPosition) {
+    public void tiltToPosition() {
         inPosition = false;
         Preferences p = Preferences.getInstance();
         double tiltSpeed = p.getDouble("IntakeTiltSpeed", 0.0);
-        double error = p.getDouble("IntakePotentiometerError", 0.0);
-        int start = tiltPotentiometer.getValue();
-        int end = start;
-        switch (endPosition) {
-            case 1:
-                end = (int) p.getDouble("IntakeUpPosition", 0.0);
-                break;
-            case 2:
-                end = (int) p.getDouble("IntakeDownPosition", 0.0);
-                break;
-            case 3:
-                end = (int) p.getDouble("IntakeTestPosition", 0.0);
-                break;
-        }
-        if (end <= start + error && end >= start - error) {
-            tiltMotor.set(0.0);
-            inPosition = true;
-        }
-        if (end > start + error) {
+        if(!limit.get()){
             tiltMotor.set(tiltSpeed);
         }
-        if (end < start - error) {
-            tiltMotor.set(-tiltSpeed);
+        else{
+            tiltMotor.set(0);
         }
-    }
+     }
 
     public void disable() {
         frisbeeMotor.set(0.0);
