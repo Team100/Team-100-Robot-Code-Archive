@@ -40,7 +40,7 @@ public class Autonomous extends CommandBase {
 
     //Executes a step in the autonomous sequence based on state
     protected void execute() {
-        //intake.tiltToPosition(2);
+        intake.tiltToPosition();
         if (pauseTimer.get() < delay) {
             return;
         }
