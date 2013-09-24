@@ -57,13 +57,13 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
             p.putDouble("RightEncoderRatio", 4.875);
         }
         if (!p.containsKey("Encoder_kP")) {
-            p.putDouble("Encoder_kP", 0.5);
+            p.putDouble("Encoder_kP", 0.05);
         }
         if (!p.containsKey("OutputMin")) {
             p.putDouble("OutputMin", .2);
         }
         if (!p.containsKey("DistBuffer")) {
-            p.putDouble("DistBuffer", 0.06);
+            p.putDouble("DistBuffer", 1);
         }
         if (!p.containsKey("Gyro_kP")) {
             p.putDouble("Gyro_kP", 1 / 18);

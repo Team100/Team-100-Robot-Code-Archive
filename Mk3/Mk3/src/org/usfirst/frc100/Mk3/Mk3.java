@@ -93,7 +93,7 @@ public class Mk3 extends IterativeRobot {
         printDataToDriverStation();
         periodTimer.reset();
         if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
-            CommandBase.driveTrain.arcadeDrive(.75, 0);//reversed
+            CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
         }
         else{
             CommandBase.driveTrain.disable();
