@@ -68,7 +68,7 @@ public class Mk3 extends IterativeRobot {
 
     public void autonomousInit() {
         initializeAll();
-        if (false) { //Returns false so autoCommand won't run
+        if (true) { //Returns false so autoCommand won't run
             autoCommand.start();
         } else { //This else block will shoot all the Discs in the hooper.
             kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
