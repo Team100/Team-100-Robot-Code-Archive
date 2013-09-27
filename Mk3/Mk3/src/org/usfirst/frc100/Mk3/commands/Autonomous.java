@@ -36,16 +36,17 @@ public class Autonomous extends CommandBase {
         timer.start();
         shooter.primeHighSpeed();
         pause(1.0); //Will wait 1 sec. for the shooter to get up to speed
+        timer.reset();
     }
 
     //Executes a step in the autonomous sequence based on state
     protected void execute() {
         intake.tiltToPosition();
         if (pauseTimer.get() < delay) {
+            System.out.println("Pause");
             return;
         }
         delay = 0;
-        timer.start();
 
         //In hindsight we should have made this sequence a commandGroup
         switch (state) {
@@ -53,9 +54,11 @@ public class Autonomous extends CommandBase {
                 shoot(3); //Will automatically increase state and turn off the shooter when completed
                 break;
             case (1):
+                System.out.println("Drive");
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_0", 0.0))) { //The if statement returns true once the driveStraight method finishes
                     state++;
                     pause(0.020); //Will wait 20 miliseconds for the robot to fully stop after driving
+                    timer.reset();
                 }
                 break;
             case (2):
@@ -73,6 +76,7 @@ public class Autonomous extends CommandBase {
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_2", 0.0))) {
                     state++;
                     pause(0.020);
+                    timer.reset();
                 }
                 break;
             case (5):
@@ -112,8 +116,10 @@ public class Autonomous extends CommandBase {
 
     //fires an amount of shots, then increases state
     public void shoot(int times) {
+        System.out.println("Shoot");
         backDuration = feeder.getShootBackDuration();
         forwardDuration = feeder.getShootForwardDuration();
+        System.out.println(timer.get());
         shooter.primeHighSpeed();
         if (timer.get() <= backDuration) {
             feeder.pullBack();
@@ -132,8 +138,8 @@ public class Autonomous extends CommandBase {
     //makes the command wait an amount of time and pauses the timer
     public void pause(double time) {
         pauseTimer.reset();
-        pauseTimer.start();
-        delay = time;
-        timer.stop();
+        //pauseTimer.start();
+        //delay = time;
+        timer.delay(time);
     }
 }//end Autonomous

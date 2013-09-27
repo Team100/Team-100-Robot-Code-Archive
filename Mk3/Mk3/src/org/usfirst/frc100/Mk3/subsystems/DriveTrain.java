@@ -133,9 +133,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         Preferences p = Preferences.getInstance();
         L_encoderVal = leftEncoder.get() / p.getDouble("LeftEncoderRatio", 0.0); // converts encoder value to inches; encoder ratio should be about 58.76
         R_encoderVal = rightEncoder.get() / p.getDouble("RightEncoderRatio", 0.0); // converts encoder value to inches
-        encoderVal = (L_encoderVal + R_encoderVal) / 2; // averages out encoder values
+        encoderVal = (R_encoderVal);//only one encoder
         encoderErr = dist - encoderVal;
-        distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(dist) / dist) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
+        distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(encoderErr) / encoderErr) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
         SmartDashboard.putNumber("encoderErr", encoderErr);
         SmartDashboard.putNumber("distOut", distOut);
