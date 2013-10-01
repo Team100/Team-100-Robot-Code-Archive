@@ -139,9 +139,12 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         gyroErr = gyro.getAngle(); // Setpoint is always 0
         SmartDashboard.putNumber("encoderErr", encoderErr);
         SmartDashboard.putNumber("distOut", distOut);
+        SmartDashboard.putNumber("Gyro", gyro.getAngle());
+        SmartDashboard.putNumber("GyroErr", gyroErr);
         if (Math.abs(encoderErr) < p.getDouble("DistBuffer", 0.0) && Math.abs(gyroErr) < p.getDouble("AngleBuffer", 0.0)) {
             leftEncoder.reset();
             rightEncoder.reset();
+            //gyro.reset();
             return true; // returns true when robot gets to its goal
         } else {
             robotDrive.arcadeDrive(-distOut, gyroErr * p.getDouble("gyro_kP", 0.0)); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
@@ -149,6 +152,11 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         }
     }//end driveStraight
 
+    public boolean alignStraight(){
+        robotDrive.arcadeDrive(0, gyro.getAngle() * Preferences.getInstance().getDouble("gyro_kP", 0.0));
+        return gyro.getAngle()<2;
+    }
+    
     public void disable() {
         leftMotor.set(0.0);
         rightMotor.set(0.0);
@@ -161,5 +169,9 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         leftEncoder.reset();
         rightEncoder.start();
         leftEncoder.start();
+        gyro.reset();
+        final boolean kReverseDirection = Preferences.getInstance().getBoolean("DriveTrainReverseDirection", false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
     }//end enable
 }//end DriveTrain
