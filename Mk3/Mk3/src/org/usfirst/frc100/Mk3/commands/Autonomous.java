@@ -17,8 +17,7 @@ public class Autonomous extends CommandBase {
     double backDuration;
     double forwardDuration;
     Preferences p = Preferences.getInstance();
-    private Timer timer = new Timer(), pauseTimer = new Timer();
-    double delay = 0;
+    private Timer timer = new Timer();
 
     //Requires necessary subsystems
     public Autonomous() {
@@ -30,38 +29,43 @@ public class Autonomous extends CommandBase {
 
     //Runs the intake for the duration of the command and sets the timer
     protected void initialize() {
-        intake.runIntake();
+        driveTrain.enable();
+        shotNumber=0;
+        state=0;
         timer.reset();
-        pauseTimer.reset();
         timer.start();
         shooter.primeHighSpeed();
-        pause(1.0); //Will wait 1 sec. for the shooter to get up to speed
+        intake.tiltToPosition(.5);//warning: will not stop!!!
+        pause(3); //Will wait 1 sec. for the shooter to get up to speed
         timer.reset();
     }
 
     //Executes a step in the autonomous sequence based on state
     protected void execute() {
-        intake.tiltToPosition();
-        if (pauseTimer.get() < delay) {
-            System.out.println("Pause");
-            return;
-        }
-        delay = 0;
-
         //In hindsight we should have made this sequence a commandGroup
         switch (state) {
             case (0):
+                intake.tiltToPosition(.2);
                 shoot(3); //Will automatically increase state and turn off the shooter when completed
                 break;
             case (1):
                 System.out.println("Drive");
+                intake.manualTilt(-.2);
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_0", 0.0))) { //The if statement returns true once the driveStraight method finishes
+                    System.out.println("Distance reached");
                     state++;
                     pause(0.020); //Will wait 20 miliseconds for the robot to fully stop after driving
                     timer.reset();
                 }
                 break;
             case (2):
+                if(driveTrain.alignStraight()){
+                    state++;
+                }
+                break;
+            case (3):
+                intake.runIntake();
+                intake.tiltToPosition(.2);
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_1", 0.0))) {
                     state++;
                     shooter.primeHighSpeed();
@@ -69,27 +73,37 @@ public class Autonomous extends CommandBase {
                     timer.reset();
                 }
                 break;
-            case (3):
-                shoot(4);
-                break;
             case (4):
-                if (driveTrain.driveStraight(p.getDouble("AutoDist_2", 0.0))) {
+                if(driveTrain.alignStraight()){
                     state++;
-                    pause(0.020);
-                    timer.reset();
                 }
                 break;
             case (5):
-                if (driveTrain.driveStraight(p.getDouble("AutoDist_3", 0.0))) {
-                    state++;
-                    shooter.primeHighSpeed();
-                    pause(0.020);
-                    timer.reset();
-                }
+                shoot(4);
                 break;
             case (6):
-                shoot(2);
+                state=7;
                 break;
+//                intake.runIntake();
+//                if (driveTrain.driveStraight(p.getDouble("AutoDist_2", 0.0))) {
+//                    state++;
+//                    pause(0.020);
+//                    timer.reset();
+//                }
+//                break;
+//            case (5):
+//                intake.disable();
+//                intake.manualTilt(-.2);
+//                if (driveTrain.driveStraight(p.getDouble("AutoDist_3", 0.0))) {
+//                    state++;
+//                    shooter.primeHighSpeed();
+//                    pause(0.020);
+//                    timer.reset();
+//                }
+//                break;
+//            case (6):
+//                shoot(2);
+//                break;
             default:
                 driveTrain.disable();
                 intake.disable();
@@ -132,14 +146,12 @@ public class Autonomous extends CommandBase {
         if (shotNumber == times) {
             state++;
             shooter.disable();
+            shotNumber=0;
         }
     }
 
     //makes the command wait an amount of time and pauses the timer
     public void pause(double time) {
-        pauseTimer.reset();
-        //pauseTimer.start();
-        //delay = time;
         timer.delay(time);
     }
 }//end Autonomous

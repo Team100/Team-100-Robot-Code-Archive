@@ -13,6 +13,7 @@ public class RunIntake extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         intake.runIntake();
+        tilter.tiltUp();
     }
 
     // Called repeatedly when this Command is scheduled to run

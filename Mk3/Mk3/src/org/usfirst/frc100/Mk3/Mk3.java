@@ -69,6 +69,7 @@ public class Mk3 extends IterativeRobot {
     public void autonomousInit() {
         initializeAll();
         if (true) { //Returns false so autoCommand won't run
+            CommandBase.driveTrain.enable();
             autoCommand.start();
         } else { //This else block will shoot all the Discs in the hooper.
             kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
@@ -92,12 +93,12 @@ public class Mk3 extends IterativeRobot {
         SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
         periodTimer.reset();
-        if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
-            CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
-        }
-        else{
-            CommandBase.driveTrain.disable();
-        }
+//        if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
+//            CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
+//        }
+//        else{
+//            CommandBase.driveTrain.disable();
+//        }
     }//end autonomousPeriodic
 
     public void teleopInit() {
@@ -175,6 +176,7 @@ public class Mk3 extends IterativeRobot {
         }
         CommandBase.pneumatics.enable();
         CommandBase.shifter.shiftHighGear();
+        CommandBase.driveTrain.enable();
     }//end initializeAll
 
     //Data used to debug

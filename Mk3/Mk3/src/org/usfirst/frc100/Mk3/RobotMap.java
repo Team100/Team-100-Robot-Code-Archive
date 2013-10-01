@@ -49,7 +49,7 @@ public class RobotMap {
     //Feeder
     public static final DoubleSolenoid feederPistons = new DoubleSolenoid(7, 8);
 //Relays
-    public static final Compressor compressor = new Compressor(14, 1);
+    public static final Compressor compressor = new Compressor(14, 3);
     public static final Relay cameraLights = new Relay(2);
 
     public static void init() {

@@ -42,7 +42,7 @@ public class OI {
         shiftGearsButton.whenReleased(new ShiftUp());
 
         //Manipulator commands
-        runIntakeButton.whenPressed(new RunIntake());
+        runIntakeButton.whileHeld(new RunIntake());
         tiltIntakeUpButton.whileHeld(new TiltIntake());
         DriveStraightButton.whenPressed(new DriveStraight());
         tiltUpButton.whenPressed(new TiltUp());

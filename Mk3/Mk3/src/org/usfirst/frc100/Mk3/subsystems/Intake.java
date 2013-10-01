@@ -58,9 +58,22 @@ public class Intake extends Subsystem implements SubsystemControl {
     public void tiltToPosition() {
         inPosition = false;
         Preferences p = Preferences.getInstance();
+        System.out.println(limit.get());
         double tiltSpeed = p.getDouble("IntakeTiltSpeed", 0.0);
         if(!limit.get()){
             tiltMotor.set(tiltSpeed);
+        }
+        else{
+            tiltMotor.set(0);
+        }
+     }
+    
+    public void tiltToPosition(double i) {
+        inPosition = false;
+        Preferences p = Preferences.getInstance();
+        System.out.println(limit.get());
+        if(!limit.get()){//normally true
+            tiltMotor.set(i);
         }
         else{
             tiltMotor.set(0);
