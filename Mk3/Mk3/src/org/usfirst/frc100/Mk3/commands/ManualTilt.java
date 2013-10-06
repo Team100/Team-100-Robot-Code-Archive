@@ -15,7 +15,12 @@ public class ManualTilt extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        intake.manualTilt(OI.manipulator.getY());
+        if(!OI.overideIntakeButton.get()){
+            intake.tiltToPosition(OI.manipulator.getY());
+        }
+        else{
+            intake.manualTilt(OI.manipulator.getY());
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

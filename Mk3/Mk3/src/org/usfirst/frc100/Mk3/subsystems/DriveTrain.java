@@ -13,6 +13,7 @@ import org.usfirst.frc100.Mk3.commands.Drive;
  */
 public class DriveTrain extends Subsystem implements SubsystemControl {
 //Robot parts
+
     private final Talon rightMotor = RobotMap.driveRightMotor;
     private final Talon leftMotor = RobotMap.driveLeftMotor;
     private final Encoder rightEncoder = RobotMap.driveRightEncoder;
@@ -74,7 +75,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         if (!p.containsKey("AutoDist_0")) {
             p.putDouble("AutoDist_0", 0.0);
         }
-        if (!p.containsKey("AutDist_1")) {
+        if (!p.containsKey("AutoDist_1")) {
             p.putDouble("AutoDist_1", 0.0);
         }
         if (!p.containsKey("AutoDist_2")) {
@@ -101,10 +102,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         final boolean kReverseDirection = p.getBoolean("DriveTrainReverseDirection", false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, kReverseDirection);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, kReverseDirection);
-        if (kReverseDirection) {
-            robotDrive.tankDrive(rightSpeed, leftSpeed);
-            return;
-        }
+//        if (kReverseDirection) {
+//            robotDrive.tankDrive(rightSpeed, leftSpeed);
+//            return;
+//        }
         robotDrive.tankDrive(leftSpeed, rightSpeed);
     }//end tankDrive
 
@@ -137,26 +138,35 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         encoderErr = dist - encoderVal;
         distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(encoderErr) / encoderErr) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
+        double angleOut = gyroErr * p.getDouble("Gyro_kP", 0.0) * distOut / Math.abs(distOut);
         SmartDashboard.putNumber("encoderErr", encoderErr);
         SmartDashboard.putNumber("distOut", distOut);
-        SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("GyroErr", gyroErr);
+        SmartDashboard.putNumber("gyroErr", gyro.getAngle());
+        SmartDashboard.putNumber("angleOut", angleOut);
         if (Math.abs(encoderErr) < p.getDouble("DistBuffer", 0.0) && Math.abs(gyroErr) < p.getDouble("AngleBuffer", 0.0)) {
             leftEncoder.reset();
             rightEncoder.reset();
             //gyro.reset();
+            arcadeDrive(0, 0);
             return true; // returns true when robot gets to its goal
         } else {
-            robotDrive.arcadeDrive(-distOut, gyroErr * p.getDouble("gyro_kP", 0.0)); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
+            arcadeDrive(-distOut, angleOut); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
             return false; // returns false if robot still hasn't reached its goal yet
         }
     }//end driveStraight
 
-    public boolean alignStraight(){
-        robotDrive.arcadeDrive(0, gyro.getAngle() * Preferences.getInstance().getDouble("gyro_kP", 0.0));
-        return gyro.getAngle()<2;
+    public boolean alignStraight() {
+        double angleOut = gyro.getAngle() * Preferences.getInstance().getDouble("Gyro_kP", 0.0);
+        SmartDashboard.putNumber("gyroErr", gyro.getAngle());
+        SmartDashboard.putNumber("angleOut", angleOut);
+        robotDrive.arcadeDrive(0, angleOut);
+        if (Math.abs(gyro.getAngle()) < Preferences.getInstance().getDouble("AngleBuffer", 100)) {
+            arcadeDrive(0, 0);
+            return true;
+        }
+        return false;
     }
-    
+
     public void disable() {
         leftMotor.set(0.0);
         rightMotor.set(0.0);

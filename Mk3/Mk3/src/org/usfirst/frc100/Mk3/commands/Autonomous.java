@@ -43,47 +43,48 @@ public class Autonomous extends CommandBase {
     //Executes a step in the autonomous sequence based on state
     protected void execute() {
         //In hindsight we should have made this sequence a commandGroup
+        System.out.println(state);
         switch (state) {
             case (0):
-                intake.tiltToPosition(.2);
+                intake.tiltToPosition(.5);
                 shoot(3); //Will automatically increase state and turn off the shooter when completed
                 break;
             case (1):
-                System.out.println("Drive");
-                intake.manualTilt(-.2);
+                intake.tiltToPosition(.5);
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_0", 0.0))) { //The if statement returns true once the driveStraight method finishes
                     System.out.println("Distance reached");
                     state++;
-                    pause(0.020); //Will wait 20 miliseconds for the robot to fully stop after driving
+                    //pause(0.020); //Will wait 20 miliseconds for the robot to fully stop after driving
                     timer.reset();
                 }
                 break;
             case (2):
-                if(driveTrain.alignStraight()){
+                intake.tiltToPosition(.5);
+                if(driveTrain.alignStraight()&&intake.tiltMotor.get()==0){
                     state++;
                 }
                 break;
             case (3):
+                intake.tiltToPosition(.5);
                 intake.runIntake();
-                intake.tiltToPosition(.2);
                 if (driveTrain.driveStraight(p.getDouble("AutoDist_1", 0.0))) {
                     state++;
                     shooter.primeHighSpeed();
-                    pause(0.020);
+                    pause(1);
                     timer.reset();
                 }
                 break;
             case (4):
+                intake.tiltToPosition(.5);
                 if(driveTrain.alignStraight()){
                     state++;
                 }
                 break;
             case (5):
+                intake.disable();
                 shoot(4);
                 break;
-            case (6):
-                state=7;
-                break;
+//            case (6):
 //                intake.runIntake();
 //                if (driveTrain.driveStraight(p.getDouble("AutoDist_2", 0.0))) {
 //                    state++;

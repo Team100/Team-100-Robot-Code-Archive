@@ -11,7 +11,7 @@ import org.usfirst.frc100.Mk3.commands.ManualTilt;
 public class Intake extends Subsystem implements SubsystemControl {
 
     private final Talon frisbeeMotor = RobotMap.intakeFrisbeeMotor;
-    private final Talon tiltMotor = RobotMap.intakeTiltMotor;
+    public final Talon tiltMotor = RobotMap.intakeTiltMotor;
     //private final AnalogChannel tiltPotentiometer = RobotMap.intakeTiltPotentiometer;
     private final DigitalInput limit = RobotMap.intakeLimit;
     private final double kDefaultIntakeSpeed = .5;
@@ -58,7 +58,7 @@ public class Intake extends Subsystem implements SubsystemControl {
     public void tiltToPosition() {
         inPosition = false;
         Preferences p = Preferences.getInstance();
-        System.out.println(limit.get());
+        //System.out.println(limit.get());
         double tiltSpeed = p.getDouble("IntakeTiltSpeed", 0.0);
         if(!limit.get()){
             tiltMotor.set(tiltSpeed);
@@ -71,8 +71,8 @@ public class Intake extends Subsystem implements SubsystemControl {
     public void tiltToPosition(double i) {
         inPosition = false;
         Preferences p = Preferences.getInstance();
-        System.out.println(limit.get());
-        if(!limit.get()){//normally true
+        //System.out.println(limit.get());
+        if(!limit.get()||i<0){//normally false
             tiltMotor.set(i);
         }
         else{
