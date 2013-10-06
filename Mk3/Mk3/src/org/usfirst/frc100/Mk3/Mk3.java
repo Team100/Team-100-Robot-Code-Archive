@@ -33,11 +33,12 @@ public class Mk3 extends IterativeRobot {
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
     Timer autoTimer = new Timer();
-    //Shooting delays
+    //Shooting delays\\
     private final double kDefaultInitialDelay = 1.0;
     private final double kDefaultTimeout = 7.0;
     private final boolean kDefaultLastSecondOn = true;
     private final double kDefaultLastSecondTimeout = 10.0;
+    boolean basicautomode = true;
     double kTimeout;
     double kInitialDelay;
     private LastSecondHang hang = null;
@@ -68,7 +69,7 @@ public class Mk3 extends IterativeRobot {
 
     public void autonomousInit() {
         initializeAll();
-        if (true) { //Returns false so autoCommand won't run
+        if (!basicautomode) { //Returns false so autoCommand won't run
             CommandBase.driveTrain.enable();
             autoCommand.start();
         } else { //This else block will shoot all the Discs in the hooper.
@@ -80,6 +81,8 @@ public class Mk3 extends IterativeRobot {
             high.start();
             shoot = new Shoot(kInitialDelay, kTimeout);
             shoot.start();
+            TiltIntake tilt = new TiltIntake();
+            //tilt.start();
             autoTimer.reset();
             autoTimer.start();
         }
@@ -93,12 +96,14 @@ public class Mk3 extends IterativeRobot {
         SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
         periodTimer.reset();
-//        if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
-//            CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
-//        }
-//        else{
-//            CommandBase.driveTrain.disable();
-//        }
+        if(basicautomode){
+            if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
+                CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
+            }
+            else{
+                CommandBase.driveTrain.disable();
+            }
+        }
     }//end autonomousPeriodic
 
     public void teleopInit() {

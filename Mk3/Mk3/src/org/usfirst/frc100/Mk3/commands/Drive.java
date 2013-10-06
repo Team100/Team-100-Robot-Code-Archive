@@ -22,18 +22,20 @@ public class Drive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //Because our robot only has 4 wheels we have to shift down whenever we turn
-        if (Math.abs(OI.driverRight.getX()) > p.getDouble("ShiftWhenTurningThreshold", 0.5) && !isTurning) {
-            shifter.shiftLowGear(); //Shifts down when the driver starts to turn
-            t.reset();
-            t.start();
-            isTurning = true;
-        }
-        if (Math.abs(OI.driverRight.getX()) <= p.getDouble("ShiftWhenTurningThreshold", 0.5) && isTurning && t.get() > p.getDouble("ShiftWhenTurningDelay", 1.5)) {
-            shifter.shiftHighGear(); //Shifts back up when the driver stops turning
-            isTurning = false;
-        }
+        
+//    For ArcadeDrive:
+//        if (Math.abs(OI.driverRight.getX()) > p.getDouble("ShiftWhenTurningThreshold", 0.5) && !isTurning) {
+//            shifter.shiftLowGear(); //Shifts down when the driver starts to turn
+//            t.reset();
+//            t.start();
+//            isTurning = true;
+//        }
+//        if (Math.abs(OI.driverRight.getX()) <= p.getDouble("ShiftWhenTurningThreshold", 0.5) && isTurning && t.get() > p.getDouble("ShiftWhenTurningDelay", 1.5)) {
+//            shifter.shiftHighGear(); //Shifts back up when the driver stops turning
+//            isTurning = false;
+//        }
 
-        driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX()); //Double joystick arcade drive
+        driveTrain.tankDrive(OI.driverLeft.getY(), OI.driverRight.getY()); //Double joystick arcade drive
     }
 
     // Make this return true when this Command no longer needs to run execute()
