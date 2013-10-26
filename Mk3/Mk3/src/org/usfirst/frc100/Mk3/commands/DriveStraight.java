@@ -23,8 +23,9 @@ public class DriveStraight extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if (driveTrain.driveStraight(Preferences.getInstance().getDouble("AutoDist_0", 0.0))) {
-            System.out.println("Finished");
-            isFinished = true;
+            if(driveTrain.alignStraight()){
+                //isFinished = true;
+            }
         }
     }
 
