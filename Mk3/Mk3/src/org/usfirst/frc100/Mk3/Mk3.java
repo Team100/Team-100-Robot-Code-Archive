@@ -27,7 +27,7 @@ public class Mk3 extends IterativeRobot {
     AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
     DriverStation ds = DriverStation.getInstance();
-    Autonomous2 autoCommand = new Autonomous2();
+    Autonomous autoCommand = new Autonomous();
     Shoot shoot;
     // Loop period periodTimer
     Timer periodTimer = new Timer();
@@ -81,7 +81,7 @@ public class Mk3 extends IterativeRobot {
             high.start();
             shoot = new Shoot(kInitialDelay, kTimeout);
             shoot.start();
-            TiltIntake tilt = new TiltIntake();
+            LowerIntake tilt = new LowerIntake();
             //tilt.start();
             autoTimer.reset();
             autoTimer.start();
@@ -179,6 +179,7 @@ public class Mk3 extends IterativeRobot {
         } else {
             CommandBase.unSafeAll();
         }
+        //new RunCompressorTalon().start();
         CommandBase.pneumatics.enable();
         CommandBase.shifter.shiftHighGear();
         CommandBase.driveTrain.enable();
