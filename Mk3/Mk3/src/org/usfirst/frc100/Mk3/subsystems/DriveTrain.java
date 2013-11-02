@@ -107,6 +107,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 //            return;
 //        }
         robotDrive.tankDrive(leftSpeed, rightSpeed);
+        SmartDashboard.putNumber("gyroErr", gyro.getAngle());
     }//end tankDrive
 
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
@@ -138,7 +139,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         encoderErr = dist - encoderVal;
         distOut = encoderErr * p.getDouble("Encoder_kP", 0.0) + (Math.abs(encoderErr) / encoderErr) * p.getDouble("OutputMin", 0.0); // Encoder kP = 0.5; abs(x)/x returns sign of x; 0.2 is the min. magnitude
         gyroErr = gyro.getAngle(); // Setpoint is always 0
-        double angleOut = gyroErr * p.getDouble("Gyro_kP", 0.0) * distOut / Math.abs(distOut);
+        double angleOut = gyroErr * p.getDouble("Gyro_kP", 0.0)+.3;// * distOut / Math.abs(distOut);
         SmartDashboard.putNumber("encoderErr", encoderErr);
         SmartDashboard.putNumber("distOut", distOut);
         SmartDashboard.putNumber("gyroErr", gyro.getAngle());

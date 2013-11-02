@@ -27,7 +27,7 @@ public class Mk3 extends IterativeRobot {
     AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
     DriverStation ds = DriverStation.getInstance();
-    Autonomous autoCommand = new Autonomous();
+    Autonomous2 autoCommand = new Autonomous2();
     Shoot shoot;
     // Loop period periodTimer
     Timer periodTimer = new Timer();
@@ -38,7 +38,7 @@ public class Mk3 extends IterativeRobot {
     private final double kDefaultTimeout = 7.0;
     private final boolean kDefaultLastSecondOn = true;
     private final double kDefaultLastSecondTimeout = 10.0;
-    boolean basicautomode = true;
+    boolean basicautomode = false;
     double kTimeout;
     double kInitialDelay;
     private LastSecondHang hang = null;

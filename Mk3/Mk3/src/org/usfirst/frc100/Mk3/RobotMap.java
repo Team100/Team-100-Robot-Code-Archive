@@ -48,6 +48,10 @@ public class RobotMap {
     public static final DoubleSolenoid tiltPistons = new DoubleSolenoid(5, 6);
     //Feeder
     public static final DoubleSolenoid feederPistons = new DoubleSolenoid(7, 8);
+    //Intake
+    public static final DoubleSolenoid intakeTiltPistons = new DoubleSolenoid(2, 1, 2);
+    public static final DoubleSolenoid intakeDiscGripper1 = new DoubleSolenoid(2, 3, 4);
+    public static final DoubleSolenoid intakeDiscGripper2 = new DoubleSolenoid(2, 5, 6);
 //Relays
     public static final Compressor compressor = new Compressor(14, 3);
     public static final Relay cameraLights = new Relay(2);

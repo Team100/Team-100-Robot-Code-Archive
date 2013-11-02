@@ -28,7 +28,7 @@ public class Hanger extends Subsystem implements SubsystemControl {
 
     public void retractHanger() {
         //forward is down, reverse is up
-        hangerPistons.set(DoubleSolenoid.Value.kForward);
+        hangerPistons.set(DoubleSolenoid.Value.kReverse);
     }//end retractHanger
 
     public void disable() {
