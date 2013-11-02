@@ -20,9 +20,9 @@ public class OI {
     //DriverRight button declarations
     public static final JoystickButton shiftGearsButton = new JoystickButton(driverRight, 1);
     //Manipulator button declarations
-    public static final JoystickButton runIntakeButton = new JoystickButton(manipulator, 1);
+    public static final JoystickButton useIntakeButton = new JoystickButton(manipulator, 1);
     public static final JoystickButton lowerIntakeButton = new JoystickButton(manipulator, 2);
-    public static final JoystickButton overideIntakeButton = new JoystickButton(manipulator, 3);
+    public static final JoystickButton raiseIntakeButton = new JoystickButton(manipulator, 3);
     public static final JoystickButton driveStraightButton = new JoystickButton(manipulator, 4);
     public static final JoystickButton tiltUpButton = new JoystickButton(manipulator, 5);
     public static final JoystickButton shootButton = new JoystickButton(manipulator, 6);
@@ -42,9 +42,10 @@ public class OI {
         shiftGearsButton.whenReleased(new ShiftUp());
 
         //Manipulator commands
-        runIntakeButton.whileHeld(new RunIntake());
-        lowerIntakeButton.whileHeld(new TiltIntake());
-        driveStraightButton.whenPressed(new DriveStraight());
+        useIntakeButton.whileHeld(new UseIntake());
+        lowerIntakeButton.whenPressed(new LowerIntake());
+        raiseIntakeButton.whenPressed(new RaiseIntake());
+        driveStraightButton.whileHeld(new DriveStraight());
         tiltUpButton.whenPressed(new TiltUp());
         shootButton.whileHeld(new Shoot(0, 180));
         tiltDownButton.whenPressed(new TiltDown());

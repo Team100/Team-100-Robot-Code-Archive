@@ -3,92 +3,88 @@ package org.usfirst.frc100.Mk3.subsystems;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
 import org.usfirst.frc100.Mk3.RobotMap;
-import org.usfirst.frc100.Mk3.commands.ManualTilt;
 
 /**
  * Controls angle of intake and runs intake rollers.
  */
 public class Intake extends Subsystem implements SubsystemControl {
-
-    private final Talon frisbeeMotor = RobotMap.intakeFrisbeeMotor;
-    public final Talon tiltMotor = RobotMap.intakeTiltMotor;
-    //private final AnalogChannel tiltPotentiometer = RobotMap.intakeTiltPotentiometer;
-    private final DigitalInput limit = RobotMap.intakeLimit;
-    private final double kDefaultIntakeSpeed = .5;
-    private final double kDefaultIntakePotentiometerError = 5;
-    private final double kDefaultIntakeTiltSpeed = .5;
-    private final double kDefaultIntakeUpPosition = 0;
-    private final double kDefaultIntakeDownPosition = 200;
-    private final double kDefaultIntakeTestPosition = 100;
-    public boolean inPosition = true;
-
+    
+    private final double kDefaultIntakeDelay1 = .5;
+    private final double kDefaultIntakeDelay2 = .5;
+    private final double kDefaultIntakeDelay3 = .5;
+    private final DoubleSolenoid tiltPistons = RobotMap.intakeTiltPistons;
+    private final DoubleSolenoid discGripper1 = RobotMap.intakeDiscGripper1;
+    private final DoubleSolenoid discGripper2 = RobotMap.intakeDiscGripper2;
+    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new ManualTilt());
     }
-
+    
     public Intake() {
         Preferences p = Preferences.getInstance();
-        if (!p.containsKey("IntakeSpeed")) {
-            p.putDouble("IntakeSpeed", kDefaultIntakeSpeed);
+        if (!p.containsKey("IntakeDelay1")) {
+            p.putDouble("IntakeDelay1", kDefaultIntakeDelay1);
         }
-        if (!p.containsKey("IntakePotentiometerError")) {
-            p.putDouble("IntakePotentiometerError", kDefaultIntakePotentiometerError);
+        if (!p.containsKey("IntakeDelay2")) {
+            p.putDouble("IntakeDelay2", kDefaultIntakeDelay2);
         }
-        if (!p.containsKey("IntakeTiltSpeed")) {
-            p.putDouble("IntakeTiltSpeed", kDefaultIntakeTiltSpeed);
-        }
-        if (!p.containsKey("IntakeUpPosition")) {
-            p.putDouble("IntakeUpPosition", kDefaultIntakeUpPosition);
-        }
-        if (!p.containsKey("IntakeDownPosition")) {
-            p.putDouble("IntakeDownPosition", kDefaultIntakeDownPosition);
-        }
-        if (!p.containsKey("IntakeTestPosition")) {
-            p.putDouble("IntakeTestPosition", kDefaultIntakeTestPosition);
+        if (!p.containsKey("IntakeDelay3")) {
+            p.putDouble("IntakeDelay3", kDefaultIntakeDelay3);
         }
     }
-
-    public void runIntake() {
-        Preferences p = Preferences.getInstance();
-        frisbeeMotor.set(p.getDouble("IntakeSpeed", 0.0));
-    }
-
-    public void tiltToPosition() {
-        inPosition = false;
-        Preferences p = Preferences.getInstance();
-        //System.out.println(limit.get());
-        double tiltSpeed = p.getDouble("IntakeTiltSpeed", 0.0);
-        if(!limit.get()){
-            tiltMotor.set(tiltSpeed);
-        }
-        else{
-            tiltMotor.set(0);
-        }
-     }
     
-    public void tiltToPosition(double i) {
-        inPosition = false;
-        Preferences p = Preferences.getInstance();
-        //System.out.println(limit.get());
-        if(!limit.get()||i<0){//normally false
-            tiltMotor.set(i);
+    public void toggleGripper(int i){
+        if(i==1){
+            if(discGripper1.get()==DoubleSolenoid.Value.kForward){
+                discGripper1.set(DoubleSolenoid.Value.kReverse);
+            }
+            else{
+                discGripper1.set(DoubleSolenoid.Value.kForward);
+            }
         }
         else{
-            tiltMotor.set(0);
+            if(discGripper2.get()==DoubleSolenoid.Value.kForward){
+                discGripper2.set(DoubleSolenoid.Value.kReverse);
+            }
+            else{
+                discGripper2.set(DoubleSolenoid.Value.kForward);
+            }
         }
-     }
-
+    }
+    
+    public void setGripper(int gripper, boolean position){
+        if(gripper==1){
+            if(!position){
+                discGripper1.set(DoubleSolenoid.Value.kForward);
+            }
+            else{
+                discGripper1.set(DoubleSolenoid.Value.kReverse);
+            }
+        }
+        else{
+            if(!position){
+                discGripper2.set(DoubleSolenoid.Value.kForward);
+            }
+            else{
+                discGripper2.set(DoubleSolenoid.Value.kReverse);
+            }
+        }
+    }
+    
+    public void raiseIntake(){
+        tiltPistons.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    public void lowerIntake(){
+        tiltPistons.set(DoubleSolenoid.Value.kForward);
+    }
+    
     public void disable() {
-        frisbeeMotor.set(0.0);
-        tiltMotor.set(0.0);
     }
-
-    public void manualTilt(double i) {
-        tiltMotor.set(i);
-    }
-
+    
     public void enable() {
+        setGripper(1, true);
+        setGripper(2, true);
     }
 }

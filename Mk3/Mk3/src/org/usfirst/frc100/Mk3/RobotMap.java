@@ -17,7 +17,7 @@ public class RobotMap {
     public static final Encoder driveLeftEncoder = new Encoder(5, 6, true); //The 'true' means the encoder is mounted backwards
     //Frisbee sensors
     public static final DigitalInput hopperFrisbeeSensor = new DigitalInput(7);
-    public static final DigitalInput shooterFrisbeeSensor = new DigitalInput(8);
+    //public static final DigitalInput shooterFrisbeeSensor = new DigitalInput(8);
     public static final DigitalInput intakeFrisbeeSensor = new DigitalInput(9);
     //intake
     public static final DigitalInput intakeLimit = new DigitalInput(11);
@@ -53,7 +53,7 @@ public class RobotMap {
     public static final DoubleSolenoid intakeDiscGripper1 = new DoubleSolenoid(2, 3, 4);
     public static final DoubleSolenoid intakeDiscGripper2 = new DoubleSolenoid(2, 5, 6);
 //Relays
-    public static final Compressor compressor = new Compressor(14, 3);
+    public static final Compressor compressor = new Compressor(8, 8);
     public static final Relay cameraLights = new Relay(2);
 
     public static void init() {
@@ -87,7 +87,7 @@ public class RobotMap {
         //LiveWindow.addSensor("Intake", "IntakeTiltPotentiometer", intakeTiltPotentiometer);
         //Frisbee sensors
         LiveWindow.addSensor("FrisbeeSensors", "HopperFrisbeeSensor", hopperFrisbeeSensor);
-        LiveWindow.addSensor("FrisbeeSensors", "ShooterFrisbeeSensor", shooterFrisbeeSensor);
+        //LiveWindow.addSensor("FrisbeeSensors", "ShooterFrisbeeSensor", shooterFrisbeeSensor);
         LiveWindow.addSensor("FrisbeeSensors", "IntakeFrisbeeSensor", intakeFrisbeeSensor);
         //Relays
         LiveWindow.addSensor("Relays", "Compressor", compressor);

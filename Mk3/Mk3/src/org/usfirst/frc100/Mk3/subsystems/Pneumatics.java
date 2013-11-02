@@ -18,10 +18,12 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
 
     public void startCompressor() {
         compressor.start();
+        RobotMap.intakeTiltMotor.set(1);
     }//end startCompressor
 
     public void stopCompressor() {
         compressor.stop();
+        RobotMap.intakeTiltMotor.set(0);
     }//end stopCompressor
 
     public void disable() {
@@ -30,5 +32,6 @@ public class Pneumatics extends Subsystem implements SubsystemControl {
 
     public void enable() {
         compressor.start();
+        RobotMap.intakeTiltMotor.set(1);
     }//end enable
 }//end Pneumatics

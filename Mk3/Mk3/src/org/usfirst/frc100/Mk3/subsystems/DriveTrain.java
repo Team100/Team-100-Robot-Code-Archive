@@ -145,10 +145,10 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
         SmartDashboard.putNumber("gyroErr", gyro.getAngle());
         SmartDashboard.putNumber("angleOut", angleOut);
         if (Math.abs(encoderErr) < p.getDouble("DistBuffer", 0.0) && Math.abs(gyroErr) < p.getDouble("AngleBuffer", 0.0)) {
-            leftEncoder.reset();
-            rightEncoder.reset();
+//            leftEncoder.reset();
+//            rightEncoder.reset();
             //gyro.reset();
-            arcadeDrive(0, 0);
+            //arcadeDrive(0, 0);
             return true; // returns true when robot gets to its goal
         } else {
             arcadeDrive(-distOut, angleOut); // Gyro kP = 1/18.0; Arcade Drive uses reversed rotate values (neg. goes Left / pos. goes Right)
