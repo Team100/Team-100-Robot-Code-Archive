@@ -108,6 +108,7 @@ public class DriveTrain extends Subsystem implements SubsystemControl {
 //        }
         robotDrive.tankDrive(leftSpeed, rightSpeed);
         SmartDashboard.putNumber("gyroErr", gyro.getAngle());
+        SmartDashboard.putNumber("encoder", rightEncoder.get());
     }//end tankDrive
 
     //basic arcadeDrive: y=forward/backward speed, x=left/right speed
