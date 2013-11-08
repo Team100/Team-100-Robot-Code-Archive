@@ -21,6 +21,7 @@ public class RaiseIntake extends CommandBase {
         intake.setGripper(1, true);
         intake.setGripper(2, true);
         intake.raiseIntake();
+        
     }
 
     // Called repeatedly when this Command is scheduled to run

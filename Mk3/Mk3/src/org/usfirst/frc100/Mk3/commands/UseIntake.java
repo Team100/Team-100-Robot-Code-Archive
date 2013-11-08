@@ -30,10 +30,10 @@ public class UseIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (t.get()>delay1&&t.get()<delay2){
+        if (t.get()>delay1&&t.get()<delay1+delay2){
             intake.setGripper(1, false);
         }
-        if (t.get()>delay2){
+        if (t.get()>delay1+delay2){
             intake.setGripper(2, false);
         }
     }
