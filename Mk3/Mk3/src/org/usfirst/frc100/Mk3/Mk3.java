@@ -27,8 +27,8 @@ public class Mk3 extends IterativeRobot {
     AnalogModule analogModule = AnalogModule.getInstance(1);
     DriverStationLCD dsLCD = DriverStationLCD.getInstance();
     DriverStation ds = DriverStation.getInstance();
-    Autonomous autoCommand = new Autonomous();
-    Shoot shoot;
+    Autonomous autoCommand;
+    AutoShoot shoot;
     // Loop period periodTimer
     Timer periodTimer = new Timer();
     Timer testIOTimer = new Timer();
@@ -38,7 +38,6 @@ public class Mk3 extends IterativeRobot {
     private final double kDefaultTimeout = 7.0;
     private final boolean kDefaultLastSecondOn = true;
     private final double kDefaultLastSecondTimeout = 10.0;
-    boolean basicautomode = false;
     double kTimeout;
     double kInitialDelay;
     private LastSecondHang hang = null;
@@ -61,6 +60,9 @@ public class Mk3 extends IterativeRobot {
         if (!p.containsKey("HangerLastSecondTimeout")) {
             p.putDouble("HangerLastSecondTimeout", kDefaultLastSecondTimeout);
         }
+        if (!p.containsKey("BasicAutoMode")) {
+            p.putBoolean("BasicAutoMode", true);
+        }
     }//end robotInit
 
     public void disabledInit() {
@@ -69,17 +71,19 @@ public class Mk3 extends IterativeRobot {
 
     public void autonomousInit() {
         initializeAll();
-        if (!basicautomode) { //Returns false so autoCommand won't run
+        if (!Preferences.getInstance().getBoolean("BasicAutoMode", true)) {
             CommandBase.driveTrain.enable();
+            autoCommand = new Autonomous();
             autoCommand.start();
         } else { //This else block will shoot all the Discs in the hooper.
             kInitialDelay = Preferences.getInstance().getDouble("AutonInitialDelay", kDefaultInitialDelay);
             kTimeout = Preferences.getInstance().getDouble("AutonTimeout", kDefaultTimeout);
+            System.out.println(kTimeout);
             TiltUp up = new TiltUp();
             up.start();
             PrimeHighSpeed high = new PrimeHighSpeed();
             high.start();
-            shoot = new Shoot(kInitialDelay, kTimeout);
+            shoot = new AutoShoot(kInitialDelay, kTimeout);
             shoot.start();
             LowerIntake tilt = new LowerIntake();
             //tilt.start();
@@ -96,7 +100,7 @@ public class Mk3 extends IterativeRobot {
         SmartDashboard.putNumber("Period", periodTimer.get());
         printDataToDriverStation();
         periodTimer.reset();
-        if(basicautomode){
+        if(Preferences.getInstance().getBoolean("BasicAutoMode", true)){
             if(autoTimer.get()>kTimeout&&autoTimer.get()<kTimeout+1){
                 CommandBase.driveTrain.arcadeDrive(1, 0);//reversed
             }

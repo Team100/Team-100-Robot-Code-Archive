@@ -21,6 +21,12 @@ public class Feeder extends Subsystem implements SubsystemControl {
         if (!p.containsKey("FeederShootForwardDuration")) {
             p.putDouble("FeederShootForwardDuration", kDefaultShootDelay);
         }
+        if (!p.containsKey("AutoFeederShootBackDuration")) {
+            p.putDouble("AutoFeederShootBackDuration", kDefaultShootDelay);
+        }
+        if (!p.containsKey("AutoFeederShootForwardDuration")) {
+            p.putDouble("AutoFeederShootForwardDuration", kDefaultShootDelay);
+        }
     }//end constructor
 
     public void initDefaultCommand() {
@@ -40,6 +46,18 @@ public class Feeder extends Subsystem implements SubsystemControl {
         return kShootDelay;
     }//end getShootDelay
 
+    public double getAutoShootBackDuration() {
+        Preferences p = Preferences.getInstance();
+        final double kShootDelay = p.getDouble("AutoFeederShootBackDuration", kDefaultShootDelay);
+        return kShootDelay;
+    }//end getShootDelay
+
+    public double getAutoShootForwardDuration() {
+        Preferences p = Preferences.getInstance();
+        final double kShootDelay = p.getDouble("AutoFeederShootForwardDuration", kDefaultShootDelay);
+        return kShootDelay;
+    }//end getShootDelay
+    
     public void pushForward() {
         feederPistons.set(DoubleSolenoid.Value.kReverse);
     }//end pushForward
