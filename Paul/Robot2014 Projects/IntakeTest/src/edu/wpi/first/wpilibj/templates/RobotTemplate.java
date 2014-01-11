@@ -55,15 +55,10 @@ public class RobotTemplate extends IterativeRobot {
             intakeTop.set(1);
             intakeBottom.set(1);
         }
-        else{
-            intakeTop.set(0);
-            intakeBottom.set(0);
-        }
-        if(expel.get()){
+        else if(expel.get()){
             intakeTop.set(-1);
             intakeBottom.set(-1);
-        }
-        else{
+        } else{
             intakeTop.set(0);
             intakeBottom.set(0);
         }
