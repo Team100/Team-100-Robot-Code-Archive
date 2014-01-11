@@ -8,7 +8,9 @@
 package edu.wpi.first.wpilibj.templates;
 
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.AnalogTrigger;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -19,24 +21,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class RobotTemplate extends IterativeRobot {
-    AnalogChannel lineReader1 = new AnalogChannel(3);
-    AnalogChannel lineReader2 = new AnalogChannel(7);
-    AnalogTrigger trigger1 = new AnalogTrigger(lineReader1);
-    AnalogTrigger trigger2 = new AnalogTrigger(lineReader2);
+    private final AnalogChannel lineReader1 = new AnalogChannel(3);
+    private final AnalogChannel lineReader2 = new AnalogChannel(7);
+    private final AnalogTrigger trigger1 = new AnalogTrigger(lineReader1);
+    private final AnalogTrigger trigger2 = new AnalogTrigger(lineReader2);
+    private final double vel = 1.0;
+    private int borderState = 0;
+    private boolean[] whiteZone = {true, true};
     
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
-
+    public void robotInit()
+    {
+        
     }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic()
+    {
+        SmartDashboard.putBoolean("Trigger1", trigger1.getTriggerState());
+        SmartDashboard.putBoolean("Trigger2", trigger2.getTriggerState());
+        SmartDashboard.putNumber("Reader1 Value", lineReader1.getValue());
+        SmartDashboard.putNumber("Reader2 Value", lineReader2.getValue());
 
+        if(trigger1.getTriggerState())
+        {
+            
+        }
     }
 
     public void teleopInit()
