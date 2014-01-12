@@ -1,12 +1,13 @@
 package org.usfirst.frc100.Robot2014.commands;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Autonomously drive forward and shoot into the 10-point goal.
  */
 public class Autonomous extends CommandGroup {
-    
-    public  Autonomous() {
+
+    public Autonomous() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -17,7 +18,6 @@ public class Autonomous extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-
         // A command group will require all of the subsystems that each member
         // would require.
         // e.g. if Command1 requires chassis, and Command2 requires arm,
