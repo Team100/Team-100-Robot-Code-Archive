@@ -12,32 +12,33 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
 
-    SpeedController leftMotorMain = RobotMap.driveTrainDriveLeftMotorMain;
-    SpeedController leftMotorSlave = RobotMap.driveTrainDriveLeftMotorSlave;
-    SpeedController rightMotorMain = RobotMap.driveTrainDriveRightMotorMain;
-    SpeedController rightMotorSlave = RobotMap.driveTrainDriveRightMotorSlave;
+    SpeedController leftMotorMain = RobotMap.driveTrainLeftMotorMain;
+    SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotorSlave;
+    SpeedController rightMotorMain = RobotMap.driveTrainRightMotorMain;
+    SpeedController rightMotorSlave = RobotMap.driveTrainRightMotorSlave;
     RobotDrive mainDrive = RobotMap.driveTrainMainDrive;
     RobotDrive slaveDrive = RobotMap.driveTrainSlaveDrive;
-    Encoder leftEncoder = RobotMap.driveTrainDriveLeftEncoder;
-    Encoder rightEncoder = RobotMap.driveTrainDriveRightEncoder;
+    Encoder leftEncoder = RobotMap.driveTrainLeftEncoder;
+    Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
     Gyro gyro = RobotMap.driveTrainGyro;
     AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder;
     Relay shifter = RobotMap.driveTrainShifter;
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader;
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader;
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    // Sets the default command to Drive
     public void initDefaultCommand() {
         setDefaultCommand(new Drive());
     }
-    
-    public void tankDrive(double left, double right){
+
+    // Sets the robot drives to tankdrive
+    public void tankDrive(double left, double right) {
         mainDrive.tankDrive(left, right);
         slaveDrive.tankDrive(left, right);
     }
-    
-    public void arcadeDrive(double speed, double turn){
+
+    // Sets the robot drives to arcadedrive
+    public void arcadeDrive(double speed, double turn) {
         mainDrive.arcadeDrive(speed, turn);
         slaveDrive.arcadeDrive(speed, turn);
     }
