@@ -40,6 +40,7 @@ public class RobotTemplate extends IterativeRobot {
     private final AnalogChannel pot;
     private final DigitalInput toggleA;
     private final DigitalInput toggleB;
+    private final AnalogChannel ultra1;
 
     public RobotTemplate() {
         joystick = new Joystick(1);
@@ -51,6 +52,7 @@ public class RobotTemplate extends IterativeRobot {
         pot = new AnalogChannel(1);
         toggleA = new DigitalInput(1);
         toggleB = new DigitalInput(2);
+        ultra1 = new AnalogChannel(5);
     }
     public void robotInit() {
 
@@ -68,17 +70,20 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void teleopPeriodic() {
 
-        SmartDashboard.putDouble("joystick direction is:", joystick.getDirectionDegrees());
-        SmartDashboard.putDouble("joystick throttle is:", joystick.getThrottle());
+        //SmartDashboard.putDouble("joystick direction is:", joystick.getDirectionDegrees());
+       // SmartDashboard.putDouble("joystick throttle is:", joystick.getThrottle());
+        SmartDashboard.putNumber("Voltage: " , ultra1.getVoltage());
+         SmartDashboard.putNumber("Inches: " , ultra1.getVoltage()/5*512/2.54);
+         SmartDashboard.putNumber("Voltage Graph: " , ultra1.getVoltage());
+         SmartDashboard.putNumber("Inches Graph: " , ultra1.getVoltage()*512/5/2.54);
 
-
-        if (true)
+       /* if (true)
         {
            
 
                drive.arcadeDrive(joystick);
 
-        }
+        }*/
 
       /*  if (!toggleA.get())
         {

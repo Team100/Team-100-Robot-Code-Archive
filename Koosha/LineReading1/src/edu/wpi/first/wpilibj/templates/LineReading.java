@@ -10,6 +10,8 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.AnalogTrigger;
+import edu.wpi.first.wpilibj.AnalogTriggerOutput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,14 +22,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends IterativeRobot {
+public class LineReading extends IterativeRobot {
     private final AnalogChannel lineReader1 = new AnalogChannel(3);
     private final AnalogChannel lineReader2 = new AnalogChannel(7);
     private final AnalogTrigger trigger1 = new AnalogTrigger(lineReader1);
     private final AnalogTrigger trigger2 = new AnalogTrigger(lineReader2);
-    private final double vel = 1.0;
+    private boolean prevTriggerL;
+    private boolean prevTriggerR;
+    private boolean currTriggerL;
+    private boolean currTriggerR;
+    private double currVelL = 1.0;
+    private double currVelR = 1.0;
+    private double enterVelL = 1.0;
+    private double enterVelR = 1.0;
+    private boolean whiteZoneL;
+    private boolean whiteZoneR;
     private int borderState = 0;
-    private boolean[] whiteZone = {true, true};
+    private Counter isTrue = new Counter(trigger1);
     
     /**
      * This function is run when the robot is first started up and should be
@@ -35,7 +46,14 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void robotInit()
     {
-        
+        trigger1.setLimitsRaw(50, 75);
+        trigger2.setLimitsRaw(50, 75);
+    }
+    
+    public void disabledInit()
+    {
+        isTrue.stop();
+        isTrue.reset();
     }
 
     /**
@@ -43,23 +61,57 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void autonomousPeriodic()
     {
+        currTriggerL = trigger1.getTriggerState();
+        currTriggerR = trigger2.getTriggerState();
+        if(prevTriggerL && !currTriggerL)
+        {
+            enterVelL = currVelL;
+        }
+        if(prevTriggerR && !currTriggerR)
+        {
+            enterVelR = currVelR;
+        }
+
         SmartDashboard.putBoolean("Trigger1", trigger1.getTriggerState());
         SmartDashboard.putBoolean("Trigger2", trigger2.getTriggerState());
         SmartDashboard.putNumber("Reader1 Value", lineReader1.getValue());
         SmartDashboard.putNumber("Reader2 Value", lineReader2.getValue());
-
-        if(trigger1.getTriggerState())
+        
+        if(!prevTriggerL && currTriggerL && (Math.abs(enterVelL)/enterVelL == Math.abs(currVelL)/currVelL))
         {
-            
+            whiteZoneL = !whiteZoneL;
         }
-    }
+        if(!prevTriggerR && currTriggerR && (Math.abs(enterVelR)/enterVelR == Math.abs(currVelR)/currVelR))
+        {
+            whiteZoneL = !whiteZoneL;
+        }
 
-    public void teleopInit()
-    {
-        trigger1.setLimitsRaw(50, 75);
-        trigger2.setLimitsRaw(50, 75);
+        if(currTriggerL && whiteZoneL && currTriggerR && whiteZoneR)
+        {
+            borderState = 0;
+        }
+        if(currTriggerL && whiteZoneL && !currTriggerR)
+        {
+            borderState = 1;
+        }
+        if(currTriggerL && whiteZoneL && currTriggerR && !whiteZoneR)
+        {
+           borderState = 2;
+        }
+        if(!currTriggerL && currTriggerR && whiteZoneR)
+        {
+             borderState = 3;
+        }
+        
+        prevTriggerL = currTriggerL;
+        prevTriggerL = currTriggerR;
     }
     
+    public void teleopInit()
+    {
+        isTrue.start();
+    }
+
     /**
      * This function is called periodically during operator control
      */
@@ -69,6 +121,7 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putBoolean("Trigger2", trigger2.getTriggerState());
         SmartDashboard.putNumber("Reader1 Value", lineReader1.getValue());
         SmartDashboard.putNumber("Reader2 Value", lineReader2.getValue());
+        SmartDashboard.putNumber("On line", isTrue.get());
     }
     
     /**
