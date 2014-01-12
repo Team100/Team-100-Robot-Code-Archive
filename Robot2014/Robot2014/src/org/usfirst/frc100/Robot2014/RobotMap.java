@@ -19,6 +19,8 @@ public class RobotMap {
     public static SpeedController driveTrainDriveLeftMotorSlave;
     public static SpeedController driveTrainDriveRightMotorMain;
     public static SpeedController driveTrainDriveRightMotorSlave;
+    public static RobotDrive driveTrainMainDrive;
+    public static RobotDrive driveTrainSlaveDrive;
     public static Encoder driveTrainDriveLeftEncoder;
     public static Encoder driveTrainDriveRightEncoder;
     public static Gyro driveTrainGyro;
@@ -56,19 +58,25 @@ public class RobotMap {
         driveTrainDriveRightMotorSlave = new Victor(1, 4);
         LiveWindow.addActuator("DriveTrain", "DriveRightMotorSlave", (Victor) driveTrainDriveRightMotorSlave);
 
+        driveTrainMainDrive = new RobotDrive(driveTrainDriveLeftMotorMain, driveTrainDriveRightMotorMain);
+        driveTrainSlaveDrive = new RobotDrive(driveTrainDriveLeftMotorSlave, driveTrainDriveRightMotorSlave);
+
         driveTrainDriveLeftEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "DriveLeftEncoder", driveTrainDriveLeftEncoder);
         driveTrainDriveLeftEncoder.setDistancePerPulse(1.0);
         driveTrainDriveLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         driveTrainDriveLeftEncoder.start();
+        
         driveTrainDriveRightEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "DriveRightEncoder", driveTrainDriveRightEncoder);
         driveTrainDriveRightEncoder.setDistancePerPulse(1.0);
         driveTrainDriveRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         driveTrainDriveRightEncoder.start();
+        
         driveTrainGyro = new Gyro(1, 1);
         LiveWindow.addSensor("DriveTrain", "Gyro", driveTrainGyro);
         driveTrainGyro.setSensitivity(0.007);
+        
         driveTrainRangeFinder = new AnalogChannel(1, 2);
         LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
 
@@ -101,6 +109,7 @@ public class RobotMap {
         shooterShooterEncoder.setDistancePerPulse(1.0);
         shooterShooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         shooterShooterEncoder.start();
+        
         intakeIntakeTopMotor = new Victor(1, 6);
         LiveWindow.addActuator("Intake", "IntakeTopMotor", (Victor) intakeIntakeTopMotor);
 
