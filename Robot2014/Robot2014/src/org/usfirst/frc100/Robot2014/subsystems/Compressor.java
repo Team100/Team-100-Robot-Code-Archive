@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Compressor extends Subsystem {
 
-    edu.wpi.first.wpilibj.Compressor compressor = RobotMap.compressorCompressor;
+    edu.wpi.first.wpilibj.Compressor compressor = RobotMap.compressor;
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

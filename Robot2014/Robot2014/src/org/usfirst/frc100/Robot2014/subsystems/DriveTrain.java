@@ -22,7 +22,7 @@ public class DriveTrain extends Subsystem {
     Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
     Gyro gyro = RobotMap.driveTrainGyro;
     AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder;
-    Relay shifter = RobotMap.driveTrainShifter;
+    DoubleSolenoid shifter = RobotMap.driveTrainShifter;
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader;
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader;
 

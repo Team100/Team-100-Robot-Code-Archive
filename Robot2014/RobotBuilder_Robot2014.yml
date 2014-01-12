@@ -10,7 +10,7 @@ Children:
   - Name: DriveTrain
     Base: Subsystem
     Children:
-    - Name: DriveLeftMotorMain
+    - Name: LeftMotorMain
       Base: Speed Controller
       Children: []
       Properties:
@@ -32,7 +32,7 @@ Children:
           name: Output Channel (PWM)
           validators: &id005 [PWMOutput]
           value: '1'
-    - Name: DriveLeftMotorSlave
+    - Name: LeftMotorSlave
       Base: Speed Controller
       Children: []
       Properties:
@@ -54,7 +54,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '2'
-    - Name: DriveRightMotorMain
+    - Name: RightMotorMain
       Base: Speed Controller
       Children: []
       Properties:
@@ -76,7 +76,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '3'
-    - Name: DriveRightMotorSlave
+    - Name: RightMotorSlave
       Base: Speed Controller
       Children: []
       Properties:
@@ -98,7 +98,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '4'
-    - Name: DriveLeftEncoder
+    - Name: LeftEncoder
       Base: Quadrature Encoder
       Children: []
       Properties:
@@ -144,7 +144,7 @@ Children:
           value: '1'
         Reverse Direction: !!robotbuilder.data.properties.BooleanProperty {default: false,
           name: Reverse Direction, validators: null, value: false}
-    - Name: DriveRightEncoder
+    - Name: RightEncoder
       Base: Quadrature Encoder
       Children: []
       Properties:
@@ -276,7 +276,7 @@ Children:
   - Name: Shooter
     Base: Subsystem
     Children:
-    - Name: ShooterMotor
+    - Name: Motor
       Base: Speed Controller
       Children: []
       Properties:
@@ -298,7 +298,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '5'
-    - Name: ShooterHallEffectForward
+    - Name: HallEffectForward
       Base: Digital Input
       Children: []
       Properties:
@@ -315,7 +315,7 @@ Children:
           name: Input Module (Digital)
           validators: &id023 [DigitalChannel]
           value: '1'
-    - Name: ShooterHallEffectBack
+    - Name: HallEffectBack
       Base: Digital Input
       Children: []
       Properties:
@@ -331,7 +331,7 @@ Children:
           name: Input Module (Digital)
           validators: *id023
           value: '1'
-    - Name: ShooterPot
+    - Name: Potentiometer
       Base: Potentiometer
       Children: []
       Properties:
@@ -347,7 +347,7 @@ Children:
           name: Input Channel (Analog)
           validators: &id031 [AnalogInput]
           value: '3'
-    - Name: ShooterRelease
+    - Name: Release
       Base: Relay Solenoid
       Children: []
       Properties:
@@ -363,7 +363,7 @@ Children:
           name: Output Channel (Relay)
           validators: *id027
           value: '4'
-    - Name: ShooterEncoder
+    - Name: Encoder
       Base: Quadrature Encoder
       Children: []
       Properties:
@@ -413,7 +413,7 @@ Children:
   - Name: Intake
     Base: Subsystem
     Children:
-    - Name: IntakeTopMotor
+    - Name: TopMotor
       Base: Speed Controller
       Children: []
       Properties:
@@ -435,7 +435,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '6'
-    - Name: IntakeBottomMotor
+    - Name: BottomMotor
       Base: Speed Controller
       Children: []
       Properties:
@@ -457,7 +457,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '7'
-    - Name: IntakeTopPiston
+    - Name: TopPiston
       Base: Relay Solenoid
       Children: []
       Properties:
@@ -473,7 +473,7 @@ Children:
           name: Output Channel (Relay)
           validators: *id027
           value: '1'
-    - Name: IntakeBottomPiston
+    - Name: BottomPiston
       Base: Relay Solenoid
       Children: []
       Properties:
@@ -489,7 +489,7 @@ Children:
           name: Output Channel (Relay)
           validators: *id027
           value: '2'
-    - Name: IntakeBallDetector
+    - Name: BallDetector
       Base: Digital Input
       Children: []
       Properties:
@@ -511,7 +511,7 @@ Children:
   - Name: Tilter
     Base: Subsystem
     Children:
-    - Name: TiltMotor
+    - Name: Motor
       Base: Speed Controller
       Children: []
       Properties:
@@ -533,7 +533,7 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '8'
-    - Name: TiltPot
+    - Name: Potentiometer
       Base: Potentiometer
       Children: []
       Properties:
