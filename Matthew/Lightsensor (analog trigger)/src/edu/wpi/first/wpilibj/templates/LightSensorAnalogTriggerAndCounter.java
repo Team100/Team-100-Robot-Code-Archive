@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends IterativeRobot {
+public class LightSensorAnalogTriggerAndCounter extends IterativeRobot {
     private final Joystick joystick;
     private final Joystick joystick2;
     private final JoystickButton button1;
@@ -34,7 +34,7 @@ public class RobotTemplate extends IterativeRobot {
     private boolean firsttime;
     private int count;
 
-    public RobotTemplate() {
+    public LightSensorAnalogTriggerAndCounter() {
         joystick = new Joystick(1);
         joystick2 = new Joystick(2);
         vic1 = new Victor (1);
