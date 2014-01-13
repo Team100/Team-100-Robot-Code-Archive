@@ -10,8 +10,9 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.AnalogTrigger;
-import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,37 +24,70 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class LineReading extends IterativeRobot {
-    private final AnalogChannel lineReader1 = new AnalogChannel(3);
-    private final AnalogChannel lineReader2 = new AnalogChannel(7);
-    private final AnalogTrigger trigger1 = new AnalogTrigger(lineReader1);
-    private final AnalogTrigger trigger2 = new AnalogTrigger(lineReader2);
-    private boolean prevTriggerL;
-    private boolean prevTriggerR;
-    private boolean currTriggerL;
-    private boolean currTriggerR;
-    private double currVelL = 1.0;
-    private double currVelR = 1.0;
-    private double enterVelL = 1.0;
-    private double enterVelR = 1.0;
-    private boolean whiteZoneL;
-    private boolean whiteZoneR;
-    private int borderState = 0;
-    private Counter isTrue = new Counter(trigger1);
     
+    public static class LineReader extends LineReading
+    {
+        private final AnalogChannel lineReader;
+        private final AnalogTrigger trigger;
+        private final Counter count;
+        private boolean prevTrigger;
+        private boolean currTrigger;
+        private double currVel;
+        private double enterVel;
+        private boolean whiteZone;
+
+        public LineReader(int k_channel)
+        {
+            lineReader = new AnalogChannel(k_channel);
+            trigger = new AnalogTrigger(lineReader);
+            count = new Counter(trigger);
+            prevTrigger = true;
+            currTrigger = true;
+            currVel = 1.0;
+            enterVel = 1.0;
+            whiteZone = true;
+        }
+    }
+    private final LineReader left = new LineReader(3);
+    private final LineReader right = new LineReader(7);
+
+    private final Encoder encodeL = new Encoder(4, 5);
+    private final Encoder encodeR = new Encoder(8, 9);
+    private final Gyro gyro = new Gyro(1);
+    private int borderState = 0;
+    private boolean isReady; //????
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit()
     {
-        trigger1.setLimitsRaw(50, 75);
-        trigger2.setLimitsRaw(50, 75);
+        left.trigger.setLimitsRaw(50, 75);
+        right.trigger.setLimitsRaw(50, 75);
+        left.count.setUpSourceEdge(false, true);
+        right.count.setUpSourceEdge(false, true);
     }
     
     public void disabledInit()
     {
-        isTrue.stop();
-        isTrue.reset();
+        encodeL.stop();
+        encodeR.stop();
+        left.count.stop();
+        right.count.stop();
+    }
+    
+    public void autonomousInit()
+    {
+        encodeL.reset();
+        encodeL.start();
+        encodeR.reset();
+        encodeR.start();
+        gyro.reset();
+        left.count.reset();
+        left.count.start();
+        right.count.reset();
+        right.count.start();
     }
 
     /**
@@ -61,55 +95,87 @@ public class LineReading extends IterativeRobot {
      */
     public void autonomousPeriodic()
     {
-        currTriggerL = trigger1.getTriggerState();
-        currTriggerR = trigger2.getTriggerState();
-        if(prevTriggerL && !currTriggerL)
-        {
-            enterVelL = currVelL;
-        }
-        if(prevTriggerR && !currTriggerR)
-        {
-            enterVelR = currVelR;
-        }
-
-        SmartDashboard.putBoolean("Trigger1", trigger1.getTriggerState());
-        SmartDashboard.putBoolean("Trigger2", trigger2.getTriggerState());
-        SmartDashboard.putNumber("Reader1 Value", lineReader1.getValue());
-        SmartDashboard.putNumber("Reader2 Value", lineReader2.getValue());
-        
-        if(!prevTriggerL && currTriggerL && (Math.abs(enterVelL)/enterVelL == Math.abs(currVelL)/currVelL))
-        {
-            whiteZoneL = !whiteZoneL;
-        }
-        if(!prevTriggerR && currTriggerR && (Math.abs(enterVelR)/enterVelR == Math.abs(currVelR)/currVelR))
-        {
-            whiteZoneL = !whiteZoneL;
+        {// check if trigger is over carpet
+            if(1 == left.count.get())
+            {
+                left.count.reset();
+                left.currTrigger = true;
+            }
+            else
+            {
+                left.currTrigger = false;
+            }
+            if(1 == right.count.get())
+            {
+                right.count.reset();
+                right.currTrigger = true;
+            }
+            else
+            {
+                right.currTrigger = false;
+            }
         }
 
-        if(currTriggerL && whiteZoneL && currTriggerR && whiteZoneR)
-        {
-            borderState = 0;
+        {// record direction of movement to later tell if robot is leaving its zone
+            if(left.prevTrigger && !left.currTrigger)
+            {
+                left.enterVel = left.currVel;
+            }
+            if(right.prevTrigger && !right.currTrigger)
+            {
+                right.enterVel = right.currVel;
+            }
         }
-        if(currTriggerL && whiteZoneL && !currTriggerR)
-        {
-            borderState = 1;
+
+        {// if the robot crossed the line w/o u-turning change zone boolean
+            if(!left.prevTrigger && left.currTrigger &&
+                    (Math.abs(left.enterVel)/left.enterVel == Math.abs(left.currVel)/left.currVel))
+            {
+                left.whiteZone = !left.whiteZone;
+            }
+            if(!right.prevTrigger && right.currTrigger &&
+                    (Math.abs(right.enterVel)/right.enterVel == Math.abs(right.currVel)/right.currVel))
+            {
+                right.whiteZone = !right.whiteZone;
+            }
         }
-        if(currTriggerL && whiteZoneL && currTriggerR && !whiteZoneR)
-        {
-           borderState = 2;
+
+        SmartDashboard.putBoolean("Trigger1", left.trigger.getTriggerState());
+        SmartDashboard.putBoolean("Trigger2", right.trigger.getTriggerState());
+        SmartDashboard.putNumber("Reader1 Value", left.lineReader.getValue());
+        SmartDashboard.putNumber("Reader2 Value", right.lineReader.getValue());
+        SmartDashboard.putNumber("Border State", borderState);
+
+        {// asign state number based on state chart
+            if(left.currTrigger && left.whiteZone && right.currTrigger && right.whiteZone)
+                borderState = 0;
+            if(left.currTrigger && left.whiteZone && !right.currTrigger)
+                borderState = 1;
+            if(left.currTrigger && left.whiteZone && right.currTrigger && !right.whiteZone)
+                borderState = 2;
+            if(!left.currTrigger && right.currTrigger && right.whiteZone)
+                borderState = 3;
+            if(left.currTrigger && !left.whiteZone && right.currTrigger && right.whiteZone)
+                borderState = 4;
+            if(!left.currTrigger && right.currTrigger && !right.whiteZone)
+                borderState = 5;
+            if(left.currTrigger && !left.whiteZone && !right.currTrigger)
+                borderState = 6;
+            if(left.currTrigger && !left.whiteZone && right.currTrigger && !right.whiteZone)
+                borderState = 7;
+            if(!left.currTrigger && !right.currTrigger)
+                borderState = 8;
         }
-        if(!currTriggerL && currTriggerR && whiteZoneR)
-        {
-             borderState = 3;
-        }
-        
-        prevTriggerL = currTriggerL;
-        prevTriggerL = currTriggerR;
+
+        // record previous state so changes will be noticed
+        left.prevTrigger = left.currTrigger;
+        right.prevTrigger = right.currTrigger;
     }
     
     public void teleopInit()
     {
-        isTrue.start();
+        left.count.start();
+        right.count.start();
     }
 
     /**
@@ -117,11 +183,12 @@ public class LineReading extends IterativeRobot {
      */
     public void teleopPeriodic()
     {
-        SmartDashboard.putBoolean("Trigger1", trigger1.getTriggerState());
-        SmartDashboard.putBoolean("Trigger2", trigger2.getTriggerState());
-        SmartDashboard.putNumber("Reader1 Value", lineReader1.getValue());
-        SmartDashboard.putNumber("Reader2 Value", lineReader2.getValue());
-        SmartDashboard.putNumber("On line", isTrue.get());
+        SmartDashboard.putBoolean("Trigger1", left.trigger.getTriggerState());
+        SmartDashboard.putBoolean("Trigger2", right.trigger.getTriggerState());
+        SmartDashboard.putNumber("Reader1 Value", left.lineReader.getValue());
+        SmartDashboard.putNumber("Reader2 Value", right.lineReader.getValue());
+        SmartDashboard.putNumber("On line", left.count.get());
+        SmartDashboard.putNumber("On line", right.count.get());
     }
     
     /**
@@ -129,6 +196,16 @@ public class LineReading extends IterativeRobot {
      */
     public void testPeriodic() {
     
+    }
+    
+    public void turnInPlace(double angle, LineReader handedness)
+    {
+        
+    }
+    
+    public double counts2feet(int count)
+    {
+        return count / 4.875;
     }
     
 }
