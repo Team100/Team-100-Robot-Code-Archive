@@ -1,6 +1,8 @@
+//ready
 package org.usfirst.frc100.Robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc100.Robot2014.Preferences;
 import org.usfirst.frc100.Robot2014.Robot;
 
 /**
@@ -21,6 +23,8 @@ public class TiltToShootLow extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        Robot.tilter.setPosition(Preferences.shootLowAngle);
+        Robot.shooter.setPosition(Preferences.shootLowPosition);
     }
 
     // Make this return true when this Command no longer needs to run execute()

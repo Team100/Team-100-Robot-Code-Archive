@@ -141,14 +141,15 @@ public class RobotMap {
         
         driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
         driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
-        motors.addElement(driveTrainLeftMotorMain);
-        motors.addElement(driveTrainLeftMotorSlave);
-        motors.addElement(driveTrainRightMotorMain);
-        motors.addElement(driveTrainRightMotorSlave);
-        motors.addElement(shooterMotor);
-        motors.addElement(intakeTopMotor);
-        motors.addElement(intakeBottomMotor);
-        motors.addElement(tilterMotor);
+
+//        motors.addElement(driveTrainLeftMotorMain);
+//        motors.addElement(driveTrainLeftMotorSlave);
+//        motors.addElement(driveTrainRightMotorMain);
+//        motors.addElement(driveTrainRightMotorSlave);
+//        motors.addElement(shooterMotor);
+//        motors.addElement(intakeTopMotor);
+//        motors.addElement(intakeBottomMotor);
+//        motors.addElement(tilterMotor);
     }
     
     // Sets all motors on the robot to zero
