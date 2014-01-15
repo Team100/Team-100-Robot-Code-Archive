@@ -5,7 +5,7 @@ import org.usfirst.frc100.Robot2014.Robot;
 
 /**
  * Shoots the ball and pulls back the shooter to the distance for shooting high.
- * Stays tilted to the same angle. Command is when pressed.
+ * Command is when pressed. Ends when another command takes over.
  */
 public class TriggerShootReload extends Command {
 
@@ -16,6 +16,9 @@ public class TriggerShootReload extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Robot.tilter.stop();
+        Robot.shooter.stop();
+        Robot.shooter.setTrigger(true);
     }
 
     // Called repeatedly when this Command is scheduled to run

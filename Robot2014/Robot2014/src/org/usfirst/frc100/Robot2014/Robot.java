@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Robot2014.commands.*;
 import org.usfirst.frc100.Robot2014.subsystems.*;
 
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
     // This function is run when the robot is first started up and should be
     // used for any initialization code.
     public void robotInit() {
+        SmartDashboard.putNumber("kP", 0); // for tuning only
         RobotMap.init();
         driveTrain = new DriveTrain();
         shooter = new Shooter();
