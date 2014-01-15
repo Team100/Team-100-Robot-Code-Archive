@@ -2,7 +2,6 @@
 package org.usfirst.frc100.Robot2014.subsystems;
 
 import org.usfirst.frc100.Robot2014.RobotMap;
-import org.usfirst.frc100.Robot2014.commands.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-    SpeedController topMotor = RobotMap.intakeTopMotor;
-    SpeedController bottomMotor = RobotMap.intakeBottomMotor;
-    DoubleSolenoid topPiston = RobotMap.intakeTopPiston;
-    DoubleSolenoid bottomPiston = RobotMap.intakeBottomPiston;
-    DigitalInput ballDetector = RobotMap.intakeBallDetector;
+    SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
+    SpeedController bottomMotor = RobotMap.intakeBottomMotor; // positive = in
+    DoubleSolenoid topPiston = RobotMap.intakeTopPiston; // forward = raised
+    DoubleSolenoid bottomPiston = RobotMap.intakeBottomPiston; // forward = deployed
+    DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = ball
 
     // No default command
     public void initDefaultCommand() {
