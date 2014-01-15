@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,14 +51,22 @@ public class LineReading extends IterativeRobot {
             whiteZone = true;
         }
     }
-    private final LineReader left = new LineReader(3);
+    private final LineReader left = new LineReader(6);
     private final LineReader right = new LineReader(7);
 
-    private final Encoder encodeL = new Encoder(4, 5);
-    private final Encoder encodeR = new Encoder(8, 9);
+    private final Encoder encoder = new Encoder(4, 5);
     private final Gyro gyro = new Gyro(1);
+    private final Jaguar leftA = new Jaguar(6);
+    private final Jaguar leftB = new Jaguar(7);
+    private final Jaguar rightA = new Jaguar(8);
+    private final Jaguar rightB = new Jaguar(9);
+    private final RobotDrive drive = new RobotDrive(leftA, leftB, rightA, rightB);
+    
+    private final double width = 20.5; // inches
+    private double leftVal = 0.0;
+    private double rightVal = 0.0;
+    private boolean onLine;
     private int borderState = 0;
-    private boolean isReady; //????
 
     /**
      * This function is run when the robot is first started up and should be
@@ -71,18 +82,15 @@ public class LineReading extends IterativeRobot {
     
     public void disabledInit()
     {
-        encodeL.stop();
-        encodeR.stop();
+        encoder.stop();
         left.count.stop();
         right.count.stop();
     }
     
     public void autonomousInit()
     {
-        encodeL.reset();
-        encodeL.start();
-        encodeR.reset();
-        encodeR.start();
+        encoder.reset();
+        encoder.start();
         gyro.reset();
         left.count.reset();
         left.count.start();
@@ -117,6 +125,9 @@ public class LineReading extends IterativeRobot {
         }
 
         {// record direction of movement to later tell if robot is leaving its zone
+            left.currVel = leftA.get();
+            right.currVel = rightA.get();
+
             if(left.prevTrigger && !left.currTrigger)
             {
                 left.enterVel = left.currVel;
@@ -166,7 +177,20 @@ public class LineReading extends IterativeRobot {
             if(!left.currTrigger && !right.currTrigger)
                 borderState = 8;
         }
-
+        
+        switch (borderState)
+        {
+            case 1:
+                if(!onLine)
+                {
+                    encoder.reset();
+                    onLine = true;
+                }
+                break;
+            default:
+                break;
+        }
+        
         // record previous state so changes will be noticed
         left.prevTrigger = left.currTrigger;
         right.prevTrigger = right.currTrigger;
