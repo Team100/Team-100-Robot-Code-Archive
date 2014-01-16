@@ -44,8 +44,8 @@ public class LineReadingSimple extends IterativeRobot
      */
     public void robotInit()
     {
-        LTrigger.setLimitsRaw(50, 75);
-        RTrigger.setLimitsRaw(50, 75);
+        LTrigger.setLimitsRaw(888, 900 );
+        RTrigger.setLimitsRaw(888, 900);
     }
 
     /**
@@ -60,8 +60,8 @@ public class LineReadingSimple extends IterativeRobot
      */
     public void teleopPeriodic()
     {
-        leftVal = -dualshock.getY();
-        rightVal = -dualshock.getThrottle();
+        leftVal = -0.75*dualshock.getY();
+        rightVal = -0.75*dualshock.getThrottle();
         if(!LTrigger.getTriggerState())
             leftVal = 0.0;
         if(!RTrigger.getTriggerState())
@@ -69,8 +69,10 @@ public class LineReadingSimple extends IterativeRobot
         
         drive.tankDrive(leftVal, rightVal);
 
-        SmartDashboard.putBoolean("Left", LTrigger.getTriggerState());
-        SmartDashboard.putBoolean("Right", RTrigger.getTriggerState());
+        SmartDashboard.putNumber("Left Value", left.getValue());
+        SmartDashboard.putNumber("right Value", right.getValue());
+        SmartDashboard.putBoolean("Left Black Line", LTrigger.getTriggerState());
+        SmartDashboard.putBoolean("Right Black Line", RTrigger.getTriggerState());
     }
     
     /**
