@@ -21,19 +21,38 @@ public class Tilter extends Subsystem {
     public void initDefaultCommand() {
     }
     
+    // Initializes kP value on dashboard if in tuning mode
+    public Tilter(){
+        if(Preferences.tilterTuningMode){
+            SmartDashboard.putNumber("Tilter_kP", Preferences.tilter_kP);
+        }
+    }
+    
     // Adjusts the motor value to reach the correct position (angle in degrees above floor)
     public void setPosition(double angle){
         angleError = angle-getAngle();
         inPosition = false;
         if (Math.abs(angleError)>Preferences.tilterAngleBuffer){ // incorrect angle
-//            motor.set(angleError*Preferences.tilter_kP);
-            motor.set(angleError*SmartDashboard.getNumber("kP", 0)); // for tuning only
+            if(Preferences.tilterTuningMode){
+                motor.set(angleError*SmartDashboard.getNumber("Tilter_kP", 0));
+            }
+            else{
+                motor.set(angleError*Preferences.tilter_kP);
+            }
         } else{ // correct angle
             motor.set(0);
             inPosition = true;
         }
-        SmartDashboard.putNumber("PotValue", potentiometer.getValue());
-        SmartDashboard.putNumber("Angle", getAngle());
+        if(Preferences.tilterTuningMode){
+            SmartDashboard.putNumber("TilterAngle", getAngle());
+            SmartDashboard.putNumber("TilterError", angleError);
+            if (Math.abs(angleError)>Preferences.tilterAngleBuffer){
+                SmartDashboard.putNumber("TilterOutput", angleError*SmartDashboard.getNumber("kP", 0));
+            }
+            else{
+                SmartDashboard.putNumber("TilterOutput", 0);
+            }
+        }
     }
     
     // Returns the current angle above the floor in degrees
