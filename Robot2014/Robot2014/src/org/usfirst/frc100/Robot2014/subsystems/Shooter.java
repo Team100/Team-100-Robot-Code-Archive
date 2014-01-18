@@ -1,3 +1,4 @@
+//ready, except for LED light strip
 package org.usfirst.frc100.Robot2014.subsystems;
 
 import org.usfirst.frc100.Robot2014.RobotMap;
@@ -52,12 +53,30 @@ public class Shooter extends Subsystem {
         }
     }
     
+    // Reattaches the two parts of the shooter after a shot using the hall effect
+    public boolean reload(){
+        if(hallEffectForward.get()){
+            motor.set(0);
+            return true;
+        }
+        else{
+            motor.set(-Preferences.shooterPullForwardSpeed);
+            return false;
+        }
+    }
+    
     // Returns the pullback distance in inches
     public double getPosition(){
         return potentiometer.getValue()/Preferences.shooterPotToInchRatio+Preferences.shooterPotOffsetInches;
 //        return encoder.get()/Preferences.shooterEncoderToInchRatio;
     }
     
+    // Returns whether the shooter is ready to shoot
+    public boolean inPosition(){
+        return inPosition;
+    }
+    
+    // Sets the position of the quick release
     public void setTrigger(boolean forward){
         if(forward){
             release.set(DoubleSolenoid.Value.kForward);
@@ -65,11 +84,6 @@ public class Shooter extends Subsystem {
         else{
             release.set(DoubleSolenoid.Value.kReverse);
         }
-    }
-    
-    // Returns whether the shooter is ready to shoot
-    public boolean inPosition(){
-        return inPosition;
     }
     
     // Stops the shooter motor
