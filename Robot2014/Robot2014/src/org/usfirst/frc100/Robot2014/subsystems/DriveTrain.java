@@ -1,9 +1,12 @@
+// MATTHEW'S NUMBER: 112600
 package org.usfirst.frc100.Robot2014.subsystems;
 
 import org.usfirst.frc100.Robot2014.RobotMap;
+import org.usfirst.frc100.Robot2014.Preferences;
 import org.usfirst.frc100.Robot2014.commands.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Controls the drive motors and shifters, and reads numerous sensors.
@@ -24,11 +27,22 @@ public class DriveTrain extends Subsystem {
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
     
-    boolean slaveDriveEnabled = org.usfirst.frc100.Robot2014.Preferences.slaveDriveDefaultEnabled;
+    boolean slaveDriveEnabled = Preferences.slaveDriveDefaultEnabled;
+    double distError = 0;
+    double angleError = 0;
+    double distOutput = 0;
+    double angleOutput = 0;
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
         setDefaultCommand(new Drive());
+    }
+    
+    public DriveTrain(){
+        if(Preferences.driveTrainTuningMode){
+            SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);
+            SmartDashboard.putNumber("AutoTurn_kP", Preferences.autoTurn_kP);
+        }
     }
 
     // Sets the robot drives to tankdrive
@@ -51,5 +65,79 @@ public class DriveTrain extends Subsystem {
         else{
             slaveDrive.stopMotor();
         }
+    }
+    
+    // Drives straight for a distance in inches, returns true when distance reached
+    public boolean autoDriveStraight(double distance){
+        // Distance output
+        distError = distance-getDistance();
+        if(Preferences.driveTrainTuningMode){
+            SmartDashboard.putNumber("AutoDriveDistOutput", distOutput);
+            SmartDashboard.putNumber("AutoDriveAngleOutput", angleOutput);
+            SmartDashboard.putNumber("AutoDriveRightEncoderValue", rightEncoder.get());
+            SmartDashboard.putNumber("AutoDriveLeftEncoderValue", leftEncoder.get());
+            SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get()+rightEncoder.get())/2);
+            SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
+            SmartDashboard.putNumber("AutoDriveDistanceValue", getDistance());
+            SmartDashboard.putNumber("AutoDriveAngleValue", getAngle());
+            SmartDashboard.putNumber("AutoDriveDistError", distError);
+            SmartDashboard.putNumber("AutoDriveAngleError", angleError);
+        }
+        if (Math.abs(distError)>Preferences.driveDistBuffer){ // incorrect distance
+            if(Preferences.driveTrainTuningMode){
+                distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
+            }
+            else{
+                distOutput = distError*Preferences.driveStraight_kP;
+            }
+        } else{ // correct distance
+            distOutput = 0;
+            if (Math.abs(angleError)<Preferences.driveAngleBuffer){
+                stop();
+                return true;
+            }
+        }
+        // Angle output
+        angleError = -getAngle();
+        if(Preferences.driveTrainTuningMode){
+            angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        }
+        else{
+            angleOutput = angleError*Preferences.autoTurn_kP;
+        }
+        // Setting motors
+        arcadeDrive(distOutput, angleOutput);
+        return false;
+    }
+    
+    // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
+    public boolean autoTurnByAngle(double angle){
+        return autoTurnToAngle((getAngle()+angle+180)%360-180);
+    }
+    
+    // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
+    public boolean autoTurnToAngle(double angle){
+        return false;
+    }
+    
+    // Returns robot angle relative to starting position
+    public double getAngle(){
+        return gyro.getAngle()/Preferences.driveGyroToDegreeRatio;
+    }
+    
+    // Returns distance traveled in inches since last reset
+    public double getDistance(){
+        return (leftEncoder.get()+rightEncoder.get())/2/Preferences.driveEncoderToInchRatio;
+    }
+    
+    // Resets both encoders to zero
+    public void resetEncoders(){
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
+    
+    // Stops the drive motors
+    public void stop(){
+        tankDrive(0,0);
     }
 }
