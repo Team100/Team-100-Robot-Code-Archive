@@ -8,7 +8,16 @@ public class Preferences {
     // DriveTrain modes
     public static boolean tankDriveMode = true; // false = arcadeDrive
     public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
-
+    // DriveTrain PID
+    public static boolean driveTrainTuningMode;
+    public static double driveEncoderToInchRatio = 1;
+    public static double driveGyroToDegreeRatio = 1;
+    public static double driveStraight_kP = 0;
+    public static double autoTurn_kP;
+    public static double driveDistBuffer = 0;
+    public static double driveAngleBuffer;
+    public static double autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+            
     // Tilter PID
     public static boolean tilterTuningMode = false;
     public static double tilterPotToDegreeRatio = .27; // pot / ratio = degrees
