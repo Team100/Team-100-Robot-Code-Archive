@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public class RobotMap {
 
-    public static Vector motors;
+    public static Vector motors = new Vector();
     
     public static RobotDrive driveTrainMainDrive;
     public static RobotDrive driveTrainSlaveDrive;
@@ -121,7 +121,7 @@ public class RobotMap {
         intakeBottomPiston = new DoubleSolenoid(5, 6);
         LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
 
-        intakeBallDetector = new DigitalInput(1, 10);
+        intakeBallDetector = new DigitalInput(1, 9);
         LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
 
         tilterMotor = new Victor(1, 8);
@@ -130,7 +130,7 @@ public class RobotMap {
         tilterPotentiometer = new AnalogChannel(1, 4);
         LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
 
-        compressor = new Compressor(1, 9, 1, 1);
+        compressor = new Compressor(1, 14, 1, 1);
         LiveWindow.addActuator("Compressor", "Compressor", compressor);
         
         cameraLights = new Relay(1, 2);
@@ -142,14 +142,14 @@ public class RobotMap {
         driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
         driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
 
-//        motors.addElement(driveTrainLeftMotorMain);
-//        motors.addElement(driveTrainLeftMotorSlave);
-//        motors.addElement(driveTrainRightMotorMain);
-//        motors.addElement(driveTrainRightMotorSlave);
-//        motors.addElement(shooterMotor);
-//        motors.addElement(intakeTopMotor);
-//        motors.addElement(intakeBottomMotor);
-//        motors.addElement(tilterMotor);
+        motors.addElement(driveTrainLeftMotorMain);
+        motors.addElement(driveTrainLeftMotorSlave);
+        motors.addElement(driveTrainRightMotorMain);
+        motors.addElement(driveTrainRightMotorSlave);
+        motors.addElement(shooterMotor);
+        motors.addElement(intakeTopMotor);
+        motors.addElement(intakeBottomMotor);
+        motors.addElement(tilterMotor);
     }
     
     // Sets all motors on the robot to zero
