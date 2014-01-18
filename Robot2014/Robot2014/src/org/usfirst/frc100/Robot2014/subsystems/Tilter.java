@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Tilter extends Subsystem {
 
-    SpeedController motor = RobotMap.tilterMotor; // positive = up
-    AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // positive = up
+    SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
+    AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
 
     double angleError = 0; // positive = too low, negative = too high
     boolean inPosition = true;
@@ -45,13 +45,9 @@ public class Tilter extends Subsystem {
         }
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("TilterAngle", getAngle());
+            SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
             SmartDashboard.putNumber("TilterError", angleError);
-            if (Math.abs(angleError)>Preferences.tilterAngleBuffer){
-                SmartDashboard.putNumber("TilterOutput", angleError*SmartDashboard.getNumber("kP", 0));
-            }
-            else{
-                SmartDashboard.putNumber("TilterOutput", 0);
-            }
+            SmartDashboard.putNumber("TilterOutput", motor.get());
         }
     }
     
@@ -68,5 +64,10 @@ public class Tilter extends Subsystem {
     // Stops the tilter motor
     public void stop(){
         motor.set(0);
+    }
+    
+    // Directly controls motor speed
+    public void manualControl(double speed){
+        motor.set(speed);
     }
 }

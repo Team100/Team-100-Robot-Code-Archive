@@ -3,6 +3,7 @@ package org.usfirst.frc100.Robot2014.subsystems;
 import org.usfirst.frc100.Robot2014.RobotMap;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Robot2014.Preferences;
 
 /**
@@ -11,11 +12,11 @@ import org.usfirst.frc100.Robot2014.Preferences;
 public class Shooter extends Subsystem {
 
     SpeedController motor = RobotMap.shooterMotor; // positive = pull back
-    DigitalInput hallEffectForward = RobotMap.shooterHallEffectForward; // true = pressed
-    DigitalInput hallEffectBack = RobotMap.shooterHallEffectBack; // true = pressed
+    DigitalInput hallEffectForward = RobotMap.shooterHallEffectForward; // true = shooter pushed forward completely
+    DigitalInput hallEffectBack = RobotMap.shooterHallEffectBack; // true = shooter pulled back completely
     AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
     DoubleSolenoid release = RobotMap.shooterRelease; // forward = released
-    Encoder encoder = RobotMap.shooterEncoder; // positive = pull back
+    Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
     Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
     
     double positionError = 0; // positive = too close, negative = too far
@@ -27,9 +28,9 @@ public class Shooter extends Subsystem {
     // Adjusts the position of the shooter
     // WARNING: If encoder is used, DO NOT call this command before first shot
     public void setPosition(double position){
-        if(hallEffectForward.get()){
-            encoder.reset();
-        }
+//        if(hallEffectForward.get()){
+//            encoder.reset();
+//        }
         positionError = position-getPosition();
         inPosition = false;
         if (positionError>org.usfirst.frc100.Robot2014.Preferences.shooterDistanceBuffer&&!hallEffectBack.get()){ // too close
@@ -40,12 +41,21 @@ public class Shooter extends Subsystem {
             motor.set(0);
             inPosition = true;
         }
+        if(Preferences.shooterTuningMode){
+            SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
+//            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
+            SmartDashboard.putNumber("ShooterPosition", potentiometer.getValue());
+            SmartDashboard.putNumber("ShooterError", positionError);
+            SmartDashboard.putNumber("ShooterOutput", motor.get());
+            SmartDashboard.getBoolean("ShooterForwardLimit", hallEffectForward.get());
+            SmartDashboard.getBoolean("ShooterBackLimit", hallEffectBack.get());
+        }
     }
     
     // Returns the pullback distance in inches
     public double getPosition(){
         return potentiometer.getValue()/Preferences.shooterPotToInchRatio+Preferences.shooterPotOffsetInches;
-        // return encoder.get()/Preferences.shooterEncoderToInchRatio;
+//        return encoder.get()/Preferences.shooterEncoderToInchRatio;
     }
     
     public void setTrigger(boolean forward){
@@ -65,5 +75,18 @@ public class Shooter extends Subsystem {
     // Stops the shooter motor
     public void stop(){
         motor.set(0);
+    }
+    
+    // Directly controls motor speed
+    public void manualControl(double speed){
+        if(speed>0&&!hallEffectBack.get()){
+            motor.set(speed);
+        }
+        else if(speed<0&&!hallEffectForward.get()){
+            motor.set(speed);
+        }
+        else{
+            motor.set(0);
+        }
     }
 }

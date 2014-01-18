@@ -10,11 +10,11 @@ public class Preferences {
     public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
 
     // Tilter PID
+    public static boolean tilterTuningMode = false;
     public static double tilterPotToDegreeRatio = .27; // pot / ratio = degrees
     public static double tilterPotOffsetDegrees = -1481.5; // degrees + offset = angle
     public static double tilterAngleBuffer = 8; // degrees tilter can be off by
     public static double tilter_kP = -0.02; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
-    public static boolean tilterTuningMode = true;
     // Tilter angles (in degrees)
     public static double shootHighAngle = 180;
     public static double shootLowAngle = 90;
@@ -22,6 +22,7 @@ public class Preferences {
     public static double intakeAngle = 270;
     
     // Shooter tuning
+    public static boolean shooterTuningMode = false;
     public static double shooterPotToInchRatio = 1; // pot / ratio = inches
     public static double shooterPotOffsetInches = 0; // inches + offset = position
     public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
