@@ -33,8 +33,8 @@ public class LineReadingSimple extends IterativeRobot
     final AnalogTrigger rTrigger = new AnalogTrigger(right);
     final Counter lCount = new Counter(lTrigger);
     final Counter rCount = new Counter(rTrigger);
-    boolean lTriggered = false;
-    boolean rTriggered = false;
+    boolean lTriggered = true;
+    boolean rTriggered = true;
     final Jaguar leftA = new Jaguar(6);
     final Jaguar leftB = new Jaguar(7);
     final Jaguar rightA = new Jaguar(8);
@@ -42,6 +42,10 @@ public class LineReadingSimple extends IterativeRobot
     final RobotDrive drive = new RobotDrive(leftA, leftB, rightA, rightB);
     final Joystick dualshock = new Joystick(1);
     final JoystickButton alignPress = new JoystickButton(dualshock, 4);
+    final JoystickButton reverseDrive = new JoystickButton(dualshock, 6);
+    boolean prev6 = false;
+    boolean runAlign = false;
+    boolean reverse = false;
     double leftVal = 0.0;
     double rightVal = 0.0;
     
@@ -51,8 +55,10 @@ public class LineReadingSimple extends IterativeRobot
      */
     public void robotInit()
     {
-        lTrigger.setLimitsRaw(888, 900 );
-        rTrigger.setLimitsRaw(888, 900);
+        lTrigger.setLimitsRaw(900, 910 );
+        rTrigger.setLimitsRaw(900, 910);
+        lCount.setUpSourceEdge(true, true);
+        rCount.setUpSourceEdge(true, true);
         
     }
     
@@ -71,48 +77,52 @@ public class LineReadingSimple extends IterativeRobot
 
     }
 
+    public void teleopInit()
+    {
+        lCount.start();
+        rCount.start();
+    }
+
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic()
     {
-        if(1 == lCount.get())
+        lTriggered = (0==lCount.get()%2);
+        rTriggered = (0==rCount.get()%2);
+
+        if(!prev6 && reverseDrive.get())
+            reverse = !reverse;
+
+        if(reverse)
         {
-            lCount.reset();
-            lTriggered = true;
+            leftVal = 0.75*dualshock.getThrottle();
+            rightVal = 0.75*dualshock.getY();
         }
         else
         {
-            lTriggered = false;
-        }
-        
-        if(1 == rCount.get())
-        {
-            rCount.reset();
-            rTriggered = true;
-        }
-        else
-        {
-            rTriggered = false;
+            leftVal = -0.75*dualshock.getY();
+            rightVal = -0.75*dualshock.getThrottle();
         }
 
-        leftVal = -0.75*dualshock.getY();
-        rightVal = -0.75*dualshock.getThrottle();
-//        if(!LTrigger.getTriggerState())
-//            leftVal = 0.0;
-//        if(!RTrigger.getTriggerState())
-//            rightVal = 0.0;
-        
         drive.tankDrive(leftVal, rightVal);
-        
+
         if(alignPress.get())
+            runAlign = true;
+
+        if(runAlign)
             align();
 
         SmartDashboard.putNumber("Left Value", left.getValue());
         SmartDashboard.putNumber("right Value", right.getValue());
-        SmartDashboard.putBoolean("Left Black Line", lTrigger.getTriggerState());
-        SmartDashboard.putBoolean("Right Black Line", rTrigger.getTriggerState());
+        SmartDashboard.putBoolean("Left Black Line", lTriggered);
+        SmartDashboard.putBoolean("Right Black Line", rTriggered);
+        SmartDashboard.putNumber("Left Count", lCount.get());
+        SmartDashboard.putNumber("Right Count", rCount.get());
         SmartDashboard.putBoolean("Is Aligning", false);
+        
+        prev6 = reverseDrive.get();
+                
     }
     
     /**
@@ -124,26 +134,34 @@ public class LineReadingSimple extends IterativeRobot
     
     public void align()
     {
+        System.out.println("Method runing");
+        System.out.println(lTriggered);
+        System.out.println(rTriggered);
+
+        SmartDashboard.putNumber("Left Value", left.getValue());
+        SmartDashboard.putNumber("right Value", right.getValue());
+        SmartDashboard.putBoolean("Left Black Line", lTriggered);
+        SmartDashboard.putBoolean("Right Black Line", rTriggered);
         SmartDashboard.putBoolean("Is Aligning", true);
-        while(true)
-        {
+        SmartDashboard.putBoolean("Is Aligning", true);
+
             if(lTriggered && rTriggered)
                 drive.tankDrive(0.8, 0.8);
             else if(!lTriggered && rTriggered)
                 drive.tankDrive(0.0, 0.3);
             else if(lTriggered && !rTriggered)
                 drive.tankDrive(0.3, 0.0);
-            else
+            else if(!lTriggered && !rTriggered)
             {
                 drive.stopMotor();
+                runAlign = false;
                 return;
             }
-
-            SmartDashboard.putNumber("Left Value", left.getValue());
-            SmartDashboard.putNumber("right Value", right.getValue());
-            SmartDashboard.putBoolean("Left Black Line", lTrigger.getTriggerState());
-            SmartDashboard.putBoolean("Right Black Line", rTrigger.getTriggerState());
-            SmartDashboard.putBoolean("Is Aligning", false);
-        }
+            
+//            if(alignPress.get())
+//            {
+//                runAlign = false;
+//                return;
+//            }
     }
 }
