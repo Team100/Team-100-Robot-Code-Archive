@@ -6,8 +6,8 @@ import org.usfirst.frc100.Robot2014.Preferences;
 import org.usfirst.frc100.Robot2014.Robot;
 
 /**
- * Drives the robot a given distance in a straight line, then stops the robot
- * and terminates. Parameter is the distance in inches to drive.
+ * Rotates the robot by the given angle in degrees, then stops the robot
+ * and terminates. Parameter is the angle to turn to.
  */
 public class AutoTurn extends Command {
 
