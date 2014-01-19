@@ -7,6 +7,7 @@ import org.usfirst.frc100.Robot2014.commands.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.Robot2014.Robot;
 
 /**
  * Controls the drive motors and shifters, and reads numerous sensors.
@@ -33,6 +34,7 @@ public class DriveTrain extends Subsystem {
     double distOutput = 0;
     double angleOutput = 0;
     double direction = 0;
+    double inches;
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
@@ -145,6 +147,10 @@ public class DriveTrain extends Subsystem {
         rightEncoder.reset();
     }
     
+    public void resetRangefinder() {
+        Robot.driveTrain.inches = (rangeFinder.getVoltage()/5*512/2.4);
+    }
+    
     // Call once before drive straight
     public void setDirection(){
         direction=getAngle();
@@ -170,4 +176,29 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveAngleError", angleError);
         }
     }
+    
+    //returns the inches away from where the MB1023 ultrasonic sensor is pointing
+    //filters out upward spikes to the max voltage when the sensor is near its max distance
+    public double getRangeInches()
+    {
+        double currentValue = rangeFinder.getVoltage()/5*512/2.4;
+        
+        if(Math.abs(inches - currentValue) < Preferences.ultraAcceptableSpike)
+        {
+            inches = currentValue;
+            return (inches);
+        }
+        else
+        {
+            return -1;
+        }
+     
+        
+        
+        
+        
+        
+        
+    }
+    
 }
