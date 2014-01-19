@@ -17,6 +17,9 @@ public class Preferences {
     public static double driveDistBuffer = 0; // inches robot can be off by
     public static double driveAngleBuffer = 0; // degrees robot can be off by
     public static double autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+    // Distance sensing
+    public static double ultraStopDistance = 60; // inches away from target that we want to stop
+    public static double ultraAcceptableSpike = 20;
             
     // Tilter PID
     public static boolean tilterTuningMode = false;
