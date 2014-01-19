@@ -107,11 +107,15 @@ public class DriveTrain extends Subsystem {
     
     // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
     public boolean autoTurnByAngle(double angle){
-        return autoTurnToAngle((getAngle()+angle+180)%360-180);
+        return autoTurnToAngle(direction+angle);
     }
     
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle){
+        while (angle<0){
+            angle+=360;
+        }
+        angle = (angle+180)%360-180;
         distOutput=distError=0;
         angleError = angle-getAngle();
         if (Math.abs(angleError)<Preferences.driveAngleBuffer){
@@ -133,9 +137,13 @@ public class DriveTrain extends Subsystem {
     
     // Returns robot angle relative to starting position
     public double getAngle(){
-        return gyro.getAngle()/Preferences.driveGyroToDegreeRatio;
+        double ang = gyro.getAngle()/Preferences.driveGyroToDegreeRatio;
+        while (ang<0){
+            ang+=360;
+        }
+        return (ang+180)%360-180;
     }
-    
+        
     // Returns distance traveled in inches since last reset
     public double getDistance(){
         return (leftEncoder.get()+rightEncoder.get())/2/Preferences.driveEncoderToInchRatio;
@@ -147,11 +155,12 @@ public class DriveTrain extends Subsystem {
         rightEncoder.reset();
     }
     
+    // Call once before align to shoot
     public void resetRangefinder() {
         Robot.driveTrain.inches = (rangeFinder.getVoltage()/5*512/2.4);
     }
     
-    // Call once before drive straight
+    // Call once before drive straight or turn by angle
     public void setDirection(){
         direction=getAngle();
     }
