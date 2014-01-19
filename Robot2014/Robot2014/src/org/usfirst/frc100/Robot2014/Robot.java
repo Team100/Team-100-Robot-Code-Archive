@@ -1,3 +1,4 @@
+//need to start compressor still
 package org.usfirst.frc100.Robot2014;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -65,11 +66,6 @@ public class Robot extends IterativeRobot {
     // This function is called periodically during operator control
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        System.out.println(driveTrain.getCurrentCommand());
-        System.out.println(shooter.getCurrentCommand());
-        System.out.println(intake.getCurrentCommand());
-        System.out.println(tilter.getCurrentCommand());
-        System.out.println(compressor.getCurrentCommand());
     }
 
     // This function called periodically during test mode

@@ -1,3 +1,4 @@
+//ready
 package org.usfirst.frc100.Robot2014;
 
 import org.usfirst.frc100.Robot2014.commands.*;
@@ -12,8 +13,10 @@ import edu.wpi.first.wpilibj.buttons.*;
 public class OI {
 
     public JoystickButton alignToShootButton;
+    public JoystickButton quickTurnAroundButton;
     public Joystick driverLeft;
     public JoystickButton shiftButton;
+    public JoystickButton quickTurnForwardButton;
     public Joystick driverRight;
     public JoystickButton tiltToShootLowButton;
     public JoystickButton tiltToIntakeButton;
@@ -53,10 +56,14 @@ public class OI {
         driverRight = new Joystick(2);
         shiftButton = new JoystickButton(driverRight, 1);
         shiftButton.whileHeld(new ShiftLow());
+        quickTurnForwardButton = new JoystickButton(driverRight, 2);
+        quickTurnForwardButton.whileHeld(new AutoTurn(0,true));
 
         driverLeft = new Joystick(1);
         alignToShootButton = new JoystickButton(driverLeft, 1);
         alignToShootButton.whileHeld(new AlignToShoot());
+        quickTurnAroundButton = new JoystickButton(driverLeft, 2);
+        quickTurnAroundButton.whileHeld(new AutoTurn(180));
 
         // SmartDashboard Buttons
 //        SmartDashboard.putData("ShiftLow", new ShiftLow());

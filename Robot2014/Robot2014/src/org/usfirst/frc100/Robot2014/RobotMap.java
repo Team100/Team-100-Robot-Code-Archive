@@ -1,3 +1,4 @@
+//change motor types
 package org.usfirst.frc100.Robot2014;
 
 import edu.wpi.first.wpilibj.*;
