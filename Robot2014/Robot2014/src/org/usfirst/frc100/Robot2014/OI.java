@@ -23,6 +23,8 @@ public class OI {
     public JoystickButton shootButton;
     public JoystickButton intakeButton;
     public JoystickButton armButton;
+    public JoystickButton toggleLowRollerButton;
+    public JoystickButton toggleManualControlButton;
     public Joystick manipulator;
 
     public OI() {
@@ -43,6 +45,10 @@ public class OI {
         tiltToIntakeButton.whenPressed(new TiltToIntake());
         tiltToShootLowButton = new JoystickButton(manipulator, 1);
         tiltToShootLowButton.whenPressed(new TiltToShootLow());
+        toggleLowRollerButton = new JoystickButton(manipulator, 9);
+        toggleLowRollerButton.whenPressed(new ToggleLowerRoller());
+        toggleManualControlButton = new JoystickButton(manipulator, 10);
+        toggleManualControlButton.toggleWhenPressed(new FullManualControl());
 
         driverRight = new Joystick(2);
         shiftButton = new JoystickButton(driverRight, 1);
@@ -53,22 +59,22 @@ public class OI {
         alignToShootButton.whileHeld(new AlignToShoot());
 
         // SmartDashboard Buttons
-        SmartDashboard.putData("ShiftLow", new ShiftLow());
-        SmartDashboard.putData("TiltToIntake", new TiltToIntake());
-        SmartDashboard.putData("TiltToShootTruss", new TiltToShootTruss());
-        SmartDashboard.putData("TiltToShootLow", new TiltToShootLow());
-        SmartDashboard.putData("TiltToShootHigh", new TiltToShootHigh());
-        SmartDashboard.putData("TriggerShootReload", new TriggerShootReload());
-        SmartDashboard.putData("RunIntakeIn", new RunIntakeIn());
-        SmartDashboard.putData("RunIntakeOut", new RunIntakeOut());
-        SmartDashboard.putData("AutoDriveStraight", new AutoDriveStraight(24));
-        SmartDashboard.putData("Catch", new Catch());
-        SmartDashboard.putData("ArmShooter", new ArmShooter());
-        SmartDashboard.putData("Drive", new Drive());
-        SmartDashboard.putData("AutoTurn", new AutoTurn(0));
-        SmartDashboard.putData("AlignToShoot", new AlignToShoot());
-        SmartDashboard.putData("DeployLowerRoller", new DeployLowerRoller());
-        SmartDashboard.putData("RetractLowerRoller", new RetractLowerRoller());
+//        SmartDashboard.putData("ShiftLow", new ShiftLow());
+//        SmartDashboard.putData("TiltToIntake", new TiltToIntake());
+//        SmartDashboard.putData("TiltToShootTruss", new TiltToShootTruss());
+//        SmartDashboard.putData("TiltToShootLow", new TiltToShootLow());
+//        SmartDashboard.putData("TiltToShootHigh", new TiltToShootHigh());
+//        SmartDashboard.putData("TriggerShootReload", new TriggerShootReload());
+//        SmartDashboard.putData("RunIntakeIn", new RunIntakeIn());
+//        SmartDashboard.putData("RunIntakeOut", new RunIntakeOut());
+//        SmartDashboard.putData("AutoDriveStraight", new AutoDriveStraight(24));
+//        SmartDashboard.putData("Catch", new Catch());
+//        SmartDashboard.putData("ArmShooter", new ArmShooter());
+//        SmartDashboard.putData("Drive", new Drive());
+//        SmartDashboard.putData("AutoTurn", new AutoTurn(0));
+//        SmartDashboard.putData("AlignToShoot", new AlignToShoot());
+//        SmartDashboard.putData("DeployLowerRoller", new DeployLowerRoller());
+//        SmartDashboard.putData("RetractLowerRoller", new RetractLowerRoller());
     }
 
     public Joystick getDriverLeft() {

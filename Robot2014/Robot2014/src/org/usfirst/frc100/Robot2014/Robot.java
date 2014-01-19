@@ -36,14 +36,18 @@ public class Robot extends IterativeRobot {
         compressor = new Compressor();
         oi = new OI();
         
+        SmartDashboard.putData(driveTrain);
+        SmartDashboard.putData(shooter);
+        SmartDashboard.putData(intake);
+        SmartDashboard.putData(tilter);
+        SmartDashboard.putData(compressor);
+        
         autonomousCommand = new Autonomous();
     }
 
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
-        if (autonomousCommand != null) {
-            autonomousCommand.start();
-        }
+        autonomousCommand.start();
     }
 
     // This function is called periodically during autonomous
@@ -53,14 +57,19 @@ public class Robot extends IterativeRobot {
 
     // This function is called at the beginning of operator control
     public void teleopInit() {
-        if (autonomousCommand != null) {
-            autonomousCommand.cancel();
-        }
+        Scheduler.getInstance().removeAll();
+        new Drive().start();
+        new TiltToIntake().start();
     }
 
     // This function is called periodically during operator control
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        System.out.println(driveTrain.getCurrentCommand());
+        System.out.println(shooter.getCurrentCommand());
+        System.out.println(intake.getCurrentCommand());
+        System.out.println(tilter.getCurrentCommand());
+        System.out.println(compressor.getCurrentCommand());
     }
 
     // This function called periodically during test mode

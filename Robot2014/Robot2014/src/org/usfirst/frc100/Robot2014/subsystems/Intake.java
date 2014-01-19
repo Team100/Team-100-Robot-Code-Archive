@@ -62,4 +62,9 @@ public class Intake extends Subsystem {
             bottomPiston.set(DoubleSolenoid.Value.kReverse);
         }
     }
+    
+        // Returns whether the lower roller is deployed
+    public boolean getBottomPistonState(){
+        return bottomPiston.get()==DoubleSolenoid.Value.kForward;
+    }
 }
