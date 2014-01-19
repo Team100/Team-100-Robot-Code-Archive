@@ -1,0 +1,6 @@
+MIDlet-Name: I2C
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: FIRST
+MIDlet-1: I2C_Robot, , edu.wpi.first.wpilibj.templates.I2C_Robot
+MicroEdition-Profile: IMP-1.0
+MicroEdition-Configuration: CLDC-1.1
