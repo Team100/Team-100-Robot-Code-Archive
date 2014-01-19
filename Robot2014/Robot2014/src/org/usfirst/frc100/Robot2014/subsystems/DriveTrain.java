@@ -1,4 +1,4 @@
-// MATTHEW'S NUMBER: 112600
+//just needs gearshifting
 package org.usfirst.frc100.Robot2014.subsystems;
 
 import org.usfirst.frc100.Robot2014.RobotMap;
@@ -32,12 +32,14 @@ public class DriveTrain extends Subsystem {
     double angleError = 0;
     double distOutput = 0;
     double angleOutput = 0;
+    double direction = 0;
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
         setDefaultCommand(new Drive());
     }
     
+    // Adds kP to dashboard during tuning mode
     public DriveTrain(){
         if(Preferences.driveTrainTuningMode){
             SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);
@@ -71,18 +73,6 @@ public class DriveTrain extends Subsystem {
     public boolean autoDriveStraight(double distance){
         // Distance output
         distError = distance-getDistance();
-        if(Preferences.driveTrainTuningMode){
-            SmartDashboard.putNumber("AutoDriveDistOutput", distOutput);
-            SmartDashboard.putNumber("AutoDriveAngleOutput", angleOutput);
-            SmartDashboard.putNumber("AutoDriveRightEncoderValue", rightEncoder.get());
-            SmartDashboard.putNumber("AutoDriveLeftEncoderValue", leftEncoder.get());
-            SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get()+rightEncoder.get())/2);
-            SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
-            SmartDashboard.putNumber("AutoDriveDistanceValue", getDistance());
-            SmartDashboard.putNumber("AutoDriveAngleValue", getAngle());
-            SmartDashboard.putNumber("AutoDriveDistError", distError);
-            SmartDashboard.putNumber("AutoDriveAngleError", angleError);
-        }
         if (Math.abs(distError)>Preferences.driveDistBuffer){ // incorrect distance
             if(Preferences.driveTrainTuningMode){
                 distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
@@ -94,11 +84,13 @@ public class DriveTrain extends Subsystem {
             distOutput = 0;
             if (Math.abs(angleError)<Preferences.driveAngleBuffer){
                 stop();
+                angleOutput=0;
+                updateDashboard();
                 return true;
             }
         }
         // Angle output
-        angleError = -getAngle();
+        angleError = direction-getAngle();
         if(Preferences.driveTrainTuningMode){
             angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
         }
@@ -107,6 +99,7 @@ public class DriveTrain extends Subsystem {
         }
         // Setting motors
         arcadeDrive(distOutput, angleOutput);
+        updateDashboard();
         return false;
     }
     
@@ -117,6 +110,22 @@ public class DriveTrain extends Subsystem {
     
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle){
+        distOutput=distError=0;
+        angleError = angle-getAngle();
+        if (Math.abs(angleError)<Preferences.driveAngleBuffer){
+            stop();
+            angleOutput=0;
+            updateDashboard();
+            return true;
+        }
+        if(Preferences.driveTrainTuningMode){
+            angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        }
+        else{
+            angleOutput = angleError*Preferences.autoTurn_kP;
+        }
+        arcadeDrive(0, angleOutput);
+        updateDashboard();
         return false;
     }
     
@@ -136,8 +145,29 @@ public class DriveTrain extends Subsystem {
         rightEncoder.reset();
     }
     
+    // Call once before drive straight
+    public void setDirection(){
+        direction=getAngle();
+    }
+    
     // Stops the drive motors
     public void stop(){
         tankDrive(0,0);
+    }
+    
+    // Puts values on dashboard if in tuning mode
+    public void updateDashboard(){
+        if(Preferences.driveTrainTuningMode){
+            SmartDashboard.putNumber("AutoDriveDistOutput", distOutput);
+            SmartDashboard.putNumber("AutoDriveAngleOutput", angleOutput);
+            SmartDashboard.putNumber("AutoDriveRightEncoderValue", rightEncoder.get());
+            SmartDashboard.putNumber("AutoDriveLeftEncoderValue", leftEncoder.get());
+            SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get()+rightEncoder.get())/2);
+            SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
+            SmartDashboard.putNumber("AutoDriveDistanceValue", getDistance());
+            SmartDashboard.putNumber("AutoDriveAngleValue", getAngle());
+            SmartDashboard.putNumber("AutoDriveDistError", distError);
+            SmartDashboard.putNumber("AutoDriveAngleError", angleError);
+        }
     }
 }
