@@ -13,18 +13,34 @@ public class AutoTurn extends Command {
 
     int inPositionCounter = 0;
     double angle;
+    boolean toAngle = false;
     
     public AutoTurn(double angle) {
         requires(Robot.driveTrain);
         this.angle=angle;
     }
 
+    public AutoTurn(double angle, boolean toAngle) {
+        requires(Robot.driveTrain);
+        this.angle=angle;
+        this.toAngle=toAngle;
+    }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        if(toAngle){
+            if(Robot.driveTrain.autoTurnToAngle(angle)){
+                inPositionCounter++;
+            }
+            else{
+                inPositionCounter = 0;
+            }
+            return;
+        }
         if(Robot.driveTrain.autoTurnByAngle(angle)){
             inPositionCounter++;
         }

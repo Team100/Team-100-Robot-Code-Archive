@@ -9,7 +9,7 @@ public class Preferences {
     public static boolean tankDriveMode = true; // false = arcadeDrive
     public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
     // DriveTrain PID
-    public static boolean driveTrainTuningMode = false;
+    public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
     public static double driveStraight_kP = 0; // error * kP = motor speed
