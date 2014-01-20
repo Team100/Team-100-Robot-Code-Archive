@@ -74,11 +74,11 @@ public class OI {
 //        SmartDashboard.putData("TriggerShootReload", new TriggerShootReload());
 //        SmartDashboard.putData("RunIntakeIn", new RunIntakeIn());
 //        SmartDashboard.putData("RunIntakeOut", new RunIntakeOut());
-//        SmartDashboard.putData("AutoDriveStraight", new AutoDriveStraight(24));
+        SmartDashboard.putData("AutoDriveStraight", new AutoDriveStraight(24));
 //        SmartDashboard.putData("Catch", new Catch());
 //        SmartDashboard.putData("ArmShooter", new ArmShooter());
 //        SmartDashboard.putData("Drive", new Drive());
-//        SmartDashboard.putData("AutoTurn", new AutoTurn(0));
+        SmartDashboard.putData("AutoTurn", new AutoTurn(0, true));
 //        SmartDashboard.putData("AlignToShoot", new AlignToShoot());
 //        SmartDashboard.putData("DeployLowerRoller", new DeployLowerRoller());
 //        SmartDashboard.putData("RetractLowerRoller", new RetractLowerRoller());
