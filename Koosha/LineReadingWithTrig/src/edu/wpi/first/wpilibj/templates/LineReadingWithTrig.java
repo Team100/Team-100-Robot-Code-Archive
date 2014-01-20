@@ -11,6 +11,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class LineReadingSimple extends IterativeRobot
+public class LineReadingWithTrig extends IterativeRobot
 {
     final AnalogChannel left = new AnalogChannel(6);
     final AnalogChannel right = new AnalogChannel(7);
@@ -40,14 +41,19 @@ public class LineReadingSimple extends IterativeRobot
     final Jaguar rightA = new Jaguar(8);
     final Jaguar rightB = new Jaguar(9);
     final RobotDrive drive = new RobotDrive(leftA, leftB, rightA, rightB);
+    final Encoder lEncoder = new Encoder(4, 3);
+    final Encoder rEncoder = new Encoder(1, 2);
     final Joystick dualshock = new Joystick(1);
     final JoystickButton alignPress = new JoystickButton(dualshock, 4);
     final JoystickButton reverseDrive = new JoystickButton(dualshock, 6);
+    final double width = 24.5;
     boolean prev6 = false;
     boolean runAlign = false;
     boolean reverse = true;
     double leftVal = 0.0;
     double rightVal = 0.0;
+    boolean leftIsReady = false;
+    boolean rightIsReady = false;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -83,6 +89,8 @@ public class LineReadingSimple extends IterativeRobot
     {
         lCount.start();
         rCount.start();
+        lEncoder.start();
+        rEncoder.start();
     }
 
     /**
@@ -141,10 +149,12 @@ public class LineReadingSimple extends IterativeRobot
     public void align()
     {
         System.out.println("Align is runing");
-        System.out.print("Left Count:" + lCount.get());
-        System.out.print("Right Count:" + rCount.get());
+        System.out.print("Left Count:" + lCount.get() + ", ");
+        System.out.print("Right Count:" + rCount.get() + ", ");
         System.out.print("Left:" + lTriggered + ", ");
         System.out.print("Right:" + rTriggered + ", ");
+        System.out.print("Left Encoder:" + lEncoder.get() + ", ");
+        System.out.print("Right Encoder:" + rEncoder.get() + ", ");
         SmartDashboard.putBoolean("Is Aligning", true);
 
             if(lTriggered && rTriggered)
