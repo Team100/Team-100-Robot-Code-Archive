@@ -46,4 +46,7 @@ public class Preferences {
     public static double shootLowPosition = 0;
     public static double shootTrussPosition = 0;
     public static double intakePosition = 0;
+    
+    // RobotMap
+    static boolean hammerHeadRobotMap  = true;
 }

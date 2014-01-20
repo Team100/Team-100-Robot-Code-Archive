@@ -93,6 +93,10 @@ public class DriveTrain extends Subsystem {
         }
         // Angle output
         angleError = direction-getAngle();
+        while (angleError<0){
+            angleError+=360;
+        }
+        angleError = (angleError+180)%360-180;
         if(Preferences.driveTrainTuningMode){
             angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
         }
@@ -112,12 +116,12 @@ public class DriveTrain extends Subsystem {
     
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle){
-        while (angle<0){
-            angle+=360;
-        }
-        angle = (angle+180)%360-180;
         distOutput=distError=0;
         angleError = angle-getAngle();
+        while (angleError<0){
+            angleError+=360;
+        }
+        angleError = (angleError+180)%360-180;
         if (Math.abs(angleError)<Preferences.driveAngleBuffer){
             stop();
             angleOutput=0;
@@ -137,11 +141,7 @@ public class DriveTrain extends Subsystem {
     
     // Returns robot angle relative to starting position
     public double getAngle(){
-        double ang = gyro.getAngle()/Preferences.driveGyroToDegreeRatio;
-        while (ang<0){
-            ang+=360;
-        }
-        return (ang+180)%360-180;
+        return gyro.getAngle()/Preferences.driveGyroToDegreeRatio;
     }
         
     // Returns distance traveled in inches since last reset
