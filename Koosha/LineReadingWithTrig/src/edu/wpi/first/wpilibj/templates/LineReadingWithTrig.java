@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
@@ -43,6 +44,7 @@ public class LineReadingWithTrig extends IterativeRobot
     final RobotDrive drive = new RobotDrive(leftA, leftB, rightA, rightB);
     final Encoder lEncoder = new Encoder(4, 3);
     final Encoder rEncoder = new Encoder(1, 2);
+    final Gyro gyro = new Gyro(1);
     final Joystick dualshock = new Joystick(1);
     final JoystickButton alignPress = new JoystickButton(dualshock, 4);
     final JoystickButton reverseDrive = new JoystickButton(dualshock, 6);
@@ -54,6 +56,11 @@ public class LineReadingWithTrig extends IterativeRobot
     double rightVal = 0.0;
     boolean leftIsReady = false;
     boolean rightIsReady = false;
+    private double distError;
+    private double distOutput;
+    private double angleError;
+    private double angleOutput;
+    private double direction;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -156,28 +163,25 @@ public class LineReadingWithTrig extends IterativeRobot
         System.out.print("Left Encoder:" + lEncoder.get() + ", ");
         System.out.print("Right Encoder:" + rEncoder.get() + ", ");
         SmartDashboard.putBoolean("Is Aligning", true);
-
-            if(lTriggered && rTriggered)
+        
+        if(lTriggered && rTriggered)
+        {
+            direction = gyro.getAngle();
+            autoDriveStraight(216.0);
+        }
+        else if(!lTriggered && rTriggered)
+        {
+            leftIsReady = true;
+            if(!leftIsReady)
             {
-                drive.tankDrive(0.4, 0.4, false);
-                System.out.print("State=0, ");
+                lEncoder.reset();
+                rEncoder.reset();
             }
-            else if(!lTriggered && rTriggered)
+            else if(rightIsReady)
             {
-                drive.tankDrive(-0.4, 0.4, false);
-                System.out.print("State 1, ");
+                
             }
-            else if(lTriggered && !rTriggered)
-            {
-                drive.tankDrive(0.4, -0.4, false);
-                System.out.print("State 2, ");
-            }
-            else if(!lTriggered && !rTriggered)
-            {
-                drive.stopMotor();
-                System.out.print("State 3, ");
-                runAlign = false;
-            }
+        }
 
             System.out.println("Left Motor: " + leftA.get() + ", " + "Right Motor:" + rightA.get());
             
@@ -186,5 +190,42 @@ public class LineReadingWithTrig extends IterativeRobot
 //                runAlign = false;
 //                return;
 //            }
+    }
+
+    // param is in inches 
+    // returns true when distance is reached
+    public boolean autoDriveStraight(double distance)
+    {
+        // Distance output
+        distError = distance - (lEncoder.get() + rEncoder.get())/80;
+
+        if (Math.abs(distError) > 1.0) // false if distance goal has been reached
+        {
+            distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
+        }
+        else // if distance goal has been reached
+        {
+            distOutput = 0;
+            if (Math.abs(angleError) < 5.0) // if correct angle has been reached
+            {
+                drive.stopMotor();
+                angleOutput=0;
+                //updateDashboard();
+                return true;
+            }
+        }
+
+        // Angle output
+        angleError = direction - gyro.getAngle();
+        while(angleError<0)
+        {
+            angleError+=360;
+        }
+        angleError = (angleError+180)%360-180;
+        angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        // Setting motors
+        drive.arcadeDrive(distOutput, angleOutput);
+        //updateDashboard();
+        return false;
     }
 }

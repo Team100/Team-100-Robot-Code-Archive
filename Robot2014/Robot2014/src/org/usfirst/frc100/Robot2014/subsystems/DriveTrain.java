@@ -58,6 +58,7 @@ public class DriveTrain extends Subsystem {
         else{
             slaveDrive.stopMotor();
         }
+        updateDashboard();
     }
 
     // Sets the robot drives to arcadedrive
@@ -69,12 +70,13 @@ public class DriveTrain extends Subsystem {
         else{
             slaveDrive.stopMotor();
         }
+        updateDashboard();
     }
     
     // Drives straight for a distance in inches, returns true when distance reached
     public boolean autoDriveStraight(double distance){
         // Distance output
-        distError = distance-getDistance();
+        distError = getDistance()-distance;
         if (Math.abs(distError)>Preferences.driveDistBuffer){ // incorrect distance
             if(Preferences.driveTrainTuningMode){
                 distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
@@ -183,6 +185,7 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveAngleValue", getAngle());
             SmartDashboard.putNumber("AutoDriveDistError", distError);
             SmartDashboard.putNumber("AutoDriveAngleError", angleError);
+            SmartDashboard.putNumber("RangeDistanceInches",getRangeInches() );
         }
     }
     
