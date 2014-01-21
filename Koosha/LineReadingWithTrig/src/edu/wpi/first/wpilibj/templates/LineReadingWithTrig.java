@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,8 +58,9 @@ public class LineReadingWithTrig extends IterativeRobot
     boolean rightIsReady = false;
     private double distError;
     private double distOutput;
-    private int angleError;
-    private int angleOutput;
+    private double angleError;
+    private double angleOutput;
+    private double direction;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -166,7 +166,21 @@ public class LineReadingWithTrig extends IterativeRobot
         
         if(lTriggered && rTriggered)
         {
-            
+            direction = gyro.getAngle();
+            autoDriveStraight(216.0);
+        }
+        else if(!lTriggered && rTriggered)
+        {
+            leftIsReady = true;
+            if(!leftIsReady)
+            {
+                lEncoder.reset();
+                rEncoder.reset();
+            }
+            else if(rightIsReady)
+            {
+                
+            }
         }
 
             System.out.println("Left Motor: " + leftA.get() + ", " + "Right Motor:" + rightA.get());
@@ -177,13 +191,13 @@ public class LineReadingWithTrig extends IterativeRobot
 //                return;
 //            }
     }
-    
+
     // param is in inches 
     // returns true when distance is reached
     public boolean autoDriveStraight(double distance)
     {
         // Distance output
-        distError = distance - lEncoder.get();
+        distError = distance - (lEncoder.get() + rEncoder.get())/80;
 
         if (Math.abs(distError) > 1.0) // false if distance goal has been reached
         {
@@ -203,19 +217,15 @@ public class LineReadingWithTrig extends IterativeRobot
 
         // Angle output
         angleError = direction - gyro.getAngle();
-        while (angleError<0){
+        while(angleError<0)
+        {
             angleError+=360;
         }
         angleError = (angleError+180)%360-180;
-        if(Preferences.driveTrainTuningMode){
-            angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
-        }
-        else{
-            angleOutput = angleError*Preferences.autoTurn_kP;
-        }
+        angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
         // Setting motors
-        arcadeDrive(distOutput, angleOutput);
-        updateDashboard();
+        drive.arcadeDrive(distOutput, angleOutput);
+        //updateDashboard();
         return false;
     }
 }
