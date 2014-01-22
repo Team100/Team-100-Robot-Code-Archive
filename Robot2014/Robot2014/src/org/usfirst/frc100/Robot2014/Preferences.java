@@ -7,6 +7,7 @@ package org.usfirst.frc100.Robot2014;
 public class Preferences {
 
     // DriveTrain modes
+    public static int autoMode = 1;
     public static boolean tankDriveMode = true; // false = arcadeDrive
     public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
     // DriveTrain PID
@@ -21,7 +22,7 @@ public class Preferences {
     // Distance sensing
     public static double ultraStopDistance = 120; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20;
-            
+    
     // Tilter PID
     public static boolean tilterTuningMode = false;
     public static double tilterPotToDegreeRatio = .27; // pot / ratio = degrees
@@ -49,5 +50,5 @@ public class Preferences {
     public static double intakePosition = 0;
     
     // RobotMap
-    static boolean hammerHeadRobotMap  = true;
+    public static boolean hammerHeadRobotMap  = true;
 }
