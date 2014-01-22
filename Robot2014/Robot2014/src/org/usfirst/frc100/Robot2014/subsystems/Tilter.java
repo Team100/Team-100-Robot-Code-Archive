@@ -18,6 +18,7 @@ public class Tilter extends Subsystem {
     double angleError = 0; // positive = too low, negative = too high
     boolean inPosition = true;
     
+    // No default command
     public void initDefaultCommand() {
     }
     

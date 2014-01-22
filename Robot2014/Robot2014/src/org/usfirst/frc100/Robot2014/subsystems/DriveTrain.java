@@ -1,4 +1,4 @@
-//just needs gearshifting
+//just needs rangefinding
 package org.usfirst.frc100.Robot2014.subsystems;
 
 import org.usfirst.frc100.Robot2014.RobotMap;
@@ -212,5 +212,14 @@ public class DriveTrain extends Subsystem {
         
         
     }
-    
+
+    // Shifts to low gear
+    public void shiftLow() {
+        shifter.set(DoubleSolenoid.Value.kForward);
+    }
+
+    // Shifts to high gear
+    public void shiftHigh() {
+        shifter.set(DoubleSolenoid.Value.kReverse);
+    }
 }
