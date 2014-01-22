@@ -41,13 +41,11 @@ public class DriveTrain extends Subsystem {
 
     private final double inchesToCountRatio = 0.0125;
     private boolean reverse = true;
-    private boolean lTriggered = true;
-    private boolean rTriggered = true;
     private double distError;
     private double distOutput;
     private double angleError;
     private double angleOutput;
-    private double direction;
+    private double bearing;
 
     public DriveTrain()
     {
@@ -96,10 +94,11 @@ public class DriveTrain extends Subsystem {
         return (lEncoder.get() + rEncoder.get())*inchesToCountRatio;
     }
 
-    // Resets Gyro angle to Zero
-    public void resetGyro()
+    // Counters have to be started
+    public void startCounter()
     {
-        gyro.reset();
+        lCount.start();
+        rCount.start();
     }
 
     // Returns the angle of the Gyro
@@ -116,30 +115,42 @@ public class DriveTrain extends Subsystem {
 
     public boolean getLeftTrigger()
     {
-        return lTriggered;
+        return 0==lCount.get()%2;
     }
     
     public boolean getRightTrigger()
     {
-        return rTriggered;
+        return 0==rCount.get()%2;
     }
     
-    public void update()
+    public void setBearing(double angle)
     {
-        lTriggered = 0==lCount.get()%2;
-        rTriggered = 0==rCount.get()%2;
+        bearing = angle;
+    }
+    
+    public void tankDrive(double leftSpeed, double rightSpeed)
+    {
+        drive.tankDrive(leftSpeed, rightSpeed);
+    }
+    
+    public void arcadeDrive(double forwardSpeed, double rotateSpeed)
+    {
+        drive.arcadeDrive(forwardSpeed, rotateSpeed);
     }
 
     // param is in inches 
     // returns true when distance is reached
-    public boolean autoDriveStraight(double distance)
+    public boolean autoDriveStraight(double distance, double speedLimit)
     {
+        speedLimit = Math.abs(speedLimit);
         // Distance output
         distError = distance - this.getDistance();
 
         if (Math.abs(distError) > 1.0) // false if distance goal has been reached
         {
             distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
+            if(Math.abs(distOutput) > speedLimit)
+                distOutput = (Math.abs(distOutput) / distOutput) * speedLimit;
         }
         else // if distance goal has been reached
         {
@@ -154,7 +165,7 @@ public class DriveTrain extends Subsystem {
         }
 
         // Angle output
-        angleError = direction - gyro.getAngle();
+        angleError = bearing - gyro.getAngle();
         while(angleError<0)
         {
             angleError+=360;
@@ -163,6 +174,38 @@ public class DriveTrain extends Subsystem {
         angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
         // Setting motors
         drive.arcadeDrive(distOutput, angleOutput);
+        //updateDashboard();
+        return false;
+    }
+
+    // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
+    public boolean autoTurnByAngle(double angle)
+    {
+        return autoTurnToAngle(bearing + angle);
+    }
+
+    // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
+    public boolean autoTurnToAngle(double angle)
+    {
+        distOutput = distError = 0;
+        angleError = angle - getAngle();
+
+        while (angleError < 0)
+        {
+            angleError += 360;
+        }
+
+        angleError = (angleError+180)%360-180;
+        if (Math.abs(angleError) < 5.0)
+        {
+            tankDrive(0.0, 0.0);
+            angleOutput=0;
+            //updateDashboard();
+            return true;
+        }
+        angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        
+        arcadeDrive(0, angleOutput);
         //updateDashboard();
         return false;
     }
