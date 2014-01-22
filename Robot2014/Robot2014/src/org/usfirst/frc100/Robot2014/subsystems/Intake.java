@@ -45,6 +45,7 @@ public class Intake extends Subsystem {
         bottomMotor.set(0);
     }
     
+    // Deploys or retracts the top piston
     public void setTopPiston(boolean forward){
         if(forward){
             topPiston.set(DoubleSolenoid.Value.kForward);
@@ -54,6 +55,7 @@ public class Intake extends Subsystem {
         }
     }
     
+    // Deploys or retracts the bottom piston
     public void setBottomPiston(boolean forward){
         if(forward){
             bottomPiston.set(DoubleSolenoid.Value.kForward);
@@ -63,7 +65,7 @@ public class Intake extends Subsystem {
         }
     }
     
-        // Returns whether the lower roller is deployed
+    // Returns whether the lower roller is deployed
     public boolean getBottomPistonState(){
         return bottomPiston.get()==DoubleSolenoid.Value.kForward;
     }

@@ -1,3 +1,4 @@
+//ready, unless more prefs are needed
 package org.usfirst.frc100.Robot2014;
 
 /**

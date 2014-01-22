@@ -1,4 +1,4 @@
-//needs drivetrain methods
+//ready
 package org.usfirst.frc100.Robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,14 +10,13 @@ import org.usfirst.frc100.Robot2014.Robot;
  */
 public class ShiftLow extends Command {
    
-
     public ShiftLow() {
         
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //Robot.driveTrain.shiftLow();
+        Robot.driveTrain.shiftLow();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,7 +30,7 @@ public class ShiftLow extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        //Robot.driveTrain.shiftHigh();
+        Robot.driveTrain.shiftHigh();
     }
 
     // Called when another command which requires one or more of the same

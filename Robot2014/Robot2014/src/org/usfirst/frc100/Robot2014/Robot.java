@@ -1,4 +1,4 @@
-//need to start compressor still
+//ready
 package org.usfirst.frc100.Robot2014;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
         autonomousCommand.start();
+        compressor.startCompressor();
     }
 
     // This function is called periodically during autonomous
@@ -59,8 +60,10 @@ public class Robot extends IterativeRobot {
     // This function is called at the beginning of operator control
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
+        RobotMap.stopAllMotors();
         new Drive().start();
         new TiltToIntake().start();
+        compressor.startCompressor();
     }
 
     // This function is called periodically during operator control
@@ -68,7 +71,13 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
     }
 
-    // This function called periodically during test mode
+    // This function is called at the beginning of test mode
+    public void testInit(){
+        super.testInit();
+        compressor.startCompressor();
+    }
+    
+    // This function is called periodically during test mode
     public void testPeriodic() {
         LiveWindow.run();
     }

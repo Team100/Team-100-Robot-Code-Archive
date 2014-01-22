@@ -23,6 +23,7 @@ public class Shooter extends Subsystem {
     double positionError = 0; // positive = too close, negative = too far
     boolean inPosition = true;
     
+    // No default command
     public void initDefaultCommand() {
     }
     
