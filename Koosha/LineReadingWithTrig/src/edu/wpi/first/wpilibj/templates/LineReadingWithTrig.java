@@ -166,12 +166,10 @@ public class LineReadingWithTrig extends IterativeRobot
         
         if(lTriggered && rTriggered)
         {
-            direction = gyro.getAngle();
             autoDriveStraight(216.0);
         }
         else if(!lTriggered && rTriggered)
         {
-            leftIsReady = true;
             if(!leftIsReady)
             {
                 lEncoder.reset();
@@ -181,6 +179,7 @@ public class LineReadingWithTrig extends IterativeRobot
             {
                 
             }
+            leftIsReady = true;
         }
 
             System.out.println("Left Motor: " + leftA.get() + ", " + "Right Motor:" + rightA.get());
