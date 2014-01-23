@@ -128,6 +128,11 @@ public class DriveTrain extends Subsystem {
         bearing = angle;
     }
     
+    public boolean getReverse()
+    {
+        return reverse;
+    }
+    
     public void tankDrive(double leftSpeed, double rightSpeed)
     {
         drive.tankDrive(leftSpeed, rightSpeed);
@@ -148,7 +153,7 @@ public class DriveTrain extends Subsystem {
 
         if (Math.abs(distError) > 1.0) // false if distance goal has been reached
         {
-            distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0);
+            distOutput = distError * 0.15;
             if(Math.abs(distOutput) > speedLimit)
                 distOutput = (Math.abs(distOutput) / distOutput) * speedLimit;
         }
@@ -171,7 +176,7 @@ public class DriveTrain extends Subsystem {
             angleError+=360;
         }
         angleError = (angleError+180)%360-180;
-        angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        angleOutput = angleError * 0.15;
         // Setting motors
         drive.arcadeDrive(distOutput, angleOutput);
         //updateDashboard();
@@ -203,11 +208,20 @@ public class DriveTrain extends Subsystem {
             //updateDashboard();
             return true;
         }
-        angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0);
+        angleOutput = angleError * 0.15;
         
         arcadeDrive(0, angleOutput);
         //updateDashboard();
         return false;
+    }
+    
+    public void updateDashboard()
+    {
+        SmartDashboard.putNumber("Left Value", lReader.getValue());
+        SmartDashboard.putNumber("Right Value", rReader.getValue());
+        SmartDashboard.putNumber("Left Count", lCount.get());
+        SmartDashboard.putNumber("Right Count", rCount.get());
+        SmartDashboard.putBoolean("Is Aligning", false);
     }
 }
 
