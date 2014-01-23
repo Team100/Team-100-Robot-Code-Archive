@@ -62,10 +62,10 @@ public class RobotMap {
 	LiveWindow.addSensor("DriveTrain", "rReader", driveTrainrReader);
         
         driveTrainlTrigger = new AnalogTrigger(driveTrainlReader);
-        LiveWindow.addSensor("DriveTrain", "lTrigger", (LiveWindowSendable) driveTrainlTrigger);
+//        LiveWindow.addSensor("DriveTrain", "lTrigger", (LiveWindowSendable) driveTrainlTrigger);
         
         driveTrainrTrigger = new AnalogTrigger(driveTrainrReader);
-        LiveWindow.addSensor("DriveTrain", "rTrigger", (LiveWindowSendable) driveTrainrTrigger);
+//        LiveWindow.addSensor("DriveTrain", "rTrigger", (LiveWindowSendable) driveTrainrTrigger);
         
         driveTrainleftA = new Jaguar(1, 6);
 	LiveWindow.addActuator("DriveTrain", "leftA", (Jaguar) driveTrainleftA);
@@ -76,7 +76,7 @@ public class RobotMap {
         driveTrainrightA = new Jaguar(1, 8);
 	LiveWindow.addActuator("DriveTrain", "rightA", (Jaguar) driveTrainrightA);
         
-        driveTrainrightB = new Victor(1, 9);
+        driveTrainrightB = new Jaguar(1, 9);
 	LiveWindow.addActuator("DriveTrain", "rightB", (Jaguar) driveTrainrightB);
         
         driveTraindrive = new RobotDrive(driveTrainleftA, driveTrainleftB,

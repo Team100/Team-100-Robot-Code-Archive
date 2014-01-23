@@ -12,6 +12,7 @@
 package org.usfirst.frc100.GeeWrathwithLineReader.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.GeeWrathwithLineReader.Robot;
 import org.usfirst.frc100.GeeWrathwithLineReader.subsystems.DriveTrain;
 
@@ -53,14 +54,14 @@ public class  Align extends Command
         
         if(lTriggered && rTriggered)
         {
-            driveTrain.autoDriveStraight(216.0, 1.0);
+            driveTrain.autoDriveStraight(216.0, 0.5);
         }
         else if(!lTriggered && rTriggered)
         {
             if(!leftInPos)
             {
                driveTrain.resetEncoder();
-               driveTrain.autoDriveStraight(216.0, 1.0);
+               driveTrain.autoDriveStraight(216.0, 0.5);
             }
             if(rightInPos)
             {
@@ -73,7 +74,7 @@ public class  Align extends Command
             if(!rightInPos)
             {
                 driveTrain.resetEncoder();
-                driveTrain.autoDriveStraight(216.0, 1.0);
+                driveTrain.autoDriveStraight(216.0, 0.5);
             }
             if(leftInPos)
             {
@@ -90,7 +91,7 @@ public class  Align extends Command
             }
             else
             {
-                driveTrain.autoDriveStraight(-216.0, 1.0);
+                driveTrain.autoDriveStraight(-216.0, 0.5);
             }
         }
         
@@ -98,6 +99,10 @@ public class  Align extends Command
         {
             driveTrain.autoTurnByAngle(displacement);
         }
+
+        SmartDashboard.putBoolean("Left Black Line", lTriggered);
+        SmartDashboard.putBoolean("Right Black Line", rTriggered);
+        SmartDashboard.putBoolean("Is Aligning", true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -107,13 +112,11 @@ public class  Align extends Command
     }
 
     // Called once after isFinished returns true
-    protected void end() 
-    {
+    protected void end() {
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted()
-    {
+    protected void interrupted() {
     }
 }
