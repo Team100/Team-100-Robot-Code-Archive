@@ -46,6 +46,7 @@ public class DriveTrain extends Subsystem {
     private double angleError;
     private double angleOutput;
     private double bearing;
+    private long prevTime = System.currentTimeMillis();
 
     public DriveTrain()
     {
@@ -206,22 +207,28 @@ public class DriveTrain extends Subsystem {
             tankDrive(0.0, 0.0);
             angleOutput=0;
             //updateDashboard();
+            SmartDashboard.putBoolean("Is Turning", false);
             return true;
         }
-        angleOutput = angleError * 0.15;
+        angleOutput = angleError * 0.60;
         
         arcadeDrive(0, angleOutput);
         //updateDashboard();
+        SmartDashboard.putNumber("Angle Output", angleOutput);
+        SmartDashboard.putBoolean("Is Turning", true);
         return false;
     }
     
     public void updateDashboard()
     {
+        System.out.print(lCount.get() + " ");
+        System.out.print(rCount.get() + " ");
+        System.out.println(System.currentTimeMillis() - prevTime);
         SmartDashboard.putNumber("Left Value", lReader.getValue());
         SmartDashboard.putNumber("Right Value", rReader.getValue());
         SmartDashboard.putNumber("Left Count", lCount.get());
         SmartDashboard.putNumber("Right Count", rCount.get());
-        SmartDashboard.putBoolean("Is Aligning", false);
+        prevTime = System.currentTimeMillis();
     }
 }
 

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.GeeWrathwithLineReader.Robot;
 import org.usfirst.frc100.GeeWrathwithLineReader.subsystems.DriveTrain;
+import com.sun.squawk.util.MathUtils;
 
 /**
  *
@@ -22,6 +23,8 @@ import org.usfirst.frc100.GeeWrathwithLineReader.subsystems.DriveTrain;
 public class  Align extends Command
 {
     private final DriveTrain driveTrain = Robot.driveTrain;
+    
+    private final double width = 24.5;
     private boolean lTriggered;
     private boolean rTriggered;
     private boolean leftInPos = false;
@@ -54,14 +57,17 @@ public class  Align extends Command
         
         if(lTriggered && rTriggered)
         {
-            driveTrain.autoDriveStraight(216.0, 0.5);
+            if(!doneTurn)
+                driveTrain.autoDriveStraight(216.0, 0.6);
+            else
+                driveTrain.autoDriveStraight(-216.0, 0.6);
         }
         else if(!lTriggered && rTriggered)
         {
             if(!leftInPos)
             {
                driveTrain.resetEncoder();
-               driveTrain.autoDriveStraight(216.0, 0.5);
+               driveTrain.autoDriveStraight(216.0, 0.6);
             }
             if(rightInPos)
             {
@@ -74,7 +80,7 @@ public class  Align extends Command
             if(!rightInPos)
             {
                 driveTrain.resetEncoder();
-                driveTrain.autoDriveStraight(216.0, 0.5);
+                driveTrain.autoDriveStraight(216.0, 0.6);
             }
             if(leftInPos)
             {
@@ -91,17 +97,19 @@ public class  Align extends Command
             }
             else
             {
-                driveTrain.autoDriveStraight(-216.0, 0.5);
+                driveTrain.autoDriveStraight(216.0, 0.6);
             }
         }
         
         if(leftInPos && rightInPos)
         {
-            driveTrain.autoTurnByAngle(displacement);
+            doneTurn = driveTrain.autoTurnByAngle(MathUtils.atan(displacement/width));
         }
 
+        driveTrain.updateDashboard();
         SmartDashboard.putBoolean("Left Black Line", lTriggered);
         SmartDashboard.putBoolean("Right Black Line", rTriggered);
+        SmartDashboard.putNumber("Encoder Distance", driveTrain.getDistance());
         SmartDashboard.putBoolean("Is Aligning", true);
     }
 
@@ -112,11 +120,15 @@ public class  Align extends Command
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end()
+    {
+        SmartDashboard.putBoolean("Is Aligning", false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void interrupted()
+    {
+        end();
     }
 }
