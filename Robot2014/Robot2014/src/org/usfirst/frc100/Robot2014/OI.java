@@ -29,6 +29,8 @@ public class OI {
     public JoystickButton toggleLowRollerButton;
     public JoystickButton toggleManualControlButton;
     public Joystick manipulator;
+    public JoystickButton shootWhileMovingButton;
+    
 
     public OI() {
         manipulator = new Joystick(3);
@@ -52,12 +54,16 @@ public class OI {
         toggleLowRollerButton.whenPressed(new ToggleLowerRoller());
         toggleManualControlButton = new JoystickButton(manipulator, 10);
         toggleManualControlButton.toggleWhenPressed(new FullManualControl());
-
+        
+        
         driverRight = new Joystick(2);
-        shiftButton = new JoystickButton(driverRight, 1);
+        shiftButton = new JoystickButton(driverRight, 2); //moving this to 2 so we can use our FastestShotInTheWest
         shiftButton.whileHeld(new ShiftLow());
-        quickTurnForwardButton = new JoystickButton(driverRight, 2);
-        quickTurnForwardButton.whileHeld(new AutoTurn(0,true));
+//        quickTurnForwardButton = new JoystickButton(driverRight, 2);
+//        quickTurnForwardButton.whileHeld(new AutoTurn(0,true));
+        shootWhileMovingButton = new JoystickButton(driverRight, 1);
+        shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
+        
 
         driverLeft = new Joystick(1);
         alignToShootButton = new JoystickButton(driverLeft, 1);

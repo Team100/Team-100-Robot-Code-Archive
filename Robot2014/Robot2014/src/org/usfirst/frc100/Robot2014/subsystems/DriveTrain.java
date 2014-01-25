@@ -106,6 +106,24 @@ public class DriveTrain extends Subsystem {
         updateDashboard();
         return false;
     }
+    
+    // Drives straight forever at a given speed
+    public void driveStraight(double speed) {
+        // Angle output
+        angleError = direction - getAngle();
+        while (angleError < 0) {
+            angleError += 360;
+        }
+        angleError = (angleError + 180) % 360 - 180;
+        if (Preferences.driveTrainTuningMode) {
+            angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
+        } else {
+            angleOutput = angleError * Preferences.autoTurn_kP;
+        }
+        // Setting motors
+        arcadeDrive(speed, angleOutput);
+        updateDashboard();
+    }
 
     // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
     public boolean autoTurnByAngle(double angle) {
@@ -143,7 +161,26 @@ public class DriveTrain extends Subsystem {
 
     // Returns distance traveled in inches since last reset
     public double getDistance() {
-        return (leftEncoder.get() + rightEncoder.get()) / 2 / Preferences.driveEncoderToInchRatio;
+        leftEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
+        rightEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
+        return (leftEncoder.get() + rightEncoder.get()) / 2;
+    }
+
+    // Returns the current speed in inches per second
+    public double getCurrentSpeed() {
+        double speed = (leftEncoder.getRate() + rightEncoder.getRate())/2;
+        return speed;
+    }
+    
+    // Returns rangefinder distance in inches. Spikes return -1
+    public double getRangeInches() {
+        double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4;
+        if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
+            lastRangeFinderValue = currentValue;
+            return (currentValue);
+        } else {
+            return -1;
+        }
     }
 
     // Resets both encoders to zero
@@ -186,17 +223,6 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveDistError", distError);
             SmartDashboard.putNumber("AutoDriveAngleError", angleError);
             SmartDashboard.putNumber("RangeDistanceInches", getRangeInches());
-        }
-    }
-
-    // Returns rangefinder distance in inches. Spikes return -1.
-    public double getRangeInches() {
-        double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4;
-        if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
-            lastRangeFinderValue = currentValue;
-            return (currentValue);
-        } else {
-            return -1;
         }
     }
 
