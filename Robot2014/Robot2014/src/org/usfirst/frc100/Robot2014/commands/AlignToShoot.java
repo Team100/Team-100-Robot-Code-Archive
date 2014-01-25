@@ -13,6 +13,7 @@ public class AlignToShoot extends Command {
     double distError;
     double storedDist;
     int inPositionCounter;
+    int spikeDuration;
 
     public AlignToShoot() {
         requires(Robot.driveTrain);
@@ -30,6 +31,14 @@ public class AlignToShoot extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double currentDist = Robot.driveTrain.getRangeInches();
+        if(currentDist <0)
+        {
+            spikeDuration++;
+        }
+        if(spikeDuration > 7)
+        {
+            Robot.driveTrain.resetRangefinder();
+        }
         if ((currentDist > Preferences.ultraInitialStopDistance || currentDist < 0) && !distReached) {
             if (Preferences.tankDriveMode) {
                 Robot.driveTrain.tankDrive(Robot.oi.getDriverLeft().getY(), Robot.oi.getDriverRight().getY());
