@@ -156,6 +156,11 @@ public class DriveTrain extends Subsystem {
     public void resetRangefinder() {
         Robot.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage() / 5 * 512 / 2.4);
     }
+    
+    // Resets the gyro so that the current angle is 0
+    public void resetGyro() {
+        gyro.reset();
+    }
 
     // Call once before drive straight or turn by angle
     public void setDirection() {
