@@ -10,16 +10,18 @@ public class Preferences {
     public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
-    public static double driveEncoderToInchRatio = 40; // encoder / ratio = inches
+    public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
     public static double driveStraight_kP = 0.15; // error * kP = motor speed
     public static double autoTurn_kP = 0.15; // error * kP = motor speed
-    public static double driveDistBuffer = 0; // inches robot can be off by
-    public static double driveAngleBuffer = 0; // degrees robot can be off by
+    public static double driveDistBuffer = 4; // inches robot can be off by
+    public static double driveAngleBuffer = 4; // degrees robot can be off by
     public static double autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
     // Distance sensing
-    public static double ultraStopDistance = 120; // inches away from target that we want to stop
+    public static double ultraInitialStopDistance = 120; // inches away from target that we want to stop
+    public static double ultraActualStopDistance = 100;
     public static double ultraAcceptableSpike = 20;
+    public static int inQuisitionCounter = 7;
             
     // Tilter PID
     public static boolean tilterTuningMode = false;
