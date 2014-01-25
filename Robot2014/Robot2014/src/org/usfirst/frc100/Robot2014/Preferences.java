@@ -53,4 +53,19 @@ public class Preferences {
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = true;
+    
+    // Changes preferences to those for hammerhead
+    public static void setHammerhead(){
+        driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
+        driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
+        driveStraight_kP = 0.15; // error * kP = motor speed
+        autoTurn_kP = 0.15; // error * kP = motor speed
+        driveDistBuffer = 4; // inches robot can be off by
+        driveAngleBuffer = 4; // degrees robot can be off by
+        autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+        ultraInitialStopDistance = 120; // inches away from target that we want to stop
+        ultraActualStopDistance = 100;
+        ultraAcceptableSpike = 20;
+        inPositionCounter = 7;
+    }
 }
