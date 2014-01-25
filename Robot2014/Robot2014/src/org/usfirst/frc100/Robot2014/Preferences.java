@@ -23,7 +23,7 @@ public class Preferences {
     public static double ultraInitialStopDistance = 120; // inches away from target that we want to stop
     public static double ultraActualStopDistance = 100;
     public static double ultraAcceptableSpike = 20;
-    public static int inQuisitionCounter = 7;
+    public static int inPositionCounter = 7;
     
     // Tilter PID
     public static boolean tilterTuningMode = false;
