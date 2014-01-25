@@ -77,6 +77,7 @@ public class OI {
         SmartDashboard.putData("AutoDriveStraight24", new AutoDriveStraight(24));
         SmartDashboard.putData("AutoDriveStraight60", new AutoDriveStraight(60));
         SmartDashboard.putData("AutoDriveStraight-36", new AutoDriveStraight(-36));
+        SmartDashboard.putData("AutoDriveStraight6", new AutoDriveStraight(6));
 //        SmartDashboard.putData("Catch", new Catch());
 //        SmartDashboard.putData("ArmShooter", new ArmShooter());
 //        SmartDashboard.putData("Drive", new Drive());
