@@ -74,13 +74,13 @@ public class RobotMap {
 
             driveTrainLeftEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
             LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
-            driveTrainLeftEncoder.setDistancePerPulse(1.0);
+            driveTrainLeftEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
             driveTrainLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
             driveTrainLeftEncoder.start();
 
             driveTrainRightEncoder = new Encoder(1, 3, 1, 4, false, EncodingType.k4X);
             LiveWindow.addSensor("DriveTrain", "RightEncoder", driveTrainRightEncoder);
-            driveTrainRightEncoder.setDistancePerPulse(1.0);
+            driveTrainRightEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
             driveTrainRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
             driveTrainRightEncoder.start();
 
@@ -186,13 +186,13 @@ public class RobotMap {
 
         driveTrainLeftEncoder = new Encoder(1, 8, 1, 9, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
-        driveTrainLeftEncoder.setDistancePerPulse(1.0);
+        driveTrainLeftEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
         driveTrainLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         driveTrainLeftEncoder.start();
         
         driveTrainRightEncoder = new Encoder(1, 6, 1, 7, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveTrainRightEncoder);
-        driveTrainRightEncoder.setDistancePerPulse(1.0);
+        driveTrainRightEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
         driveTrainRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         driveTrainRightEncoder.start();
         
@@ -288,123 +288,117 @@ public class RobotMap {
     public static void initGwrath() {
         Preferences.setGwrath();
         
-        driveTrainLeftEncoder = new Encoder(1, 4, 1, 2, false, EncodingType.k4X);
-        LiveWindow.addSensor("DriveTrain", "lEncoder", driveTrainLeftEncoder);
-        driveTrainLeftEncoder.setDistancePerPulse(1.0);
-        driveTrainLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-        driveTrainLeftEncoder.start();
-        
-        driveTrainRightEncoder = new Encoder(1, 5, 1, 6, false, EncodingType.k4X);
-        LiveWindow.addSensor("DriveTrain", "rEncoder", driveTrainRightEncoder);
-        driveTrainRightEncoder.setDistancePerPulse(1.0);
-        driveTrainRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-        driveTrainRightEncoder.start();
-        
-        driveTrainShifter = new DoubleSolenoid(1, 2);
-        LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
-        
-        driveTrainGyro = new Gyro(1, 1);
-        LiveWindow.addSensor("DriveTrain", "gyro", driveTrainGyro);
-        driveTrainGyro.setSensitivity(0.007);
-        
-        driveTrainRangeFinder = new AnalogChannel(1, 2);
-        LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
+        driveTrainLeftMotorMain = new Victor(1, 6);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotorMain);
 
-        driveTrainLeftLineReader = new AnalogChannel(1, 6);
-        LiveWindow.addSensor("DriveTrain", "lReader", driveTrainLeftLineReader);
+            driveTrainLeftMotorSlave = new Victor(1, 7);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotorSlave);
 
-        driveTrainRightLineReader = new AnalogChannel(1, 7);
-        LiveWindow.addSensor("DriveTrain", "rReader", driveTrainRightLineReader);
+            driveTrainRightMotorMain = new Victor(1, 8);
+            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotorMain);
 
-        driveTrainLeftLineTrigger = new AnalogTrigger(driveTrainLeftLineReader);
+            driveTrainRightMotorSlave = new Victor(1, 9);
+            LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotorSlave);
 
-        driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
+            driveTrainLeftEncoder = new Encoder(1, 4, 1, 3, false, EncodingType.k4X);
+            LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
+            driveTrainLeftEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
+            driveTrainLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+            driveTrainLeftEncoder.setReverseDirection(true);
+            driveTrainLeftEncoder.start();
 
-        driveTrainLeftMotorMain = new Jaguar(1, 6);
-        LiveWindow.addActuator("DriveTrain", "leftA", (Jaguar) driveTrainLeftMotorMain);
+            driveTrainRightEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
+            LiveWindow.addSensor("DriveTrain", "RightEncoder", driveTrainRightEncoder);
+            driveTrainRightEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
+            driveTrainRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+            driveTrainRightEncoder.setReverseDirection(true);
+            driveTrainRightEncoder.start();
 
-        driveTrainLeftMotorSlave = new Jaguar(1, 7);
-        LiveWindow.addActuator("DriveTrain", "leftB", (Jaguar) driveTrainLeftMotorSlave);
+            driveTrainGyro = new Gyro(1, 1);
+            LiveWindow.addSensor("DriveTrain", "Gyro", driveTrainGyro);
+            driveTrainGyro.setSensitivity(0.007);
 
-        driveTrainRightMotorMain = new Jaguar(1, 8);
-        LiveWindow.addActuator("DriveTrain", "rightA", (Jaguar) driveTrainRightMotorMain);
+            driveTrainRangeFinder = new AnalogChannel(1, 2);
+            LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
 
-        driveTrainRightMotorSlave = new Jaguar(1, 9);
-        LiveWindow.addActuator("DriveTrain", "rightB", (Jaguar) driveTrainRightMotorSlave);
+            driveTrainShifter = new DoubleSolenoid(1, 2);
+            LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
 
-        driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
-        
-        driveTrainMainDrive.setSafetyEnabled(true);
-        driveTrainMainDrive.setExpiration(0.1);
-        driveTrainMainDrive.setSensitivity(0.5);
-        driveTrainMainDrive.setMaxOutput(1.0);
-        
-        driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
+            driveTrainLeftLineReader = new AnalogChannel(1, 6);
+            LiveWindow.addSensor("DriveTrain", "LeftLineReader", driveTrainLeftLineReader);
 
-        driveTrainSlaveDrive.setSafetyEnabled(true);
-        driveTrainSlaveDrive.setExpiration(0.1);
-        driveTrainSlaveDrive.setSensitivity(0.5);
-        driveTrainSlaveDrive.setMaxOutput(1.0);
+            driveTrainRightLineReader = new AnalogChannel(1, 7);
+            LiveWindow.addSensor("DriveTrain", "RightLineReader", driveTrainRightLineReader);
+            
+            driveTrainLeftLineTrigger = new AnalogTrigger(driveTrainLeftLineReader);
 
-        shooterMotor = new Victor(1, 5);
-        LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
+            driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
+            
+            shooterMotor = new Victor(1, 2);
+            LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-        shooterHallEffectForward = new DigitalInput(1, 5);
-        LiveWindow.addSensor("Shooter", "HallEffectForward", shooterHallEffectForward);
+            shooterHallEffectForward = new DigitalInput(1, 5);
+            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterHallEffectForward);
 
-        shooterHallEffectBack = new DigitalInput(1, 6);
-        LiveWindow.addSensor("Shooter", "HallEffectBack", shooterHallEffectBack);
+            shooterHallEffectBack = new DigitalInput(1, 6);
+            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterHallEffectBack);
 
-        shooterPotentiometer = new AnalogChannel(1, 3);
-        LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
+            shooterPotentiometer = new AnalogChannel(1, 3);
+            LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
-        shooterRelease = new DoubleSolenoid(7, 8);
-        LiveWindow.addActuator("Shooter", "Release", shooterRelease);
+            shooterRelease = new DoubleSolenoid(7, 8);
+            LiveWindow.addActuator("Shooter", "Release", shooterRelease);
 
-        shooterEncoder = new Encoder(1, 7, 1, 8, false, EncodingType.k4X);
-        LiveWindow.addSensor("Shooter", "Encoder", shooterEncoder);
-        shooterEncoder.setDistancePerPulse(1.0);
-        shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-        shooterEncoder.start();
-        
-        intakeTopMotor = new Victor(1, 6);
-        LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
+            shooterEncoder = new Encoder(1, 7, 1, 8, false, EncodingType.k4X);
+            LiveWindow.addSensor("Shooter", "Encoder", shooterEncoder);
+            shooterEncoder.setDistancePerPulse(1.0);
+            shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+            shooterEncoder.start();
+            intakeTopMotor = new Victor(1, 4);
+            LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
-        intakeBottomMotor = new Victor(1, 7);
-        LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
+            intakeBottomMotor = new Victor(1, 3);
+            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
 
-        intakeTopPiston = new DoubleSolenoid(3, 4);
-        LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
+            intakeTopPiston = new DoubleSolenoid(3, 4);
+            LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
 
-        intakeBottomPiston = new DoubleSolenoid(5, 6);
-        LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
+            intakeBottomPiston = new DoubleSolenoid(5, 6);
+            LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
 
-        intakeBallDetector = new DigitalInput(1, 9);
-        LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
+            intakeBallDetector = new DigitalInput(1, 9);
+            LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
 
-        tilterMotor = new Victor(1, 8);
-        LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
+            tilterMotor = new Victor(1, 1);
+            LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
 
-        tilterPotentiometer = new AnalogChannel(1, 4);
-        LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
+            tilterPotentiometer = new AnalogChannel(1, 4);
+            LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
 
-        compressor = new Compressor(1, 14, 1, 1);
-        LiveWindow.addActuator("Compressor", "Compressor", compressor);
+            compressor = new Compressor(1, 14, 1, 1);
+            LiveWindow.addActuator("Compressor", "Compressor", compressor);
 
-        cameraLights = new Relay(1, 2);
-        LiveWindow.addActuator("Camera", "LightRing", compressor);
+            cameraLights = new Relay(1, 2);
+            LiveWindow.addActuator("Camera", "LightRing", compressor);
 
-        shooterReadyIndicator = new Relay(1, 3);
-        LiveWindow.addActuator("Shooter", "readyIndicator", shooterReadyIndicator);
+            shooterReadyIndicator = new Relay(1, 3);
+            LiveWindow.addActuator("Shooter", "readyIndicator", shooterReadyIndicator);
 
-        motors.addElement(driveTrainLeftMotorMain);
-        motors.addElement(driveTrainLeftMotorSlave);
-        motors.addElement(driveTrainRightMotorMain);
-        motors.addElement(driveTrainRightMotorSlave);
-        motors.addElement(shooterMotor);
-        motors.addElement(intakeTopMotor);
-        motors.addElement(intakeBottomMotor);
-        motors.addElement(tilterMotor);
+            driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
+            driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
+            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+            driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+            driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+            
+            motors.addElement(driveTrainLeftMotorMain);
+            motors.addElement(driveTrainLeftMotorSlave);
+            motors.addElement(driveTrainRightMotorMain);
+            motors.addElement(driveTrainRightMotorSlave);
+            motors.addElement(shooterMotor);
+            motors.addElement(intakeTopMotor);
+            motors.addElement(intakeBottomMotor);
+            motors.addElement(tilterMotor);
     }
 
     // Sets all motors on the robot to zero
