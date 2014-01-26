@@ -40,6 +40,7 @@ public class Preferences {
     public static double shootLowAngle = 90;
     public static double shootTrussAngle = 0;
     public static double intakeAngle = 270;
+    public static double stowedAngle = 0; // THIS MUST BE CHANGED! IT IS NOT ACCURATE AT ALL!!!!!!!!!!!!!!!!!!!!!
     
     // Shooter tuning
     public static boolean shooterTuningMode = false;
