@@ -52,6 +52,8 @@ public class RobotMap {
 
     public static Compressor compressor;
     public static Relay cameraLights;
+    
+    public static Counter counter;
 
     // Initializes actuators and sensors, adds them to livewindow
     public static void init() {
@@ -101,8 +103,10 @@ public class RobotMap {
             LiveWindow.addSensor("DriveTrain", "RightLineReader", driveTrainRightLineReader);
             
             driveTrainLeftLineTrigger = new AnalogTrigger(driveTrainLeftLineReader);
+            driveTrainLeftLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
 
             driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
+            driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
             
             shooterMotor = new Victor(1, 5);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
@@ -153,6 +157,10 @@ public class RobotMap {
 
             shooterReadyIndicator = new Relay(1, 3);
             LiveWindow.addActuator("Shooter", "readyIndicator", shooterReadyIndicator);
+            
+            counter = new Counter(driveTrainLeftLineTrigger);
+            counter.setUpSourceEdge(true, true);
+            counter.start();
 
             driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
             driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
@@ -213,8 +221,10 @@ public class RobotMap {
         LiveWindow.addSensor("DriveTrain", "RightLineReader", driveTrainRightLineReader);
         
         driveTrainLeftLineTrigger = new AnalogTrigger(driveTrainLeftLineReader);
+        driveTrainLeftLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
 
         driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
+        driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
         
         shooterMotor = new Victor(1, 9);
         LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
@@ -266,6 +276,10 @@ public class RobotMap {
 
         shooterReadyIndicator = new Relay(1, 3);
         LiveWindow.addActuator("Shooter", "readyIndicator", shooterReadyIndicator);
+        
+        counter = new Counter(driveTrainLeftLineTrigger);
+        counter.setUpSourceEdge(true, true);
+        counter.start();
 
         driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
         driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
@@ -331,8 +345,10 @@ public class RobotMap {
             LiveWindow.addSensor("DriveTrain", "RightLineReader", driveTrainRightLineReader);
             
             driveTrainLeftLineTrigger = new AnalogTrigger(driveTrainLeftLineReader);
+            driveTrainLeftLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
 
             driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
+            driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
             
             shooterMotor = new Victor(1, 2);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
@@ -383,6 +399,10 @@ public class RobotMap {
 
             shooterReadyIndicator = new Relay(1, 3);
             LiveWindow.addActuator("Shooter", "readyIndicator", shooterReadyIndicator);
+            
+            counter = new Counter(driveTrainLeftLineTrigger);
+            counter.setUpSourceEdge(true, true);
+            counter.start();
 
             driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
             driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);

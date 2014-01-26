@@ -27,11 +27,11 @@ public class  Align extends Command
     private final double width = 24.5;
     private boolean lTriggered;
     private boolean rTriggered;
-    private boolean leftInPos = false;
-    private boolean rightInPos = false;
-    private double displacement = 0.0;
-    private boolean doneTurn = false;
-    private boolean doneAlign = false;
+    private boolean leftInPos;
+    private boolean rightInPos;
+    private double displacement;
+    private boolean doneTurn;
+    private boolean doneAlign;
 
     public Align()
     {
@@ -44,6 +44,12 @@ public class  Align extends Command
     // Called just before this Command runs the first time
     protected void initialize()
     {
+        leftInPos = false;
+        rightInPos = false;
+        displacement = 0.0;
+        doneTurn = false;
+        doneAlign = false;
+
         driveTrain.startEncoder();
         driveTrain.startCounter();
         driveTrain.setBearing(driveTrain.getAngle());
@@ -105,6 +111,10 @@ public class  Align extends Command
         {
             doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) * MathUtils.atan(displacement / width));
         }
+        
+        if(Robot.oi.getDualshock().getRawButton(5))
+            doneAlign = true;
+
         System.out.print("Turning:" + doneTurn + " ");
         driveTrain.updateDashboard();
         SmartDashboard.putBoolean("Left Black Line", lTriggered);

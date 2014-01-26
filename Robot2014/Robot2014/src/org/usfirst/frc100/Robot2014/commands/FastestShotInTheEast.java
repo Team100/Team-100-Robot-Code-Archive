@@ -20,9 +20,13 @@ import org.usfirst.frc100.Robot2014.RobotMap;
 
 public class FastestShotInTheEast extends Command {
     AnalogTrigger reader = RobotMap.driveTrainLeftLineTrigger;
-    Counter counter = new Counter(reader);
+    Counter counter = RobotMap.counter;
+    
+    private static final int STATE_INIT = 0;
+    private static final int STATE_DONETURN = 1;
+
     int state;
-    boolean distApropos;
+    boolean isFin;
     double speed;
     boolean triggered = false;
     
@@ -33,10 +37,8 @@ public class FastestShotInTheEast extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         Robot.driveTrain.resetRangefinder();
-        state = 0;
-        distApropos = false;
-        reader.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
-        counter.setUpSourceEdge(true, true);
+        state = STATE_INIT;
+        isFin = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,37 +52,34 @@ public class FastestShotInTheEast extends Command {
         
         triggered = (1 == counter.get()%2);
   
-        if(state == 0)
+        if(state == STATE_INIT)
         {
-            Robot.driveTrain.autoTurnToAngle(0);
-            state = 1;
+            if(Robot.driveTrain.autoTurnToAngle(0))
+            {
+                state = STATE_DONETURN;
+            }
             //System.out.println("STATE now equals 1");
         }
         
-        if(state == 1 && distApropos == false)
+        if(state == STATE_DONETURN && !triggered)
         {
             Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
-  
-            if(triggered)
-            {
-                distApropos = true;
-            }
-            
         }
         
-        if(distApropos == true)
+        if(triggered)
         {
             new TriggerShootReload().start();
             //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             Robot.driveTrain.stop();
             //System.out.println("SHOT...DEAD");
+            isFin = true;
         }
         
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isFin;
     }
 
     // Called once after isFinished returns true
