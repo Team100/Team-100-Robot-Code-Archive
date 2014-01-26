@@ -1,0 +1,211 @@
+Configuration
+	InputFile: DS.txt # The input file of match numbers and teams playing.
+	Foo: file.out # The file to put the output of the scouting.
+
+Screens
+	1:InitialScreen
+	2:AutoScreen
+	3:TeleScreen
+	4:EndScreen
+
+InitialScreen
+	name: Init
+	ShowScoutingInitial
+
+AutoScreen
+	name: Auto
+	PlainText
+		x:1
+		y:5
+		value:"Starting Place"
+	PlainText
+		x:1
+		y:6
+		value:"Side"
+	PlainText
+		x:7
+		y:6
+		value:"Middle"
+	Radio
+		x1:2
+		y1:7
+		x2:9
+		y2:7
+		name:startposition
+	PlainText
+		x:1
+		y:9
+		value:"Did not Come/Broken"
+	Checkbox
+		x:21
+		y:8
+		name:active
+	Counter
+		x: 1
+		y: 11
+		increment:x
+		name: autoscoretop
+	Counter
+		x: 1
+		y: 13
+		increment:x
+		name: autoscoremid
+	Counter
+		x: 1
+		y: 15
+		increment:x
+		name: autoscorebot
+	PlainText
+		x:6
+		y:11
+		value:"Scored Top"
+	PlainText
+		x:6
+		y:13
+		value:"Scored Middle"
+	PlainText
+		x:6
+		y:15
+		value:"Scored Bottom"
+	PlainText
+		x:1
+		y:17
+		value:"Used Kinect"
+	Checkbox
+		x:13
+		y:17
+		name:kinect
+	PlainText
+		x:1
+		y:19
+		value:"No Movement"
+	Checkbox
+		x:14
+		y:19
+		name:autodisabled
+TeleScreen
+	name: Tele
+	Counter
+		x: 1
+		y: 5
+		increment:x
+		name: telescoretop
+	Counter
+		x: 1
+		y: 7
+		increment:x
+		name: telescoremid
+	Counter
+		x: 1
+		y: 9
+		increment:x
+		name: telescorebot
+	PlainText
+		x:6
+		y:5
+		value:"Scored Top"
+	PlainText
+		x:6
+		y:7
+		value:"Scored Middle"
+	PlainText
+		x:6
+		y:9
+		value:"Scored Bottom"
+	DropDown
+		x: 1
+		y: 11
+		1: "  Robot  Type  "
+		2: "Offensive Robot"
+		3: "Defensive Robot"
+		4: "   Mid Field   "
+		name:robottype
+	DropDown
+		x:18
+		y:5
+		1:" Robot  Range"
+		2:" Next to Hoop"
+		3:"  Mid  Field "
+		4:" Key"
+		4:" Entire Field"
+		name:range
+	PlainText
+		x:12
+		y:12
+		value:"1               10"
+	PlainText
+		x:1
+		y:13
+		value:"Offensive"
+	Rating
+		x: 12
+		y: 13
+		name: offensiverating
+		width: 1
+	PlainText
+		x:1
+		y:15
+		value:"Defensive"
+	Rating
+		x:12
+		y:15
+		name: defensiverating
+		width: 1
+	PlainText
+		x:1
+		y:17
+		value:"Manuever"
+	Rating
+		x:12
+		y:17
+		name: manueverrating
+		width: 1
+	PlainText
+		x:1
+		y:19
+		value:"Driver"
+	Rating
+		x:12
+		y:19
+		name: driverrating
+		width: 1
+	PlainText
+		x:1
+		y:22
+		value:"Shots Missed"
+	Counter
+		x: 15
+		y: 22
+		increment:x
+		name: misses
+EndScreen
+	name: End 
+	PlainText
+		x:1
+		y:5
+		value:"Red Card"
+	Checkbox
+		x:9
+		y:5
+		name:redcard		
+	DropDown
+		x:1
+		y:8
+		1:"       Not on Bridge        "
+		2:"      Alone on Bridge       "
+		3:"On Brige with 1 other Robot "
+		4:"On Brige with 2 other Robots"
+		5:"On Brige with opponent Robot"
+		name:bridge
+	PlainText
+		x:12
+		y:5
+		value:"Penalties"
+	Counter
+		x: 24
+		y: 5
+		increment:x
+		name: penalty
+	Finish
+		x:24
+		y:200
