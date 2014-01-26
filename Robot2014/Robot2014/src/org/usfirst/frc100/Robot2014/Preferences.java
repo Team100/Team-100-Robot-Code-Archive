@@ -24,6 +24,7 @@ public class Preferences {
     public static double ultraActualStopDistance = 100;
     public static double ultraAcceptableSpike = 20;
     public static int inPositionCounter = 7;
+    public static int ultraActualShootDistance = 80;
     
     // Tilter PID
     public static boolean tilterTuningMode = false;
