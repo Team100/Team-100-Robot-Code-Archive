@@ -9,7 +9,7 @@ import org.usfirst.frc100.Robot2014.Robot;
  *
  * @author Arkhan
  * 
- * This class allows us to shoot while moving! It's the fastest shot in the West!
+ * This class allows us to shoot while moving (using the ultrasonic sensor to tell us when to shoot)! It's the fastest shot in the West!
  * It is called while held.
  * 
  */
@@ -46,7 +46,7 @@ public class FastestShotInTheWest extends Command {
         {
             Robot.driveTrain.autoTurnToAngle(0);
             state = 1;
-            //System.out.println("STATE now equals 1");
+            System.out.println("STATE now equals 1");
         }
         
         if(state == 1 && distApropos == false)
@@ -54,12 +54,12 @@ public class FastestShotInTheWest extends Command {
             Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             
             speed = Robot.driveTrain.getCurrentSpeed();
-            //System.out.println("........speed " + speed);
+            System.out.println("........speed " + speed);
             
             if(Robot.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.5*speed)))
             {
                 distApropos = true;
-               // System.out.println("DIST is apropos " + Robot.driveTrain.getRangeInches());
+                System.out.println("DIST is apropos " + Robot.driveTrain.getRangeInches());
             }
             
         }
@@ -67,7 +67,8 @@ public class FastestShotInTheWest extends Command {
         if(distApropos == true)
         {
             new TriggerShootReload().start();
-            Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
+            Robot.driveTrain.stop();
+            //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             //System.out.println("SHOT...DEAD");
         }
         

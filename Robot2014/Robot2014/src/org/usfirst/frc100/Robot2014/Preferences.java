@@ -25,7 +25,9 @@ public class Preferences {
     public static double ultraAcceptableSpike = 20;
     public static int inPositionCounter = 7;
     public static int ultraActualShootDistance = 80;
-    
+    // LineReader
+    public static int lowerLimit = 900;
+    public static int upperLimit = 910;
     // Tilter PID
     public static boolean tilterTuningMode = false;
     public static double tilterPotToDegreeRatio = .27; // pot / ratio = degrees
