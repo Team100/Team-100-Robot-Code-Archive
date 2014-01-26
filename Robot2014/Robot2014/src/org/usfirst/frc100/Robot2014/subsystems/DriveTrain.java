@@ -161,9 +161,7 @@ public class DriveTrain extends Subsystem {
 
     // Returns distance traveled in inches since last reset
     public double getDistance() {
-        leftEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
-        rightEncoder.setDistancePerPulse(1/Preferences.driveEncoderToInchRatio);
-        return (leftEncoder.get() + rightEncoder.get()) / 2;
+        return (leftEncoder.getDistance()+ rightEncoder.getDistance()) / 2;
     }
 
     // Returns the current speed in inches per second
