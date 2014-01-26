@@ -45,6 +45,7 @@ public class  DrivewithJoysticks extends Command {
             driveTrain.tankDrive(-0.75*oi.getDualshock().getY(), -0.75*oi.getDualshock().getRawAxis(5));
         else
             driveTrain.tankDrive(0.75*oi.getDualshock().getRawAxis(5), 0.75*oi.getDualshock().getY());
+        driveTrain.updateDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()

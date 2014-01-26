@@ -57,7 +57,7 @@ public class  Align extends Command
         
         if(lTriggered && rTriggered)
         {
-            if(!doneTurn)
+            if(!doneTurn && (!leftInPos || !rightInPos))
                 driveTrain.autoDriveStraight(216.0, 0.6);
             else
                 driveTrain.autoDriveStraight(-216.0, 0.6);
@@ -71,7 +71,7 @@ public class  Align extends Command
             }
             if(rightInPos)
             {
-                displacement = driveTrain.getDistance();
+                displacement = -driveTrain.getDistance();
             }
             leftInPos = true;
         }
@@ -84,7 +84,7 @@ public class  Align extends Command
             }
             if(leftInPos)
             {
-                displacement = -driveTrain.getDistance();
+                displacement = driveTrain.getDistance();
             }
             rightInPos = true;
         }
@@ -103,9 +103,9 @@ public class  Align extends Command
         
         if(leftInPos && rightInPos)
         {
-            doneTurn = driveTrain.autoTurnByAngle(MathUtils.atan(displacement/width));
+            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) * MathUtils.atan(displacement / width));
         }
-
+        System.out.print("Turning:" + doneTurn + " ");
         driveTrain.updateDashboard();
         SmartDashboard.putBoolean("Left Black Line", lTriggered);
         SmartDashboard.putBoolean("Right Black Line", rTriggered);
