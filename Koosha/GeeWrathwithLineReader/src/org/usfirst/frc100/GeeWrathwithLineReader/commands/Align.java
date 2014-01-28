@@ -61,14 +61,14 @@ public class  Align extends Command
         lTriggered = driveTrain.getLeftTrigger();
         rTriggered = driveTrain.getRightTrigger();
         
-        if(lTriggered && rTriggered)
+        if(!lTriggered && !rTriggered)
         {
-            if(!doneTurn && (!leftInPos || !rightInPos))
-                driveTrain.autoDriveStraight(216.0, 0.6);
-            else
+            if(doneTurn)
                 driveTrain.autoDriveStraight(-216.0, 0.6);
+            else if(!(leftInPos && rightInPos))
+                driveTrain.autoDriveStraight(216.0, 0.6);
         }
-        else if(!lTriggered && rTriggered)
+        else if(lTriggered && !rTriggered)
         {
             if(!leftInPos)
             {
@@ -81,7 +81,7 @@ public class  Align extends Command
             }
             leftInPos = true;
         }
-        else if(lTriggered && !rTriggered)
+        else if(!lTriggered && rTriggered)
         {
             if(!rightInPos)
             {
@@ -94,7 +94,7 @@ public class  Align extends Command
             }
             rightInPos = true;
         }
-        else if(!lTriggered && !rTriggered)
+        else if(lTriggered && rTriggered)
         {
             if(doneTurn)
             {
@@ -108,9 +108,10 @@ public class  Align extends Command
         }
         
         if(leftInPos && rightInPos)
-        {
-            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) * MathUtils.atan(displacement / width));
-        }
+            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) *
+                    MathUtils.atan(displacement / width));
+        else
+            driveTrain.resetGyro();
         
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;

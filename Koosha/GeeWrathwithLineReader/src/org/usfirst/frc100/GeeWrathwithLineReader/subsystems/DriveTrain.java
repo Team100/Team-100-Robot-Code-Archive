@@ -130,12 +130,12 @@ public class DriveTrain extends Subsystem {
 
     public boolean getLeftTrigger()
     {
-        return 0 == lCount.get()%2;
+        return 1 == lCount.get()%2;
     }
     
     public boolean getRightTrigger()
     {
-        return 0 == rCount.get()%2;
+        return 1 == rCount.get()%2;
     }
     
     public void setBearing(double angle)
@@ -201,7 +201,31 @@ public class DriveTrain extends Subsystem {
     // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
     public boolean autoTurnByAngle(double angle)
     {
-        return autoTurnToAngle(bearing + angle);
+        distOutput = distError = 0;
+        angleError = angle - getAngle();
+        System.out.print("Angle:" + angle + " ");
+
+        while (angleError < 0)
+        {
+            angleError += 360;
+        }
+
+        angleError = (angleError+180)%360-180;
+//        if(Math.abs(angleError) < 0.5)
+//        {
+//            tankDrive(0.0, 0.0);
+//            angleOutput = 0;
+//            //updateDaangleOutput = angleError * 0.60;shboard();
+//            SmartDashboard.putBoolean("Is Turning", false);
+//            return true;
+//        }
+        angleOutput = angleError * 1.5;
+        
+        arcadeDrive(0, angleOutput);
+        updateDashboard();
+        SmartDashboard.putNumber("Angle Output", angleOutput);
+        SmartDashboard.putBoolean("Is Turning", true);
+        return false;
     }
 
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
@@ -244,9 +268,10 @@ public class DriveTrain extends Subsystem {
         System.out.print("rCount:" + rCount.get() + " ");
         System.out.print("Displacement:" + this.getDistance() + " ");
         System.out.print("Velocity:" + getRate() + " ");
-        System.out.print("Max Speed:" + maxSpeed + " ");
+        System.out.print("MaxSpeed:" + maxSpeed + " ");
         System.out.println("TimePassed:" + (System.currentTimeMillis() - prevTime));
 
+        SmartDashboard.putNumber("Gyro Angle", getAngle());
         SmartDashboard.putNumber("Left Value", lReader.getValue());
         SmartDashboard.putNumber("Right Value", rReader.getValue());
         SmartDashboard.putNumber("Left Count", lCount.get());
