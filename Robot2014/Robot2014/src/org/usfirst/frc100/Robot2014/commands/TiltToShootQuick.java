@@ -6,13 +6,13 @@ import org.usfirst.frc100.Robot2014.Preferences;
 import org.usfirst.frc100.Robot2014.Robot;
 
 /**
- * Moves arm to start of match position and pulls back the shooter to the 
- * initial distance. Command is when pressed. Do not terminate until another 
+ * Moves arm to position for quickShoot and pulls back the shooter to the 
+ * correct distance. Command is when pressed. Do not terminate until another 
  * tilt command takes over the tilter subsystem.
  */
-public class TiltToStow extends Command {
+public class TiltToShootQuick extends Command {
 
-    public TiltToStow() {
+    public TiltToShootQuick() {
         requires(Robot.shooter);
         requires(Robot.tilter);
     }
@@ -23,8 +23,8 @@ public class TiltToStow extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.tilter.setPosition(Preferences.stowedAngle);
-        Robot.shooter.setPosition(Preferences.stowedPosition);
+        Robot.tilter.setPosition(Preferences.shootQuickAngle);
+        Robot.shooter.setPosition(Preferences.shootQuickPosition);
     }
 
     // Make this return true when this Command no longer needs to run execute()

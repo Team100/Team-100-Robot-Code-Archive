@@ -12,29 +12,31 @@ import edu.wpi.first.wpilibj.buttons.*;
  */
 public class OI {
 
-    public JoystickButton alignToShootButton;
-    public JoystickButton quickTurnAroundButton;
     public Joystick driverLeft;
-    public JoystickButton shiftButton;
-    public JoystickButton quickTurnForwardButton;
+        public JoystickButton alignToShootButton;
+        public JoystickButton quickTurnAroundButton;
+
     public Joystick driverRight;
-    public JoystickButton tiltToShootLowButton;
-    public JoystickButton tiltToIntakeButton;
-    public JoystickButton tiltToShootTrussButton;
-    public JoystickButton tiltToShootHighButton;
-    public JoystickButton expelButton;
-    public JoystickButton shootButton;
-    public JoystickButton intakeButton;
-    public JoystickButton armButton;
-    public JoystickButton toggleLowRollerButton;
-    public JoystickButton toggleManualControlButton;
+        public JoystickButton shiftButton;
+        public JoystickButton quickTurnForwardButton;
+
     public Joystick manipulator;
-    public JoystickButton shootWhileMovingButton;
-    public JoystickButton resetGyroButton;
-    
+        public JoystickButton tiltToShootLowButton;
+        public JoystickButton tiltToIntakeButton;
+        public JoystickButton tiltToShootTrussButton;
+        public JoystickButton tiltToShootHighButton;
+        public JoystickButton expelButton;
+        public JoystickButton shootButton;
+        public JoystickButton intakeButton;
+        public JoystickButton armButton;
+        public JoystickButton toggleLowRollerButton;
+        public JoystickButton toggleManualControlButton;
+        public JoystickButton shootWhileMovingButton;
+        public JoystickButton resetGyroButton;
+        public JoystickButton tiltToStowButton;
 
     public OI() {
-        manipulator = new Joystick(3); {
+        manipulator = new Joystick(3);
             armButton = new JoystickButton(manipulator, 8);
             armButton.whileHeld(new ArmShooter());
             intakeButton = new JoystickButton(manipulator, 7);
@@ -55,48 +57,33 @@ public class OI {
             toggleLowRollerButton.whenPressed(new ToggleLowerRoller());
             toggleManualControlButton = new JoystickButton(manipulator, 10);
             toggleManualControlButton.toggleWhenPressed(new FullManualControl());
-        }
-        
-        
-        driverRight = new Joystick(2); {
-            shiftButton = new JoystickButton(driverRight, 2); //moving this to 2 so we can use our FastestShotInTheWest
-            shiftButton.whileHeld(new ShiftLow());
-//          quickTurnForwardButton = new JoystickButton(driverRight, 2);
-//          quickTurnForwardButton.whileHeld(new AutoTurn(0,true));
-            shootWhileMovingButton = new JoystickButton(driverRight, 1);
-            shootWhileMovingButton.whileHeld(new FastestShotInTheEast());
-            resetGyroButton = new JoystickButton(driverRight, 11);
-            resetGyroButton.whenPressed(new ResetGyro());
-        }
+            tiltToStowButton = new JoystickButton(manipulator, 11); // click left joystick
+            tiltToStowButton.whenPressed(new TiltToStow());
 
-        driverLeft = new Joystick(1); {
+        driverRight = new Joystick(2);
+            shiftButton = new JoystickButton(driverRight, 2);
+            shiftButton.whileHeld(new ShiftLow());
+            shootWhileMovingButton = new JoystickButton(driverRight, 1);
+            shootWhileMovingButton.whileHeld(new QuickShootWithLineReader());
+            resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
+            resetGyroButton.whenPressed(new ResetGyro());
+
+        driverLeft = new Joystick(1);
             alignToShootButton = new JoystickButton(driverLeft, 1);
             alignToShootButton.whileHeld(new AlignToShoot());
             quickTurnAroundButton = new JoystickButton(driverLeft, 2);
             quickTurnAroundButton.whileHeld(new AutoTurn(180));
-        }
-
 
         // SmartDashboard Buttons
-//        SmartDashboard.putData("ShiftLow", new ShiftLow());
-//        SmartDashboard.putData("TiltToIntake", new TiltToIntake());
-//        SmartDashboard.putData("TiltToShootTruss", new TiltToShootTruss());
-//        SmartDashboard.putData("TiltToShootLow", new TiltToShootLow());
-//        SmartDashboard.putData("TiltToShootHigh", new TiltToShootHigh());
-//        SmartDashboard.putData("TriggerShootReload", new TriggerShootReload());
-//        SmartDashboard.putData("RunIntakeIn", new RunIntakeIn());
-//        SmartDashboard.putData("RunIntakeOut", new RunIntakeOut());
-        SmartDashboard.putData("AutoDriveStraight24", new AutoDriveStraight(24));
-        SmartDashboard.putData("AutoDriveStraight60", new AutoDriveStraight(60));
-        SmartDashboard.putData("AutoDriveStraight-36", new AutoDriveStraight(-36));
-        SmartDashboard.putData("AutoDriveStraight6", new AutoDriveStraight(6));
-//        SmartDashboard.putData("Catch", new Catch());
-//        SmartDashboard.putData("ArmShooter", new ArmShooter());
-//        SmartDashboard.putData("Drive", new Drive());
-        SmartDashboard.putData("AutoTurn", new AutoTurn(0, true));
-//        SmartDashboard.putData("AlignToShoot", new AlignToShoot());
-//        SmartDashboard.putData("DeployLowerRoller", new DeployLowerRoller());
-//        SmartDashboard.putData("RetractLowerRoller", new RetractLowerRoller());
+        if (Preferences.driveTrainTuningMode) {
+            SmartDashboard.putData("AutoDriveStraight24", new AutoDriveStraight(24));
+            SmartDashboard.putData("AutoDriveStraight60", new AutoDriveStraight(60));
+            SmartDashboard.putData("AutoDriveStraight-36", new AutoDriveStraight(-36));
+            SmartDashboard.putData("AutoDriveStraight6", new AutoDriveStraight(6));
+            SmartDashboard.putData("AutoTurn", new AutoTurn(0, true));
+
+        }
+        SmartDashboard.putData("ResetGyro", new ResetGyro());
     }
 
     public Joystick getDriverLeft() {
