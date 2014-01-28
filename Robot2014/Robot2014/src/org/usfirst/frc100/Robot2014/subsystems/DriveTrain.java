@@ -74,7 +74,7 @@ public class DriveTrain extends Subsystem {
     // Drives straight for a distance in inches, returns true when distance reached
     public boolean autoDriveStraight(double distance) {
         // Distance output
-        distError = getDistance() - distance;
+        distError = getEncoderInches() - distance;
         if (Math.abs(distError) > Preferences.driveDistBuffer) { // incorrect distance
             if (Preferences.driveTrainTuningMode) {
                 distOutput = distError * SmartDashboard.getNumber("DriveStraight_kP", 0);
@@ -91,7 +91,7 @@ public class DriveTrain extends Subsystem {
             }
         }
         // Angle output
-        angleError = direction - getAngle();
+        angleError = direction - getGyroDegrees();
         while (angleError < 0) {
             angleError += 360;
         }
@@ -110,7 +110,7 @@ public class DriveTrain extends Subsystem {
     // Drives straight forever at a given speed
     public void driveStraight(double speed) {
         // Angle output
-        angleError = direction - getAngle();
+        angleError = direction - getGyroDegrees();
         while (angleError < 0) {
             angleError += 360;
         }
@@ -133,7 +133,7 @@ public class DriveTrain extends Subsystem {
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle) {
         distOutput = distError = 0;
-        angleError = angle - getAngle();
+        angleError = angle - getGyroDegrees();
         while (angleError < 0) {
             angleError += 360;
         }
@@ -155,17 +155,17 @@ public class DriveTrain extends Subsystem {
     }
 
     // Returns robot angle relative to starting position
-    public double getAngle() {
+    public double getGyroDegrees() {
         return gyro.getAngle() / Preferences.driveGyroToDegreeRatio;
     }
 
     // Returns distance traveled in inches since last reset
-    public double getDistance() {
+    public double getEncoderInches() {
         return (leftEncoder.getDistance()+ rightEncoder.getDistance()) / 2;
     }
 
     // Returns the current speed in inches per second
-    public double getCurrentSpeed() {
+    public double getEncoderSpeed() {
         double speed = (leftEncoder.getRate() + rightEncoder.getRate())/2;
         return speed;
     }
@@ -199,7 +199,7 @@ public class DriveTrain extends Subsystem {
 
     // Call once before drive straight or turn by angle
     public void setDirection() {
-        direction = getAngle();
+        direction = getGyroDegrees();
     }
 
     // Stops the drive motors
@@ -216,8 +216,8 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveLeftEncoderValue", leftEncoder.get());
             SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get() + rightEncoder.get()) / 2);
             SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
-            SmartDashboard.putNumber("AutoDriveDistanceValue", getDistance());
-            SmartDashboard.putNumber("AutoDriveAngleValue", getAngle());
+            SmartDashboard.putNumber("AutoDriveDistanceValue", getEncoderInches());
+            SmartDashboard.putNumber("AutoDriveAngleValue", getGyroDegrees());
             SmartDashboard.putNumber("AutoDriveDistError", distError);
             SmartDashboard.putNumber("AutoDriveAngleError", angleError);
             SmartDashboard.putNumber("RangeDistanceInches", getRangeInches());
