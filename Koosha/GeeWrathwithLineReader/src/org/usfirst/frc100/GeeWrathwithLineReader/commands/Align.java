@@ -30,6 +30,7 @@ public class  Align extends Command
     private boolean leftInPos;
     private boolean rightInPos;
     private double displacement;
+    private double angle;
     private boolean doneTurn;
     private boolean doneAlign;
 
@@ -52,7 +53,7 @@ public class  Align extends Command
 
         driveTrain.startEncoder();
         driveTrain.startCounter();
-        driveTrain.setBearing(driveTrain.getAngle());
+        driveTrain.getAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -108,16 +109,20 @@ public class  Align extends Command
         }
         
         if(leftInPos && rightInPos)
-            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) *
-                    MathUtils.atan(displacement / width));
+            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) * angle);
         else
             driveTrain.resetGyro();
         
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;
 
+        angle = MathUtils.atan(displacement / width);
+
+        System.out.print("ALIGN! ");
         System.out.print("Turning:" + doneTurn + " ");
+        System.out.print("Angle:" + angle + " ");
         driveTrain.updateDashboard();
+
         SmartDashboard.putBoolean("Left Black Line", lTriggered);
         SmartDashboard.putBoolean("Right Black Line", rTriggered);
         SmartDashboard.putNumber("Encoder Distance", driveTrain.getDistance());

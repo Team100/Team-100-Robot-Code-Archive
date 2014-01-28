@@ -211,18 +211,18 @@ public class DriveTrain extends Subsystem {
         }
 
         angleError = (angleError+180)%360-180;
-//        if(Math.abs(angleError) < 0.5)
-//        {
-//            tankDrive(0.0, 0.0);
-//            angleOutput = 0;
-//            //updateDaangleOutput = angleError * 0.60;shboard();
-//            SmartDashboard.putBoolean("Is Turning", false);
-//            return true;
-//        }
-        angleOutput = angleError * 1.5;
+        if(Math.abs(angleError) < 0.5)
+        {
+            tankDrive(0.0, 0.0);
+            angleOutput = 0;
+            //updateDaangleOutput = angleError * 0.60;shboard();
+            SmartDashboard.putBoolean("Is Turning", false);
+            return true;
+        }
+        angleOutput = angleError * -0.15;
         
         arcadeDrive(0, angleOutput);
-        updateDashboard();
+        //updateDashboard();
         SmartDashboard.putNumber("Angle Output", angleOutput);
         SmartDashboard.putBoolean("Is Turning", true);
         return false;
@@ -260,14 +260,13 @@ public class DriveTrain extends Subsystem {
     
     public void updateDashboard()
     {
-        System.out.print("Gyro:" + this.gyro.getAngle() + " ");
-        System.out.print("Bearing:" + bearing + " ");
-//        System.out.print("AngleErr:" + angleError + " ");
+        System.out.print("Gyro:" + getAngle() + " ");
+        System.out.print("AngleErr:" + angleError + " ");
         System.out.print("AngleOut:" + angleOutput + " ");
         System.out.print("lCount:" + lCount.get() + " ");
         System.out.print("rCount:" + rCount.get() + " ");
         System.out.print("Displacement:" + this.getDistance() + " ");
-        System.out.print("Velocity:" + getRate() + " ");
+//        System.out.print("Velocity:" + getRate() + " ");
         System.out.print("MaxSpeed:" + maxSpeed + " ");
         System.out.println("TimePassed:" + (System.currentTimeMillis() - prevTime));
 

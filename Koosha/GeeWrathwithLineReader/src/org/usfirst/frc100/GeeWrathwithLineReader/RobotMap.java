@@ -52,7 +52,7 @@ public class RobotMap {
         driveTrainrEncoder.setDistancePerPulse(0.005);
         driveTrainrEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
         driveTrainrEncoder.start();
-        driveTraingyro = new Gyro(1, 2);
+        driveTraingyro = new Gyro(1, 1);
 	LiveWindow.addSensor("DriveTrain", "gyro", driveTraingyro);
         driveTraingyro.setSensitivity(0.007);
         driveTrainlReader = new AnalogChannel(1, 6);
