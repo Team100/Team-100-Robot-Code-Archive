@@ -41,6 +41,7 @@ public class Preferences {
     public static double shootTrussAngle = 0;
     public static double intakeAngle = 270;
     public static double stowedAngle = 0; // THIS MUST BE CHANGED! IT IS NOT ACCURATE AT ALL!!!!!!!!!!!!!!!!!!!!!
+    public static double shootQuickAngle = 0;
     
     // Shooter tuning
     public static boolean shooterTuningMode = false;
@@ -55,6 +56,8 @@ public class Preferences {
     public static double shootLowPosition = 0;
     public static double shootTrussPosition = 0;
     public static double intakePosition = 0;
+    public static double stowedPosition = 0;
+    public static double shootQuickPosition = 0;
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;

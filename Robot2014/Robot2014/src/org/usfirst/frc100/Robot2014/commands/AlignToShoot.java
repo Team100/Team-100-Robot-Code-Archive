@@ -47,10 +47,10 @@ public class AlignToShoot extends Command {
             }
         } else if (distReached == false) {
             if (Robot.driveTrain.autoTurnToAngle(0)) {
-                if (Robot.driveTrain.getDistance() == storedDist) {
+                if (Robot.driveTrain.getEncoderInches() == storedDist) {
                     inPositionCounter++;
                 }
-                storedDist = Robot.driveTrain.getDistance();
+                storedDist = Robot.driveTrain.getEncoderInches();
                 if (inPositionCounter >= Preferences.inPositionCounter) {
                     distReached = true;
                     distError = currentDist - Preferences.ultraActualStopDistance;
