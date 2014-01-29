@@ -48,6 +48,7 @@ public class Robot extends IterativeRobot {
 
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
+        new ResetGyro().start();
         autonomousCommand.start();
         compressor.startCompressor();
     }
