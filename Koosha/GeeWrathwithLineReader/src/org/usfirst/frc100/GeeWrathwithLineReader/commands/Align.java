@@ -65,7 +65,7 @@ public class  Align extends Command
         if(!lTriggered && !rTriggered)
         {
             if(doneTurn)
-                driveTrain.autoDriveStraight(-216.0, 0.6);
+                driveTrain.autoDriveStraight(-216.0, 0.3);
             else if(!(leftInPos && rightInPos))
                 driveTrain.autoDriveStraight(216.0, 0.6);
         }
@@ -108,20 +108,22 @@ public class  Align extends Command
             }
         }
         
-        if(leftInPos && rightInPos)
-            doneTurn = driveTrain.autoTurnByAngle((180.0 / Math.PI) * angle);
+        if(leftInPos && rightInPos && !doneTurn){
+            doneTurn = driveTrain.autoTurnByAngle(angle);
+            System.out.println("I am turning!!!");
+        }
         else
             driveTrain.resetGyro();
         
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;
 
-        angle = MathUtils.atan(displacement / width);
+        angle = (180 / Math.PI) * MathUtils.atan(displacement / width);
 
-        System.out.print("ALIGN! ");
-        System.out.print("Turning:" + doneTurn + " ");
-        System.out.print("Angle:" + angle + " ");
-        driveTrain.updateDashboard();
+//        System.out.print("ALIGN! ");
+//        System.out.print("Turning:" + doneTurn + " ");
+//        System.out.print("Angle:" + angle + " ");
+//        driveTrain.updateDashboard();
 
         SmartDashboard.putBoolean("Left Black Line", lTriggered);
         SmartDashboard.putBoolean("Right Black Line", rTriggered);

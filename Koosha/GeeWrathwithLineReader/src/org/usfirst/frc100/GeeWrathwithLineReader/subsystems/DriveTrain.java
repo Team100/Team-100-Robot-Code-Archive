@@ -52,8 +52,8 @@ public class DriveTrain extends Subsystem {
 
     public DriveTrain()
     {
-        lTrigger.setLimitsRaw(900, 910);
-        rTrigger.setLimitsRaw(900, 910);
+        lTrigger.setLimitsRaw(895, 920);
+        rTrigger.setLimitsRaw(895, 920);
         lCount.setUpSourceEdge(true, true);
         rCount.setUpSourceEdge(true, true);
     }
@@ -91,13 +91,13 @@ public class DriveTrain extends Subsystem {
         rEncoder.stop();
     }
     
-    // Returns distance traveled (if going straight)
+    // Returns distance traveled in inches (if going straight)
     public double getDistance()
     {
         return -(lEncoder.getDistance() + rEncoder.getDistance()) / 2;
     }
 
-    // Returns instantaneous velocity (if going straight)
+    // Returns instantaneous velocity in inches/second (if going straight)
     public double getRate()
     {
         return -(lEncoder.getRate() + rEncoder.getRate()) / 2;
@@ -201,9 +201,8 @@ public class DriveTrain extends Subsystem {
     // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
     public boolean autoTurnByAngle(double angle)
     {
-        distOutput = distError = 0;
         angleError = angle - getAngle();
-        System.out.print("Angle:" + angle + " ");
+        //System.out.print("Angle:" + angle + " ");
 
         while (angleError < 0)
         {
@@ -211,7 +210,7 @@ public class DriveTrain extends Subsystem {
         }
 
         angleError = (angleError+180)%360-180;
-        if(Math.abs(angleError) < 0.5)
+        if(Math.abs(angleError) < 1.0)
         {
             tankDrive(0.0, 0.0);
             angleOutput = 0;
@@ -231,7 +230,6 @@ public class DriveTrain extends Subsystem {
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle)
     {
-        distOutput = distError = 0;
         angleError = angle - getAngle();
         System.out.print("Angle:" + angle + " ");
 
@@ -263,8 +261,8 @@ public class DriveTrain extends Subsystem {
         System.out.print("Gyro:" + getAngle() + " ");
         System.out.print("AngleErr:" + angleError + " ");
         System.out.print("AngleOut:" + angleOutput + " ");
-        System.out.print("lCount:" + lCount.get() + " ");
-        System.out.print("rCount:" + rCount.get() + " ");
+        System.out.print("Left:" + getLeftTrigger() + " ");
+        System.out.print("Right:" + getRightTrigger() + " ");
         System.out.print("Displacement:" + this.getDistance() + " ");
 //        System.out.print("Velocity:" + getRate() + " ");
         System.out.print("MaxSpeed:" + maxSpeed + " ");
@@ -275,6 +273,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Right Value", rReader.getValue());
         SmartDashboard.putNumber("Left Count", lCount.get());
         SmartDashboard.putNumber("Right Count", rCount.get());
+        SmartDashboard.putBoolean("Left Black Line", getLeftTrigger());
+        SmartDashboard.putBoolean("Right Black Line", getRightTrigger());
 
         if((((lCount.get() - prevLCount) > 0) || ((rCount.get() - prevRCount) > 0))
                 && (getRate() > maxSpeed)) {
