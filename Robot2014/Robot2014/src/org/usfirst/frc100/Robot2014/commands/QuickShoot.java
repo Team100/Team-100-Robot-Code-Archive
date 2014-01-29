@@ -36,7 +36,7 @@ public class QuickShoot extends Command {
         //shoot while still driving straight CHECK
         //end when button released CHECK
         if (state == 0) {
-            Robot.driveTrain.autoTurnToAngle(0);
+            Robot.driveTrain.setDirection();
             state = 1;
 //            System.out.println("STATE now equals 1");
         }
