@@ -24,7 +24,7 @@ public class  Align extends Command
 {
     private final DriveTrain driveTrain = Robot.driveTrain;
     
-    private final double width = 24.5;
+    private final double width = 24.5; // inches
     private boolean lTriggered;
     private boolean rTriggered;
     private boolean leftInPos;
@@ -65,35 +65,53 @@ public class  Align extends Command
         if(!lTriggered && !rTriggered)
         {
             if(doneTurn)
-                driveTrain.autoDriveStraight(-216.0, 0.3);
+            {
+                driveTrain.autoDriveStraight(-216.0, 0.6);
+                //System.out.print("Done turing; finding line... ");
+            }
             else if(!(leftInPos && rightInPos))
+            {
                 driveTrain.autoDriveStraight(216.0, 0.6);
+                //System.out.print("Finding line... ");
+            }
         }
         else if(lTriggered && !rTriggered)
         {
             if(!leftInPos)
             {
-               driveTrain.resetEncoder();
-               driveTrain.autoDriveStraight(216.0, 0.6);
+                if(!rightInPos)
+                {
+                   driveTrain.resetEncoder();
+                   driveTrain.autoDriveStraight(216.0, 0.6);
+                   //System.out.print("First trigger left. ");
+                }
+                else
+                {
+                    displacement = driveTrain.getDistance();
+                    angle = Math.toDegrees(MathUtils.atan(displacement / width));
+                    //System.out.print("Second trigger left. ");
+                }
+                leftInPos = true;
             }
-            if(rightInPos)
-            {
-                displacement = -driveTrain.getDistance();
-            }
-            leftInPos = true;
         }
         else if(!lTriggered && rTriggered)
         {
             if(!rightInPos)
             {
-                driveTrain.resetEncoder();
-                driveTrain.autoDriveStraight(216.0, 0.6);
+                if(!leftInPos)
+                {
+                    driveTrain.resetEncoder();
+                    driveTrain.autoDriveStraight(216.0, 0.6);
+                    //System.out.print("First trigger right. ");
+                }
+                else
+                {
+                    displacement = -driveTrain.getDistance();
+                    angle = Math.toDegrees(MathUtils.atan(displacement / width));
+                    //System.out.print("Second trigger right. ");
+                }
+                rightInPos = true;
             }
-            if(leftInPos)
-            {
-                displacement = driveTrain.getDistance();
-            }
-            rightInPos = true;
         }
         else if(lTriggered && rTriggered)
         {
@@ -101,29 +119,33 @@ public class  Align extends Command
             {
                 driveTrain.tankDrive(0.0, 0.0);
                 doneAlign = true;
+                System.out.print("Success? ");
             }
             else
             {
                 driveTrain.autoDriveStraight(216.0, 0.6);
+               //System.out.print("Shallow angle. ");
             }
         }
         
-        if(leftInPos && rightInPos && !doneTurn){
+        if(leftInPos && rightInPos && !doneTurn)
+        {
             doneTurn = driveTrain.autoTurnByAngle(angle);
-            System.out.println("I am turning!!!");
+            //System.out.print("Turning. ");
         }
         else
+        {
             driveTrain.resetGyro();
+            System.out.print("Gyro reset. ");
+        }
+        
         
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;
 
-        angle = (180 / Math.PI) * MathUtils.atan(displacement / width);
-
-//        System.out.print("ALIGN! ");
-//        System.out.print("Turning:" + doneTurn + " ");
+        System.out.print("ALIGN! ");
 //        System.out.print("Angle:" + angle + " ");
-//        driveTrain.updateDashboard();
+        driveTrain.updateDashboard();
 
         SmartDashboard.putBoolean("Left Black Line", lTriggered);
         SmartDashboard.putBoolean("Right Black Line", rTriggered);
