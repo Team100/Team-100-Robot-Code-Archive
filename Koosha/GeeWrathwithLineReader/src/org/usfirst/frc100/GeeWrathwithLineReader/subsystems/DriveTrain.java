@@ -52,8 +52,8 @@ public class DriveTrain extends Subsystem {
 
     public DriveTrain()
     {
-        lTrigger.setLimitsRaw(895, 920);
-        rTrigger.setLimitsRaw(895, 920);
+        lTrigger.setLimitsRaw(900, 915);
+        rTrigger.setLimitsRaw(900, 915);
         lCount.setUpSourceEdge(true, true);
         rCount.setUpSourceEdge(true, true);
     }
@@ -150,7 +150,7 @@ public class DriveTrain extends Subsystem {
     
     public void tankDrive(double leftSpeed, double rightSpeed)
     {
-        drive.tankDrive(leftSpeed, rightSpeed, false);
+        drive.tankDrive(leftSpeed, rightSpeed);
     }
     
     public void arcadeDrive(double forwardSpeed, double rotateSpeed)
@@ -202,7 +202,9 @@ public class DriveTrain extends Subsystem {
     public boolean autoTurnByAngle(double angle)
     {
         angleError = angle - getAngle();
-        //System.out.print("Angle:" + angle + " ");
+        System.out.print("Angle:" + angle + " ");
+//        System.out.print("Gyro:" + getAngle() + " ");
+        System.out.print("OldErr:" + angleError + " ");
 
         while (angleError < 0)
         {
@@ -210,7 +212,9 @@ public class DriveTrain extends Subsystem {
         }
 
         angleError = (angleError+180)%360-180;
-        if(Math.abs(angleError) < 1.0)
+        System.out.print("NewErr:" + angleError + " ");
+        System.out.print("AngleOut:" + angleOutput + " ");
+        if(Math.abs(angleError) < 0.9)
         {
             tankDrive(0.0, 0.0);
             angleOutput = 0;
@@ -218,7 +222,7 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putBoolean("Is Turning", false);
             return true;
         }
-        angleOutput = angleError * -0.15;
+        angleOutput = angleError * -0.09;
         
         arcadeDrive(0, angleOutput);
         //updateDashboard();
@@ -259,8 +263,8 @@ public class DriveTrain extends Subsystem {
     public void updateDashboard()
     {
         System.out.print("Gyro:" + getAngle() + " ");
-        System.out.print("AngleErr:" + angleError + " ");
-        System.out.print("AngleOut:" + angleOutput + " ");
+//        System.out.print("AngleErr:" + angleError + " ");
+//        System.out.print("AngleOut:" + angleOutput + " ");
         System.out.print("Left:" + getLeftTrigger() + " ");
         System.out.print("Right:" + getRightTrigger() + " ");
         System.out.print("Displacement:" + this.getDistance() + " ");

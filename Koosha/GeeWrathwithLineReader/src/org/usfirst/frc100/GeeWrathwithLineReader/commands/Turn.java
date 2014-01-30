@@ -19,6 +19,7 @@ public class Turn extends Command {
     public Turn(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+        requires(Robot.driveTrain);
         
         this.angle = angle;
     }
@@ -32,6 +33,7 @@ public class Turn extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         isFin = Robot.driveTrain.autoTurnByAngle(angle);
+        Robot.driveTrain.updateDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()
