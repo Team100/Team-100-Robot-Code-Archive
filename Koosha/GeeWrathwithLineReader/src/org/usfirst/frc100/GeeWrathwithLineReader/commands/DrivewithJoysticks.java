@@ -13,6 +13,7 @@ package org.usfirst.frc100.GeeWrathwithLineReader.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.GeeWrathwithLineReader.OI;
 import org.usfirst.frc100.GeeWrathwithLineReader.Robot;
 import org.usfirst.frc100.GeeWrathwithLineReader.subsystems.DriveTrain;
@@ -43,10 +44,18 @@ public class  DrivewithJoysticks extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        if(!driveTrain.getReverse())
-            driveTrain.tankDrive(-0.75*oi.getDualshock().getY(), -0.75*oi.getDualshock().getRawAxis(5));
+        if(!(oi.getDualshock().getZ() < -0.8))
+        {
+            if(!driveTrain.getReverse())
+                driveTrain.tankDrive(-0.75*oi.getDualshock().getY(), -0.75*oi.getDualshock().getRawAxis(5));
+            else
+                driveTrain.tankDrive(0.75*oi.getDualshock().getRawAxis(5), 0.75*oi.getDualshock().getY());
+        }
         else
-            driveTrain.tankDrive(0.75*oi.getDualshock().getRawAxis(5), 0.75*oi.getDualshock().getY());
+        {
+            driveTrain.arcadeDrive(0.0, oi.getDualshock().getRawAxis(5));
+            SmartDashboard.putNumber("Rotate:", oi.getDualshock().getRawAxis(5));
+        }
         driveTrain.updateDashboard();
     }
 
