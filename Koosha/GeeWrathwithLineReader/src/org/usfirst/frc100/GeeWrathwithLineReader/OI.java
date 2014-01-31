@@ -75,9 +75,7 @@ public OI() {
             reset.whenPressed(new Reset());
             turn = new JoystickButton(dualshock, 2);
             turn.whenPressed(new Turn(45));
-        
 
-	    
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 

@@ -60,8 +60,8 @@ public class Preferences {
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = true;
-    public static boolean gwrathRobotMap = false;
+    public static boolean hammerHeadRobotMap  = false;
+    public static boolean gwrathRobotMap = true;
     
     // Changes preferences to those for hammerhead
     public static void setHammerhead(){
@@ -85,7 +85,7 @@ public class Preferences {
         driveStraight_kP = 0.15; // error * kP = motor speed
         autoTurn_kP = 0.1; // error * kP = motor speed
         driveDistBuffer = 4; // inches robot can be off by
-        driveAngleBuffer = 4; // degrees robot can be off by
+        driveAngleBuffer = 0; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;

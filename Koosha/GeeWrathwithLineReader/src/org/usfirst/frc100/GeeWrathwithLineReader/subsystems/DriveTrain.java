@@ -158,6 +158,11 @@ public class DriveTrain extends Subsystem {
         drive.arcadeDrive(forwardSpeed, rotateSpeed);
     }
 
+    public void arcadeDrive(double forwardSpeed, double rotateSpeed, boolean squared)
+    {
+        drive.arcadeDrive(forwardSpeed, rotateSpeed, squared);
+    }
+
     // param is in inches 
     // returns true when distance is reached
     public boolean autoDriveStraight(double distance, double speedLimit)
@@ -224,7 +229,7 @@ public class DriveTrain extends Subsystem {
         }
         angleOutput = angleError * -0.09;
         
-        arcadeDrive(0, angleOutput);
+        arcadeDrive(0, angleOutput, false);
         //updateDashboard();
         SmartDashboard.putNumber("Angle Output", angleOutput);
         SmartDashboard.putBoolean("Is Turning", true);
@@ -253,7 +258,7 @@ public class DriveTrain extends Subsystem {
 //        }
         angleOutput = angleError * 1.5;
         
-        arcadeDrive(0, angleOutput);
+        arcadeDrive(0, angleOutput, false);
         //updateDashboard();
         SmartDashboard.putNumber("Angle Output", angleOutput);
         SmartDashboard.putBoolean("Is Turning", true);
@@ -268,7 +273,7 @@ public class DriveTrain extends Subsystem {
         System.out.print("Left:" + getLeftTrigger() + " ");
         System.out.print("Right:" + getRightTrigger() + " ");
         System.out.print("Displacement:" + this.getDistance() + " ");
-//        System.out.print("Velocity:" + getRate() + " ");
+        System.out.print("Velocity:" + getRate() + " ");
         System.out.print("MaxSpeed:" + maxSpeed + " ");
         System.out.println("TimePassed:" + (System.currentTimeMillis() - prevTime));
 
@@ -279,6 +284,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Right Count", rCount.get());
         SmartDashboard.putBoolean("Left Black Line", getLeftTrigger());
         SmartDashboard.putBoolean("Right Black Line", getRightTrigger());
+        SmartDashboard.putNumber("Velocity", getRate());
 
         if((((lCount.get() - prevLCount) > 0) || ((rCount.get() - prevRCount) > 0))
                 && (getRate() > maxSpeed)) {
