@@ -10,6 +10,8 @@ import org.usfirst.frc100.Robot2014.Preferences;
 public class Autonomous extends CommandGroup {
 
     public Autonomous() {
+        addSequential(new ResetGyro());
+        addSequential(new Pause(.1));//allows gyro time to reset
         switch (Preferences.autoMode) {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());

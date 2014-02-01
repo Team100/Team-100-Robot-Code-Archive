@@ -13,6 +13,7 @@ public class AutoDriveStraight extends Command {
 
     int inPositionCounter = 0;
     double distance;
+    double lastDist;
     
     public AutoDriveStraight(double distance) {
         requires(Robot.driveTrain);
@@ -27,8 +28,14 @@ public class AutoDriveStraight extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        double realDist = Robot.driveTrain.getEncoderInches();
         if(Robot.driveTrain.autoDriveStraight(distance)){
-            inPositionCounter++;
+            if (Math.abs(lastDist - realDist) < 1) {
+                inPositionCounter++;
+            } else {
+                lastDist = realDist;
+                inPositionCounter = 0;
+            }
         }
         else{
             inPositionCounter = 0;

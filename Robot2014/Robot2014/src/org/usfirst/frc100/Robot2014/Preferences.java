@@ -14,11 +14,11 @@ public class Preferences {
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
-    public static double driveStraight_kP = 0.15; // error * kP = motor speed
-    public static double autoTurn_kP = 0.15; // error * kP = motor speed
-    public static double driveDistBuffer = 4; // inches robot can be off by
-    public static double driveAngleBuffer = 4; // degrees robot can be off by
-    public static double autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+    public static double driveStraight_kP = 0; // error * kP = motor speed
+    public static double autoTurn_kP = 0; // error * kP = motor speed
+    public static double driveDistBuffer = 0; // inches robot can be off by
+    public static double driveAngleBuffer = 0; // degrees robot can be off by
+    public static double autoDriveDelay = 20; // time to wait to make sure robot has stopped moving
     // Distance sensing
     public static double ultraInitialStopDistance = 120; // inches away from target that we want to stop
     public static double ultraActualStopDistance = 100;
@@ -60,8 +60,8 @@ public class Preferences {
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = false;
-    public static boolean gwrathRobotMap = true;
+    public static boolean hammerHeadRobotMap  = true;
+    public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead
     public static void setHammerhead(){
@@ -69,8 +69,8 @@ public class Preferences {
         driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
         driveStraight_kP = 0.15; // error * kP = motor speed
         autoTurn_kP = 0.15; // error * kP = motor speed
-        driveDistBuffer = 4; // inches robot can be off by
-        driveAngleBuffer = 4; // degrees robot can be off by
+        driveDistBuffer = 2; // inches robot can be off by
+        driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;
@@ -84,8 +84,8 @@ public class Preferences {
         driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
         driveStraight_kP = 0.15; // error * kP = motor speed
         autoTurn_kP = 0.1; // error * kP = motor speed
-        driveDistBuffer = 4; // inches robot can be off by
-        driveAngleBuffer = 0; // degrees robot can be off by
+        driveDistBuffer = 2; // inches robot can be off by
+        driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;
