@@ -46,7 +46,7 @@ public class Shooter extends Subsystem {
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
 //            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
-            SmartDashboard.putNumber("ShooterPosition", potentiometer.getValue());
+            SmartDashboard.putNumber("ShooterPosition", getPosition());
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
             SmartDashboard.getBoolean("ShooterForwardLimit", hallEffectForward.get());

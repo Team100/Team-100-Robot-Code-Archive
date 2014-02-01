@@ -121,6 +121,7 @@ public class RobotMap {
             shooterEncoder.setDistancePerPulse(1.0);
             shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
             shooterEncoder.start();
+            
             intakeTopMotor = new Victor(1, 4);
             LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
