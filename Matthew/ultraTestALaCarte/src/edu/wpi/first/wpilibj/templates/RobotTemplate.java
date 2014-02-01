@@ -43,7 +43,7 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void teleopPeriodic() {
         
-        //double range = ultra1.getVoltage()/5*512/2.54;\
+        //double range = ultra1.getVoltage()/5*512/2.54;
         double range = ultra1.getVoltage();
         System.out.println("Inches: " + range);
         SmartDashboard.putNumber("Inches: ", range);
