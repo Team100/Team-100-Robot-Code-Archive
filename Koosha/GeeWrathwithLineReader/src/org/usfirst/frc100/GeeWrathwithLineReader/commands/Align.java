@@ -59,6 +59,9 @@ public class  Align extends Command
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
+        System.out.print("ALIGN! ");
+        System.out.print("FinTurn:" + doneTurn + " ");
+
         lTriggered = driveTrain.getLeftTrigger();
         rTriggered = driveTrain.getRightTrigger();
         
@@ -67,12 +70,12 @@ public class  Align extends Command
             if(doneTurn)
             {
                 driveTrain.autoDriveStraight(-216.0, 0.6);
-                //System.out.print("Done turing; finding line... ");
+                System.out.print("Done turning; finding line... ");
             }
             else if(!(leftInPos && rightInPos))
             {
                 driveTrain.autoDriveStraight(216.0, 0.6);
-                //System.out.print("Finding line... ");
+                System.out.print("Finding line... ");
             }
         }
         else if(lTriggered && !rTriggered)
@@ -83,15 +86,22 @@ public class  Align extends Command
                 {
                    driveTrain.resetEncoder();
                    driveTrain.autoDriveStraight(216.0, 0.6);
-                   //System.out.print("First trigger left. ");
+                   System.out.print("First trigger left. ");
                 }
                 else
                 {
                     displacement = driveTrain.getDistance();
                     angle = Math.toDegrees(MathUtils.atan(displacement / width));
-                    //System.out.print("Second trigger left. ");
+                    System.out.print("Second trigger left. ");
                 }
                 leftInPos = true;
+            }
+            else
+            {
+                if(!doneTurn)
+                    driveTrain.autoDriveStraight(216.0, 0.6);
+                else
+                    driveTrain.autoDriveStraight(-216.0, 0.6);
             }
         }
         else if(!lTriggered && rTriggered)
@@ -102,15 +112,22 @@ public class  Align extends Command
                 {
                     driveTrain.resetEncoder();
                     driveTrain.autoDriveStraight(216.0, 0.6);
-                    //System.out.print("First trigger right. ");
+                    System.out.print("First trigger right. ");
                 }
                 else
                 {
                     displacement = -driveTrain.getDistance();
                     angle = Math.toDegrees(MathUtils.atan(displacement / width));
-                    //System.out.print("Second trigger right. ");
+                    System.out.print("Second trigger right. ");
                 }
                 rightInPos = true;
+            }
+            else
+            {
+                if(!doneTurn)
+                    driveTrain.autoDriveStraight(216.0, 0.6);
+                else
+                    driveTrain.autoDriveStraight(-216.0, 0.6);
             }
         }
         else if(lTriggered && rTriggered)
@@ -124,14 +141,14 @@ public class  Align extends Command
             else
             {
                 driveTrain.autoDriveStraight(216.0, 0.6);
-               //System.out.print("Shallow angle. ");
+                System.out.print("Shallow angle. ");
             }
         }
         
         if(leftInPos && rightInPos && !doneTurn)
         {
             doneTurn = driveTrain.autoTurnByAngle(angle);
-            //System.out.print("Turning. ");
+            System.out.print("Turning. ");
         }
         else
         {
@@ -143,7 +160,6 @@ public class  Align extends Command
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;
 
-        System.out.print("ALIGN! ");
 //        System.out.print("Angle:" + angle + " ");
         driveTrain.updateDashboard();
 
