@@ -14,6 +14,7 @@ public class AutoTurn extends Command {
     int inPositionCounter = 0;
     double angle;
     boolean toAngle = false;
+    double lastAngle;
     
     public AutoTurn(double angle) {
         requires(Robot.driveTrain);
@@ -33,17 +34,28 @@ public class AutoTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(toAngle){
-            if(Robot.driveTrain.autoTurnToAngle(angle)){
-                inPositionCounter++;
-            }
-            else{
+        double realAngle = Robot.driveTrain.getGyroDegrees();
+        if (toAngle) {
+            if (Robot.driveTrain.autoTurnToAngle(angle)) {
+                if (Math.abs(lastAngle - realAngle) < .5) {
+                    inPositionCounter++;
+                } else {
+                    lastAngle = realAngle;
+                    inPositionCounter = 0;
+                }
+            } else {
                 inPositionCounter = 0;
             }
             return;
         }
         if(Robot.driveTrain.autoTurnByAngle(angle)){
-            inPositionCounter++;
+            if(Math.abs(lastAngle - realAngle)<.5){
+                inPositionCounter++;
+            }
+            else{
+                lastAngle = realAngle;
+                inPositionCounter = 0;
+            }
         }
         else{
             inPositionCounter = 0;

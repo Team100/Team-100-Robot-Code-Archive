@@ -209,6 +209,7 @@ public class DriveTrain extends Subsystem {
 
     // Puts values on dashboard if in tuning mode
     public void updateDashboard() {
+        SmartDashboard.putNumber("AutoDriveAngleValue", getGyroDegrees());
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("AutoDriveDistOutput", distOutput);
             SmartDashboard.putNumber("AutoDriveAngleOutput", angleOutput);
@@ -217,7 +218,6 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get() + rightEncoder.get()) / 2);
             SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
             SmartDashboard.putNumber("AutoDriveDistanceValue", getEncoderInches());
-            SmartDashboard.putNumber("AutoDriveAngleValue", getGyroDegrees());
             SmartDashboard.putNumber("AutoDriveDistError", distError);
             SmartDashboard.putNumber("AutoDriveAngleError", angleError);
             SmartDashboard.putNumber("RangeDistanceInches", getRangeInches());
