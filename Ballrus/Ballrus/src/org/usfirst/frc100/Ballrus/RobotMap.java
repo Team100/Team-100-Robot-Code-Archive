@@ -33,15 +33,15 @@ public class RobotMap {
     public static AnalogTrigger driveTrainRightLineTrigger;
 
     public static SpeedController shooterMotor;
-    public static DigitalInput shooterHallEffectForward;
-    public static DigitalInput shooterHallEffectBack;
+    public static DigitalInput shooterForwardHallEffect;
+    public static DigitalInput shooterBackHallEffect;
     public static AnalogChannel shooterPotentiometer;
     public static DoubleSolenoid shooterRelease;
     public static Encoder shooterEncoder;
     public static Relay shooterReadyIndicator;
 
     public static SpeedController intakeTopMotor;
-    public static SpeedController intakeBottomMotor;
+    public static SpeedController intakeSideMotor;
     public static DoubleSolenoid intakeTopPiston;
     public static DoubleSolenoid intakeBottomPiston;
     public static DigitalInput intakeBallDetector;
@@ -61,10 +61,10 @@ public class RobotMap {
         } else if (Preferences.gwrathRobotMap) {
             initGwrath();
         } else {
-            driveTrainLeftMotor = new Victor(1, 1);
+            driveTrainLeftMotor = new Talon(1, 1);
             LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotor);
 
-            driveTrainRightMotor = new Victor(1, 2);
+            driveTrainRightMotor = new Talon(1, 2);
             LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotor);
 
             driveTrainLeftEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
@@ -101,14 +101,14 @@ public class RobotMap {
             driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
             driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
             
-            shooterMotor = new Victor(1, 3);
+            shooterMotor = new Talon(1, 3);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-            shooterHallEffectForward = new DigitalInput(1, 5);
-            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterHallEffectForward);
+            shooterForwardHallEffect = new DigitalInput(1, 5);
+            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
 
-            shooterHallEffectBack = new DigitalInput(1, 6);
-            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterHallEffectBack);
+            shooterBackHallEffect = new DigitalInput(1, 6);
+            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
 
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
@@ -122,11 +122,11 @@ public class RobotMap {
             shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
             shooterEncoder.start();
             
-            intakeTopMotor = new Victor(1, 4);
+            intakeTopMotor = new Talon(1, 4);
             LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
-            intakeBottomMotor = new Victor(1, 5);
-            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
+            intakeSideMotor = new Talon(1, 5);
+            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
 
             intakeTopPiston = new DoubleSolenoid(3, 4);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
@@ -137,7 +137,7 @@ public class RobotMap {
             intakeBallDetector = new DigitalInput(1, 9);
             LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
 
-            tilterMotor = new Victor(1, 6);
+            tilterMotor = new Talon(1, 6);
             LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
 
             tilterPotentiometer = new AnalogChannel(1, 4);
@@ -162,7 +162,7 @@ public class RobotMap {
             motors.addElement(driveTrainRightMotor);
             motors.addElement(shooterMotor);
             motors.addElement(intakeTopMotor);
-            motors.addElement(intakeBottomMotor);
+            motors.addElement(intakeSideMotor);
             motors.addElement(tilterMotor);
         }
     }
@@ -220,11 +220,11 @@ public class RobotMap {
         shooterMotor = new Victor(1, 9);
         LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-        shooterHallEffectForward = new DigitalInput(1, 5);
-        LiveWindow.addSensor("Shooter", "HallEffectForward", shooterHallEffectForward);
+        shooterForwardHallEffect = new DigitalInput(1, 5);
+        LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
 
-        shooterHallEffectBack = new DigitalInput(1, 1);
-        LiveWindow.addSensor("Shooter", "HallEffectBack", shooterHallEffectBack);
+        shooterBackHallEffect = new DigitalInput(1, 1);
+        LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
 
         shooterPotentiometer = new AnalogChannel(1, 3);
         LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
@@ -241,8 +241,8 @@ public class RobotMap {
         intakeTopMotor = new Victor(1, 6);
         LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
-        intakeBottomMotor = new Victor(1, 7);
-        LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
+        intakeSideMotor = new Victor(1, 7);
+        LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
 
         intakeTopPiston = new DoubleSolenoid(3, 4);
         LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
@@ -284,7 +284,7 @@ public class RobotMap {
         motors.addElement(driveTrainRightMotor2);
         motors.addElement(shooterMotor);
         motors.addElement(intakeTopMotor);
-        motors.addElement(intakeBottomMotor);
+        motors.addElement(intakeSideMotor);
         motors.addElement(tilterMotor);
     }
 
@@ -343,11 +343,11 @@ public class RobotMap {
             shooterMotor = new Victor(1, 2);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-            shooterHallEffectForward = new DigitalInput(1, 5);
-            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterHallEffectForward);
+            shooterForwardHallEffect = new DigitalInput(1, 5);
+            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
 
-            shooterHallEffectBack = new DigitalInput(1, 6);
-            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterHallEffectBack);
+            shooterBackHallEffect = new DigitalInput(1, 6);
+            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
 
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
@@ -363,8 +363,8 @@ public class RobotMap {
             intakeTopMotor = new Victor(1, 4);
             LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
-            intakeBottomMotor = new Victor(1, 3);
-            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
+            intakeSideMotor = new Victor(1, 3);
+            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
 
             intakeTopPiston = new DoubleSolenoid(3, 4);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
@@ -406,7 +406,7 @@ public class RobotMap {
             motors.addElement(driveTrainRightMotor2);
             motors.addElement(shooterMotor);
             motors.addElement(intakeTopMotor);
-            motors.addElement(intakeBottomMotor);
+            motors.addElement(intakeSideMotor);
             motors.addElement(tilterMotor);
     }
 
