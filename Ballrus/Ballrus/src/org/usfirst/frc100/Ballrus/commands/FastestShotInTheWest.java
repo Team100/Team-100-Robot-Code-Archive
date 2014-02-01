@@ -9,13 +9,13 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  * tell us when to shoot)! It's the fastest shot in the West! It is called while
  * held.
  */
-public class QuickShoot extends Command {
+public class FastestShotInTheWest extends Command {
 
     int state;
     boolean distanceReached;
     double speed;
 
-    public QuickShoot() {
+    public FastestShotInTheWest() {
         requires(Ballrus.driveTrain);
     }
 

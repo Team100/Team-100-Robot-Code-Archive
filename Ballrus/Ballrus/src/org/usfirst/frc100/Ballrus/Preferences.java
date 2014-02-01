@@ -62,6 +62,7 @@ public class Preferences {
     public static boolean hammerHeadRobotMap  = true;
     public static boolean gwrathRobotMap = false;
     
+    
     // Changes preferences to those for hammerhead
     public static void setHammerhead(){
         driveEncoderToInchRatio = 38.2; // encoder / ratio = inches

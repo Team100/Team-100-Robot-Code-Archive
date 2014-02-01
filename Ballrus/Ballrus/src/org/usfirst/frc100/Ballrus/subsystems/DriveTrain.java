@@ -158,7 +158,7 @@ public class DriveTrain extends Subsystem {
         return speed;
     }
     
-    // Returns rangefinder distance in inches. Spikes return -1
+    // Returns rangefinder (MB1023) distance in inches. Spikes return -1
     public double getRangeInches() {
         double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4;
         if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
