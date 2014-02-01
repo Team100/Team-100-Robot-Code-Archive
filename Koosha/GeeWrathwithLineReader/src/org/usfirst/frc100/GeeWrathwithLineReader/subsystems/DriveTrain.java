@@ -227,7 +227,7 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putBoolean("Is Turning", false);
             return true;
         }
-        angleOutput = angleError * -0.09;
+        angleOutput = angleError * -0.07;
         
         arcadeDrive(0, angleOutput, false);
         //updateDashboard();
