@@ -36,10 +36,10 @@ public class Preferences {
     public static double tilter_kP = -0.02; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 180;
-    public static double shootLowAngle = 90;
-    public static double shootTrussAngle = 0;
-    public static double intakeAngle = 270;
-    public static double stowedAngle = 0; // THIS MUST BE CHANGED! IT IS NOT ACCURATE AT ALL!!!!!!!!!!!!!!!!!!!!!
+    public static double shootLowAngle = 270;
+    public static double shootTrussAngle = 90;
+    public static double intakeAngle = 180;
+    public static double stowedAngle = 0;
     public static double shootQuickAngle = 0;
     
     // Shooter tuning
