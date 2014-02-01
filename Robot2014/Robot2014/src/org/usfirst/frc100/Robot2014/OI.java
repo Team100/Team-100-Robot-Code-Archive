@@ -72,7 +72,8 @@ public class OI {
             alignToShootButton = new JoystickButton(driverLeft, 1);
             alignToShootButton.whileHeld(new AlignToShoot());
             quickTurnAroundButton = new JoystickButton(driverLeft, 2);
-            quickTurnAroundButton.whileHeld(new AutoTurn(180));
+            quickTurnAroundButton.whenPressed(new AutoTurn(180));
+            quickTurnAroundButton.whenReleased(new Drive());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {
