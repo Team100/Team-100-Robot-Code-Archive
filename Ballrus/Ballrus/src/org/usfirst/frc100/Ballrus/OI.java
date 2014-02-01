@@ -22,6 +22,7 @@ import org.usfirst.frc100.Ballrus.commands.AutoDriveStraight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
+import org.usfirst.frc100.Ballrus.commands.FastestShotInTheWest;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -81,7 +82,7 @@ public class OI {
             shiftButton = new JoystickButton(driverRight, 2);
             shiftButton.whileHeld(new ShiftLow());
             shootWhileMovingButton = new JoystickButton(driverRight, 1);
-            shootWhileMovingButton.whileHeld(new QuickShootWithLineReader());
+            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
             resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
             resetGyroButton.whenPressed(new ResetGyro());
 
