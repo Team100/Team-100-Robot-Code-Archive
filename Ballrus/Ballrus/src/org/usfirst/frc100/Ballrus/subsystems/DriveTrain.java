@@ -1,4 +1,4 @@
-//just needs rangefinding
+//ready, except for rangefinder and line reader code
 package org.usfirst.frc100.Ballrus.subsystems;
 
 import org.usfirst.frc100.Ballrus.commands.Drive;

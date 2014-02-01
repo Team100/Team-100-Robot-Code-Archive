@@ -1,4 +1,4 @@
-//change motor types
+//ready
 package org.usfirst.frc100.Ballrus;
 
 import edu.wpi.first.wpilibj.*;

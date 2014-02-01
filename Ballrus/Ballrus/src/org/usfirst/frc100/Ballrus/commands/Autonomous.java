@@ -1,4 +1,4 @@
-//double check that this is what we want to do
+//figure out correct distances
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
