@@ -9,7 +9,6 @@ public class Preferences {
     // DriveTrain modes
     public static int autoMode = 1;
     public static boolean tankDriveMode = true; // false = arcadeDrive
-    public static boolean slaveDriveDefaultEnabled = true; // whether slave drive is activated by default
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
@@ -82,8 +81,8 @@ public class Preferences {
     public static void setGwrath() {
         driveEncoderToInchRatio = 18.3; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
-        driveStraight_kP = 0.15; // error * kP = motor speed
-        autoTurn_kP = 0.1; // error * kP = motor speed
+        driveStraight_kP = 0.075; // error * kP = motor speed
+        autoTurn_kP = 0.05; // error * kP = motor speed
         driveDistBuffer = 2; // inches robot can be off by
         driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving

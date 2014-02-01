@@ -18,11 +18,10 @@ public class RobotMap {
     public static Vector motors = new Vector();
 
     public static RobotDrive driveTrainMainDrive;
-    public static RobotDrive driveTrainSlaveDrive;
-    public static SpeedController driveTrainLeftMotorMain;
-    public static SpeedController driveTrainLeftMotorSlave;
-    public static SpeedController driveTrainRightMotorMain;
-    public static SpeedController driveTrainRightMotorSlave;
+    public static SpeedController driveTrainLeftMotor;
+    public static SpeedController driveTrainLeftMotor2;//for other robots
+    public static SpeedController driveTrainRightMotor;
+    public static SpeedController driveTrainRightMotor2;//for other robots
     public static Encoder driveTrainLeftEncoder;
     public static Encoder driveTrainRightEncoder;
     public static Gyro driveTrainGyro;
@@ -62,17 +61,11 @@ public class RobotMap {
         } else if (Preferences.gwrathRobotMap) {
             initGwrath();
         } else {
-            driveTrainLeftMotorMain = new Victor(1, 1);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotorMain);
+            driveTrainLeftMotor = new Victor(1, 1);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotor);
 
-            driveTrainLeftMotorSlave = new Victor(1, 2);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotorSlave);
-
-            driveTrainRightMotorMain = new Victor(1, 3);
-            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotorMain);
-
-            driveTrainRightMotorSlave = new Victor(1, 4);
-            LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotorSlave);
+            driveTrainRightMotor = new Victor(1, 2);
+            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotor);
 
             driveTrainLeftEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
             LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
@@ -108,7 +101,7 @@ public class RobotMap {
             driveTrainRightLineTrigger = new AnalogTrigger(driveTrainRightLineReader);
             driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
             
-            shooterMotor = new Victor(1, 5);
+            shooterMotor = new Victor(1, 3);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
             shooterHallEffectForward = new DigitalInput(1, 5);
@@ -128,10 +121,10 @@ public class RobotMap {
             shooterEncoder.setDistancePerPulse(1.0);
             shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
             shooterEncoder.start();
-            intakeTopMotor = new Victor(1, 6);
+            intakeTopMotor = new Victor(1, 4);
             LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
-            intakeBottomMotor = new Victor(1, 7);
+            intakeBottomMotor = new Victor(1, 5);
             LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeBottomMotor);
 
             intakeTopPiston = new DoubleSolenoid(3, 4);
@@ -143,7 +136,7 @@ public class RobotMap {
             intakeBallDetector = new DigitalInput(1, 9);
             LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
 
-            tilterMotor = new Victor(1, 8);
+            tilterMotor = new Victor(1, 6);
             LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
 
             tilterPotentiometer = new AnalogChannel(1, 4);
@@ -162,13 +155,10 @@ public class RobotMap {
             counter.setUpSourceEdge(true, true);
             counter.start();
 
-            driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
-            driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
+            driveTrainMainDrive = new RobotDrive(driveTrainLeftMotor, driveTrainRightMotor);
 
-            motors.addElement(driveTrainLeftMotorMain);
-            motors.addElement(driveTrainLeftMotorSlave);
-            motors.addElement(driveTrainRightMotorMain);
-            motors.addElement(driveTrainRightMotorSlave);
+            motors.addElement(driveTrainLeftMotor);
+            motors.addElement(driveTrainRightMotor);
             motors.addElement(shooterMotor);
             motors.addElement(intakeTopMotor);
             motors.addElement(intakeBottomMotor);
@@ -180,17 +170,17 @@ public class RobotMap {
     public static void initHammerHead() {
         Preferences.setHammerhead();
 
-        driveTrainLeftMotorMain = new Victor(1, 4);
-        LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotorMain);
+        driveTrainLeftMotor = new Victor(1, 4);
+        LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotor);
 
-        driveTrainLeftMotorSlave = new Victor(1, 5);
-        LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotorSlave);
+        driveTrainLeftMotor2 = new Victor(1, 5);
+        LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotor2);
 
-        driveTrainRightMotorMain = new Victor(1, 2);
-        LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotorMain);
+        driveTrainRightMotor = new Victor(1, 2);
+        LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotor);
 
-        driveTrainRightMotorSlave = new Victor(1, 3);
-        LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotorSlave);
+        driveTrainRightMotor2 = new Victor(1, 3);
+        LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotor2);
 
         driveTrainLeftEncoder = new Encoder(1, 8, 1, 9, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
@@ -281,17 +271,16 @@ public class RobotMap {
         counter.setUpSourceEdge(true, true);
         counter.start();
 
-        driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
-        driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
+        driveTrainMainDrive = new RobotDrive(driveTrainLeftMotor, driveTrainLeftMotor2, driveTrainRightMotor, driveTrainRightMotor2);
         driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-        driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 
-        motors.addElement(driveTrainLeftMotorMain);
-        motors.addElement(driveTrainLeftMotorSlave);
-        motors.addElement(driveTrainRightMotorMain);
-        motors.addElement(driveTrainRightMotorSlave);
+        motors.addElement(driveTrainLeftMotor);
+        motors.addElement(driveTrainLeftMotor2);
+        motors.addElement(driveTrainRightMotor);
+        motors.addElement(driveTrainRightMotor2);
         motors.addElement(shooterMotor);
         motors.addElement(intakeTopMotor);
         motors.addElement(intakeBottomMotor);
@@ -302,17 +291,17 @@ public class RobotMap {
     public static void initGwrath() {
         Preferences.setGwrath();
         
-        driveTrainLeftMotorMain = new Victor(1, 6);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotorMain);
+        driveTrainLeftMotor = new Victor(1, 6);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotor);
 
-            driveTrainLeftMotorSlave = new Victor(1, 7);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotorSlave);
+            driveTrainLeftMotor2 = new Victor(1, 7);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorSlave", (Victor) driveTrainLeftMotor2);
 
-            driveTrainRightMotorMain = new Victor(1, 8);
-            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotorMain);
+            driveTrainRightMotor = new Victor(1, 8);
+            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotor);
 
-            driveTrainRightMotorSlave = new Victor(1, 9);
-            LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotorSlave);
+            driveTrainRightMotor2 = new Victor(1, 9);
+            LiveWindow.addActuator("DriveTrain", "RightMotorSlave", (Victor) driveTrainRightMotor2);
 
             driveTrainLeftEncoder = new Encoder(1, 4, 1, 3, false, EncodingType.k4X);
             LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
@@ -404,17 +393,16 @@ public class RobotMap {
             counter.setUpSourceEdge(true, true);
             counter.start();
 
-            driveTrainMainDrive = new RobotDrive(driveTrainLeftMotorMain, driveTrainRightMotorMain);
-            driveTrainSlaveDrive = new RobotDrive(driveTrainLeftMotorSlave, driveTrainRightMotorSlave);
-            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+            driveTrainMainDrive = new RobotDrive(driveTrainLeftMotor, driveTrainLeftMotor2, driveTrainRightMotor, driveTrainRightMotor2);
             driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-            driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-            driveTrainSlaveDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-            
-            motors.addElement(driveTrainLeftMotorMain);
-            motors.addElement(driveTrainLeftMotorSlave);
-            motors.addElement(driveTrainRightMotorMain);
-            motors.addElement(driveTrainRightMotorSlave);
+            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+            driveTrainMainDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+
+            motors.addElement(driveTrainLeftMotor);
+            motors.addElement(driveTrainLeftMotor2);
+            motors.addElement(driveTrainRightMotor);
+            motors.addElement(driveTrainRightMotor2);
             motors.addElement(shooterMotor);
             motors.addElement(intakeTopMotor);
             motors.addElement(intakeBottomMotor);
@@ -426,7 +414,6 @@ public class RobotMap {
         for (int i = 0; i < motors.size(); i++) {
             ((SpeedController) motors.elementAt(i)).set(0);
             driveTrainMainDrive.stopMotor();
-            driveTrainSlaveDrive.stopMotor();
         }
     }
 
@@ -435,7 +422,6 @@ public class RobotMap {
         for (int i = 0; i < motors.size(); i++) {
             ((MotorSafety) motors.elementAt(i)).setSafetyEnabled(true);
             driveTrainMainDrive.setSafetyEnabled(true);
-            driveTrainSlaveDrive.setSafetyEnabled(true);
         }
     }
 
@@ -444,7 +430,6 @@ public class RobotMap {
         for (int i = 0; i < motors.size(); i++) {
             ((MotorSafety) motors.elementAt(i)).setSafetyEnabled(false);
             driveTrainMainDrive.setSafetyEnabled(false);
-            driveTrainSlaveDrive.setSafetyEnabled(false);
         }
     }
 }

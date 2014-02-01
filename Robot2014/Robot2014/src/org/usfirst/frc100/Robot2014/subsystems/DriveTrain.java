@@ -14,12 +14,11 @@ import org.usfirst.frc100.Robot2014.Robot;
  */
 public class DriveTrain extends Subsystem {
 
-    SpeedController leftMotorMain = RobotMap.driveTrainLeftMotorMain; // positive = forward
-    SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotorSlave; // positive = forward
-    SpeedController rightMotorMain = RobotMap.driveTrainRightMotorMain; // positive = forward
-    SpeedController rightMotorSlave = RobotMap.driveTrainRightMotorSlave; // positive = forward
+    SpeedController leftMotorMain = RobotMap.driveTrainLeftMotor; // positive = forward
+    SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotor2; // positive = forward
+    SpeedController rightMotorMain = RobotMap.driveTrainRightMotor; // positive = forward
+    SpeedController rightMotorSlave = RobotMap.driveTrainRightMotor2; // positive = forward
     RobotDrive mainDrive = RobotMap.driveTrainMainDrive;
-    RobotDrive slaveDrive = RobotMap.driveTrainSlaveDrive;
     Encoder leftEncoder = RobotMap.driveTrainLeftEncoder; // positive = forward
     Encoder rightEncoder = RobotMap.driveTrainRightEncoder; // positive = forward
     Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
@@ -28,7 +27,6 @@ public class DriveTrain extends Subsystem {
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
 
-    boolean slaveDriveEnabled = Preferences.slaveDriveDefaultEnabled;
     double distError = 0;
     double angleError = 0;
     double distOutput = 0;
@@ -52,22 +50,12 @@ public class DriveTrain extends Subsystem {
     // Sets the robot drives to tankdrive
     public void tankDrive(double left, double right) {
         mainDrive.tankDrive(left, right);
-        if (slaveDriveEnabled) {
-            slaveDrive.tankDrive(left, right);
-        } else {
-            slaveDrive.stopMotor();
-        }
         updateDashboard();
     }
 
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
         mainDrive.arcadeDrive(speed, turn);
-        if (slaveDriveEnabled) {
-            slaveDrive.arcadeDrive(speed, turn);
-        } else {
-            slaveDrive.stopMotor();
-        }
         updateDashboard();
     }
 
