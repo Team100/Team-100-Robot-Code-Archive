@@ -1,4 +1,4 @@
-//just needs rangefinding
+//ready, except for rangefinder and line reader code
 package org.usfirst.frc100.Ballrus.subsystems;
 
 import org.usfirst.frc100.Ballrus.commands.Drive;
@@ -160,7 +160,9 @@ public class DriveTrain extends Subsystem {
     
     // Returns rangefinder distance in inches. Spikes return -1
     public double getRangeInches() {
-        double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4;
+        //double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4; //if MB1023 ultrasonic sensor
+        //double currentValue = rangeFinder.getVoltage()*84.252 +3.664 ; //if MB1220 ultrasonic sensor, equation from testing, works OK but not great
+        double currentValue = rangeFinder.getVoltage()*1024/12.7; //if if MB1220 ultrasonic sensor, equation from datasheet, works pretty good, better than the other one
         if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
             lastRangeFinderValue = currentValue;
             return (currentValue);
@@ -177,7 +179,8 @@ public class DriveTrain extends Subsystem {
 
     // Call once before align to shoot
     public void resetRangefinder() {
-        Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage() / 5 * 512 / 2.4);
+        //Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage() / 5 * 512 / 2.4); //if MB1023 ultrsonic sensor
+        Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage()*1024/12.7); // if MB1220 ultrasonic sensor
     }
     
     // Resets the gyro so that the current angle is 0

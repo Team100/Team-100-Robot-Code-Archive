@@ -1,24 +1,7 @@
 //ready
 package org.usfirst.frc100.Ballrus;
 
-import org.usfirst.frc100.Ballrus.commands.TiltToStow;
-import org.usfirst.frc100.Ballrus.commands.AlignToShoot;
-import org.usfirst.frc100.Ballrus.commands.TiltToShootLow;
-import org.usfirst.frc100.Ballrus.commands.QuickShootWithLineReader;
-import org.usfirst.frc100.Ballrus.commands.RunIntakeIn;
-import org.usfirst.frc100.Ballrus.commands.Drive;
-import org.usfirst.frc100.Ballrus.commands.FullManualControl;
-import org.usfirst.frc100.Ballrus.commands.AutoTurn;
-import org.usfirst.frc100.Ballrus.commands.TiltToShootHigh;
-import org.usfirst.frc100.Ballrus.commands.ResetGyro;
-import org.usfirst.frc100.Ballrus.commands.TiltToShootTruss;
-import org.usfirst.frc100.Ballrus.commands.RunIntakeOut;
-import org.usfirst.frc100.Ballrus.commands.ArmShooter;
-import org.usfirst.frc100.Ballrus.commands.ShiftLow;
-import org.usfirst.frc100.Ballrus.commands.ToggleLowerRoller;
-import org.usfirst.frc100.Ballrus.commands.TriggerShootReload;
-import org.usfirst.frc100.Ballrus.commands.TiltToIntake;
-import org.usfirst.frc100.Ballrus.commands.AutoDriveStraight;
+import org.usfirst.frc100.Ballrus.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.*;
@@ -81,7 +64,7 @@ public class OI {
             shiftButton = new JoystickButton(driverRight, 2);
             shiftButton.whileHeld(new ShiftLow());
             shootWhileMovingButton = new JoystickButton(driverRight, 1);
-            shootWhileMovingButton.whileHeld(new QuickShootWithLineReader());
+            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
             resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
             resetGyroButton.whenPressed(new ResetGyro());
 

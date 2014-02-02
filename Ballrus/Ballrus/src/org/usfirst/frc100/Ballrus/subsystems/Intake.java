@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
     SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
-    SpeedController bottomMotor = RobotMap.intakeBottomMotor; // positive = in
+    SpeedController sideMotor = RobotMap.intakeSideMotor; // positive = in
     DoubleSolenoid topPiston = RobotMap.intakeTopPiston; // forward = raised
     DoubleSolenoid bottomPiston = RobotMap.intakeBottomPiston; // forward = deployed
     DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = ball
@@ -25,24 +25,24 @@ public class Intake extends Subsystem {
     public void runIn(){
         if(!ballDetector.get()){
             topMotor.set(1);
-            bottomMotor.set(1);
+            sideMotor.set(1);
         }
         else{
             topMotor.set(0);
-            bottomMotor.set(0);
+            sideMotor.set(0);
         }
     }
     
     // Runs rollers outwards
     public void runOut(){
         topMotor.set(-1);
-        bottomMotor.set(-1);
+        sideMotor.set(-1);
     }
     
     // Stops rollers
     public void stop(){
         topMotor.set(0);
-        bottomMotor.set(0);
+        sideMotor.set(0);
     }
     
     // Deploys or retracts the top piston
