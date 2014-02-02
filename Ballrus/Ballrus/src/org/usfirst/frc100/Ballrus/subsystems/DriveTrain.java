@@ -179,7 +179,8 @@ public class DriveTrain extends Subsystem {
 
     // Call once before align to shoot
     public void resetRangefinder() {
-        Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage() / 5 * 512 / 2.4);
+        //Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage() / 5 * 512 / 2.4); //if MB1023 ultrsonic sensor
+        Ballrus.driveTrain.lastRangeFinderValue = (rangeFinder.getVoltage()*1024/12.7); // if MB1220 ultrasonic sensor
     }
     
     // Resets the gyro so that the current angle is 0
