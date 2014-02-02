@@ -1,29 +1,36 @@
-//ready
-package org.usfirst.frc100.Ballrus.commands;
+package org.usfirst.frc100.Mk3.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc100.Ballrus.Ballrus;
+import org.usfirst.frc100.Mk3.OI;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
- * Resets the gyro. Command is whenPressed.
+ *
+ * @author Student
  */
-public class ResetGyro extends Command {
+public class ManualTilt extends CommandBase {
     
-    public ResetGyro() {
+    public ManualTilt() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        requires(intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Ballrus.driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        intake.manualTilt(OI.manipulator.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -33,6 +40,5 @@ public class ResetGyro extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }

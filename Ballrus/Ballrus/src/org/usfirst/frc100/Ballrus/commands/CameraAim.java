@@ -1,33 +1,36 @@
-//ready
+//not yet fully implemented
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Resets the gyro. Command is whenPressed.
+ * Starts an autoTurn command to an angle determined by the camera to be the hot
+ * goal. Command is whenPressed, and terminates after the angle is calculated.
  */
-public class ResetGyro extends Command {
+public class CameraAim extends Command {
     
-    public ResetGyro() {
+    double targetAngle;
+    
+    public CameraAim() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Ballrus.driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        //put code here
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        new AutoTurn(targetAngle).start();
     }
 
     // Called when another command which requires one or more of the same

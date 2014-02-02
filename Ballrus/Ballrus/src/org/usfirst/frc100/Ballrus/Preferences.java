@@ -10,7 +10,7 @@ public class Preferences {
     public static int autoMode = 1;
     public static boolean tankDriveMode = true; // false = arcadeDrive
     // DriveTrain PID
-    public static boolean driveTrainTuningMode = true;
+    public static boolean driveTrainTuningMode = false;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
     public static double driveStraight_kP = 0; // error * kP = motor speed
@@ -36,30 +36,30 @@ public class Preferences {
     public static double tilter_kP = -0.02; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 180;
-    public static double shootLowAngle = 90;
-    public static double shootTrussAngle = 0;
-    public static double intakeAngle = 270;
-    public static double stowedAngle = 0; // THIS MUST BE CHANGED! IT IS NOT ACCURATE AT ALL!!!!!!!!!!!!!!!!!!!!!
+    public static double shootLowAngle = 270;
+    public static double shootTrussAngle = 90;
+    public static double intakeAngle = 180;
+    public static double stowedAngle = 0;
     public static double shootQuickAngle = 0;
     
     // Shooter tuning
     public static boolean shooterTuningMode = false;
-    public static double shooterPotToInchRatio = 1; // pot / ratio = inches
+    public static double shooterPotToInchRatio = 20; // pot / ratio = inches
     public static double shooterPotOffsetInches = 0; // inches + offset = position
-    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
-    public static double shooterDistanceBuffer = 0; // inches shooter can be off by
-    public static double shooterPullBackSpeed = .5;
-    public static double shooterPullForwardSpeed = .2;
+//    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
+    public static double shooterDistanceBuffer = 2; // inches shooter can be off by
+    public static double shooterPullBackSpeed = 0;
+    public static double shooterPullForwardSpeed = 0;
     // Shooter positions (in inches)
     public static double shootHighPosition = 0;
-    public static double shootLowPosition = 0;
-    public static double shootTrussPosition = 0;
-    public static double intakePosition = 0;
-    public static double stowedPosition = 0;
+    public static double shootLowPosition = 10;
+    public static double shootTrussPosition = 20;
+    public static double intakePosition = 30;
+    public static double stowedPosition = 40;
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = true;
+    public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead
