@@ -134,6 +134,10 @@ public class DriveTrain extends Subsystem {
         }
         if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
+            SmartDashboard.putNumber("gyro voltage raw " , AnalogModule.getInstance(1).getVoltage(1));
+            System.out.println("gyro voltage raw " + AnalogModule.getInstance(1).getVoltage(1));
+            SmartDashboard.putNumber("gyro heading", gyro.getAngle());
+            System.out.println("gyro heading" + gyro.getAngle());
         } else {
             angleOutput = angleError * Preferences.autoTurn_kP;
         }

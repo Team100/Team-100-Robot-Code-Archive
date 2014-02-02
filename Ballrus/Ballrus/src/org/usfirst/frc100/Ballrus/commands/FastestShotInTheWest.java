@@ -48,10 +48,13 @@ public class FastestShotInTheWest extends Command {
             speed = Ballrus.driveTrain.getEncoderSpeed();
 //            System.out.println("........speed " + speed);
 
-            if (Ballrus.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.5 * speed))) {
+//            if (Ballrus.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.5 * speed))) { //if MB1023
+            if (Ballrus.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.12 * speed))) {  //if MB1220
+                
                 distanceReached = true;
 //                System.out.println("DIST is apropos " + Robot.driveTrain.getRangeInches());
             }
+            
 
         }
 

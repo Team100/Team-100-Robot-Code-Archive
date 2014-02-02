@@ -10,7 +10,7 @@ public class Preferences {
     public static int autoMode = 1;
     public static boolean tankDriveMode = true; // false = arcadeDrive
     // DriveTrain PID
-    public static boolean driveTrainTuningMode = false;
+    public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
     public static double driveStraight_kP = 0; // error * kP = motor speed
@@ -19,10 +19,10 @@ public class Preferences {
     public static double driveAngleBuffer = 0; // degrees robot can be off by
     public static double autoDriveDelay = 20; // time to wait to make sure robot has stopped moving
     // Distance sensing
-    public static double ultraInitialStopDistance = 120; // inches away from target that we want to stop
-    public static double ultraActualStopDistance = 100;
+    public static double ultraInitialStopDistance = 112; 
+    public static double ultraActualStopDistance = 100; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20;
-    public static int inPositionCounter = 7;
+    public static int inPositionCounter = 3;
     public static int ultraActualShootDistance = 80;
     // LineReader
     public static int lowerLimit = 900;
@@ -59,7 +59,7 @@ public class Preferences {
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = false;
+    public static boolean hammerHeadRobotMap  = true;
     public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead
