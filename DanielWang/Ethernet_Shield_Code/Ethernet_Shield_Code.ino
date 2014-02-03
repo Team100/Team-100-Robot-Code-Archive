@@ -25,7 +25,7 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 //IPAddress server(74,125,232,128);  // numeric IP for Google (no DNS)
 char server[] = {10,1,0,5}; 
 
-IPAddress ip(192,168,0,177);
+IPAddress ip(10,1,0,64);
 
 // Initialize the Ethernet client library
 // with the IP address and port of the server 

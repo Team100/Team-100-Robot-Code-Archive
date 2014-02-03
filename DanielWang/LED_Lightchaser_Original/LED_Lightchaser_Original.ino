@@ -48,11 +48,11 @@ void setup()
   // FastLED.addLeds<WS2801, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
   // FastLED.addLeds<SM16716, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
   // FastLED.addLeds<LPD8806, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
-
+  FastLED.clear();
   FastLED.setBrightness(50);
-  for(int led_number = 0; led_number < NUM_LEDS; led_number++)
+  for(int led_number = 1; led_number < NUM_LEDS; led_number++)
   {
-    leds[led_number] = 0xBD2402;
+    leds[led_number] = 0xC92500;
   }
   FastLED.show();
 }
