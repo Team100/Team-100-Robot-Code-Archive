@@ -59,7 +59,7 @@ public class Preferences {
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = true;
+    public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead

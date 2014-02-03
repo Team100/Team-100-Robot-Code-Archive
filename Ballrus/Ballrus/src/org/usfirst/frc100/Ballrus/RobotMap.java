@@ -55,17 +55,17 @@ public class RobotMap {
     public static Counter counter;
 
     // Initializes actuators and sensors, adds them to livewindow
-    public static void init() {
+   public static void init() {
         if (Preferences.hammerHeadRobotMap) {
             initHammerHead();
         } else if (Preferences.gwrathRobotMap) {
             initGwrath();
         } else {
             driveTrainLeftMotor = new Talon(1, 1);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Victor) driveTrainLeftMotor);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Talon) driveTrainLeftMotor);
 
             driveTrainRightMotor = new Talon(1, 2);
-            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Victor) driveTrainRightMotor);
+            LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Talon) driveTrainRightMotor);
 
             driveTrainLeftEncoder = new Encoder(1, 1, 1, 2, false, EncodingType.k4X);
             LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
@@ -102,7 +102,7 @@ public class RobotMap {
             driveTrainRightLineTrigger.setLimitsRaw(Preferences.lowerLimit, Preferences.upperLimit);
             
             shooterMotor = new Talon(1, 3);
-            LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
+            LiveWindow.addActuator("Shooter", "Motor", (Talon) shooterMotor);
 
             shooterForwardHallEffect = new DigitalInput(1, 5);
             LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
@@ -123,10 +123,10 @@ public class RobotMap {
             shooterEncoder.start();
             
             intakeTopMotor = new Talon(1, 4);
-            LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
+            LiveWindow.addActuator("Intake", "TopMotor", (Talon) intakeTopMotor);
 
             intakeSideMotor = new Talon(1, 5);
-            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
+            LiveWindow.addActuator("Intake", "BottomMotor", (Talon) intakeSideMotor);
 
             intakeTopPiston = new DoubleSolenoid(3, 4);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
@@ -138,7 +138,7 @@ public class RobotMap {
             LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
 
             tilterMotor = new Talon(1, 6);
-            LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
+            LiveWindow.addActuator("Tilter", "Motor", (Talon) tilterMotor);
 
             tilterPotentiometer = new AnalogChannel(1, 4);
             LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
