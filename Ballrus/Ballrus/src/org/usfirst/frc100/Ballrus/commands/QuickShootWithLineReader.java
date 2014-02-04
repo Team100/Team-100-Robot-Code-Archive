@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.RobotMap;
+import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
 
 /**
  * This command allows us to shoot while moving (using the line sensor to tell 
@@ -16,9 +17,8 @@ import org.usfirst.frc100.Ballrus.RobotMap;
 
 
 public class QuickShootWithLineReader extends Command {
-    AnalogTrigger reader = RobotMap.driveTrainLeftLineTrigger;
-    Counter counter = RobotMap.counter;
-    
+    DriveTrain driveTrain = Ballrus.driveTrain;
+
     private static final int STATE_INIT = 0;
     private static final int STATE_DONETURN = 1;
 
@@ -28,12 +28,13 @@ public class QuickShootWithLineReader extends Command {
     boolean triggered = false;
     
     public QuickShootWithLineReader() {
-        requires(Ballrus.driveTrain);
+        requires(driveTrain);
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
-        Ballrus.driveTrain.resetRangefinder();
+        driveTrain.startLineReaders();
+        driveTrain.resetRangefinder();
         state = STATE_INIT;
         isFin = false;
     }
@@ -47,11 +48,11 @@ public class QuickShootWithLineReader extends Command {
         //shoot while still driving straight CHECK
         //end when button released CHECK
         
-        triggered = (1 == counter.get()%2);
+        triggered = driveTrain.getLeftTriggerState();
   
         if(state == STATE_INIT)
         {
-            if(Ballrus.driveTrain.autoTurnToAngle(0))
+            if(driveTrain.autoTurnToAngle(0))
             {
                 state = STATE_DONETURN;
             }
@@ -60,14 +61,14 @@ public class QuickShootWithLineReader extends Command {
         
         if(state == STATE_DONETURN && !triggered)
         {
-            Ballrus.driveTrain.driveStraight(Ballrus.oi.getDriverRight().getY());
+            driveTrain.driveStraight(Ballrus.oi.getDriverRight().getY());
         }
         
         if(triggered)
         {
             new TriggerShootReload().start();
             //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
-            Ballrus.driveTrain.stop();
+            driveTrain.stop();
             //System.out.println("SHOT...DEAD");
             isFin = true;
         }

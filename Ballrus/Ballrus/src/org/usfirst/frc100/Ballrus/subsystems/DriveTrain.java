@@ -26,6 +26,8 @@ public class DriveTrain extends Subsystem {
     DoubleSolenoid shifter = RobotMap.driveTrainShifter; // forward = low
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
+    Counter leftCounter = RobotMap.driveTrainLeftCounter;
+    Counter rightCounter = RobotMap.driveTrainRightCounter;
 
     double distError = 0;
     double angleError = 0;
@@ -200,6 +202,28 @@ public class DriveTrain extends Subsystem {
     // Stops the drive motors
     public void stop() {
         tankDrive(0, 0);
+    }
+
+    // Start the line reader counters =P
+    public void startLineReaders() {
+        leftCounter.start();
+        rightCounter.start();
+    }
+
+    // Stops the line reader counters =P
+    public void stopLineReaders() {
+        leftCounter.stop();
+        rightCounter.stop();
+    }
+
+    // Returns true if the left trigger is over the line
+    public boolean getLeftTriggerState() {
+        return (1 == leftCounter.get());
+    }
+
+    // Returns true if the right trigger is over the line
+    public boolean getRightTriggerState() {
+        return (1 == rightCounter.get());
     }
 
     // Puts values on dashboard if in tuning mode

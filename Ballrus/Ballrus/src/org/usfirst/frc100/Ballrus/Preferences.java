@@ -25,8 +25,9 @@ public class Preferences {
     public static int inPositionCounter = 3;
     public static int ultraActualShootDistance = 80;
     // LineReader
-    public static int lowerLimit = 900;
-    public static int upperLimit = 910;
+    public static int lowerLimit = 895;
+    public static int upperLimit = 920;
+    public static double width = 24.5; // length between line readers in inches
     
     // Tilter PID
     public static boolean tilterTuningMode = false;
