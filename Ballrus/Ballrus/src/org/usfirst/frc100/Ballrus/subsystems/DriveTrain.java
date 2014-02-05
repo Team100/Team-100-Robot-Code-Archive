@@ -51,12 +51,44 @@ public class DriveTrain extends Subsystem {
 
     // Sets the robot drives to tankdrive
     public void tankDrive(double left, double right) {
+        if(Math.abs(left)<Preferences.driveMotorMinValue){
+            if(left<0){
+                left = -Preferences.driveMotorMinValue;
+            }
+            if(left>0){
+                left = Preferences.driveMotorMinValue;
+            }
+        }
+        if(Math.abs(right)<Preferences.driveMotorMinValue){
+            if(right<0){
+                right = -Preferences.driveMotorMinValue;
+            }
+            if(right>0){
+                right = Preferences.driveMotorMinValue;
+            }
+        }
         mainDrive.tankDrive(left, right);
         updateDashboard();
     }
 
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
+        if(Math.abs(speed)<Preferences.driveMotorMinValue){
+            if(speed<0){
+                speed = -Preferences.driveMotorMinValue;
+            }
+            if(speed>0){
+                speed = Preferences.driveMotorMinValue;
+            }
+        }
+        if(Math.abs(turn)<Preferences.driveMotorMinValue){
+            if(turn<0){
+                turn = -Preferences.driveMotorMinValue;
+            }
+            if(turn>0){
+                turn = Preferences.driveMotorMinValue;
+            }
+        }
         mainDrive.arcadeDrive(speed, turn);
         updateDashboard();
     }
