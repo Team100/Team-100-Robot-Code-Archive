@@ -17,6 +17,7 @@ public class Preferences {
     public static double driveDistBuffer = 0; // inches robot can be off by
     public static double driveAngleBuffer = 0; // degrees robot can be off by
     public static double autoDriveDelay = 20; // time to wait to make sure robot has stopped moving
+    public static double driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112; 
     public static double ultraActualStopDistance = 100; // inches away from target that we want to stop
@@ -71,6 +72,8 @@ public class Preferences {
         driveDistBuffer = 2; // inches robot can be off by
         driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+        driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
+        
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;
         ultraAcceptableSpike = 20;
@@ -86,6 +89,8 @@ public class Preferences {
         driveDistBuffer = .25; // inches robot can be off by
         driveAngleBuffer = .25; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
+        driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
+        
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;
         ultraAcceptableSpike = 20;
