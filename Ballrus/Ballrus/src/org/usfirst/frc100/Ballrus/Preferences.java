@@ -7,7 +7,6 @@ package org.usfirst.frc100.Ballrus;
 public class Preferences {
 
     // DriveTrain modes
-    public static int autoMode = 1;
     public static boolean tankDriveMode = true; // false = arcadeDrive
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
@@ -61,7 +60,7 @@ public class Preferences {
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
-    public static boolean gwrathRobotMap = false;
+    public static boolean gwrathRobotMap = true;
     
     // Changes preferences to those for hammerhead
     public static void setHammerhead(){
@@ -80,12 +79,12 @@ public class Preferences {
 
     // Changes preferences to those for gwrath
     public static void setGwrath() {
-        driveEncoderToInchRatio = 18.3; // encoder / ratio = inches
+        driveEncoderToInchRatio = 21.72; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
-        driveStraight_kP = 0.075; // error * kP = motor speed
+        driveStraight_kP = 0.1; // error * kP = motor speed
         autoTurn_kP = 0.05; // error * kP = motor speed
-        driveDistBuffer = 2; // inches robot can be off by
-        driveAngleBuffer = 2; // degrees robot can be off by
+        driveDistBuffer = .25; // inches robot can be off by
+        driveAngleBuffer = .25; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         ultraInitialStopDistance = 120; // inches away from target that we want to stop
         ultraActualStopDistance = 100;
@@ -93,3 +92,4 @@ public class Preferences {
         inPositionCounter = 7;
     }
 }
+//93.75

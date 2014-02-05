@@ -48,12 +48,11 @@ public class Ballrus extends IterativeRobot {
         SmartDashboard.putData(intake);
         SmartDashboard.putData(tilter);
         SmartDashboard.putData(compressor);
-        
-        autonomousCommand = new Autonomous();
     }
 
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
+        autonomousCommand = new Autonomous();
         autonomousCommand.start();
         compressor.startCompressor();
     }
