@@ -23,7 +23,7 @@ public class DriveTrain extends Subsystem {
     Encoder rightEncoder = RobotMap.driveTrainRightEncoder; // positive = forward
     Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
     AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder; // higher = farther
-    DoubleSolenoid shifter = RobotMap.driveTrainShifter; // forward = low
+    Solenoid shifter = RobotMap.driveTrainShifter; // forward = low
     AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
     AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
     Counter leftCounter = RobotMap.driveTrainLeftCounter;
@@ -245,11 +245,11 @@ public class DriveTrain extends Subsystem {
 
     // Shifts to low gear
     public void shiftLow() {
-        shifter.set(DoubleSolenoid.Value.kForward);
+        shifter.set(true);
     }
 
     // Shifts to high gear
     public void shiftHigh() {
-        shifter.set(DoubleSolenoid.Value.kReverse);
+        shifter.set(false);
     }
 }
