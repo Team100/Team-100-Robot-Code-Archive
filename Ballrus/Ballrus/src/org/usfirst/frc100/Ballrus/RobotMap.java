@@ -26,7 +26,7 @@ public class RobotMap {
     public static Encoder driveTrainRightEncoder;
     public static Gyro driveTrainGyro;
     public static AnalogChannel driveTrainRangeFinder;
-    public static DoubleSolenoid driveTrainShifter;
+    public static Solenoid driveTrainShifter;
     public static AnalogChannel driveTrainLeftLineReader;
     public static AnalogChannel driveTrainRightLineReader;
     public static AnalogTrigger driveTrainLeftLineTrigger;
@@ -38,14 +38,14 @@ public class RobotMap {
     public static DigitalInput shooterForwardHallEffect;
     public static DigitalInput shooterBackHallEffect;
     public static AnalogChannel shooterPotentiometer;
-    public static DoubleSolenoid shooterRelease;
+    public static Solenoid shooterRelease;
     public static Encoder shooterEncoder;
     public static Relay shooterReadyIndicator;
 
     public static SpeedController intakeTopMotor;
     public static SpeedController intakeSideMotor;
-    public static DoubleSolenoid intakeTopPiston;
-    public static DoubleSolenoid intakeBottomPiston;
+    public static Solenoid intakeTopPiston;
+    public static Solenoid intakeSparePiston;
     public static DigitalInput intakeBallDetector;
 
     public static SpeedController tilterMotor;
@@ -87,7 +87,7 @@ public class RobotMap {
             driveTrainRangeFinder = new AnalogChannel(1, 2);
             LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
 
-            driveTrainShifter = new DoubleSolenoid(1, 2);
+            driveTrainShifter = new Solenoid(1);
             LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
 
             driveTrainLeftLineReader = new AnalogChannel(1, 5);
@@ -122,7 +122,7 @@ public class RobotMap {
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
-            shooterRelease = new DoubleSolenoid(7, 8);
+            shooterRelease = new Solenoid(4);
             LiveWindow.addActuator("Shooter", "Release", shooterRelease);
 
             shooterEncoder = new Encoder(1, 7, 1, 8, false, EncodingType.k4X);
@@ -137,11 +137,11 @@ public class RobotMap {
             intakeSideMotor = new Talon(1, 5);
             LiveWindow.addActuator("Intake", "BottomMotor", (Talon) intakeSideMotor);
 
-            intakeTopPiston = new DoubleSolenoid(3, 4);
+            intakeTopPiston = new Solenoid(2);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
 
-            intakeBottomPiston = new DoubleSolenoid(5, 6);
-            LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
+            intakeSparePiston = new Solenoid(3);
+            LiveWindow.addActuator("Intake", "SparePiston", intakeSparePiston);
 
             intakeBallDetector = new DigitalInput(1, 9);
             LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
@@ -207,7 +207,7 @@ public class RobotMap {
         driveTrainRangeFinder = new AnalogChannel(1, 6);
         LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
 
-        driveTrainShifter = new DoubleSolenoid(1, 2);
+        driveTrainShifter = new Solenoid(1);
         LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
 
         driveTrainLeftLineReader = new AnalogChannel(1, 5);
@@ -234,7 +234,7 @@ public class RobotMap {
         shooterPotentiometer = new AnalogChannel(1, 3);
         LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
-        shooterRelease = new DoubleSolenoid(7, 8);
+        shooterRelease = new Solenoid(4);
         LiveWindow.addActuator("Shooter", "Release", shooterRelease);
 
         shooterEncoder = new Encoder(1, 2, 1, 3, false, EncodingType.k4X);
@@ -249,11 +249,11 @@ public class RobotMap {
         intakeSideMotor = new Victor(1, 7);
         LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
 
-        intakeTopPiston = new DoubleSolenoid(3, 4);
+        intakeTopPiston = new Solenoid(2);
         LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
 
-        intakeBottomPiston = new DoubleSolenoid(5, 6);
-        LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
+        intakeSparePiston = new Solenoid(3);
+        LiveWindow.addActuator("Intake", "BottomPiston", intakeSparePiston);
 
         intakeBallDetector = new DigitalInput(1, 4);
         LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);
@@ -334,7 +334,7 @@ public class RobotMap {
             driveTrainRangeFinder = new AnalogChannel(1, 2);
             LiveWindow.addSensor("DriveTrain", "RangeFinder", driveTrainRangeFinder);
 
-            driveTrainShifter = new DoubleSolenoid(1, 2);
+            driveTrainShifter = new Solenoid(1);
             LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
 
             driveTrainLeftLineReader = new AnalogChannel(1, 6);
@@ -361,7 +361,7 @@ public class RobotMap {
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
-            shooterRelease = new DoubleSolenoid(7, 8);
+            shooterRelease = new Solenoid(4);
             LiveWindow.addActuator("Shooter", "Release", shooterRelease);
 
             shooterEncoder = new Encoder(1, 7, 1, 8, false, EncodingType.k4X);
@@ -375,11 +375,11 @@ public class RobotMap {
             intakeSideMotor = new Victor(1, 3);
             LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
 
-            intakeTopPiston = new DoubleSolenoid(3, 4);
+            intakeTopPiston = new Solenoid(2);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
 
-            intakeBottomPiston = new DoubleSolenoid(5, 6);
-            LiveWindow.addActuator("Intake", "BottomPiston", intakeBottomPiston);
+            intakeSparePiston = new Solenoid(3);
+            LiveWindow.addActuator("Intake", "BottomPiston", intakeSparePiston);
 
             intakeBallDetector = new DigitalInput(1, 9);
             LiveWindow.addSensor("Intake", "BallDetector", intakeBallDetector);

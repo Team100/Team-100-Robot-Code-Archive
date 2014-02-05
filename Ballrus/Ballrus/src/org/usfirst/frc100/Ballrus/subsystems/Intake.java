@@ -13,8 +13,8 @@ public class Intake extends Subsystem {
 
     SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
     SpeedController sideMotor = RobotMap.intakeSideMotor; // positive = in
-    DoubleSolenoid topPiston = RobotMap.intakeTopPiston; // forward = raised
-    DoubleSolenoid bottomPiston = RobotMap.intakeBottomPiston; // forward = deployed
+    Solenoid topPiston = RobotMap.intakeTopPiston; // forward = raised
+    Solenoid bottomPiston = RobotMap.intakeSparePiston; // forward = deployed
     DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = ball
 
     // No default command
@@ -48,25 +48,25 @@ public class Intake extends Subsystem {
     // Deploys or retracts the top piston
     public void setTopPiston(boolean forward){
         if(forward){
-            topPiston.set(DoubleSolenoid.Value.kForward);
+            topPiston.set(true);
         }
         else{
-            topPiston.set(DoubleSolenoid.Value.kReverse);
+            topPiston.set(false);
         }
     }
     
     // Deploys or retracts the bottom piston
     public void setBottomPiston(boolean forward){
         if(forward){
-            bottomPiston.set(DoubleSolenoid.Value.kForward);
+            bottomPiston.set(true);
         }
         else{
-            bottomPiston.set(DoubleSolenoid.Value.kReverse);
+            bottomPiston.set(false);
         }
     }
     
     // Returns whether the lower roller is deployed
     public boolean getBottomPistonState(){
-        return bottomPiston.get()==DoubleSolenoid.Value.kForward;
+        return bottomPiston.get();
     }
 }

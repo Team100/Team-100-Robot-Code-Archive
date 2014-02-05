@@ -16,7 +16,7 @@ public class Shooter extends Subsystem {
     DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
     DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
     AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
-    DoubleSolenoid release = RobotMap.shooterRelease; // forward = released
+    Solenoid release = RobotMap.shooterRelease; // forward = released
     Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
     Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
     
@@ -80,10 +80,10 @@ public class Shooter extends Subsystem {
     // Sets the position of the quick release
     public void setTrigger(boolean forward){
         if(forward){
-            release.set(DoubleSolenoid.Value.kForward);
+            release.set(true);
         }
         else{
-            release.set(DoubleSolenoid.Value.kReverse);
+            release.set(false);
         }
     }
     
