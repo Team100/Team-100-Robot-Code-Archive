@@ -1,6 +1,7 @@
 //figure out correct distances
 package org.usfirst.frc100.Ballrus.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc100.Ballrus.Preferences;
 
@@ -10,9 +11,10 @@ import org.usfirst.frc100.Ballrus.Preferences;
 public class Autonomous extends CommandGroup {
 
     public Autonomous() {
+        int mode = (int)DriverStation.getInstance().getAnalogIn(1);
         addSequential(new ResetGyro());
         addSequential(new Pause(.1));//allows gyro time to reset
-        switch (Preferences.autoMode) {
+        switch (mode) {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
@@ -50,6 +52,12 @@ public class Autonomous extends CommandGroup {
                 addSequential(new Pause(1));//wait for shooter to arm
                 addSequential(new TriggerShootReload());
                 break;
+            case 4: //Jonny's mode
+                addSequential(new AutoDriveStraight(48));
+                addSequential(new AutoTurn(-63));
+                addSequential(new AutoDriveStraight(-4));
+                addSequential(new AutoTurn(67));
+                addSequential(new TriggerShootReload());
         }
     }
 }
