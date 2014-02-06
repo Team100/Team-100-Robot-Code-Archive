@@ -122,7 +122,7 @@ public class RobotMap {
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
-            shooterRelease = new Solenoid(4);
+            shooterRelease = new Solenoid(2);
             LiveWindow.addActuator("Shooter", "Release", shooterRelease);
 
             shooterEncoder = new Encoder(1, 7, 1, 8, false, EncodingType.k4X);
@@ -137,10 +137,10 @@ public class RobotMap {
             intakeSideMotor = new Talon(1, 5);
             LiveWindow.addActuator("Intake", "BottomMotor", (Talon) intakeSideMotor);
 
-            intakeTopPiston = new Solenoid(2);
+            intakeTopPiston = new Solenoid(3);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
 
-            intakeSparePiston = new Solenoid(3);
+            intakeSparePiston = new Solenoid(4);
             LiveWindow.addActuator("Intake", "SparePiston", intakeSparePiston);
 
             intakeBallDetector = new DigitalInput(1, 9);

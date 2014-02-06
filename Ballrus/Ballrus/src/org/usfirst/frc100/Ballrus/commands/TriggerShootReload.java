@@ -14,11 +14,13 @@ public class TriggerShootReload extends Command {
     public TriggerShootReload() {
         requires(Ballrus.shooter);
         requires(Ballrus.tilter);
+        requires(Ballrus.intake);
         setInterruptible(false);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Ballrus.intake.setTopPiston(true);
         Ballrus.tilter.stop();
         Ballrus.shooter.stop();
         Ballrus.shooter.setTrigger(true);

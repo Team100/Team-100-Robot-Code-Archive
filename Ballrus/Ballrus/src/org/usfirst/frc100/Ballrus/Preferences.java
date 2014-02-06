@@ -61,7 +61,7 @@ public class Preferences {
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
-    public static boolean gwrathRobotMap = true;
+    public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead
     public static void setHammerhead(){
