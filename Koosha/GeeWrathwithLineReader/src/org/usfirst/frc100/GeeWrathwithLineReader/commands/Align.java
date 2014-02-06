@@ -23,7 +23,7 @@ import com.sun.squawk.util.MathUtils;
 public class  Align extends Command
 {
     private final DriveTrain driveTrain = Robot.driveTrain;
-    
+
     private final double width = 24.5; // inches
     private boolean lTriggered;
     private boolean rTriggered;
@@ -53,7 +53,7 @@ public class  Align extends Command
 
         driveTrain.startEncoder();
         driveTrain.startCounter();
-        driveTrain.getAngle();
+        driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -64,7 +64,7 @@ public class  Align extends Command
 
         lTriggered = driveTrain.getLeftTrigger();
         rTriggered = driveTrain.getRightTrigger();
-        
+
         if(!lTriggered && !rTriggered)
         {
             if(doneTurn)
@@ -144,7 +144,7 @@ public class  Align extends Command
                 System.out.print("Shallow angle. ");
             }
         }
-        
+
         if(leftInPos && rightInPos && !doneTurn)
         {
             doneTurn = driveTrain.autoTurnByAngle(angle);
@@ -155,8 +155,8 @@ public class  Align extends Command
             driveTrain.resetGyro();
             System.out.print("Gyro reset. ");
         }
-        
-        
+
+
         if(Robot.oi.getDualshock().getRawButton(5))
             doneAlign = true;
 

@@ -14,27 +14,27 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class DriveTrain extends Subsystem {
 
-    SpeedController leftMotorMain = RobotMap.driveTrainLeftMotor; // positive = forward
-    SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotor2; // positive = forward
-    SpeedController rightMotorMain = RobotMap.driveTrainRightMotor; // positive = forward
-    SpeedController rightMotorSlave = RobotMap.driveTrainRightMotor2; // positive = forward
-    RobotDrive mainDrive = RobotMap.driveTrainMainDrive;
-    Encoder leftEncoder = RobotMap.driveTrainLeftEncoder; // positive = forward
-    Encoder rightEncoder = RobotMap.driveTrainRightEncoder; // positive = forward
-    Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
-    AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder; // higher = farther
-    Solenoid shifter = RobotMap.driveTrainShifter; // forward = low
-    AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
-    AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
-    Counter leftCounter = RobotMap.driveTrainLeftCounter;
-    Counter rightCounter = RobotMap.driveTrainRightCounter;
+    private final SpeedController leftMotorMain = RobotMap.driveTrainLeftMotor; // positive = forward
+    private final SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotor2; // positive = forward
+    private final SpeedController rightMotorMain = RobotMap.driveTrainRightMotor; // positive = forward
+    private final SpeedController rightMotorSlave = RobotMap.driveTrainRightMotor2; // positive = forward
+    private final RobotDrive mainDrive = RobotMap.driveTrainMainDrive;
+    private final Encoder leftEncoder = RobotMap.driveTrainLeftEncoder; // positive = forward
+    private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder; // positive = forward
+    private final Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
+    private final AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder; // higher = farther
+    private final Solenoid shifter = RobotMap.driveTrainShifter; // forward = low
+    private final AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
+    private final AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
+    private final Counter leftCounter = RobotMap.driveTrainLeftCounter;
+    private final Counter rightCounter = RobotMap.driveTrainRightCounter;
 
-    double distError = 0;
-    double angleError = 0;
-    double distOutput = 0;
-    double angleOutput = 0;
-    double direction = 0;
-    double lastRangeFinderValue = 0;
+    private double distError = 0;
+    private double angleError = 0;
+    private double distOutput = 0;
+    private double angleOutput = 0;
+    private double direction = 0;
+    private double lastRangeFinderValue = 0;
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
