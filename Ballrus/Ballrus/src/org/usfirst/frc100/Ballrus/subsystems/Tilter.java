@@ -14,6 +14,8 @@ public class Tilter extends Subsystem {
 
     SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
     AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
+    DigitalInput topLimit = RobotMap.tilterTopLimit; // true = too far
+    DigitalInput bottomLimit = RobotMap.tilterBottomLimit; // true = too far
 
     double angleError = 0.0; // positive = too low, negative = too high
     boolean inPosition = true;
@@ -31,8 +33,18 @@ public class Tilter extends Subsystem {
     
     // Adjusts the motor value to reach the correct position (angle in degrees above floor)
     public void setPosition(double angle){
+        if(Preferences.tilterTuningMode){
+            SmartDashboard.putNumber("TilterAngle", getAngle());
+            SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
+            SmartDashboard.putNumber("TilterError", angleError);
+            SmartDashboard.putNumber("TilterOutput", motor.get());
+        }
         angleError = angle-getAngle();
         inPosition = false;
+        if((topLimit.get()&&angleError>0)||(bottomLimit.get()&&angleError<0)){
+            motor.set(0);
+            return;
+        }
         if (Math.abs(angleError)>Preferences.tilterAngleBuffer){ // incorrect angle
             if(Preferences.tilterTuningMode){
                 motor.set(angleError*SmartDashboard.getNumber("Tilter_kP", 0));
@@ -44,17 +56,11 @@ public class Tilter extends Subsystem {
             motor.set(0);
             inPosition = true;
         }
-        if(Preferences.tilterTuningMode){
-            SmartDashboard.putNumber("TilterAngle", getAngle());
-            SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
-            SmartDashboard.putNumber("TilterError", angleError);
-            SmartDashboard.putNumber("TilterOutput", motor.get());
-        }
     }
     
     // Returns the current angle above the floor in degrees
     public double getAngle(){
-        return potentiometer.getValue()/Preferences.tilterPotToDegreeRatio+Preferences.tilterPotOffsetDegrees;
+        return (((double)potentiometer.getValue())/Preferences.tilterPotToDegreeRatio+Preferences.tilterPotOffsetDegrees);
     }
     
     // Returns whether the tilter has reached the correct position
@@ -69,7 +75,12 @@ public class Tilter extends Subsystem {
     
     // Directly controls motor speed
     public void manualControl(double speed){
-        motor.set(speed);
+        if((topLimit.get()&&speed>0)||(bottomLimit.get()&&speed<0)){
+            motor.set(0);
+        }
+        else{
+            motor.set(speed);
+        }
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("TilterAngle", getAngle());
             SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
