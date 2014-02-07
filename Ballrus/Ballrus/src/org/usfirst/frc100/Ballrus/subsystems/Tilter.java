@@ -15,7 +15,7 @@ public class Tilter extends Subsystem {
     SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
     AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
 
-    double angleError = 0; // positive = too low, negative = too high
+    double angleError = 0.0; // positive = too low, negative = too high
     boolean inPosition = true;
     
     // No default command
@@ -70,5 +70,11 @@ public class Tilter extends Subsystem {
     // Directly controls motor speed
     public void manualControl(double speed){
         motor.set(speed);
+        if(Preferences.tilterTuningMode){
+            SmartDashboard.putNumber("TilterAngle", getAngle());
+            SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
+            SmartDashboard.putNumber("TilterError", angleError);
+            SmartDashboard.putNumber("TilterOutput", motor.get());
+        }
     }
 }
