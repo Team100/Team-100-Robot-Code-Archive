@@ -8,12 +8,8 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.buttons.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,7 +41,7 @@ public class RobotTemplate extends IterativeRobot {
         servo = new Servo(1);
         drive = new RobotDrive(jag1, jag2);
         pot = new AnalogChannel(1);
-        toggleA = new DigitalInput(1);
+        toggleA = new DigitalInput(7);
         toggleB = new DigitalInput(2);
         button1 = new JoystickButton (joystick, 1);
         isBackward = false;
@@ -89,8 +85,8 @@ public class RobotTemplate extends IterativeRobot {
           if (-90 <= joystick.getDirectionDegrees() && joystick.getDirectionDegrees() <= 90)
               {
                 drive.arcadeDrive(joystick);
-                SmartDashboard.putDouble("joystick direction is:", joystick.getDirectionDegrees());
-                SmartDashboard.putDouble("joystick throttle is:", joystick.getThrottle());
+                SmartDashboard.putNumber("joystick direction is:", joystick.getDirectionDegrees());
+                SmartDashboard.putNumber("joystick throttle is:", joystick.getThrottle());
               }
           else
               {
@@ -103,8 +99,8 @@ public class RobotTemplate extends IterativeRobot {
           if (-90>=joystick.getDirectionDegrees() || joystick.getDirectionDegrees()>=90)
               {
                 drive.arcadeDrive(joystick);
-                SmartDashboard.putDouble("joystick direction is:", joystick.getDirectionDegrees());
-                SmartDashboard.putDouble("joystick throttle is:", joystick.getThrottle());
+                SmartDashboard.putNumber("joystick direction is:", joystick.getDirectionDegrees());
+                SmartDashboard.putNumber("joystick throttle is:", joystick.getThrottle());
               }
           else
               {
