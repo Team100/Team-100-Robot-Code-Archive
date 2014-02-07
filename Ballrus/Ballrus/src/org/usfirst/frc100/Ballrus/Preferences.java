@@ -31,15 +31,15 @@ public class Preferences {
     
     // Tilter PID
     public static boolean tilterTuningMode = true;
-    public static double tilterPotToDegreeRatio = 79/90; // pot / ratio = degrees
-    public static double tilterPotOffsetDegrees = -52; // degrees + offset = angle
+    public static double tilterPotToDegreeRatio = .8778; // pot / ratio = degrees
+    public static double tilterPotOffsetDegrees = 60; // degrees + offset = angle
     public static double tilterAngleBuffer = 0; // degrees tilter can be off by
     public static double tilter_kP = 0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
-    public static double shootHighAngle = 180;
-    public static double shootLowAngle = 270;
-    public static double shootTrussAngle = 90;
-    public static double intakeAngle = 180;
+    public static double shootHighAngle = 180; // button 4
+    public static double shootLowAngle = 135; // button 1
+    public static double shootTrussAngle = 135; // button 3
+    public static double intakeAngle = 90; // button 2
     public static double stowedAngle = 0;
     public static double shootQuickAngle = 0;
     
