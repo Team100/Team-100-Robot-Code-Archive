@@ -16,7 +16,7 @@ public class Shooter extends Subsystem {
     DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
     DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
     AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
-    Solenoid release = RobotMap.shooterRelease; // forward = released
+    Solenoid release = RobotMap.shooterRelease; // true = released
     Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
     Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
     

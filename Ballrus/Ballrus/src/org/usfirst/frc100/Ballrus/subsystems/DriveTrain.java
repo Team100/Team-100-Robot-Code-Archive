@@ -14,16 +14,12 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class DriveTrain extends Subsystem {
 
-    private final SpeedController leftMotorMain = RobotMap.driveTrainLeftMotor; // positive = forward
-    private final SpeedController leftMotorSlave = RobotMap.driveTrainLeftMotor2; // positive = forward
-    private final SpeedController rightMotorMain = RobotMap.driveTrainRightMotor; // positive = forward
-    private final SpeedController rightMotorSlave = RobotMap.driveTrainRightMotor2; // positive = forward
-    private final RobotDrive mainDrive = RobotMap.driveTrainMainDrive;
+    private final RobotDrive drive = RobotMap.driveTrainMainDrive;
     private final Encoder leftEncoder = RobotMap.driveTrainLeftEncoder; // positive = forward
     private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder; // positive = forward
     private final Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
     private final AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder; // higher = farther
-    private final Solenoid shifter = RobotMap.driveTrainShifter; // forward = low
+    private final Solenoid shifter = RobotMap.driveTrainShifter; // true = low
     private final AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
     private final AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
     private final Counter leftCounter = RobotMap.driveTrainLeftCounter;
@@ -46,6 +42,8 @@ public class DriveTrain extends Subsystem {
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);
             SmartDashboard.putNumber("AutoTurn_kP", Preferences.autoTurn_kP);
+            SmartDashboard.putNumber("AutoDriveTestDistance", 0);
+            SmartDashboard.putNumber("AutoDriveTestAngle", 0);
         }
     }
 
@@ -67,7 +65,7 @@ public class DriveTrain extends Subsystem {
                 right = Preferences.driveMotorMinValue;
             }
         }
-        mainDrive.tankDrive(left, right);
+        drive.tankDrive(left, right);
         updateDashboard();
     }
 
@@ -89,7 +87,7 @@ public class DriveTrain extends Subsystem {
                 turn = Preferences.driveMotorMinValue;
             }
         }
-        mainDrive.arcadeDrive(speed, turn);
+        drive.arcadeDrive(speed, turn);
         updateDashboard();
     }
 
