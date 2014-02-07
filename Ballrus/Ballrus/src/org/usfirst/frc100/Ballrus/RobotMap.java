@@ -49,6 +49,8 @@ public class RobotMap {
     public static DigitalInput intakeBallDetector;
 
     public static SpeedController tilterMotor;
+    public static DigitalInput tilterTopLimit;
+    public static DigitalInput tilterBottomLimit;
     public static AnalogChannel tilterPotentiometer;
 
     public static Compressor compressor;
@@ -260,6 +262,12 @@ public class RobotMap {
 
         tilterMotor = new Victor(1, 8);
         LiveWindow.addActuator("Tilter", "Motor", (Victor) tilterMotor);
+        
+        tilterTopLimit = new DigitalInput(1, 10);
+        LiveWindow.addSensor("Tilter", "TopLimit", tilterTopLimit);
+        
+        tilterBottomLimit = new DigitalInput(1, 11);
+        LiveWindow.addSensor("Tilter", "BottomLimit", tilterBottomLimit);
 
         tilterPotentiometer = new AnalogChannel(1, 4);
         LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
