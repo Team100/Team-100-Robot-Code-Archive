@@ -67,7 +67,6 @@ public class Ballrus extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         RobotMap.stopAllMotors();
         new Drive().start();
-        // new TiltToIntake().start();
         compressor.startCompressor();
     }
 

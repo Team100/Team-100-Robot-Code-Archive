@@ -13,8 +13,8 @@ public class Intake extends Subsystem {
 
     SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
     SpeedController sideMotor = RobotMap.intakeSideMotor; // positive = in
-    Solenoid topPiston = RobotMap.intakeTopPiston; // forward = raised
-    Solenoid bottomPiston = RobotMap.intakeSparePiston; // forward = deployed
+    Solenoid topPiston = RobotMap.intakeTopPiston; // true = raised
+    Solenoid bottomPiston = RobotMap.intakeSparePiston; // true = deployed
     DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = ball
 
     // No default command
@@ -36,6 +36,7 @@ public class Intake extends Subsystem {
     
     // Runs rollers outwards
     public void runOut(){
+        topPiston.set(false);
         topMotor.set(-1);
         sideMotor.set(-1);
     }
