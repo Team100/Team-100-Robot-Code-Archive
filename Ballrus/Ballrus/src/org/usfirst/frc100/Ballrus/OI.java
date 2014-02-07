@@ -77,9 +77,8 @@ public class OI {
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {
-            SmartDashboard.putData("AutoDriveStraight24", new AutoDriveStraight(24));
-            SmartDashboard.putData("AutoTurn", new AutoTurn(0, true));
-
+            SmartDashboard.putData("AutoDriveStraight", new AutoDriveTest(true));
+            SmartDashboard.putData("AutoTurn", new AutoDriveTest(false));
         }
         SmartDashboard.putData("ResetGyro", new ResetGyro());
     }
