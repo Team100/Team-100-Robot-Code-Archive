@@ -9,7 +9,7 @@ public class Preferences {
     // DriveTrain modes
     public static boolean tankDriveMode = true; // false = arcadeDrive
     // DriveTrain PID
-    public static boolean driveTrainTuningMode = true;
+    public static boolean driveTrainTuningMode = false;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
     public static double driveStraight_kP = 0; // error * kP = motor speed
@@ -30,11 +30,11 @@ public class Preferences {
     public static double width = 24.5; // length between line readers in inches
     
     // Tilter PID
-    public static boolean tilterTuningMode = false;
-    public static double tilterPotToDegreeRatio = .27; // pot / ratio = degrees
-    public static double tilterPotOffsetDegrees = -1481.5; // degrees + offset = angle
-    public static double tilterAngleBuffer = 8; // degrees tilter can be off by
-    public static double tilter_kP = -0.02; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+    public static boolean tilterTuningMode = true;
+    public static double tilterPotToDegreeRatio = 79/90; // pot / ratio = degrees
+    public static double tilterPotOffsetDegrees = -52; // degrees + offset = angle
+    public static double tilterAngleBuffer = 0; // degrees tilter can be off by
+    public static double tilter_kP = 0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 180;
     public static double shootLowAngle = 270;
