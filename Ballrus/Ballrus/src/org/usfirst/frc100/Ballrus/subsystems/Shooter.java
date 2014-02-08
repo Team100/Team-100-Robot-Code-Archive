@@ -12,16 +12,16 @@ import org.usfirst.frc100.Ballrus.Preferences;
  */
 public class Shooter extends Subsystem {
 
-    SpeedController motor = RobotMap.shooterMotor; // positive = pull back
-    DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
-    DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
-    AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
-    Solenoid release = RobotMap.shooterRelease; // true = released
-    Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
-    Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
+    private final SpeedController motor = RobotMap.shooterMotor; // positive = pull back
+    private final DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
+    private final DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
+    private final AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
+    private final Solenoid release = RobotMap.shooterRelease; // true = released
+    //private final Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
+    //private final Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
     
-    double positionError = 0; // positive = too close, negative = too far
-    boolean inPosition = true;
+    private double positionError = 0; // positive = too close, negative = too far
+    private boolean inPosition = true;
     
     // No default command
     public void initDefaultCommand() {

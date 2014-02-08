@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoDriveTest extends Command {
 
-    boolean distance;
+    private boolean distance;
     
     public AutoDriveTest(boolean distance) {
         this.distance = distance;

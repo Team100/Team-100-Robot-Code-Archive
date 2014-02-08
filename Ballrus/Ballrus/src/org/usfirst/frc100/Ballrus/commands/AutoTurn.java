@@ -11,25 +11,27 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class AutoTurn extends Command {
 
-    int inPositionCounter = 0;
-    double angle;
-    boolean toAngle = false;
-    double lastAngle;
+    private int inPositionCounter;
+    private double angle;
+    private boolean toAngle = false;
+    private double lastAngle;
     
     public AutoTurn(double angle) {
         requires(Ballrus.driveTrain);
-        this.angle=angle;
+        this.angle = angle;
     }
 
     public AutoTurn(double angle, boolean toAngle) {
         requires(Ballrus.driveTrain);
-        this.angle=angle;
-        this.toAngle=toAngle;
+        this.angle = angle;
+        this.toAngle = toAngle;
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
         Ballrus.driveTrain.setDirection();
+        inPositionCounter = 0;
+        lastAngle = 0.0;
     }
 
     // Called repeatedly when this Command is scheduled to run
