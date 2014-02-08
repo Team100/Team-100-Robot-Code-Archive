@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Pause extends Command {
 
-    Timer t = new Timer();
-    double delay;
+    private final Timer timer = new Timer();
+    private double delay;
 
     public Pause(double time) {
         delay = time;
@@ -18,7 +18,7 @@ public class Pause extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        t.start();
+        timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -27,7 +27,7 @@ public class Pause extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return t.get() > delay;
+        return timer.get() > delay;
     }
 
     // Called once after isFinished returns true

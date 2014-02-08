@@ -1,13 +1,9 @@
 //needs more testing
 package org.usfirst.frc100.Ballrus.commands;
 
-import edu.wpi.first.wpilibj.AnalogTrigger;
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.OI;
-import org.usfirst.frc100.Ballrus.RobotMap;
 import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
 
 /**
@@ -18,16 +14,15 @@ import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
 
 
 public class QuickShootWithLineReader extends Command {
-    OI oi = Ballrus.oi;
-    DriveTrain driveTrain = Ballrus.driveTrain;
+    private final OI oi = Ballrus.oi;
+    private DriveTrain driveTrain = Ballrus.driveTrain;
 
     private static final int STATE_INIT = 0;
     private static final int STATE_DONETURN = 1;
 
-    int state;
-    boolean isFin;
-    double speed;
-    boolean triggered = false;
+    private int state;
+    private boolean isFin;
+    private boolean triggered = false;
 
     public QuickShootWithLineReader() {
         requires(driveTrain);
