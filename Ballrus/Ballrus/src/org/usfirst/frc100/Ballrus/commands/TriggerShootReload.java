@@ -10,7 +10,7 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class TriggerShootReload extends Command {
 
-    private boolean isFinished = false;
+    private boolean isFinished;
 
     public TriggerShootReload() {
         requires(Ballrus.shooter);
@@ -24,6 +24,7 @@ public class TriggerShootReload extends Command {
         Ballrus.tilter.stop();
         Ballrus.shooter.stop();
         Ballrus.shooter.setTrigger(true);
+        isFinished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
