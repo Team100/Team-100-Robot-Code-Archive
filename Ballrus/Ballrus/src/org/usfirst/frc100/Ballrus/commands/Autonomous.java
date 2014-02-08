@@ -58,6 +58,7 @@ public class Autonomous extends CommandGroup {
                 addSequential(new AutoDriveStraight(-4));
                 addSequential(new AutoTurn(67));
                 addSequential(new TriggerShootReload());
+                break;
         }
     }
 }

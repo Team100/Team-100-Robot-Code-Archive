@@ -24,7 +24,9 @@ public class AutoDriveStraight extends Command {
     protected void initialize() {
         Ballrus.driveTrain.setDirection();
         Ballrus.driveTrain.resetEncoders();
+        System.out.println("Initialize");
     }
+    
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
@@ -40,6 +42,7 @@ public class AutoDriveStraight extends Command {
         else{
             inPositionCounter = 0;
         }
+        System.out.println("Execute");
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -50,6 +53,7 @@ public class AutoDriveStraight extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Ballrus.driveTrain.stop();
+        System.out.println("End");
     }
 
     // Called when another command which requires one or more of the same
