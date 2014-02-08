@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CameraAim extends Command {
     
-    double targetAngle;
+    private double targetAngle;
     
     public CameraAim() {
     }

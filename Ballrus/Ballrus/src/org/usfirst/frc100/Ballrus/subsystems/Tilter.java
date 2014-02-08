@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Tilter extends Subsystem {
 
-    SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
-    AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
-    DigitalInput topLimit = RobotMap.tilterTopLimit; // true = too far
-    DigitalInput bottomLimit = RobotMap.tilterBottomLimit; // true = too far
+    private final SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
+    private final AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
+    private final DigitalInput topLimit = RobotMap.tilterTopLimit; // true = too far
+    private final DigitalInput bottomLimit = RobotMap.tilterBottomLimit; // true = too far
 
-    double angleError = 0.0; // positive = too low, negative = too high
-    boolean inPosition = true;
+    double angleError; // positive = too low, negative = too high
+    boolean inPosition;
     
     // No default command
     public void initDefaultCommand() {
@@ -29,6 +29,8 @@ public class Tilter extends Subsystem {
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("Tilter_kP", Preferences.tilter_kP);
         }
+        angleError = 0.0;
+        inPosition = true;
     }
     
     // Adjusts the motor value to reach the correct position (angle in degrees above floor)

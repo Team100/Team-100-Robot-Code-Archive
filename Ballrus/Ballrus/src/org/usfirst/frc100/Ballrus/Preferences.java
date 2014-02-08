@@ -11,17 +11,17 @@ public class Preferences {
     // DriveTrain PID
     public static boolean driveTrainTuningMode = false;
     public static double driveEncoderToInchRatio = 38.2; // encoder / ratio = inches
-    public static double driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
-    public static double driveStraight_kP = 0; // error * kP = motor speed
-    public static double autoTurn_kP = 0; // error * kP = motor speed
-    public static double driveDistBuffer = 0; // inches robot can be off by
-    public static double driveAngleBuffer = 0; // degrees robot can be off by
-    public static double autoDriveDelay = 20; // time to wait to make sure robot has stopped moving
-    public static double driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
+    public static double driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
+    public static double driveStraight_kP = 0.0; // error * kP = motor speed
+    public static double autoTurn_kP = 0.0; // error * kP = motor speed
+    public static double driveDistBuffer = 0.0; // inches robot can be off by
+    public static double driveAngleBuffer = 0.0; // degrees robot can be off by
+    public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
+    public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     // Distance sensing
-    public static double ultraInitialStopDistance = 112; 
-    public static double ultraActualStopDistance = 100; // inches away from target that we want to stop
-    public static double ultraAcceptableSpike = 20;
+    public static double ultraInitialStopDistance = 112.0; 
+    public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
+    public static double ultraAcceptableSpike = 20.0;
     public static int inPositionCounter = 3;
     public static int ultraActualShootDistance = 80;
     // LineReader
@@ -32,32 +32,32 @@ public class Preferences {
     // Tilter PID
     public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = .8778; // pot / ratio = degrees
-    public static double tilterPotOffsetDegrees = 60; // degrees + offset = angle
-    public static double tilterAngleBuffer = 0; // degrees tilter can be off by
-    public static double tilter_kP = 0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+    public static double tilterPotOffsetDegrees = 60.0; // degrees + offset = angle
+    public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
+    public static double tilter_kP = 0.0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
-    public static double shootHighAngle = 180; // button 4
-    public static double shootLowAngle = 135; // button 1
-    public static double shootTrussAngle = 135; // button 3
-    public static double intakeAngle = 90; // button 2
-    public static double stowedAngle = 0;
-    public static double shootQuickAngle = 0;
+    public static double shootHighAngle = 180.0; // button 4
+    public static double shootLowAngle = 135.0; // button 1
+    public static double shootTrussAngle = 135.0; // button 3
+    public static double intakeAngle = 90.0; // button 2
+    public static double stowedAngle = 0.0;
+    public static double shootQuickAngle = 0.0;
     
     // Shooter tuning
     public static boolean shooterTuningMode = false;
-    public static double shooterPotToInchRatio = 20; // pot / ratio = inches
-    public static double shooterPotOffsetInches = 0; // inches + offset = position
+    public static double shooterPotToInchRatio = 20.0; // pot / ratio = inches
+    public static double shooterPotOffsetInches = 0.0; // inches + offset = position
 //    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
-    public static double shooterDistanceBuffer = 2; // inches shooter can be off by
-    public static double shooterPullBackSpeed = 0;
-    public static double shooterPullForwardSpeed = 0;
+    public static double shooterDistanceBuffer = 2.0; // inches shooter can be off by
+    public static double shooterPullBackSpeed = 0.0;
+    public static double shooterPullForwardSpeed = 0.0;
     // Shooter positions (in inches)
-    public static double shootHighPosition = 0;
-    public static double shootLowPosition = 10;
-    public static double shootTrussPosition = 20;
-    public static double intakePosition = 30;
-    public static double stowedPosition = 40;
-    public static double shootQuickPosition = 0;
+    public static double shootHighPosition = 0.0;
+    public static double shootLowPosition = 10.0;
+    public static double shootTrussPosition = 20.0;
+    public static double intakePosition = 30.0;
+    public static double stowedPosition = 40.0;
+    public static double shootQuickPosition = 0.0;
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;

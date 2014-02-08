@@ -8,7 +8,6 @@ import org.usfirst.frc100.Ballrus.subsystems.Shooter;
 import org.usfirst.frc100.Ballrus.subsystems.Tilter;
 import org.usfirst.frc100.Ballrus.commands.Drive;
 import org.usfirst.frc100.Ballrus.commands.Autonomous;
-import org.usfirst.frc100.Ballrus.commands.TiltToIntake;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
