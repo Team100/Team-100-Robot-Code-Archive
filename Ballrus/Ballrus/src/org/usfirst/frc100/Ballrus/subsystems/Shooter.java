@@ -27,8 +27,7 @@ public class Shooter extends Subsystem {
     public void initDefaultCommand() {
     }
     
-    // Adjusts the position of the shooter
-    // WARNING: If encoder is used, DO NOT call this command before first shot
+    // Pulls the shooter back to a given amount of inches
     public void setPosition(double position){
 //        if(hallEffectForward.get()){
 //            encoder.reset();
