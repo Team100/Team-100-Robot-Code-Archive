@@ -33,8 +33,8 @@ public class Preferences {
     public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = .8778; // pot / ratio = degrees
     public static double tilterPotOffsetDegrees = 60.0; // degrees + offset = angle
-    public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
-    public static double tilter_kP = 0.0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+    public static double tilterAngleBuffer = 2.0; // degrees tilter can be off by
+    public static double tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 180.0; // button 4
     public static double shootLowAngle = 135.0; // button 1

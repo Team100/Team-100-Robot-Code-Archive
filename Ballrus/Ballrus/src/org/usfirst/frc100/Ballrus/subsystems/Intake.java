@@ -25,8 +25,8 @@ public class Intake extends Subsystem {
     public void runIn(){
         topPiston.set(false);
         if(ballDetector.get()){
-            topMotor.set(1);
-            sideMotor.set(1);
+            topMotor.set(0.75);
+            sideMotor.set(0.75);
         }
         else{
             topMotor.set(0);
