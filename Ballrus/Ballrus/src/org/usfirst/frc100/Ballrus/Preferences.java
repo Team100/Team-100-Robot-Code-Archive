@@ -85,9 +85,9 @@ public class Preferences {
         driveEncoderToInchRatio = 21.72; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1; // gyro / ratio = degrees
         driveStraight_kP = 0.1; // error * kP = motor speed
-        autoTurn_kP = 0.05; // error * kP = motor speed
-        driveDistBuffer = .25; // inches robot can be off by
-        driveAngleBuffer = .25; // degrees robot can be off by
+        autoTurn_kP = 0.1; // error * kP = motor speed
+        driveDistBuffer = 5; // inches robot can be off by
+        driveAngleBuffer = 5; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
         

@@ -150,6 +150,12 @@ public class RobotMap {
 
             tilterMotor = new Talon(1, 6);
             LiveWindow.addActuator("Tilter", "Motor", (Talon) tilterMotor);
+            
+            tilterTopLimit = new DigitalInput(1, 10);
+            LiveWindow.addSensor("Tilter", "TopLimit", tilterTopLimit);
+
+            tilterBottomLimit = new DigitalInput(1, 11);
+            LiveWindow.addSensor("Tilter", "BottomLimit", tilterBottomLimit);
 
             tilterPotentiometer = new AnalogChannel(1, 4);
             LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
@@ -381,7 +387,7 @@ public class RobotMap {
             LiveWindow.addActuator("Intake", "TopMotor", (Victor) intakeTopMotor);
 
             intakeSideMotor = new Victor(1, 3);
-            LiveWindow.addActuator("Intake", "BottomMotor", (Victor) intakeSideMotor);
+            LiveWindow.addActuator("Intake", "SideMotor", (Victor) intakeSideMotor);
 
             intakeTopPiston = new Solenoid(2);
             LiveWindow.addActuator("Intake", "TopPiston", intakeTopPiston);
@@ -397,6 +403,12 @@ public class RobotMap {
 
             tilterPotentiometer = new AnalogChannel(1, 4);
             LiveWindow.addSensor("Tilter", "Potentiometer", tilterPotentiometer);
+           
+            tilterTopLimit = new DigitalInput(1, 10);
+            LiveWindow.addSensor("Tilter", "TopLimit", tilterTopLimit);
+
+            tilterBottomLimit = new DigitalInput(1, 11);
+            LiveWindow.addSensor("Tilter", "BottomLimit", tilterBottomLimit);
 
             compressor = new Compressor(1, 14, 1, 1);
             LiveWindow.addActuator("Compressor", "Compressor", compressor);
