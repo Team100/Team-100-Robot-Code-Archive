@@ -3,7 +3,6 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
  * Chooses from a variety of autonomous modes.
