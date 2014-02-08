@@ -59,13 +59,16 @@ public class RobotMap {
 
     // Initializes actuators and sensors, adds them to livewindow
    public static void init() {
-        if (Preferences.hammerHeadRobotMap) {
-            initHammerHead();
-        } else if (Preferences.gwrathRobotMap) {
-            initGwrath();
-        } else {
-            driveTrainLeftMotor = new Talon(1, 1);
-            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Talon) driveTrainLeftMotor);
+       if (Preferences.practiceBot) {
+           Preferences.setPracticeBotPrefs();
+       }
+       if (Preferences.hammerHeadRobotMap) {
+           initHammerHead();
+       } else if (Preferences.gwrathRobotMap) {
+           initGwrath();
+       } else {
+           driveTrainLeftMotor = new Talon(1, 1);
+           LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Talon) driveTrainLeftMotor);
 
             driveTrainRightMotor = new Talon(1, 2);
             LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Talon) driveTrainRightMotor);

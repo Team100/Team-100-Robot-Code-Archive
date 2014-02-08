@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.buttons.*;
 public class OI {
 
     public Joystick driverLeft;
-        public JoystickButton alignToShootButton;
-        public JoystickButton quickTurnAroundButton;
+//        public JoystickButton alignToShootButton;
+//        public JoystickButton quickTurnAroundButton;
+        public JoystickButton intakeButton;
+        public JoystickButton shootButton;
 
     public Joystick driverRight;
         public JoystickButton shiftButton;
@@ -26,10 +28,9 @@ public class OI {
         public JoystickButton tiltToShootTrussButton;
         public JoystickButton tiltToShootHighButton;
         public JoystickButton expelButton;
-        public JoystickButton shootButton;
-        public JoystickButton intakeButton;
+//        public JoystickButton shootButton;
+//        public JoystickButton intakeButton;
         public JoystickButton armButton;
-        public JoystickButton toggleLowRollerButton;
         public JoystickButton toggleManualControlButton;
         public JoystickButton shootWhileMovingButton;
         public JoystickButton resetGyroButton;
@@ -39,12 +40,12 @@ public class OI {
         manipulator = new Joystick(3);
             armButton = new JoystickButton(manipulator, 8);
             armButton.whileHeld(new ArmShooter());
-            intakeButton = new JoystickButton(manipulator, 7);
-            intakeButton.whileHeld(new RunIntakeIn());
+//            intakeButton = new JoystickButton(manipulator, 7);
+//            intakeButton.whileHeld(new RunIntakeIn());
             shootButton = new JoystickButton(manipulator, 6);
             shootButton.whenPressed(new TriggerShootReload());
-            expelButton = new JoystickButton(manipulator, 5);
-            expelButton.whileHeld(new RunIntakeOut());
+//            expelButton = new JoystickButton(manipulator, 5);
+//            expelButton.whileHeld(new RunIntakeOut());
             tiltToShootHighButton = new JoystickButton(manipulator, 4);
             tiltToShootHighButton.whenPressed(new TiltToShootHigh());
             tiltToShootTrussButton = new JoystickButton(manipulator, 3);
@@ -53,12 +54,10 @@ public class OI {
             tiltToIntakeButton.whenPressed(new TiltToIntake());
             tiltToShootLowButton = new JoystickButton(manipulator, 1);
             tiltToShootLowButton.whenPressed(new TiltToShootLow());
-            toggleLowRollerButton = new JoystickButton(manipulator, 9);
-            toggleLowRollerButton.whenPressed(new ToggleLowerRoller());
+            tiltToStowButton = new JoystickButton(manipulator, 9);
+            tiltToStowButton.whenPressed(new TiltToStow());
             toggleManualControlButton = new JoystickButton(manipulator, 10);
             toggleManualControlButton.toggleWhenPressed(new FullManualControl());
-            tiltToStowButton = new JoystickButton(manipulator, 11); // click left joystick
-            tiltToStowButton.whenPressed(new TiltToStow());
 
         driverRight = new Joystick(2);
             shiftButton = new JoystickButton(driverRight, 2);
@@ -69,11 +68,15 @@ public class OI {
             resetGyroButton.whenPressed(new ResetGyro());
 
         driverLeft = new Joystick(1);
-            alignToShootButton = new JoystickButton(driverLeft, 1);
-            alignToShootButton.whileHeld(new AlignToShoot());
-            quickTurnAroundButton = new JoystickButton(driverLeft, 2);
-            quickTurnAroundButton.whenPressed(new AutoTurn(180));
-            quickTurnAroundButton.whenReleased(new Drive());
+//            alignToShootButton = new JoystickButton(driverLeft, 1);
+//            alignToShootButton.whileHeld(new AlignToShoot());
+//            quickTurnAroundButton = new JoystickButton(driverLeft, 2);
+//            quickTurnAroundButton.whenPressed(new AutoTurn(180));
+//            quickTurnAroundButton.whenReleased(new Drive());
+            intakeButton = new JoystickButton(driverLeft, 1);
+            intakeButton.whileHeld(new RunIntakeIn());
+            expelButton = new JoystickButton(driverLeft, 2);
+            expelButton.whileHeld(new RunIntakeOut());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {

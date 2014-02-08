@@ -43,10 +43,10 @@ public class Shooter extends Subsystem {
             motor.set(0);
             inPosition = true;
         }
+        SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
 //            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
-            SmartDashboard.putNumber("ShooterPosition", getPosition());
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
             SmartDashboard.getBoolean("ShooterForwardLimit", forwardHallEffect.get());
@@ -102,6 +102,15 @@ public class Shooter extends Subsystem {
         }
         else{
             motor.set(0);
+        }
+        SmartDashboard.putNumber("ShooterPosition", getPosition());
+        if(Preferences.shooterTuningMode){
+            SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
+//            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
+            SmartDashboard.putNumber("ShooterError", positionError);
+            SmartDashboard.putNumber("ShooterOutput", motor.get());
+            SmartDashboard.getBoolean("ShooterForwardLimit", forwardHallEffect.get());
+            SmartDashboard.getBoolean("ShooterBackLimit", backHallEffect.get());
         }
     }
 }

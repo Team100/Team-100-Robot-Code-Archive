@@ -14,7 +14,7 @@ public class Tilter extends Subsystem {
 
     private final SpeedController motor = RobotMap.tilterMotor; // positive = tilt up
     private final AnalogChannel potentiometer = RobotMap.tilterPotentiometer; // increase = up
-    private final DigitalInput topLimit = RobotMap.tilterTopLimit; // true = too far
+    private final DigitalInput topLimit = RobotMap.tilterTopLimit; // false = too far
     private final DigitalInput bottomLimit = RobotMap.tilterBottomLimit; // true = too far
 
     double angleError; // positive = too low, negative = too high
@@ -35,12 +35,12 @@ public class Tilter extends Subsystem {
     
     // Adjusts the motor value to reach the correct position (angle in degrees above floor)
     public void setPosition(double angle){
+        SmartDashboard.putNumber("TilterAngle", getAngle());
         if(Preferences.tilterTuningMode){
-            SmartDashboard.putNumber("TilterAngle", getAngle());
             SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
             SmartDashboard.putNumber("TilterError", angleError);
             SmartDashboard.putNumber("TilterOutput", motor.get());
-            SmartDashboard.putBoolean("TilterTopLimit", topLimit.get());
+            SmartDashboard.putBoolean("TilterTopLimit", !topLimit.get());
             SmartDashboard.putBoolean("TilterBottomLimit", bottomLimit.get());
         }
         angleError = angle-getAngle();
@@ -85,12 +85,12 @@ public class Tilter extends Subsystem {
         else{
             motor.set(speed);
         }
+        SmartDashboard.putNumber("TilterAngle", getAngle());
         if(Preferences.tilterTuningMode){
-            SmartDashboard.putNumber("TilterAngle", getAngle());
             SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
             SmartDashboard.putNumber("TilterError", angleError);
             SmartDashboard.putNumber("TilterOutput", motor.get());
-            SmartDashboard.putBoolean("TilterTopLimit", topLimit.get());
+            SmartDashboard.putBoolean("TilterTopLimit", !topLimit.get());
             SmartDashboard.putBoolean("TilterBottomLimit", bottomLimit.get());
         }
     }

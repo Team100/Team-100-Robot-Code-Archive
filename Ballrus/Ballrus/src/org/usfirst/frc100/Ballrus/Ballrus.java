@@ -51,6 +51,7 @@ public class Ballrus extends IterativeRobot {
 
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
+        Scheduler.getInstance().removeAll();
         autonomousCommand = new Autonomous();
         autonomousCommand.start();
         compressor.startCompressor();

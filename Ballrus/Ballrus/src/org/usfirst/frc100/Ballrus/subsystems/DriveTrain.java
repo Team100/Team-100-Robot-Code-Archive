@@ -256,18 +256,19 @@ public class DriveTrain extends Subsystem {
 
     // Puts values on dashboard if in tuning mode
     public void updateDashboard() {
-        SmartDashboard.putNumber("AutoDriveAngleValue", getGyroDegrees());
+        SmartDashboard.putNumber("DriveAngleValue", getGyroDegrees());
+        SmartDashboard.putNumber("DriveRangeValue", getRangeInches());
+        SmartDashboard.putNumber("DriveDistanceValue", getEncoderInches());
         if (Preferences.driveTrainTuningMode) {
-            SmartDashboard.putNumber("AutoDriveDistOutput", distOutput);
-            SmartDashboard.putNumber("AutoDriveAngleOutput", angleOutput);
-            SmartDashboard.putNumber("AutoDriveRightEncoderValue", rightEncoder.get());
-            SmartDashboard.putNumber("AutoDriveLeftEncoderValue", leftEncoder.get());
-            SmartDashboard.putNumber("AutoDriveAverageEncoderValue", (leftEncoder.get() + rightEncoder.get()) / 2);
-            SmartDashboard.putNumber("AutoDriveGyroValue", gyro.getAngle());
-            SmartDashboard.putNumber("AutoDriveDistanceValue", getEncoderInches());
-            SmartDashboard.putNumber("AutoDriveDistError", distError);
-            SmartDashboard.putNumber("AutoDriveAngleError", angleError);
-            SmartDashboard.putNumber("RangeDistanceInches", getRangeInches());
+            SmartDashboard.putNumber("DriveDistOutput", distOutput);
+            SmartDashboard.putNumber("DriveAngleOutput", angleOutput);
+            SmartDashboard.putNumber("DriveRightEncoderValue", rightEncoder.get());
+            SmartDashboard.putNumber("DriveLeftEncoderValue", leftEncoder.get());
+            SmartDashboard.putNumber("DriveAverageEncoderValue", (leftEncoder.get() + rightEncoder.get()) / 2);
+            SmartDashboard.putNumber("DriveGyroValue", gyro.getAngle());
+            SmartDashboard.putNumber("DriveDistError", distError);
+            SmartDashboard.putNumber("DriveAngleError", angleError);
+            SmartDashboard.putNumber("DriveRangeSensorValue", rangeFinder.getVoltage());
         }
     }
 

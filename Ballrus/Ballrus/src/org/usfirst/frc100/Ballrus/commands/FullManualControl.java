@@ -34,7 +34,6 @@ public class FullManualControl extends Command {
     protected void end() {
         Ballrus.tilter.manualControl(0);
         Ballrus.shooter.manualControl(0);
-        new TiltToShootHigh().start();
     }
 
     // Called when another command which requires one or more of the same
