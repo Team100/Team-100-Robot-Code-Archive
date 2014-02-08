@@ -11,9 +11,9 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class AutoDriveStraight extends Command {
 
-    int inPositionCounter = 0;
-    double distance;
-    double lastDist;
+    private int inPositionCounter;
+    private double distance;
+    private double lastDist;
     
     public AutoDriveStraight(double distance) {
         requires(Ballrus.driveTrain);
@@ -24,6 +24,8 @@ public class AutoDriveStraight extends Command {
     protected void initialize() {
         Ballrus.driveTrain.setDirection();
         Ballrus.driveTrain.resetEncoders();
+        inPositionCounter = 0;
+        lastDist = 0.0;
     }
     
 
