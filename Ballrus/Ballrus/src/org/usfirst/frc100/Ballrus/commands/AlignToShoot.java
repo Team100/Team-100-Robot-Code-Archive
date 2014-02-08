@@ -10,11 +10,11 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class AlignToShoot extends Command {
 
-    boolean distReached;
-    double distError;
-    double storedDist;
-    int inPositionCounter;
-    int spikeDuration;
+    private boolean distReached;
+    private double distError;
+    private double storedDist;
+    private int inPositionCounter;
+    private int spikeDuration;
 
     public AlignToShoot() {
         requires(Ballrus.driveTrain);
@@ -24,9 +24,10 @@ public class AlignToShoot extends Command {
     protected void initialize() {
         Ballrus.driveTrain.resetRangefinder();
         distReached = false;
-        distError = 0;
-        storedDist = 0;
+        distError = 0.0;
+        storedDist = 0.0;
         inPositionCounter = 0;
+        spikeDuration = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -18,6 +18,7 @@ import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
 public class Align extends Command {
 
     private final DriveTrain driveTrain = Ballrus.driveTrain;
+
     private boolean lTriggered;
     private boolean rTriggered;
     private boolean leftInPos;
@@ -49,34 +50,29 @@ public class Align extends Command {
 
         if (!lTriggered && !rTriggered) {
             if (doneTurn) {
-                driveTrain.driveStraight(0.6);
+                driveTrain.tankDrive(0.0, 0.0); // stops when finished aligning
             }
-            else if (!(leftInPos && rightInPos)) {
-                driveTrain.driveStraight(0.6);
+            else {
+                driveTrain.driveStraight(0.6); // drive forward to find the line
             }
         }
-        else if (lTriggered && !rTriggered) {
+        else if (lTriggered && !rTriggered) { // only the left trigger is on the line
             if (!leftInPos) {
                 if (!rightInPos) {
-                    driveTrain.resetEncoders();
+                    driveTrain.resetEncoders(); // first time the robot sees the line so reset the encoders Once
                     driveTrain.driveStraight(0.6);
                 }
-                else {
+                else { // once the robot has seen the line for a second time you can use math to calculate the exact angle it needs to turn
                     displacement = driveTrain.getEncoderInches();
                     angle = Math.toDegrees(MathUtils.atan(displacement / Preferences.width));
                 }
                 leftInPos = true;
             }
             else {
-                if (!doneTurn) {
-                    driveTrain.driveStraight(0.6);
-                }
-                else {
-                    driveTrain.driveStraight(0.6);
-                }
+                driveTrain.driveStraight(0.6);
             }
         } 
-        else if (!lTriggered && rTriggered) {
+        else if (!lTriggered && rTriggered) { // same as the above code block but for the reverse case
             if (!rightInPos) {
                 if (!leftInPos) {
                     driveTrain.resetEncoders();
@@ -89,28 +85,20 @@ public class Align extends Command {
                 rightInPos = true;
             }
             else {
-                if (!doneTurn) {
-                    driveTrain.driveStraight(0.6);
-                }
-                else {
-                    driveTrain.driveStraight(0.6);
-                }
+                driveTrain.driveStraight(0.6);
             }
         }
-        else if (lTriggered && rTriggered) {
+        else if (lTriggered && rTriggered) { // both sides are on the line
             if (doneTurn) {
                 driveTrain.tankDrive(0.0, 0.0);
             }
-            else {
+            else { // if the angle is shallow then both triggers can be on the line before the robot aligns
                 driveTrain.driveStraight(0.6);
             }
         }
 
-        if (leftInPos && rightInPos && !doneTurn) {
+        if (leftInPos && rightInPos && !doneTurn) { // once the robot has crossed the line twice it is ready to turn
             doneTurn = driveTrain.autoTurnByAngle(angle);
-        }
-        else {
-            driveTrain.resetGyro();
         }
     }
 

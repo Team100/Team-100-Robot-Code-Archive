@@ -20,10 +20,8 @@ public class DriveTrain extends Subsystem {
     private final Gyro gyro = RobotMap.driveTrainGyro; // positive = clockwise
     private final AnalogChannel rangeFinder = RobotMap.driveTrainRangeFinder; // higher = farther
     private final Solenoid shifter = RobotMap.driveTrainShifter; // true = low
-    private final AnalogChannel leftLineReader = RobotMap.driveTrainLeftLineReader; // true = line
-    private final AnalogChannel rightLineReader = RobotMap.driveTrainRightLineReader; // true = line
-    private final Counter leftCounter = RobotMap.driveTrainLeftCounter;
-    private final Counter rightCounter = RobotMap.driveTrainRightCounter;
+    private final Counter leftCounter = RobotMap.driveTrainLeftCounter; // counts if the left line reader is over the line or not
+    private final Counter rightCounter = RobotMap.driveTrainRightCounter; // counts if the right line reader is over the line or not
 
     private double distError = 0;
     private double angleError = 0;

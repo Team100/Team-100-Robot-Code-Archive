@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-    SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
-    SpeedController sideMotor = RobotMap.intakeSideMotor; // positive = in
-    Solenoid topPiston = RobotMap.intakeTopPiston; // true = raised
-    Solenoid bottomPiston = RobotMap.intakeSparePiston; // true = deployed
-    DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = no ball
+    private final SpeedController topMotor = RobotMap.intakeTopMotor; // positive = in
+    private final SpeedController sideMotor = RobotMap.intakeSideMotor; // positive = in
+    private final Solenoid topPiston = RobotMap.intakeTopPiston; // true = raised
+    private final Solenoid bottomPiston = RobotMap.intakeSparePiston; // true = deployed
+    private final DigitalInput ballDetector = RobotMap.intakeBallDetector; // true = no ball
 
     // No default command
     public void initDefaultCommand() {
