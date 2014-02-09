@@ -30,7 +30,7 @@ public class Preferences {
     public static double width = 24.5; // length between line readers in inches
     
     // Tilter PID
-    public static boolean tilterTuningMode = false;
+    public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = 1.0; // pot / ratio = degrees
     public static double tilterPotOffsetDegrees = 0.0; // degrees + offset = angle
     public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
@@ -67,9 +67,9 @@ public class Preferences {
     // Changes preferences to those for the practice bot
     public static void setPracticeBotPrefs(){
         // Drivetrain PID
-        driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
+        driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
-        driveStraight_kP = 0.0; // error * kP = motor speed
+        driveStraight_kP = 0.065; // error * kP = motor speed
         autoTurn_kP = 0.0; // error * kP = motor speed
         driveDistBuffer = 0.0; // inches robot can be off by
         driveAngleBuffer = 0.0; // degrees robot can be off by

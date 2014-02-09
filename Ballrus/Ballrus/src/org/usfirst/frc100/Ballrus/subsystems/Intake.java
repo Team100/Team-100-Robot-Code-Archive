@@ -23,7 +23,6 @@ public class Intake extends Subsystem {
     
     // Runs rollers inwards unless ball is detected inside
     public void runIn(){
-        topPiston.set(false);
         if(ballDetector.get()){
             topMotor.set(0.75);
             sideMotor.set(0.75);
