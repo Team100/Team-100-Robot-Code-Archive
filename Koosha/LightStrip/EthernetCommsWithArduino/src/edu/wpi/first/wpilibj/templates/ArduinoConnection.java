@@ -220,8 +220,8 @@ public class ArduinoConnection {
 */
     public synchronized String getRawData() throws IOException {
         byte[] input;
-        byte[] output = new byte[8];
-        for(int i = 0; i < 8; i++) {
+        byte[] output = new byte[14];
+        for(int i = 0; i < 14; i++) {
             output[i] = (byte) (digital.getDIO(i+1) ? 49:48);
         }
 
