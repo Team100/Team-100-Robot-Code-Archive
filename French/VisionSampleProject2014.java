@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.image.NIVision.MeasurementType;
  */
 
 public class VisionSampleProject2014 extends SimpleRobot {
-
+    // Dummy comment for source control
     //Camera constants used for distance calculation
     final int Y_IMAGE_RES = 350;     // Camera Resolution 320x240  M1011 Camera
     // final int Y_IMAGE_RES = 480;		//X Image resolution in pixels, should be 120, 240 or 480
