@@ -18,6 +18,7 @@ public class Preferences {
     public static double driveAngleBuffer = 0.0; // degrees robot can be off by
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
+    public static double driveJoystickDeadband = 0.1; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0; 
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
@@ -36,28 +37,28 @@ public class Preferences {
     public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
     public static double tilter_kP = 0.0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
-    public static double shootHighAngle = 180.0; // button 4
-    public static double shootLowAngle = 135.0; // button 1
-    public static double shootTrussAngle = 135.0; // button 3
+    public static double shootHighAngle = 137.0; // button 4
+    public static double shootLowAngle = 126.0; // button 1
+    public static double shootTrussAngle = 126.0; // button 3
     public static double intakeAngle = 70.0; // button 2
     public static double stowedAngle = 180.0;
     public static double shootQuickAngle = 0.0;
     
     // Shooter tuning
-    public static boolean shooterTuningMode = false;
+    public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = 1.0; // pot / ratio = inches
-    public static double shooterPotOffsetInches = 0.0; // inches + offset = position
+    public static double shooterPotZeroPosition = 0.0; // inches + offset = position, offset = "zero" position
 //    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
     public static double shooterDistanceBuffer = 0.0; // inches shooter can be off by
     public static double shooterPullBackSpeed = 0.0;
     public static double shooterPullForwardSpeed = 0.0;
     // Shooter positions (in inches)
-    public static double shootHighPosition = 0.0;
-    public static double shootLowPosition = 4.0;
-    public static double shootTrussPosition = 8.0;
-    public static double intakePosition = 12.0;
-    public static double stowedPosition = 16.0;
-    public static double shootQuickPosition = 0.0;
+    public static double shootHighPosition = 220.0;
+    public static double shootLowPosition = 220.0;
+    public static double shootTrussPosition = 220.0;
+    public static double intakePosition = 220.0;
+    public static double stowedPosition = 220.0;
+    public static double shootQuickPosition = 220.0;
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
@@ -69,12 +70,12 @@ public class Preferences {
         // Drivetrain PID
         driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
-        driveStraight_kP = 0.065; // error * kP = motor speed
-        autoTurn_kP = 0.0; // error * kP = motor speed
-        driveDistBuffer = 0.0; // inches robot can be off by
-        driveAngleBuffer = 0.0; // degrees robot can be off by
+        driveStraight_kP = 0.035; // error * kP = motor speed
+        autoTurn_kP = 0.01; // error * kP = motor speed
+        driveDistBuffer = 1.0; // inches robot can be off by
+        driveAngleBuffer = 1.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
-        driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
+        driveMotorMinValue = 0.3; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
@@ -83,11 +84,11 @@ public class Preferences {
         tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
         
         // Shooter tuning
-        shooterPotToInchRatio = 1.0; // pot / ratio = inches
-        shooterPotOffsetInches = 0.0; // inches + offset = position
-        shooterDistanceBuffer = 0.0; // inches shooter can be off by
-        shooterPullBackSpeed = 0.0;
-        shooterPullForwardSpeed = 0.0;
+        shooterPotToInchRatio = -1.0; // pot / ratio = inches
+        shooterPotZeroPosition = -620.0; // inches + offset = position
+        shooterDistanceBuffer = 5.0; // inches shooter can be off by
+        shooterPullBackSpeed = 1.0;
+        shooterPullForwardSpeed = 1.0;
     }
     
     // Changes preferences to those for hammerhead

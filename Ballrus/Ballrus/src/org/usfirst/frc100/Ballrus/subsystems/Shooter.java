@@ -13,7 +13,6 @@ import org.usfirst.frc100.Ballrus.Preferences;
 public class Shooter extends Subsystem {
 
     private final SpeedController motor = RobotMap.shooterMotor; // positive = pull back
-    private final DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
     private final DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
     private final AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
     private final Solenoid release = RobotMap.shooterRelease; // true = released
@@ -36,7 +35,7 @@ public class Shooter extends Subsystem {
         inPosition = false;
         if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!backHallEffect.get()){ // too close
             motor.set(Preferences.shooterPullBackSpeed);
-        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!forwardHallEffect.get()){ // too far
+        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer){ // too far
             motor.set(-Preferences.shooterPullForwardSpeed);
         } else { // correct distance
             motor.set(0);
@@ -47,15 +46,15 @@ public class Shooter extends Subsystem {
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
 //            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
             SmartDashboard.putNumber("ShooterError", positionError);
+            SmartDashboard.putBoolean("ShooterBackHallEffect", backHallEffect.get());
             SmartDashboard.putNumber("ShooterOutput", motor.get());
-            SmartDashboard.getBoolean("ShooterForwardLimit", forwardHallEffect.get());
             SmartDashboard.getBoolean("ShooterBackLimit", backHallEffect.get());
         }
     }
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        if(forwardHallEffect.get()){
+        if(getPosition()<=0){
             motor.set(0);
             return true;
         }
@@ -65,9 +64,9 @@ public class Shooter extends Subsystem {
         }
     }
     
-    // Returns the pullback distance in inches
+    // Returns the pullback distance
     public double getPosition(){
-        return potentiometer.getValue()/Preferences.shooterPotToInchRatio+Preferences.shooterPotOffsetInches;
+        return potentiometer.getValue()/Preferences.shooterPotToInchRatio-Preferences.shooterPotZeroPosition;
 //        return encoder.get()/Preferences.shooterEncoderToInchRatio;
     }
     
@@ -96,7 +95,7 @@ public class Shooter extends Subsystem {
         if(speed>0&&!backHallEffect.get()){
             motor.set(speed);
         }
-        else if(speed<0&&!forwardHallEffect.get()){
+        else if(speed<0){
             motor.set(speed);
         }
         else{
@@ -106,9 +105,9 @@ public class Shooter extends Subsystem {
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
 //            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
+            SmartDashboard.putBoolean("ShooterBackHallEffect", backHallEffect.get());
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
-            SmartDashboard.getBoolean("ShooterForwardLimit", forwardHallEffect.get());
             SmartDashboard.getBoolean("ShooterBackLimit", backHallEffect.get());
         }
     }
