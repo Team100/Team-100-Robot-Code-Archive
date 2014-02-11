@@ -42,26 +42,29 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoTurn_kP", Preferences.autoTurn_kP);
             SmartDashboard.putNumber("AutoDriveTestDistance", 0);
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
+            SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
         }
     }
 
     // Sets the robot drives to tankdrive
     public void tankDrive(double left, double right) {
-        if(Math.abs(left)<Preferences.driveMotorMinValue){
-            if(left<0){
-                left = -Preferences.driveMotorMinValue;
-            }
-            if(left>0){
-                left = Preferences.driveMotorMinValue;
-            }
+        double minVal;
+        if (Preferences.driveTrainTuningMode) {
+            minVal = SmartDashboard.getNumber("DriveMotorMinValue");
+        } else {
+            minVal = Preferences.driveMotorMinValue;
         }
-        if(Math.abs(right)<Preferences.driveMotorMinValue){
-            if(right<0){
-                right = -Preferences.driveMotorMinValue;
-            }
-            if(right>0){
-                right = Preferences.driveMotorMinValue;
-            }
+        if (left < 0) {
+            left -= minVal;
+        }
+        if (left > 0) {
+            left += minVal;
+        }
+        if (right < 0) {
+            right -= minVal;
+        }
+        if (right > 0) {
+            right += minVal;
         }
         drive.tankDrive(left, right);
         updateDashboard();
@@ -69,21 +72,23 @@ public class DriveTrain extends Subsystem {
 
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
-        if(Math.abs(speed)<Preferences.driveMotorMinValue){
-            if(speed<0){
-                speed = -Preferences.driveMotorMinValue;
-            }
-            if(speed>0){
-                speed = Preferences.driveMotorMinValue;
-            }
+        double minVal;
+        if (Preferences.driveTrainTuningMode) {
+            minVal = SmartDashboard.getNumber("DriveMotorMinValue");
+        } else {
+            minVal = Preferences.driveMotorMinValue;
         }
-        if(Math.abs(turn)<Preferences.driveMotorMinValue){
-            if(turn<0){
-                turn = -Preferences.driveMotorMinValue;
-            }
-            if(turn>0){
-                turn = Preferences.driveMotorMinValue;
-            }
+        if (speed < 0) {
+            speed -= minVal;
+        }
+        if (speed > 0) {
+            speed += minVal;
+        }
+        if (turn < 0) {
+            turn -= minVal;
+        }
+        if (turn > 0) {
+            turn += minVal;
         }
         drive.arcadeDrive(speed, turn);
         updateDashboard();

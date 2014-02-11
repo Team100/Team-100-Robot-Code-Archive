@@ -1,6 +1,7 @@
 //ready
 package org.usfirst.frc100.Ballrus.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
@@ -21,6 +22,12 @@ public class FullManualControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        if(Ballrus.oi.manualShootButton.get()){
+            Ballrus.shooter.setTrigger(true);
+        }
+        else{
+            Ballrus.shooter.setTrigger(false);
+        }
         Ballrus.tilter.manualControl(Ballrus.oi.getManipulator().getY());
         Ballrus.shooter.manualControl(Ballrus.oi.getManipulator().getThrottle());
     }

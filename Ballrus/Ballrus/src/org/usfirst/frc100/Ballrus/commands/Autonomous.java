@@ -17,28 +17,29 @@ public class Autonomous extends CommandGroup {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addParallel(new DeployLowerRoller());
                 addSequential(new AutoDriveStraight(24));//drive to close shooting position
                 addSequential(new AutoTurn(0, true));
+                addSequential(new Pause(2));//wait for shooter to lower
                 addSequential(new TriggerShootReload());
+                addSequential(new Pause(1));//wait for shot
                 addSequential(new AutoDriveStraight(24));//drive to wall
                 break;
             case 2: //shoot and drive
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addParallel(new DeployLowerRoller());
-                addSequential(new Pause(1));//wait for shooter to arm
+                addSequential(new Pause(3));//wait for shooter to arm and raise
                 addParallel(new TriggerShootReload());
-                addSequential(new Pause(1));
+                addSequential(new Pause(1));//wait for shot
                 addSequential(new AutoDriveStraight(24));
                 break;
             case 3: //2nd ball in front (shoot-drive-intake-driveback-shoot)
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addParallel(new DeployLowerRoller());
+                addSequential(new Pause(3));//wait for shooter to arm and raise
                 addParallel(new TriggerShootReload());
-                addSequential(new Pause(4));//wait for arm to lower
+                addSequential(new Pause(1));//wait for shot
                 addSequential(new DeArmShooter());
+                addSequential(new Pause(4));//wait for arm to lower
                 addParallel(new RunIntakeIn());
                 addSequential(new AutoDriveStraight(48));
                 addParallel(new StopIntake());
@@ -51,12 +52,15 @@ public class Autonomous extends CommandGroup {
                 addSequential(new Pause(1));//wait for shooter to arm
                 addSequential(new TriggerShootReload());
                 break;
-            case 4: //Jonny's mode
-                addSequential(new AutoDriveStraight(48));
-                addSequential(new AutoTurn(-63));
-                addSequential(new AutoDriveStraight(-4));
-                addSequential(new AutoTurn(67));
+            case 4: //Vision
+                addParallel(new TiltToShootHigh());
+                addParallel(new ArmShooter());
+                addSequential(new AutoDriveStraight(24));//drive to close shooting position
+                addSequential(new CameraAim());
+                addSequential(new Pause(2));
                 addSequential(new TriggerShootReload());
+                addSequential(new Pause(1));//wait for shot
+                addSequential(new AutoDriveStraight(24));//drive to wall
                 break;
         }
     }

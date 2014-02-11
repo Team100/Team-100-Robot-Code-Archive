@@ -20,11 +20,23 @@ public class  Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        double leftY=Ballrus.oi.getDriverLeft().getY();
+        double rightY=Ballrus.oi.getDriverRight().getY();
+        double rightX=Ballrus.oi.getDriverRight().getX();
+        if(Math.abs(leftY)<Preferences.driveJoystickDeadband){
+            leftY = 0;
+        }
+        if(Math.abs(rightY)<Preferences.driveJoystickDeadband){
+            rightY = 0;
+        }
+        if(Math.abs(rightX)<Preferences.driveJoystickDeadband){
+            rightX = 0;
+        }
         if(Preferences.tankDriveMode){
-            Ballrus.driveTrain.tankDrive(Ballrus.oi.getDriverLeft().getY(), Ballrus.oi.getDriverRight().getY());
+            Ballrus.driveTrain.tankDrive(leftY, rightY);
         }
         else{
-            Ballrus.driveTrain.arcadeDrive(Ballrus.oi.getDriverLeft().getY(), Ballrus.oi.getDriverRight().getX());
+            Ballrus.driveTrain.arcadeDrive(leftY, rightX);
         }
     }
 
