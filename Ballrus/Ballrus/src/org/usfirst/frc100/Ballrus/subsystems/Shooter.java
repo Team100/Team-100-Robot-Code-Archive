@@ -41,15 +41,6 @@ public class Shooter extends Subsystem {
             motor.set(0);
             inPosition = true;
         }
-        SmartDashboard.putNumber("ShooterPosition", getPosition());
-        if(Preferences.shooterTuningMode){
-            SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
-//            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
-            SmartDashboard.putNumber("ShooterError", positionError);
-            SmartDashboard.putBoolean("ShooterBackHallEffect", backHallEffect.get());
-            SmartDashboard.putNumber("ShooterOutput", motor.get());
-            SmartDashboard.getBoolean("ShooterBackLimit", backHallEffect.get());
-        }
     }
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
@@ -101,6 +92,9 @@ public class Shooter extends Subsystem {
         else{
             motor.set(0);
         }
+    }
+
+    public void updateDashboard() {
         SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());

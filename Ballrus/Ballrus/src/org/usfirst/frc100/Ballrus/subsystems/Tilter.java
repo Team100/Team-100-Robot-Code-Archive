@@ -35,14 +35,6 @@ public class Tilter extends Subsystem {
     
     // Adjusts the motor value to reach the correct position (angle in degrees above floor)
     public void setPosition(double angle){
-        SmartDashboard.putNumber("TilterAngle", getAngle());
-        if(Preferences.tilterTuningMode){
-            SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
-            SmartDashboard.putNumber("TilterError", angleError);
-            SmartDashboard.putNumber("TilterOutput", motor.get());
-            SmartDashboard.putBoolean("TilterTopLimit", !topLimit.get());
-            SmartDashboard.putBoolean("TilterBottomLimit", bottomLimit.get());
-        }
         angleError = angle-getAngle();
         inPosition = false;
         if((!topLimit.get()&&angleError>0)||(bottomLimit.get()&&angleError<0)){
@@ -85,6 +77,9 @@ public class Tilter extends Subsystem {
         else{
             motor.set(speed);
         }
+    }
+
+    public void updateDashboard() {
         SmartDashboard.putNumber("TilterAngle", getAngle());
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());

@@ -1,18 +1,13 @@
 //ready
 package org.usfirst.frc100.Ballrus;
 
-import org.usfirst.frc100.Ballrus.subsystems.Intake;
-import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
-import org.usfirst.frc100.Ballrus.subsystems.Compressor;
-import org.usfirst.frc100.Ballrus.subsystems.Shooter;
-import org.usfirst.frc100.Ballrus.subsystems.Tilter;
-import org.usfirst.frc100.Ballrus.commands.Drive;
-import org.usfirst.frc100.Ballrus.commands.Autonomous;
+import org.usfirst.frc100.Ballrus.subsystems.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.Ballrus.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Ballrus extends IterativeRobot {
 
     Command autonomousCommand;
+    Command updateDashboard = new UpdateDashboard();
     public static OI oi;
     public static DriveTrain driveTrain;
     public static Shooter shooter;
@@ -55,6 +51,7 @@ public class Ballrus extends IterativeRobot {
         autonomousCommand = new Autonomous();
         autonomousCommand.start();
         compressor.startCompressor();
+        updateDashboard.start();
     }
 
     // This function is called periodically during autonomous
@@ -67,6 +64,7 @@ public class Ballrus extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         RobotMap.stopAllMotors();
         new Drive().start();
+        updateDashboard.start();
         compressor.startCompressor();
     }
 
@@ -74,17 +72,10 @@ public class Ballrus extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
-
-    // This function is called at the beginning of test mode
-//    public void testInit(){
-//        Scheduler.getInstance().removeAll();
-//        super.testInit();
-//        compressor.startCompressor();
-//    }
     
     // This function is called periodically during test mode
     public void testPeriodic() {
-        //Scheduler.getInstance().removeAll();
+        Scheduler.getInstance().removeAll();
         compressor.startCompressor();
         LiveWindow.run();
     }
