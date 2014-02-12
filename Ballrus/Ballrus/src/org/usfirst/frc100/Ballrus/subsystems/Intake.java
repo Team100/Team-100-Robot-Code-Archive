@@ -4,6 +4,7 @@ package org.usfirst.frc100.Ballrus.subsystems;
 import org.usfirst.frc100.Ballrus.RobotMap;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Controls the rollers on the intake, as well as the actuators to move the
@@ -69,5 +70,9 @@ public class Intake extends Subsystem {
     // Returns whether the lower roller is deployed
     public boolean getBottomPistonState(){
         return bottomPiston.get();
+    }
+
+    public void updateDashboard() {
+        SmartDashboard.putBoolean("IntakeBallDetector", ballDetector.get());
     }
 }

@@ -67,7 +67,6 @@ public class DriveTrain extends Subsystem {
             right += minVal;
         }
         drive.tankDrive(left, right);
-        updateDashboard();
     }
 
     // Sets the robot drives to arcadedrive
@@ -91,7 +90,6 @@ public class DriveTrain extends Subsystem {
             turn += minVal;
         }
         drive.arcadeDrive(speed, turn);
-        updateDashboard();
     }
 
     // Drives straight for a distance in inches, returns true when distance reached
@@ -109,7 +107,6 @@ public class DriveTrain extends Subsystem {
             if (Math.abs(angleError) < Preferences.driveAngleBuffer) {
                 stop();
                 angleOutput = 0;
-                updateDashboard();
                 return true;
             }
         }
@@ -126,7 +123,6 @@ public class DriveTrain extends Subsystem {
         }
         // Setting motors
         arcadeDrive(distOutput, angleOutput);
-        updateDashboard();
         return false;
     }
     
@@ -145,7 +141,6 @@ public class DriveTrain extends Subsystem {
         }
         // Setting motors
         arcadeDrive(speed, angleOutput);
-        updateDashboard();
     }
 
     // Rotates by an angle in degrees clockwise of straight, returns true when angle reached
@@ -164,7 +159,6 @@ public class DriveTrain extends Subsystem {
         if (Math.abs(angleError) < Preferences.driveAngleBuffer) {
             stop();
             angleOutput = 0;
-            updateDashboard();
             return true;
         }
         if (Preferences.driveTrainTuningMode) {
@@ -177,7 +171,6 @@ public class DriveTrain extends Subsystem {
             angleOutput = angleError * Preferences.autoTurn_kP;
         }
         arcadeDrive(0, angleOutput);
-        updateDashboard();
         return false;
     }
 
@@ -259,6 +252,16 @@ public class DriveTrain extends Subsystem {
         return (1 == rightCounter.get());
     }
 
+    // Shifts to low gear
+    public void shiftLow() {
+        shifter.set(true);
+    }
+
+    // Shifts to high gear
+    public void shiftHigh() {
+        shifter.set(false);
+    }
+
     // Puts values on dashboard if in tuning mode
     public void updateDashboard() {
         SmartDashboard.putNumber("DriveAngleValue", getGyroDegrees());
@@ -275,15 +278,5 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("DriveAngleError", angleError);
             SmartDashboard.putNumber("DriveRangeSensorValue", rangeFinder.getVoltage());
         }
-    }
-
-    // Shifts to low gear
-    public void shiftLow() {
-        shifter.set(true);
-    }
-
-    // Shifts to high gear
-    public void shiftHigh() {
-        shifter.set(false);
     }
 }
