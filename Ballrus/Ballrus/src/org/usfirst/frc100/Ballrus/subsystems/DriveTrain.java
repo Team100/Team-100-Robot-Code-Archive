@@ -274,6 +274,7 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("DriveLeftEncoderValue", leftEncoder.get());
             SmartDashboard.putNumber("DriveAverageEncoderValue", (leftEncoder.get() + rightEncoder.get()) / 2);
             SmartDashboard.putNumber("DriveGyroValue", gyro.getAngle());
+            SmartDashboard.putNumber("DriveGyroVoltage", AnalogModule.getInstance(1).getVoltage(1));
             SmartDashboard.putNumber("DriveDistError", distError);
             SmartDashboard.putNumber("DriveAngleError", angleError);
             SmartDashboard.putNumber("DriveRangeSensorValue", rangeFinder.getVoltage());

@@ -70,12 +70,12 @@ public class Preferences {
         // Drivetrain PID
         driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
-        driveStraight_kP = 0.035; // error * kP = motor speed
-        autoTurn_kP = 0.01; // error * kP = motor speed
-        driveDistBuffer = 1.0; // inches robot can be off by
-        driveAngleBuffer = 1.0; // degrees robot can be off by
+        driveStraight_kP = 0.005; // error * kP = motor speed
+        autoTurn_kP = 0.0004; // error * kP = motor speed
+        driveDistBuffer = 2.0; // inches robot can be off by
+        driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
-        driveMotorMinValue = 0.3; //the absolute value below which the motor cannot move the robot
+        driveMotorMinValue = 0.38; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
