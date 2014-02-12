@@ -40,17 +40,17 @@ void loop() {
   EthernetClient client = server.available();
   if (client) {
     Serial.println("Got a client");
-    while (client.connected()) {
-      if (client.available()) {
-        char c = client.read();
-        client.print(c);
-        Serial.println(c);
-      }
+    if (client.connected() && client.available()) {
+      char c = client.read();
+      client.print(c);
+      Serial.println(client.read());
     }
-    // give the web browser time to receive the data
-    delay(1);
-    // close the connection:
-    client.stop();
+    if(!client.connected()) {
+      // give the web browser time to receive the data
+      delay(1);
+      // close the connection:
+      client.stop();
+    }
   }
 }
 

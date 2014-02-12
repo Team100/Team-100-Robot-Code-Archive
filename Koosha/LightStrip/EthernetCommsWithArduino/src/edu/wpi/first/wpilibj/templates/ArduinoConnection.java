@@ -26,8 +26,6 @@ public class ArduinoConnection {
      * https://github.com/frc3946/UltimateAscent/blob/master/src/org/usfirst/frc3946/UltimateAscent/ThreadedPi.java
      */
 
-    private DigitalModule digital = DigitalModule.getInstance(1);
-    
     private String url = "socket://10.1.0.100:10000";
     private int bufferSize = 64;
     private char delimiter = ',';
@@ -220,15 +218,12 @@ public class ArduinoConnection {
 */
     public synchronized String getRawData() throws IOException {
         byte[] input;
-        byte[] output = new byte[14];
-        for(int i = 0; i < 14; i++) {
-            output[i] = (byte) (digital.getDIO(i+1) ? 49:48);
-        }
+        byte[] output = new byte[16];
 
         if (m_connected) {
 //            m_os.write(getSeqID() + 1); //request Data
 //            m_os.write(100);
-            m_os.write(output, 0, output.length);
+            m_os.write(2);
             System.out.println("Sent request " + (getSeqID() + 1));
             
             if(m_is.available() <= bufferSize) {
