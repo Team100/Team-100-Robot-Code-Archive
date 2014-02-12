@@ -17,10 +17,10 @@ public class Autonomous extends CommandGroup {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addSequential(new AutoDriveStraight(24));//drive to close shooting position
+                addSequential(new AutoDriveStraight(48));//drive to close shooting position
                 addSequential(new AutoTurn(0, true));
-                addSequential(new Pause(2));//wait for shooter to lower
-                addSequential(new TriggerShootReload());
+                addSequential(new Pause(0));//wait for shooter to lower
+                addParallel(new TriggerShootReload());
                 addSequential(new Pause(1));//wait for shot
                 addSequential(new AutoDriveStraight(24));//drive to wall
                 break;
