@@ -1,0 +1,307 @@
+Configuration
+	InputFile: DS.txt # The input file of match numbers and teams playing.
+	Foo: file.out # The file to put the output of the scouting.
+
+Screens
+	1:HomeScreen
+	2:AutoScreen
+	3:TeleScreen
+	4:TeleScreen2
+
+HomeScreen
+	name: Home
+	ShowScoutingInitial
+
+AutoScreen
+	name: Auto
+	PlainText
+		x:0
+		y:5
+		value:"Starting Place"
+	PlainText
+		x:0
+		y:6
+		value:"Left"
+	PlainText
+		x:6
+		y:6
+		value:"Middle"
+	PlainText
+		x:14
+		y:6
+		value:"Right"
+	Radio
+		x1:1
+		y1:7
+		x2:8
+		y2:7
+		x3:15
+		y3:7
+		name:startPos
+	PlainText
+		x: 0
+		y: 10
+		value: "Penalties"
+	UpDown
+		x:10
+		y:10
+		name:autopenalties
+	PlainText
+		x: 0
+		y: 13
+		value: "Overall Rating"
+	Rating
+		x: 14
+		y: 13
+		name: autoRating
+	PlainText
+		x: 0
+		y: 17
+		value: "Uber-Tube on:"
+	PlainText
+		x: 14
+		y: 17
+		value: "Top"
+	PlainText
+		x: 18
+		y: 17
+		value: "Mid"
+	PlainText
+		x: 22
+		y: 17
+		value: "Low"
+	PlainText
+		x: 26
+		y: 17
+		value: "None"
+	Radio
+		x1:14
+		y1:18
+		x2:18
+		y2:18
+		x3:22
+		y3:18
+		x4:27
+		y4:18
+		name:uberPlacement
+	PlainText
+		x:0
+		y:20
+		value:"Did nothing/disabled"
+	Checkbox
+		x:11
+		y:21
+		name:autoNothing
+
+TeleScreen
+	name: Tele
+	PlainText
+		x:1
+		y:4
+		value:"Robot job:"
+	DropDown
+		x: 1
+		y: 5
+		1: "    Offensive Robot    "
+		2: "    Defensive Robot    "
+		3: "Offensive AND Defensive"
+		4: "      Did Nothing      "
+		name:positions
+	PlainText
+		x:23
+		y:7
+		value:"Penalties"
+	UpDown
+		x:27
+		y:9
+		name:telepenalties
+	PlainText
+		x:0
+		y:7
+		value: "Scored on:"
+	PlainText
+		x:0
+		y:8
+		value:"Top"
+	PlainText
+		x:6
+		y:8
+		value:"Mid"
+	PlainText
+		x:12
+		y:8
+		value:"Low"
+	PlainText
+		x:18
+		y:8
+		value:"???"
+	Counter
+		x: 0
+		y: 9
+		increment:x
+		name: scorestop
+	Counter
+		x: 6
+		y: 9
+		increment:y
+		name: scoresmid
+	Counter
+		x: 12
+		y: 9
+		increment:b
+		name: scoreslow
+	Counter
+		x:18
+		y:9
+		name: unknownscores
+		increment:a
+	PlainText
+		x:0
+		y:11
+		value:"Completes logos?"
+	Checkbox
+		x:5
+		y:12
+		name:logos
+	Checkbox
+		x:25
+		y:12
+		name:groundPickup
+	PlainText
+		x:0
+		y:14
+		value:"Misses"
+	Counter
+		x:7
+		y:14
+		name:misses
+		increment:r
+	PlainText
+		x:0
+		y:17
+		value:"Grabs:"
+	PlainText
+		x:6
+		y:16
+		value:"Circle"
+	PlainText
+		x:14
+		y:16
+		value:"Square"
+	PlainText
+		x:22
+		y:16
+		value:"Triangle"
+	Checkbox
+		x:8
+		y:17
+		name:grabsCirc
+	Checkbox
+		x:16
+		y:17
+		name:grabsSqr
+	Checkbox
+		x:25
+		y:17
+		name:grabsTri
+	PlainText
+		x:0
+		y:19
+		value:"Maneuverability"
+	PlainText
+		x:8
+		y:20
+		value:"Rating"
+	Rating
+		x:14
+		y:20
+		name:maneuverRating
+	PlainText
+		x:0
+		y:22
+		value:"Manipulability"
+	PlainText
+		x:0
+		y:23
+		value:"(of arm)"
+	Rating
+		x:14
+		y:22
+		name:armRating
+	PlainText
+		x:18
+		y:11
+		value:"Picks up from"
+	PlainText
+		x:18
+		y:12
+		value:"Ground"
+	PlainText
+		x:12
+		y:13
+		value:"Status"
+	DropDown
+		x:12
+		y:14
+		1:"  Active  "
+		2:"Red-carded"
+		3:" Disabled "
+		name:status
+
+TeleScreen2
+	name: Tele2
+	PlainText
+		x:3
+		y:5
+		value:"Minibot Success rating:"
+	DropDown
+		x:1
+		y:6
+		1:"   Does not have Minibot   "
+		2:"       No Deployment       "
+		3:"    Did not make to top    "
+		4:" Made to top AFTER TIME UP "
+		5:"  Made to top within time  "
+		6:"Other Bots Deployed Instead"
+		name:minibotRating
+	DropDown
+		x:1
+		y:17
+		1:"1st place"
+		2:"2nd place"
+		3:"3rd place"
+		4:"4th place"
+		5:"no finish"
+		name:miniPlacement
+	PlainText
+		x:0
+		y:8
+		value:"Deployment rating"
+	PlainText
+		x:0
+		y:11
+		value:"Aproximate secs to climb"
+	Rating
+		x:0
+		y:9
+		name:deploySpeed
+	Timer
+		x:25
+		y:11
+		press:a
+		name:minibotSpeed
+	PlainText
+		x:0
+		y:14
+		value:"Any minibot penalties"
+	Checkbox
+		x:22
+		y:14
+		name:any_penalties
+	PlainText
+		x:1
+		y:16
+		value:"Rank"
+	Finish
+		x:24
+		y:20

@@ -1,0 +1,12 @@
+# Exclude map from output (default). 
+-m!
+# Bit depth of the outpu = 16 bpp - a truecolor mode.
+-gB16
+# Bitmapped graphics output. NOTE: without an -gT option, this data will have a clear bit 15.
+-gb
+# No transparent pixels / set the alpha-bit of the pixels. Only has effect for NDS bitmaps.
+-gT!
+# Graphics data is in halfword arrays.
+-gu16
+
+

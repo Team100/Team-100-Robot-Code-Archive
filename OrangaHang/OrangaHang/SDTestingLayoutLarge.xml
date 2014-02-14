@@ -1,0 +1,120 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="ClimberLowerLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="149" y="128"/>
+	</widget>
+	<widget field="ClimberLevel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="174" y="160"/>
+	</widget>
+	<widget field="ClimberUpperLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="149" y="96"/>
+	</widget>
+	<widget field="DriveTrainGyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="162" y="224"/>
+	</widget>
+	<widget field="ClimberPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="162" y="192"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="260" y="304"/>
+		<height>400</height>
+	</static-widget>
+	<widget field="Incoming data" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="166" y="64"/>
+	</widget>
+	<widget field="ShooterBackInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="960" y="32"/>
+		<width>368</width>
+		<height>240</height>
+	</widget>
+	<widget field="ShooterBackOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="960" y="288"/>
+		<width>368</width>
+		<height>240</height>
+	</widget>
+	<widget field="ShooterFrontOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="576" y="288"/>
+		<width>368</width>
+		<height>240</height>
+	</widget>
+	<widget field="ShooterFrontInput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="576" y="32"/>
+		<width>368</width>
+		<height>240</height>
+	</widget>
+	<widget field="ShooterFrontEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="576" y="0"/>
+	</widget>
+	<widget field="ShooterBackEnabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="960" y="0"/>
+	</widget>
+	<widget field="Period" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="960" y="544"/>
+		<width>368</width>
+		<height>160</height>
+	</widget>
+	<widget field="ShooterBack" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
+		<location x="768" y="544"/>
+	</widget>
+	<widget field="ShooterFront" type="Pidget" class="team100.smartdashboard.extensions.PIDWidget_3">
+		<location x="576" y="544"/>
+	</widget>
+	<widget field="Shooter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="288"/>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="0" y="2"/>
+	</widget>
+	<widget field="Climber" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="256"/>
+	</widget>
+	<widget field="Shifter" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="224"/>
+	</widget>
+	<widget field="FixedArms" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="192"/>
+	</widget>
+	<widget field="Sendable Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="320"/>
+	</widget>
+	<widget field="FrisbeeTransport" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="160"/>
+	</widget>
+	<widget field="Tower" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="128"/>
+	</widget>
+	<widget field="DriveTrain" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="96"/>
+	</widget>
+	<widget field="AutoMemory" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="64"/>
+	</widget>
+	<widget field="Pneumatics" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="0" y="32"/>
+	</widget>
+	<widget field="WritePreferences" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="158" y="32"/>
+	</widget>
+	<widget field="Memorize" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="197" y="0"/>
+	</widget>
+	<widget field="ModeChooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="384"/>
+	</widget>
+	<static-widget class="team100.smartdashboard.extensions.IOWidget">
+		<location x="328" y="0"/>
+		<width>232</width>
+		<height>300</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="260" y="304"/>
+	</static-widget>
+	<static-widget class="team100.smartdashboard.extensions.IOWidget">
+		<location x="328" y="0"/>
+		<width>232</width>
+		<height>300</height>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>
