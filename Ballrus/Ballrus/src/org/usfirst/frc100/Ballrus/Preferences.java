@@ -20,12 +20,13 @@ public class Preferences {
     public static double driveAngleBuffer = 0.0; // degrees robot can be off by
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
+    public static double driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     public static double driveJoystickDeadband = 0.1; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0; 
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20.0;
-    public static int inPositionCounter = 3;
+    public static int inPositionCounter = 20;
     public static int ultraActualShootDistance = 80;
     // LineReader
     public static int lowerLimit = 895;
@@ -62,6 +63,10 @@ public class Preferences {
     public static double stowedPosition = 220.0;
     public static double shootQuickPosition = 220.0;
     
+    // Intake
+    public static double intakeInSpeed = 0.75;
+    public static double intakeOutSpeed = 1.0; // absolute value
+    
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
@@ -80,6 +85,7 @@ public class Preferences {
         driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
         driveMotorMinValue = 0.38; //the absolute value below which the motor cannot move the robot
+        driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
@@ -121,4 +127,3 @@ public class Preferences {
         
     }
 }
-//93.75

@@ -5,6 +5,7 @@ import org.usfirst.frc100.Ballrus.RobotMap;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.commands.StopIntake;
 
 /**
@@ -27,8 +28,8 @@ public class Intake extends Subsystem {
     // Runs rollers inwards unless ball is detected inside
     public void runIn(){
         if(ballDetector.get()){
-            topMotor.set(0.75);
-            sideMotor.set(0.75);
+            topMotor.set(Preferences.intakeInSpeed);
+            sideMotor.set(Preferences.intakeInSpeed);
         }
         else{
             topMotor.set(0);
@@ -39,8 +40,8 @@ public class Intake extends Subsystem {
     // Runs rollers outwards
     public void runOut(){
         topPiston.set(false);
-        topMotor.set(-1);
-        sideMotor.set(-1);
+        topMotor.set(-Preferences.intakeOutSpeed);
+        sideMotor.set(-Preferences.intakeOutSpeed);
     }
     
     // Stops rollers
