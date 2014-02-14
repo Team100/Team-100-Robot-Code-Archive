@@ -22,6 +22,7 @@ public class  UpdateDashboard extends Command {
         Ballrus.shooter.updateDashboard();
         Ballrus.intake.updateDashboard();
         Ballrus.tilter.updateDashboard();
+        Ballrus.displayIO();
     }
 
     // Make this return true when this Command no longer needs to run execute()

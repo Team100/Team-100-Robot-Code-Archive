@@ -89,7 +89,7 @@ public class Preferences {
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
-        tilterPotOffsetDegrees = 60.0; // degrees + offset = angle
+        tilterPotOffsetDegrees = 30.0; // degrees + offset = angle
         tilterAngleBuffer = 2.0; // degrees tilter can be off by
         tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
         
