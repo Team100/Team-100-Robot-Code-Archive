@@ -8,6 +8,7 @@ public class Preferences {
 
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
+    public static boolean displayIO = false;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -78,13 +79,13 @@ public class Preferences {
         driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
         driveStraight_kP = 0.005; // error * kP = motor speed
-        autoTurn_kP = 0.0004; // error * kP = motor speed
+        autoTurn_kP = 0.001; // error * kP = motor speed
         autoTurnLowGear_kP = 0.0; // error * kP = motor speed
         driveStraightLowGear_kP = 0.0; // error * kP = motor speed
         driveDistBuffer = 2.0; // inches robot can be off by
         driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
-        driveMotorMinValue = 0.38; //the absolute value below which the motor cannot move the robot
+        driveMotorMinValue = 0.45; //the absolute value below which the motor cannot move the robot
         driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
@@ -95,7 +96,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -620.0; // inches + offset = position
+        shooterPotZeroPosition = -520.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;

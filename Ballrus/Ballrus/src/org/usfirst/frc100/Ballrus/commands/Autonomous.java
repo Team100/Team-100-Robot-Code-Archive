@@ -14,14 +14,17 @@ public class Autonomous extends CommandGroup {
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
         switch (mode) {
+            case 0: //shoot
+                addSequential(new TriggerShootReload());
+                break;
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                //addSequential(new AutoDriveStraight(48.0));//drive to close shooting position
-                //addSequential(new AutoTurn(0.0, true));
-                addSequential(new Pause(0.1));//wait for shooter to lower
+                addSequential(new AutoDriveStraight(48.0, 5));//drive to close shooting position
+                addSequential(new AutoTurn(0.0, true, 2));
+                addSequential(new Pause(1.5));//wait for shooter to lower
                 addParallel(new TriggerShootReload());
-                addSequential(new Pause(1.0));//wait for shot
+                addSequential(new Pause(0.5));//wait for shot
                 addSequential(new AutoDriveStraight(36.0, 5.0));//drive to wall
                 break;
             case 2: //shoot and drive
