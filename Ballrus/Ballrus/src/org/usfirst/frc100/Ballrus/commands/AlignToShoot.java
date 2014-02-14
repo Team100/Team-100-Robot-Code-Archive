@@ -33,12 +33,10 @@ public class AlignToShoot extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double currentDist = Ballrus.driveTrain.getRangeInches();
-        if(currentDist <0)
-        {
+        if (currentDist < 0) {
             spikeDuration++;
         }
-        if(spikeDuration > 7)
-        {
+        if (spikeDuration > 7) {
             Ballrus.driveTrain.resetRangefinder();
         }
         if ((currentDist > Preferences.ultraInitialStopDistance || currentDist < 0) && !distReached) {
@@ -78,5 +76,4 @@ public class AlignToShoot extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-
 }

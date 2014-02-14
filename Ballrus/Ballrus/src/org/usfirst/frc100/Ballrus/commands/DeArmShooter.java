@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Lowers the upper intake roller. Command is when pressed
+ * Lowers the upper intake roller, used during autonomous. Command is when
+ * pressed.
  */
 public class DeArmShooter extends Command {
 

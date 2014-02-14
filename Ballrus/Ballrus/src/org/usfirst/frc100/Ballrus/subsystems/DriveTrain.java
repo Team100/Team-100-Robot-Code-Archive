@@ -45,13 +45,21 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveTestDistance", 0);
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
+            SmartDashboard.putNumber("DriveLowGearMotorMinValue", Preferences.driveLowGearMotorMinValue);
         }
     }
 
     // Sets the robot drives to tankdrive
     public void tankDrive(double left, double right) {
         double minVal;
-        if (Preferences.driveTrainTuningMode) {
+        if(shifter.get()){//low gear
+            if (Preferences.driveTrainTuningMode) {
+                minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
+            } else {
+                minVal = Preferences.driveLowGearMotorMinValue;
+            }
+        }
+        else if (Preferences.driveTrainTuningMode) {
             minVal = SmartDashboard.getNumber("DriveMotorMinValue");
         } else {
             minVal = Preferences.driveMotorMinValue;
@@ -74,7 +82,14 @@ public class DriveTrain extends Subsystem {
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
         double minVal;
-        if (Preferences.driveTrainTuningMode) {
+        if(shifter.get()){//low gear
+            if (Preferences.driveTrainTuningMode) {
+                minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
+            } else {
+                minVal = Preferences.driveLowGearMotorMinValue;
+            }
+        }
+        else if (Preferences.driveTrainTuningMode) {
             minVal = SmartDashboard.getNumber("DriveMotorMinValue");
         } else {
             minVal = Preferences.driveMotorMinValue;

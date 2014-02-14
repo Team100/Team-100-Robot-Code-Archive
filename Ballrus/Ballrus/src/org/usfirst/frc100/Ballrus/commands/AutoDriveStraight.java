@@ -27,7 +27,6 @@ public class AutoDriveStraight extends Command {
         Ballrus.driveTrain.resetEncoders();
         inPositionCounter = 0;
     }
-    
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
