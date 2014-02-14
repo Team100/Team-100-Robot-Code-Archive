@@ -67,13 +67,8 @@ public class Shooter extends Subsystem {
     }
     
     // Sets the position of the quick release
-    public void setTrigger(boolean forward){
-        if(forward){
-            release.set(true);
-        }
-        else{
-            release.set(false);
-        }
+    public void setTrigger(boolean forward) {
+        release.set(forward);
     }
     
     // Stops the shooter motor

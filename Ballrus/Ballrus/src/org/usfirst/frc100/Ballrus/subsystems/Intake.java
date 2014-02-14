@@ -5,6 +5,7 @@ import org.usfirst.frc100.Ballrus.RobotMap;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.Ballrus.commands.StopIntake;
 
 /**
  * Controls the rollers on the intake, as well as the actuators to move the
@@ -20,6 +21,7 @@ public class Intake extends Subsystem {
 
     // No default command
     public void initDefaultCommand() {
+        this.setDefaultCommand(new StopIntake());
     }
     
     // Runs rollers inwards unless ball is detected inside
@@ -43,8 +45,8 @@ public class Intake extends Subsystem {
     
     // Stops rollers
     public void stop(){
-        topMotor.set(0);
-        sideMotor.set(0);
+        topMotor.set(0.0);
+        sideMotor.set(0.0);
     }
     
     // Deploys or retracts the top piston
