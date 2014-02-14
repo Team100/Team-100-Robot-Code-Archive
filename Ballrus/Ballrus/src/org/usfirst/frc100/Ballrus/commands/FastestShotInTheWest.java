@@ -13,9 +13,9 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class FastestShotInTheWest extends Command {
 
-    int state;
-    boolean distanceReached;
-    double speed;
+    private int state;
+    private boolean distanceReached;
+    private double speed;
 
     public FastestShotInTheWest() {
         requires(Ballrus.driveTrain);
@@ -26,17 +26,18 @@ public class FastestShotInTheWest extends Command {
         Ballrus.driveTrain.resetRangefinder();
         state = 0;
         distanceReached = false;
-
+        speed = 0.0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-        //rotate to face forward CHECK
-        //drive straight CHECK
-        //wait until the distance is apropos CHECK  
-        //shoot while still driving straight CHECK
-        //end when button released CHECK
+        /*rotate to face forward CHECK
+        *drive straight CHECK
+        *wait until the distance is apropos CHECK  
+        *shoot while still driving straight CHECK
+        *end when button released CHECK*/
+        
         if (state == 0) {
             Ballrus.driveTrain.setDirection();
             state = 1;
