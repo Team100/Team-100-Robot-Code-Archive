@@ -2,6 +2,7 @@
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
@@ -9,7 +10,6 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  * This class allows us to shoot while moving (using the ultrasonic sensor to
  * tell us when to shoot)! It's the fastest shot in the West! It is called while
  * held.
- * @author Slowest Programmer in the West (Mathew Trost)
  */
 public class FastestShotInTheWest extends Command {
 
@@ -27,23 +27,23 @@ public class FastestShotInTheWest extends Command {
         state = 0;
         distanceReached = false;
         speed = 0.0;
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-        /* Rotate to face forward CHECK
-         * drive straight CHECK
-         * wait until the distance is apropos CHECK  
-         * shoot while still driving straight CHECK
-         * end when button released CHECK
-         */
+        /*rotate to face forward CHECK
+        *drive straight CHECK
+        *wait until the distance is apropos CHECK  
+        *shoot while still driving straight CHECK
+        *end when button released CHECK*/
+        
         if (state == 0) {
             Ballrus.driveTrain.setDirection();
             state = 1;
 //            System.out.println("STATE now equals 1");
         }
+
         if (state == 1 && distanceReached == false) {
             Ballrus.driveTrain.driveStraight(Ballrus.oi.getDriverRight().getY());
 
@@ -52,17 +52,21 @@ public class FastestShotInTheWest extends Command {
 
 //            if (Ballrus.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.5 * speed))) { //if MB1023
             if (Ballrus.driveTrain.getRangeInches() <= (Preferences.ultraActualShootDistance + (0.12 * speed))) {  //if MB1220
-
+                
                 distanceReached = true;
 //                System.out.println("DIST is apropos " + Robot.driveTrain.getRangeInches());
             }
+            
+
         }
+
         if (distanceReached == true) {
             new TriggerShootReload().start();
             Ballrus.driveTrain.stop();
             //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             //System.out.println("SHOT...DEAD");
         }
+        SmartDashboard.putBoolean("DistanceReached", distanceReached);
     }
 
     // Make this return true when this Command no longer needs to run execute()

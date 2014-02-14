@@ -102,10 +102,6 @@ public class Preferences {
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
         
-        ultraInitialStopDistance = 120; // inches away from target that we want to stop
-        ultraActualStopDistance = 100;
-        ultraAcceptableSpike = 20;
-        inPositionCounter = 7;
     }
 
     // Changes preferences to those for gwrath
@@ -119,10 +115,6 @@ public class Preferences {
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
         driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
         
-        ultraInitialStopDistance = 120; // inches away from target that we want to stop
-        ultraActualStopDistance = 100;
-        ultraAcceptableSpike = 20;
-        inPositionCounter = 7;
     }
 }
 //93.75
