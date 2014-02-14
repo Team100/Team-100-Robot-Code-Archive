@@ -72,6 +72,7 @@ public class OI {
             SmartDashboard.putData("AutoTurn", new AutoDriveTest(false));
         }
         SmartDashboard.putData("ResetGyro", new ResetGyro());
+        SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
     }
 
     public Joystick getDriverLeft() {

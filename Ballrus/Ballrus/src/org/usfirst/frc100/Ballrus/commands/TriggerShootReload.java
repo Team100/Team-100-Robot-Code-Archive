@@ -40,6 +40,7 @@ public class TriggerShootReload extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Ballrus.shooter.setTrigger(false);
+        new DeArmShooter().start();
         new TiltToIntake().start();
     }
 

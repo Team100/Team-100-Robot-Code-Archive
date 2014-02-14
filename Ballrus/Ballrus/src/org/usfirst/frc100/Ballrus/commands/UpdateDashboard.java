@@ -3,6 +3,7 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
+import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
  * Constantly refreshes the values on the dashboard.
@@ -22,7 +23,9 @@ public class  UpdateDashboard extends Command {
         Ballrus.shooter.updateDashboard();
         Ballrus.intake.updateDashboard();
         Ballrus.tilter.updateDashboard();
-        Ballrus.displayIO();
+        if(Preferences.displayIO){
+            Ballrus.displayIO();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
