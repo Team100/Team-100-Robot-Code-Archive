@@ -59,7 +59,7 @@ public class Preferences {
     public static double shootQuickPosition = 0;
     
     // RobotMap
-    public static boolean hammerHeadRobotMap  = false;
+    public static boolean hammerHeadRobotMap  = true;
     public static boolean gwrathRobotMap = false;
     
     // Changes preferences to those for hammerhead
@@ -71,10 +71,6 @@ public class Preferences {
         driveDistBuffer = 2; // inches robot can be off by
         driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
-        ultraInitialStopDistance = 120; // inches away from target that we want to stop
-        ultraActualStopDistance = 100;
-        ultraAcceptableSpike = 20;
-        inPositionCounter = 7;
     }
 
     // Changes preferences to those for gwrath
@@ -86,9 +82,5 @@ public class Preferences {
         driveDistBuffer = 2; // inches robot can be off by
         driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // time to wait to make sure robot has stopped moving
-        ultraInitialStopDistance = 120; // inches away from target that we want to stop
-        ultraActualStopDistance = 100;
-        ultraAcceptableSpike = 20;
-        inPositionCounter = 7;
     }
 }

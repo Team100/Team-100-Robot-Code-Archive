@@ -2,6 +2,7 @@
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
@@ -64,7 +65,7 @@ public class FastestShotInTheWest extends Command {
             //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             //System.out.println("SHOT...DEAD");
         }
-
+        SmartDashboard.putBoolean("DistanceReached", distanceReached);
     }
 
     // Make this return true when this Command no longer needs to run execute()
