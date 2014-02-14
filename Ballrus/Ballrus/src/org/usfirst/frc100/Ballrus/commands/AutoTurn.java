@@ -12,26 +12,27 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 public class AutoTurn extends Command {
 
     private int inPositionCounter;
-    private double angle;
+    private final double angle;
     private boolean toAngle = false;
-    private double lastAngle;
+    private final double timeOut;
     
-    public AutoTurn(double angle) {
+    public AutoTurn(double angle, double timeOut) {
         requires(Ballrus.driveTrain);
         this.angle = angle;
+        this.timeOut = timeOut;
     }
 
-    public AutoTurn(double angle, boolean toAngle) {
+    public AutoTurn(double angle, boolean toAngle, double timeOut) {
         requires(Ballrus.driveTrain);
         this.angle = angle;
         this.toAngle = toAngle;
+        this.timeOut = timeOut;
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
         Ballrus.driveTrain.setDirection();
         inPositionCounter = 0;
-        lastAngle = 0.0;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,34 +40,20 @@ public class AutoTurn extends Command {
         double realAngle = Ballrus.driveTrain.getGyroDegrees();
         if (toAngle) {
             if (Ballrus.driveTrain.autoTurnToAngle(angle)) {
-                if (Math.abs(lastAngle - realAngle) < .5) {
-                    inPositionCounter++;
-                } else {
-                    lastAngle = realAngle;
-                    inPositionCounter = 0;
-                }
+                inPositionCounter++;
             } else {
                 inPositionCounter = 0;
             }
-            return;
-        }
-        if(Ballrus.driveTrain.autoTurnByAngle(angle)){
-            if(Math.abs(lastAngle - realAngle)<.5){
-                inPositionCounter++;
-            }
-            else{
-                lastAngle = realAngle;
-                inPositionCounter = 0;
-            }
-        }
-        else{
+        } else if (Ballrus.driveTrain.autoTurnByAngle(angle)) {
+            inPositionCounter++;
+        } else {
             inPositionCounter = 0;
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return inPositionCounter>Preferences.autoDriveDelay;
+        return inPositionCounter>Preferences.autoDriveDelay||timeSinceInitialized()>timeOut;
     }
 
     // Called once after isFinished returns true
