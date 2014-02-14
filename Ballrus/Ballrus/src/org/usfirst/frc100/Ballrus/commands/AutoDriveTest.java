@@ -32,10 +32,10 @@ public class AutoDriveTest extends Command {
     // Called once after isFinished returns true
     protected void end() {
         if(distance){
-            new AutoDriveStraight(SmartDashboard.getNumber("AutoDriveTestDistance", 0)).start();
+            new AutoDriveStraight(SmartDashboard.getNumber("AutoDriveTestDistance", 0), 10).start();
         }
         else{
-            new AutoTurn(SmartDashboard.getNumber("AutoDriveTestAngle", 0)).start();
+            new AutoTurn(SmartDashboard.getNumber("AutoDriveTestAngle", 0), 5).start();
         }
     }
 

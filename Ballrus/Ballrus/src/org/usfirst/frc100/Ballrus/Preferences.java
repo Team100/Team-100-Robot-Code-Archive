@@ -14,6 +14,8 @@ public class Preferences {
     public static double driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
     public static double driveStraight_kP = 0.0; // error * kP = motor speed
     public static double autoTurn_kP = 0.0; // error * kP = motor speed
+    public static double driveStraightLowGear_kP = 0.0;
+    public static double autoTurnLowGear_kP = 0.0; // error * kP = motor speed
     public static double driveDistBuffer = 0.0; // inches robot can be off by
     public static double driveAngleBuffer = 0.0; // degrees robot can be off by
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
@@ -72,6 +74,8 @@ public class Preferences {
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
         driveStraight_kP = 0.005; // error * kP = motor speed
         autoTurn_kP = 0.0004; // error * kP = motor speed
+        autoTurnLowGear_kP = 0.0; // error * kP = motor speed
+        driveStraightLowGear_kP = 0.0; // error * kP = motor speed
         driveDistBuffer = 2.0; // inches robot can be off by
         driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving

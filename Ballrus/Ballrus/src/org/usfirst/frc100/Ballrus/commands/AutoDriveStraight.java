@@ -12,12 +12,13 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 public class AutoDriveStraight extends Command {
 
     private int inPositionCounter;
-    private double distance;
-    private double lastDist;
+    private final double distance;
+    private final double timeOut;
     
-    public AutoDriveStraight(double distance) {
+    public AutoDriveStraight(double distance, double timeOut) {
         requires(Ballrus.driveTrain);
         this.distance=distance;
+        this.timeOut = timeOut;
     }
 
     // Called just before this Command runs the first time
@@ -25,20 +26,13 @@ public class AutoDriveStraight extends Command {
         Ballrus.driveTrain.setDirection();
         Ballrus.driveTrain.resetEncoders();
         inPositionCounter = 0;
-        lastDist = 0.0;
     }
     
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double realDist = Ballrus.driveTrain.getEncoderInches();
         if(Ballrus.driveTrain.autoDriveStraight(distance)){
-            if (Math.abs(lastDist - realDist) < 1) {
-                inPositionCounter++;
-            } else {
-                lastDist = realDist;
-                //inPositionCounter = 0;
-            }
+            inPositionCounter++;
         }
         else{
             inPositionCounter = 0;
@@ -47,7 +41,7 @@ public class AutoDriveStraight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return inPositionCounter>Preferences.autoDriveDelay || Ballrus.driveTrain.autoDriveStraight(distance);
+        return inPositionCounter>Preferences.autoDriveDelay||timeSinceInitialized()>timeOut;
     }
 
     // Called once after isFinished returns true

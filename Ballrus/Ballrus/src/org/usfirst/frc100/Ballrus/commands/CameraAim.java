@@ -31,7 +31,7 @@ public class CameraAim extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        new AutoTurn(targetAngle).start();
+        new AutoTurn(targetAngle, 2).start();
     }
 
     // Called when another command which requires one or more of the same
