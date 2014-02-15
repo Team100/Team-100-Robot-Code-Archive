@@ -10,7 +10,10 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.visa.VisaException;
+import java.util.Stack;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,7 +24,12 @@ import edu.wpi.first.wpilibj.visa.VisaException;
  */
 public class Serial2Arduino extends IterativeRobot {
     
-    private SerialPort serial;
+    SerialPort serial;
+    String in;
+    byte[][] out = {{73}, {84}};
+    Victor motr = new Victor(4);
+    Timer clock = new Timer();
+    Stack queue = new Stack();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -34,6 +42,21 @@ public class Serial2Arduino extends IterativeRobot {
         catch (VisaException ex) {
             ex.printStackTrace();
         }
+        clock.start();
+    }
+    
+    public void disabledInit() {
+    }
+    
+    public void disabledPeriodic() {
+        if(serial != null) {
+            try {
+                System.out.println("DisabledIn:" + serial.readString());
+            }
+            catch (VisaException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -43,16 +66,38 @@ public class Serial2Arduino extends IterativeRobot {
 
     }
 
+    public void teleopInit() {
+    }
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        try {
-            serial.readString();
+        if(serial != null) {
+            try {
+                System.out.print("BytesReceived:" + serial.getBytesReceived() + " ");
+            }
+            catch (VisaException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if(serial.getBytesReceived() != 0) {
+                    System.out.print("InByte:" + serial.readString() + " ");
+                    if(clock.get()%2.0 < 1.0) {
+                        System.out.print("Data:" + out[0][0] + " ");
+                        System.out.print("#ofBytes:" + serial.write(out[0], 1) + " ");
+                    }
+                    else {
+                        System.out.print("Data:" + out[1][0] + " ");
+                        System.out.print("#ofBytes:" + serial.write(out[1], 1) + " ");
+                    }
+                }
+            }
+            catch (VisaException ex) {
+                ex.printStackTrace();
+            }
         }
-        catch (VisaException ex) {
-            ex.printStackTrace();
-        }
+        System.out.println("Clock:" + clock.get());
     }
     
     /**
