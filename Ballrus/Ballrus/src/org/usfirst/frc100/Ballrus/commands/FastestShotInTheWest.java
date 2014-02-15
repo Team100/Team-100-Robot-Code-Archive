@@ -32,12 +32,14 @@ public class FastestShotInTheWest extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-        /*rotate to face forward CHECK
-        *drive straight CHECK
-        *wait until the distance is apropos CHECK  
-        *shoot while still driving straight CHECK
-        *end when button released CHECK*/
-        
+        /**
+         * rotate to face forward CHECK
+         * drive straight CHECK
+         * wait until the distance is apropos CHECK  
+         * shoot while still driving straight CHECK
+         * end when button released CHECK
+         */
+
         if (state == 0) {
             Ballrus.driveTrain.setDirection();
             state = 1;

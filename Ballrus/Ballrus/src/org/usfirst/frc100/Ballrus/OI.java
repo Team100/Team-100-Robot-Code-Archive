@@ -13,72 +13,58 @@ import edu.wpi.first.wpilibj.buttons.*;
 public class OI {
 
     public Joystick driverLeft;
-//        public JoystickButton alignToShootButton;
-//        public JoystickButton quickTurnAroundButton;
         public JoystickButton intakeButton;
-        public JoystickButton shootButton;
+        public JoystickButton expelButton;
 
     public Joystick driverRight;
+        public JoystickButton shootWhileMovingButton;
         public JoystickButton shiftButton;
-        public JoystickButton quickTurnForwardButton;
+        public JoystickButton resetGyroButton;
 
     public Joystick manipulator;
         public JoystickButton tiltToShootLowButton;
         public JoystickButton tiltToIntakeButton;
         public JoystickButton tiltToShootTrussButton;
         public JoystickButton tiltToShootHighButton;
-        public JoystickButton expelButton;
-//        public JoystickButton shootButton;
-//        public JoystickButton intakeButton;
         public JoystickButton manualShootButton;
+        public JoystickButton shootButton;
         public JoystickButton armButton;
-        public JoystickButton toggleManualControlButton;
-        public JoystickButton shootWhileMovingButton;
-        public JoystickButton resetGyroButton;
         public JoystickButton tiltToStowButton;
+        public JoystickButton toggleManualControlButton;
 
     public OI() {
-        manipulator = new Joystick(3);
-            armButton = new JoystickButton(manipulator, 8);
-            armButton.whileHeld(new ArmShooter());
-//            intakeButton = new JoystickButton(manipulator, 7);
-//            intakeButton.whileHeld(new RunIntakeIn());
-            shootButton = new JoystickButton(manipulator, 6);
-            shootButton.whenPressed(new TriggerShootReload());
-            manualShootButton = new JoystickButton(manipulator, 5);
-//            expelButton = new JoystickButton(manipulator, 5);
-//            expelButton.whileHeld(new RunIntakeOut());
-            tiltToShootHighButton = new JoystickButton(manipulator, 4);
-            tiltToShootHighButton.whenPressed(new TiltToShootHigh());
-            tiltToShootTrussButton = new JoystickButton(manipulator, 3);
-            tiltToShootTrussButton.whenPressed(new TiltToShootTruss());
-            tiltToIntakeButton = new JoystickButton(manipulator, 2);
-            tiltToIntakeButton.whenPressed(new TiltToIntake());
-            tiltToShootLowButton = new JoystickButton(manipulator, 1);
-            tiltToShootLowButton.whenPressed(new TiltToShootLow());
-            tiltToStowButton = new JoystickButton(manipulator, 9);
-            tiltToStowButton.whenPressed(new TiltToStow());
-            toggleManualControlButton = new JoystickButton(manipulator, 10);
-            toggleManualControlButton.toggleWhenPressed(new FullManualControl());
-
-        driverRight = new Joystick(2);
-            shiftButton = new JoystickButton(driverRight, 2);
-            shiftButton.whileHeld(new ShiftLow());
-            shootWhileMovingButton = new JoystickButton(driverRight, 1);
-            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
-            resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
-            resetGyroButton.whenPressed(new ResetGyro());
-
         driverLeft = new Joystick(1);
-//            alignToShootButton = new JoystickButton(driverLeft, 1);
-//            alignToShootButton.whileHeld(new AlignToShoot());
-//            quickTurnAroundButton = new JoystickButton(driverLeft, 2);
-//            quickTurnAroundButton.whenPressed(new AutoTurn(180));
-//            quickTurnAroundButton.whenReleased(new Drive());
             intakeButton = new JoystickButton(driverLeft, 1);
             intakeButton.whileHeld(new RunIntakeIn());
             expelButton = new JoystickButton(driverLeft, 2);
             expelButton.whileHeld(new RunIntakeOut());
+            
+        driverRight = new Joystick(2);
+            shootWhileMovingButton = new JoystickButton(driverRight, 1);
+            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
+            shiftButton = new JoystickButton(driverRight, 2);
+            shiftButton.whileHeld(new ShiftLow());
+            resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
+            resetGyroButton.whenPressed(new ResetGyro());
+
+        manipulator = new Joystick(3);
+            tiltToShootLowButton = new JoystickButton(manipulator, 1);
+            tiltToShootLowButton.whenPressed(new TiltToShootLow());
+            tiltToIntakeButton = new JoystickButton(manipulator, 2);
+            tiltToIntakeButton.whenPressed(new TiltToIntake());
+            tiltToShootTrussButton = new JoystickButton(manipulator, 3);
+            tiltToShootTrussButton.whenPressed(new TiltToShootTruss());
+            tiltToShootHighButton = new JoystickButton(manipulator, 4);
+            tiltToShootHighButton.whenPressed(new TiltToShootHigh());
+            manualShootButton = new JoystickButton(manipulator, 5); // accessed by command
+            shootButton = new JoystickButton(manipulator, 6);
+            shootButton.whenPressed(new TriggerShootReload());
+            armButton = new JoystickButton(manipulator, 8);
+            armButton.whileHeld(new ArmShooter());
+            tiltToStowButton = new JoystickButton(manipulator, 9);
+            tiltToStowButton.whenPressed(new TiltToStow());
+            toggleManualControlButton = new JoystickButton(manipulator, 10);
+            toggleManualControlButton.toggleWhenPressed(new FullManualControl());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {
@@ -86,6 +72,7 @@ public class OI {
             SmartDashboard.putData("AutoTurn", new AutoDriveTest(false));
         }
         SmartDashboard.putData("ResetGyro", new ResetGyro());
+        SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
     }
 
     public Joystick getDriverLeft() {

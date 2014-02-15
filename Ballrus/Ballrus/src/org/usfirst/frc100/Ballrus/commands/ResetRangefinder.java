@@ -5,17 +5,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Prepares the shooter to shoot by raising the upper intake roller. Command is
- * while held.
+ * Resets the rangefinder. Command is whenPressed.
  */
-public class RetractLowerRoller extends Command {
-
-    public RetractLowerRoller() {
+public class ResetRangefinder extends Command {
+    
+    public ResetRangefinder() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Ballrus.intake.setBottomPiston(false);
+        Ballrus.driveTrain.resetRangefinder();
     }
 
     // Called repeatedly when this Command is scheduled to run

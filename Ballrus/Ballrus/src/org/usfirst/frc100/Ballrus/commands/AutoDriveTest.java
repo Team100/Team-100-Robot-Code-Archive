@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoDriveTest extends Command {
 
-    private boolean distance;
+    private final boolean isDistance;
     
-    public AutoDriveTest(boolean distance) {
-        this.distance = distance;
+    public AutoDriveTest(boolean isDistance) {
+        this.isDistance = isDistance;
     }
 
     // Called just before this Command runs the first time
@@ -31,11 +31,11 @@ public class AutoDriveTest extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        if(distance){
-            new AutoDriveStraight(SmartDashboard.getNumber("AutoDriveTestDistance", 0)).start();
+        if(isDistance){
+            new AutoDriveStraight(SmartDashboard.getNumber("AutoDriveTestDistance", 0), 10).start();
         }
         else{
-            new AutoTurn(SmartDashboard.getNumber("AutoDriveTestAngle", 0)).start();
+            new AutoTurn(SmartDashboard.getNumber("AutoDriveTestAngle", 0), 5).start();
         }
     }
 

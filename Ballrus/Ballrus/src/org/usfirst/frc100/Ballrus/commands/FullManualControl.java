@@ -1,7 +1,6 @@
 //ready
 package org.usfirst.frc100.Ballrus.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
