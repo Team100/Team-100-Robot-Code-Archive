@@ -28,6 +28,7 @@ public class Ballrus extends IterativeRobot {
     public static Intake intake;
     public static Tilter tilter;
     public static Compressor compressor;
+    public static Camera camera;
 
     // This function is run when the robot is first started up and should be
     // used for any initialization code.
@@ -38,6 +39,7 @@ public class Ballrus extends IterativeRobot {
         intake = new Intake();
         tilter = new Tilter();
         compressor = new Compressor();
+        camera = new Camera();
         oi = new OI();
         
         SmartDashboard.putData(driveTrain);
@@ -77,11 +79,13 @@ public class Ballrus extends IterativeRobot {
     
     // This function is called periodically during test mode
     public void testPeriodic() {
-        Scheduler.getInstance().removeAll();
+//        Scheduler.getInstance().removeAll();
         compressor.startCompressor();
         LiveWindow.run();
+        System.out.println("QFDSFTHDGFAMTHG");
     }
     
+    // Puts all of the I/O on smartDashboard, but causes lag
     public static void displayIO(){
         for(int i = 1; i < 15; i++){
             SmartDashboard.putBoolean("DIO_"+i, DigitalModule.getInstance(1).getDIO(i));
