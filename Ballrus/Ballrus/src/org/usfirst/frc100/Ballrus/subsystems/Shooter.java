@@ -13,11 +13,10 @@ import org.usfirst.frc100.Ballrus.Preferences;
 public class Shooter extends Subsystem {
 
     private final SpeedController motor = RobotMap.shooterMotor; // positive = pull back
-    private final DigitalInput forwardHallEffect = RobotMap.shooterForwardHallEffect; // true = shooter pushed forward completely
-    private final DigitalInput backHallEffect = RobotMap.shooterBackHallEffect; // true = shooter pulled back completely
+    private final DigitalInput forwardLimit = RobotMap.shooterForwardLimit; // true = shooter pushed forward completely
+    private final DigitalInput backLimit = RobotMap.shooterBackLimit; // true = shooter pulled back completely
     private final AnalogChannel potentiometer = RobotMap.shooterPotentiometer; // positive = pull back
     private final Solenoid release = RobotMap.shooterRelease; // true = released
-    //private final Encoder encoder = RobotMap.shooterEncoder; // increase = pull back
     //private final Relay readyIndicator = RobotMap.shooterReadyIndicator; // what type is this?
     
     private double positionError = 0; // positive = too close, negative = too far
@@ -29,14 +28,11 @@ public class Shooter extends Subsystem {
     
     // Pulls the shooter back to a given amount of inches
     public void setPosition(double position){
-//        if(hallEffectForward.get()){
-//            encoder.reset();
-//        }
         positionError = position-getPosition();
         inPosition = false;
-        if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!backHallEffect.get()){ // too close
+        if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!backLimit.get()){ // too close
             motor.set(Preferences.shooterPullBackSpeed);
-        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!forwardHallEffect.get()){ // too far
+        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!forwardLimit.get()){ // too far
             motor.set(-Preferences.shooterPullForwardSpeed);
         } else { // correct distance
             motor.set(0);
@@ -59,7 +55,6 @@ public class Shooter extends Subsystem {
     // Returns the pullback distance
     public double getPosition(){
         return potentiometer.getValue()/Preferences.shooterPotToInchRatio-Preferences.shooterPotZeroPosition;
-//        return encoder.get()/Preferences.shooterEncoderToInchRatio;
     }
     
     // Returns whether the shooter is ready to shoot
@@ -79,10 +74,10 @@ public class Shooter extends Subsystem {
     
     // Directly controls motor speed
     public void manualControl(double speed){
-        if(speed>0&&!backHallEffect.get()){
+        if(speed>0&&!backLimit.get()){
             motor.set(speed);
         }
-        else if(speed<0&&!forwardHallEffect.get()){
+        else if(speed<0&&!forwardLimit.get()){
             motor.set(speed);
         }
         else{
@@ -94,12 +89,11 @@ public class Shooter extends Subsystem {
         SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
-//            SmartDashboard.putNumber("ShooterSensorValue", encoder.get());
-            SmartDashboard.putBoolean("ShooterForwardHallEffect", forwardHallEffect.get());
-            SmartDashboard.putBoolean("ShooterBackHallEffect", backHallEffect.get());
+            SmartDashboard.putBoolean("ShooterForwardHallEffect", forwardLimit.get());
+            SmartDashboard.putBoolean("ShooterBackHallEffect", backLimit.get());
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
-            SmartDashboard.getBoolean("ShooterBackLimit", backHallEffect.get());
+            SmartDashboard.getBoolean("ShooterBackLimit", backLimit.get());
         }
     }
 }

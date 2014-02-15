@@ -35,8 +35,8 @@ public class RobotMap {
     public static Counter driveTrainRightCounter;
 
     public static SpeedController shooterMotor;
-    public static DigitalInput shooterForwardHallEffect;
-    public static DigitalInput shooterBackHallEffect;
+    public static DigitalInput shooterForwardLimit;
+    public static DigitalInput shooterBackLimit;
     public static AnalogChannel shooterPotentiometer;
     public static Solenoid shooterRelease;
     public static Encoder shooterEncoder;
@@ -118,11 +118,11 @@ public class RobotMap {
             shooterMotor = new Talon(1, 3);
             LiveWindow.addActuator("Shooter", "Motor", (Talon) shooterMotor);
 
-            shooterForwardHallEffect = new DigitalInput(1, 5);
-            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
+            shooterForwardLimit = new DigitalInput(1, 5);
+            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardLimit);
 
-            shooterBackHallEffect = new DigitalInput(1, 6);
-            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
+            shooterBackLimit = new DigitalInput(1, 6);
+            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackLimit);
 
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
@@ -236,11 +236,11 @@ public class RobotMap {
         shooterMotor = new Victor(1, 9);
         LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-        shooterForwardHallEffect = new DigitalInput(1, 5);
-        LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
+        shooterForwardLimit = new DigitalInput(1, 5);
+        LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardLimit);
 
-        shooterBackHallEffect = new DigitalInput(1, 1);
-        LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
+        shooterBackLimit = new DigitalInput(1, 1);
+        LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackLimit);
 
         shooterPotentiometer = new AnalogChannel(1, 3);
         LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
@@ -369,11 +369,11 @@ public class RobotMap {
             shooterMotor = new Victor(1, 2);
             LiveWindow.addActuator("Shooter", "Motor", (Victor) shooterMotor);
 
-            shooterForwardHallEffect = new DigitalInput(1, 5);
-            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardHallEffect);
+            shooterForwardLimit = new DigitalInput(1, 5);
+            LiveWindow.addSensor("Shooter", "HallEffectForward", shooterForwardLimit);
 
-            shooterBackHallEffect = new DigitalInput(1, 6);
-            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackHallEffect);
+            shooterBackLimit = new DigitalInput(1, 6);
+            LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackLimit);
 
             shooterPotentiometer = new AnalogChannel(1, 3);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
