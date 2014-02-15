@@ -1,6 +1,8 @@
 //ready
 package org.usfirst.frc100.Ballrus;
 
+import edu.wpi.first.wpilibj.AnalogModule;
+import edu.wpi.first.wpilibj.DigitalModule;
 import org.usfirst.frc100.Ballrus.subsystems.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -78,5 +80,20 @@ public class Ballrus extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         compressor.startCompressor();
         LiveWindow.run();
+    }
+    
+    public static void displayIO(){
+        for(int i = 1; i < 15; i++){
+            SmartDashboard.putBoolean("DIO_"+i, DigitalModule.getInstance(1).getDIO(i));
+        }
+        for(int i = 1; i < 9; i++){
+            SmartDashboard.putNumber("Analog_"+i, AnalogModule.getInstance(1).getVoltage(i));
+        }
+        for(int i = 1; i < 11; i++){
+            SmartDashboard.putNumber("PWM_"+i, DigitalModule.getInstance(1).getPWM(i));
+        }
+        for(int i = 1; i < 9; i++){
+            SmartDashboard.putBoolean("Relay_"+i, DigitalModule.getInstance(1).getRelayForward(i));
+        }
     }
 }

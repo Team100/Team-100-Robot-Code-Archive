@@ -8,22 +8,26 @@ public class Preferences {
 
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
+    public static boolean displayIO = false;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
     public static double driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
     public static double driveStraight_kP = 0.0; // error * kP = motor speed
     public static double autoTurn_kP = 0.0; // error * kP = motor speed
+    public static double driveStraightLowGear_kP = 0.0;
+    public static double autoTurnLowGear_kP = 0.0; // error * kP = motor speed
     public static double driveDistBuffer = 0.0; // inches robot can be off by
     public static double driveAngleBuffer = 0.0; // degrees robot can be off by
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
+    public static double driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     public static double driveJoystickDeadband = 0.1; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0; 
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20.0;
-    public static int inPositionCounter = 3;
+    public static int inPositionCounter = 20;
     public static int ultraActualShootDistance = 80;
     // LineReader
     public static int lowerLimit = 895;
@@ -60,6 +64,10 @@ public class Preferences {
     public static double stowedPosition = 220.0;
     public static double shootQuickPosition = 220.0;
     
+    // Intake
+    public static double intakeInSpeed = 0.75;
+    public static double intakeOutSpeed = 1.0; // absolute value
+    
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
@@ -71,21 +79,24 @@ public class Preferences {
         driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
         driveStraight_kP = 0.005; // error * kP = motor speed
-        autoTurn_kP = 0.0004; // error * kP = motor speed
+        autoTurn_kP = 0.001; // error * kP = motor speed
+        autoTurnLowGear_kP = 0.0; // error * kP = motor speed
+        driveStraightLowGear_kP = 0.0; // error * kP = motor speed
         driveDistBuffer = 2.0; // inches robot can be off by
         driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
-        driveMotorMinValue = 0.38; //the absolute value below which the motor cannot move the robot
+        driveMotorMinValue = 0.45; //the absolute value below which the motor cannot move the robot
+        driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
-        tilterPotOffsetDegrees = 60.0; // degrees + offset = angle
+        tilterPotOffsetDegrees = 30.0; // degrees + offset = angle
         tilterAngleBuffer = 2.0; // degrees tilter can be off by
         tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -620.0; // inches + offset = position
+        shooterPotZeroPosition = -520.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
@@ -117,4 +128,3 @@ public class Preferences {
         
     }
 }
-//93.75

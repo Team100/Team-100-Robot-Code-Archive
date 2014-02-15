@@ -39,17 +39,27 @@ public class DriveTrain extends Subsystem {
     public DriveTrain() {
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);
+            SmartDashboard.putNumber("DriveStraightLowGear_kP", Preferences.driveStraightLowGear_kP);
             SmartDashboard.putNumber("AutoTurn_kP", Preferences.autoTurn_kP);
+            SmartDashboard.putNumber("AutoTurnLowGear_kP", Preferences.autoTurnLowGear_kP);
             SmartDashboard.putNumber("AutoDriveTestDistance", 0);
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
+            SmartDashboard.putNumber("DriveLowGearMotorMinValue", Preferences.driveLowGearMotorMinValue);
         }
     }
 
     // Sets the robot drives to tankdrive
     public void tankDrive(double left, double right) {
         double minVal;
-        if (Preferences.driveTrainTuningMode) {
+        if(shifter.get()){//low gear
+            if (Preferences.driveTrainTuningMode) {
+                minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
+            } else {
+                minVal = Preferences.driveLowGearMotorMinValue;
+            }
+        }
+        else if (Preferences.driveTrainTuningMode) {
             minVal = SmartDashboard.getNumber("DriveMotorMinValue");
         } else {
             minVal = Preferences.driveMotorMinValue;
@@ -72,7 +82,14 @@ public class DriveTrain extends Subsystem {
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
         double minVal;
-        if (Preferences.driveTrainTuningMode) {
+        if(shifter.get()){//low gear
+            if (Preferences.driveTrainTuningMode) {
+                minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
+            } else {
+                minVal = Preferences.driveLowGearMotorMinValue;
+            }
+        }
+        else if (Preferences.driveTrainTuningMode) {
             minVal = SmartDashboard.getNumber("DriveMotorMinValue");
         } else {
             minVal = Preferences.driveMotorMinValue;
@@ -97,7 +114,13 @@ public class DriveTrain extends Subsystem {
         // Distance output
         distError = getEncoderInches() - distance;
         if (Math.abs(distError) > Preferences.driveDistBuffer) { // incorrect distance
-            if (Preferences.driveTrainTuningMode) {
+            if (shifter.get()) {//low gear
+                if (Preferences.driveTrainTuningMode) {
+                    distOutput = distError * SmartDashboard.getNumber("DriveStraightLowGear_kP", 0);
+                } else {
+                    distOutput = distError * Preferences.driveStraightLowGear_kP;
+                }
+            } else if (Preferences.driveTrainTuningMode) {
                 distOutput = distError * SmartDashboard.getNumber("DriveStraight_kP", 0);
             } else {
                 distOutput = distError * Preferences.driveStraight_kP;
@@ -116,7 +139,13 @@ public class DriveTrain extends Subsystem {
             angleError += 360;
         }
         angleError = (angleError + 180) % 360 - 180;
-        if (Preferences.driveTrainTuningMode) {
+        if (shifter.get()) {//low gear
+            if (Preferences.driveTrainTuningMode) {
+                angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
+            } else {
+                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+            }
+        } else if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
         } else {
             angleOutput = angleError * Preferences.autoTurn_kP;
@@ -134,7 +163,13 @@ public class DriveTrain extends Subsystem {
             angleError += 360;
         }
         angleError = (angleError + 180) % 360 - 180;
-        if (Preferences.driveTrainTuningMode) {
+        if (shifter.get()) {//low gear
+            if (Preferences.driveTrainTuningMode) {
+                angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
+            } else {
+                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+            }
+        } else if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
         } else {
             angleOutput = angleError * Preferences.autoTurn_kP;
@@ -161,12 +196,14 @@ public class DriveTrain extends Subsystem {
             angleOutput = 0;
             return true;
         }
-        if (Preferences.driveTrainTuningMode) {
+        if (shifter.get()) {//low gear
+            if (Preferences.driveTrainTuningMode) {
+                angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
+            } else {
+                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+            }
+        } else if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
-//            SmartDashboard.putNumber("gyro voltage raw " , AnalogModule.getInstance(1).getVoltage(1));
-//            System.out.println("gyro voltage raw " + AnalogModule.getInstance(1).getVoltage(1));
-//            SmartDashboard.putNumber("gyro heading", gyro.getAngle());
-//            System.out.println("gyro heading" + gyro.getAngle());
         } else {
             angleOutput = angleError * Preferences.autoTurn_kP;
         }

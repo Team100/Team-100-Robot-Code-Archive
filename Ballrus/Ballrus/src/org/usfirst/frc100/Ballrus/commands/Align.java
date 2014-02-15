@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//untested
 package org.usfirst.frc100.Ballrus.commands;
 
 import com.sun.squawk.util.MathUtils;
@@ -12,8 +8,7 @@ import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.subsystems.DriveTrain;
 
 /**
- *
- * @author Student
+ * Finds the line and lines up with it. Command is whenPressed.
  */
 public class Align extends Command {
 
@@ -51,48 +46,39 @@ public class Align extends Command {
         if (!lTriggered && !rTriggered) {
             if (doneTurn) {
                 driveTrain.tankDrive(0.0, 0.0); // stops when finished aligning
-            }
-            else {
+            } else {
                 driveTrain.driveStraight(0.6); // drive forward to find the line
             }
-        }
-        else if (lTriggered && !rTriggered) { // only the left trigger is on the line
+        } else if (lTriggered && !rTriggered) { // only the left trigger is on the line
             if (!leftInPos) {
                 if (!rightInPos) {
                     driveTrain.resetEncoders(); // first time the robot sees the line so reset the encoders Once
                     driveTrain.driveStraight(0.6);
-                }
-                else { // once the robot has seen the line for a second time you can use math to calculate the exact angle it needs to turn
+                } else { // once the robot has seen the line for a second time you can use math to calculate the exact angle it needs to turn
                     displacement = driveTrain.getEncoderInches();
                     angle = Math.toDegrees(MathUtils.atan(displacement / Preferences.width));
                 }
                 leftInPos = true;
-            }
-            else {
+            } else {
                 driveTrain.driveStraight(0.6);
             }
-        } 
-        else if (!lTriggered && rTriggered) { // same as the above code block but for the reverse case
+        } else if (!lTriggered && rTriggered) { // same as the above code block but for the reverse case
             if (!rightInPos) {
                 if (!leftInPos) {
                     driveTrain.resetEncoders();
                     driveTrain.driveStraight(0.6);
-                }
-                else {
+                } else {
                     displacement = -driveTrain.getEncoderInches();
                     angle = Math.toDegrees(MathUtils.atan(displacement / Preferences.width));
                 }
                 rightInPos = true;
-            }
-            else {
+            } else {
                 driveTrain.driveStraight(0.6);
             }
-        }
-        else if (lTriggered && rTriggered) { // both sides are on the line
+        } else if (lTriggered && rTriggered) { // both sides are on the line
             if (doneTurn) {
                 driveTrain.tankDrive(0.0, 0.0);
-            }
-            else { // if the angle is shallow then both triggers can be on the line before the robot aligns
+            } else { // if the angle is shallow then both triggers can be on the line before the robot aligns
                 driveTrain.driveStraight(0.6);
             }
         }
