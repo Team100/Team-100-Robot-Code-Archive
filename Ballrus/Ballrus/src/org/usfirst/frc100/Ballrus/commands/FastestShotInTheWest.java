@@ -18,7 +18,8 @@ public class FastestShotInTheWest extends Command {
     private double speed;
 
     public FastestShotInTheWest() {
-        requires(Ballrus.driveTrain);
+      //  requires(Ballrus.driveTrain); //DO NOT USE!!!
+        requires (Ballrus.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -41,13 +42,13 @@ public class FastestShotInTheWest extends Command {
          */
 
         if (state == 0) {
-            Ballrus.driveTrain.setDirection();
+//            Ballrus.driveTrain.setDirection();
             state = 1;
 //            System.out.println("STATE now equals 1");
         }
 
         if (state == 1 && distanceReached == false) {
-            Ballrus.driveTrain.driveStraight(Ballrus.oi.getDriverRight().getY());
+//            Ballrus.driveTrain.driveStraight(Ballrus.oi.getDriverRight().getY());
 
             speed = Ballrus.driveTrain.getEncoderSpeed();
 //            System.out.println("........speed " + speed);
@@ -64,7 +65,7 @@ public class FastestShotInTheWest extends Command {
 
         if (distanceReached == true) {
             new TriggerShootReload().start();
-            Ballrus.driveTrain.stop();
+            //Ballrus.driveTrain.stop();
             //Robot.driveTrain.driveStraight(Robot.oi.getDriverRight().getY());
             //System.out.println("SHOT...DEAD");
         }
