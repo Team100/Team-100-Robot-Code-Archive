@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new Drive());
     }
 
-    // Adds kP to dashboard during tuning mode
+    // Adds preferences to dashboard during tuning mode
     public DriveTrain() {
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);

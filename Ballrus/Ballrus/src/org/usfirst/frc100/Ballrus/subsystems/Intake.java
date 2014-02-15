@@ -25,23 +25,40 @@ public class Intake extends Subsystem {
         this.setDefaultCommand(new StopIntake());
     }
     
+    // Adds intake preferences to dashboard during tuning mode
+    public Intake(){
+        if(Preferences.intakeTuningMode){
+            SmartDashboard.putNumber("IntakeInSpeed", Preferences.intakeInSpeed);
+            SmartDashboard.putNumber("IntakeOutSpeed", Preferences.intakeOutSpeed);
+        }
+    }
+    
     // Runs rollers inwards unless ball is detected inside
     public void runIn(){
         if(ballDetector.get()){
-            topMotor.set(Preferences.intakeInSpeed);
-            sideMotor.set(Preferences.intakeInSpeed);
-        }
-        else{
+            if(Preferences.intakeTuningMode){
+                topMotor.set(SmartDashboard.getNumber("IntakeInSpeed"));
+                sideMotor.set(SmartDashboard.getNumber("IntakeInSpeed"));
+            } else {
+                topMotor.set(Preferences.intakeInSpeed);
+                sideMotor.set(Preferences.intakeInSpeed);
+            }
+        } else {
             topMotor.set(0);
             sideMotor.set(0);
         }
     }
     
     // Runs rollers outwards
-    public void runOut(){
+    public void runOut() {
         topPiston.set(false);
-        topMotor.set(-Preferences.intakeOutSpeed);
-        sideMotor.set(-Preferences.intakeOutSpeed);
+        if (Preferences.intakeTuningMode) {
+            topMotor.set(-SmartDashboard.getNumber("IntakeOutSpeed"));
+            sideMotor.set(-SmartDashboard.getNumber("IntakeOutSpeed"));
+        } else {
+            topMotor.set(-Preferences.intakeOutSpeed);
+            sideMotor.set(-Preferences.intakeOutSpeed);
+        }
     }
     
     // Stops rollers
@@ -68,6 +85,11 @@ public class Intake extends Subsystem {
         else{
             bottomPiston.set(false);
         }
+    }
+    
+    // Returns whether the upper roller is deployed. true if up, false if not up
+    public boolean getTopPiston() {
+        return topPiston.get();
     }
     
     // Returns whether the lower roller is deployed
