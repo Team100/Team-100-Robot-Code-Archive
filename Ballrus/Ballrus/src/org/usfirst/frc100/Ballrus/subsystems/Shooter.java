@@ -1,11 +1,11 @@
 //ready, except for LED light strip
 package org.usfirst.frc100.Ballrus.subsystems;
 
-import org.usfirst.frc100.Ballrus.RobotMap;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Preferences;
+import org.usfirst.frc100.Ballrus.RobotMap;
 
 /**
  * Controls the shooter pull-back and trigger.
@@ -42,7 +42,7 @@ public class Shooter extends Subsystem {
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        if(getPosition()<=0||forwardLimit.get()){
+        if(getPosition()<=0 || forwardLimit.get()){
             motor.set(0);
             return true;
         }

@@ -53,16 +53,7 @@ public class Preferences {
     
     
     
-    // Shooter 
-    
-    
-    
-    
-    
-    
-    
-    
-    ning
+    // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
     public static double shooterPotZeroPosition = -940.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
@@ -114,7 +105,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -488.0; // inches + offset = position
+        shooterPotZeroPosition = -381.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;

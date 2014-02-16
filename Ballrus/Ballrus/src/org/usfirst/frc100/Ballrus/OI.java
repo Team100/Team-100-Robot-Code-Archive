@@ -28,6 +28,7 @@ public class OI {
         public JoystickButton tiltToShootHighButton;
         public JoystickButton manualShootButton;
         public JoystickButton shootButton;
+        public JoystickButton releaseShooterButton;
         public JoystickButton armButton;
         public JoystickButton tiltToStowButton;
         public JoystickButton toggleManualControlButton;
@@ -59,6 +60,8 @@ public class OI {
             manualShootButton = new JoystickButton(manipulator, 5); // accessed by command
             shootButton = new JoystickButton(manipulator, 6);
             shootButton.whenPressed(new TriggerShootReload());
+            releaseShooterButton = new JoystickButton(manipulator, 7);
+            releaseShooterButton.whenPressed(new ReleaseShooter());
             armButton = new JoystickButton(manipulator, 8);
             armButton.whileHeld(new ArmShooter());
             tiltToStowButton = new JoystickButton(manipulator, 9);
