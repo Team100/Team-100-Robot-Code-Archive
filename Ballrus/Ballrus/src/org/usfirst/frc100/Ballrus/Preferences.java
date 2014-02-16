@@ -8,7 +8,7 @@ public class Preferences {
 
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
-    public static boolean displayIO = false;
+    public static boolean displayIO = true;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -22,7 +22,7 @@ public class Preferences {
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     public static double driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
-    public static double driveJoystickDeadband = 0.1; //the absolute value below which the motor cannot move the robot
+    public static double driveJoystickDeadband = 0.15; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0; 
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
@@ -45,13 +45,13 @@ public class Preferences {
     public static double shootLowAngle = 126.0; // button 1
     public static double shootTrussAngle = 126.0; // button 3
     public static double intakeAngle = 70.0; // button 2
-    public static double stowedAngle = 180.0;
-    public static double shootQuickAngle = 0.0;
+    public static double stowedAngle = 180.0; // button 9
+    public static double shootQuickAngle = 0.0; // used by quickshoot
     
     // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = 1.0; // pot / ratio = inches
-    public static double shooterPotZeroPosition = 0.0; // inches + offset = position, offset = "zero" position
+    public static double shooterPotZeroPosition = 0.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
 //    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
     public static double shooterDistanceBuffer = 0.0; // inches shooter can be off by
     public static double shooterPullBackSpeed = 0.0;
@@ -84,13 +84,13 @@ public class Preferences {
         driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
         driveStraight_kP = 0.005; // error * kP = motor speed
         autoTurn_kP = 0.001; // error * kP = motor speed
-        autoTurnLowGear_kP = 0.0; // error * kP = motor speed
-        driveStraightLowGear_kP = 0.0; // error * kP = motor speed
+        autoTurnLowGear_kP = 0.0005; // error * kP = motor speed
+        driveStraightLowGear_kP = 0.003; // error * kP = motor speed
         driveDistBuffer = 2.0; // inches robot can be off by
         driveAngleBuffer = 2.0; // degrees robot can be off by
         autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
         driveMotorMinValue = 0.45; //the absolute value below which the motor cannot move the robot
-        driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
+        driveLowGearMotorMinValue = 0.4; //the absolute value below which the motor cannot move the robot
         
         // Tilter PID
         tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
@@ -100,7 +100,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -520.0; // inches + offset = position
+        shooterPotZeroPosition = -447.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
