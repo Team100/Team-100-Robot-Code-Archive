@@ -8,7 +8,7 @@ public class Preferences {
 
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
-    public static boolean displayIO = false;
+    public static boolean displayIO = true;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -42,13 +42,25 @@ public class Preferences {
     public static double tilter_kP = 0.0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 137.0; // button 4
-    public static double shootLowAngle = 126.0; // button 1
-    public static double shootTrussAngle = 126.0; // button 3
+    public static double shootLowAngle = 125.5; // button 1
+    public static double shootTrussAngle = 155.0; // button 3
     public static double intakeAngle = 70.0; // button 2
     public static double stowedAngle = 180.0;
     public static double shootQuickAngle = 0.0;
     
-    // Shooter tuning
+    
+    
+    
+    // Shooter 
+    
+    
+    
+    
+    
+    
+    
+    
+    ning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = 1.0; // pot / ratio = inches
     public static double shooterPotZeroPosition = 0.0; // inches + offset = position, offset = "zero" position
@@ -59,7 +71,7 @@ public class Preferences {
     // Shooter positions (in inches)
     public static double shootHighPosition = 220.0;
     public static double shootLowPosition = 220.0;
-    public static double shootTrussPosition = 220.0;
+    public static double shootTrussPosition = 100.0;
     public static double intakePosition = 220.0;
     public static double stowedPosition = 220.0;
     public static double shootQuickPosition = 220.0;
@@ -100,7 +112,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -520.0; // inches + offset = position
+        shooterPotZeroPosition = -488.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
