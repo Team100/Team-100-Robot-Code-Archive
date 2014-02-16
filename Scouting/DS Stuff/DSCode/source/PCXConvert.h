@@ -1,0 +1,1 @@
+int Team100loadPCX(const unsigned char* pcx, u32 pcxSize, sImage* image);
