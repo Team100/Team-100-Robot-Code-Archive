@@ -8,12 +8,13 @@
 package edu.wpi.first.wpilibj.templates;
 
 
+import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.visa.VisaException;
-import java.util.Stack;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,7 +30,7 @@ public class Serial2Arduino extends IterativeRobot {
     byte[][] out = {{73}, {84}};
     Victor motr = new Victor(4);
     Timer clock = new Timer();
-    Stack queue = new Stack();
+    AnalogChannel IRrange = new AnalogChannel(4);
     
     /**
      * This function is run when the robot is first started up and should be
@@ -51,7 +52,10 @@ public class Serial2Arduino extends IterativeRobot {
     public void disabledPeriodic() {
         if(serial != null) {
             try {
-                System.out.println("DisabledIn:" + serial.readString());
+                if(serial.getBytesReceived() != 0) {
+                    System.out.print("BytesIn:" + serial.getBytesReceived() + " ");
+                    System.out.println("DisabledIn:" + serial.readString());
+                }
             }
             catch (VisaException ex) {
                 ex.printStackTrace();
@@ -75,13 +79,8 @@ public class Serial2Arduino extends IterativeRobot {
     public void teleopPeriodic() {
         if(serial != null) {
             try {
-                System.out.print("BytesReceived:" + serial.getBytesReceived() + " ");
-            }
-            catch (VisaException ex) {
-                ex.printStackTrace();
-            }
-            try {
                 if(serial.getBytesReceived() != 0) {
+                    System.out.print("BytesReceived:" + serial.getBytesReceived() + " ");
                     System.out.print("InByte:" + serial.readString() + " ");
                     if(clock.get()%2.0 < 1.0) {
                         System.out.print("Data:" + out[0][0] + " ");
@@ -91,13 +90,15 @@ public class Serial2Arduino extends IterativeRobot {
                         System.out.print("Data:" + out[1][0] + " ");
                         System.out.print("#ofBytes:" + serial.write(out[1], 1) + " ");
                     }
+                    System.out.println("Clock:" + clock.get());
                 }
             }
             catch (VisaException ex) {
                 ex.printStackTrace();
             }
         }
-        System.out.println("Clock:" + clock.get());
+
+        SmartDashboard.putNumber("IRrange Inches", (1/((IRrange.getVoltage()*0.0073)-0.0082))*2.54);
     }
     
     /**
