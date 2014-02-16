@@ -11,7 +11,7 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 public class TriggerShootReload extends Command {
 
     private boolean isFinished;
-    private boolean hasShot;
+    private boolean pistonRaised;
 
     public TriggerShootReload() {
         requires(Ballrus.shooter);
@@ -21,37 +21,24 @@ public class TriggerShootReload extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Ballrus.intake.setTopPiston(true);
         Ballrus.tilter.stop();
         Ballrus.shooter.stop();
-        //if(Ballrus.intake.getTopPiston())
-       // Ballrus.shooter.setTrigger(true);
+        pistonRaised = Ballrus.intake.getTopPiston();
+        Ballrus.intake.setTopPiston(true);
         isFinished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(Ballrus.intake.getTopPiston() && !hasShot)
-        {
+        if(pistonRaised||timeSinceInitialized()>.5) {
             Ballrus.shooter.setTrigger(true);
-            hasShot = true;
-        }
-        if(hasShot)
             isFinished = Ballrus.shooter.reload();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-//        if(isFinished)
-//        {
-//            return true;
-//        }
-//        else if(timeSinceInitialized() > 10)
-//        {
-//            return true;
-//        }
-//        return isFinished; 
-        return isFinished || (timeSinceInitialized() > 10.0);
+        return isFinished || timeSinceInitialized() > 10.0;
     }
 
     // Called once after isFinished returns true
