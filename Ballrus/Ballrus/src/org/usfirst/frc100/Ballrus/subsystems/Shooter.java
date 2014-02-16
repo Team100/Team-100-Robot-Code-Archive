@@ -88,7 +88,7 @@ public class Shooter extends Subsystem {
     public void updateDashboard() {
         SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){
-            SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
+            SmartDashboard.putNumber("ShooterRawPotValue", potentiometer.getValue());
             SmartDashboard.putBoolean("ShooterForwardHallEffect", forwardLimit.get());
             SmartDashboard.putBoolean("ShooterBackHallEffect", backLimit.get());
             SmartDashboard.putNumber("ShooterError", positionError);
