@@ -241,6 +241,23 @@ public class DriveTrain extends Subsystem {
         }
     }
     
+//    //UNTESTED
+//      // Returns rangefinder distance in inches. Spikes and out-of-range distances return -1
+//    public double getRangeInchesIR() {
+//        if(IRrange.getVoltage() <= 0.1)
+//        {
+//            return -1;
+//        }
+//        double currentValue = (1/((0.0073*IRrange.getVoltage())-0.0082))/2.54; // Sharp IR rangefinder (the huge one rated to 550cm)
+//        /*if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
+//            lastRangeFinderValue = currentValue;
+//            return (currentValue);
+//        } else {
+//            return -1;
+//        }*/
+//        return currentValue;
+//    }
+    
     // Resets both encoders to zero
     public void resetEncoders() {
         leftEncoder.reset();

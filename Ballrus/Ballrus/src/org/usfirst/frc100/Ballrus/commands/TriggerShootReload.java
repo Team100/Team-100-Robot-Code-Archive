@@ -30,7 +30,7 @@ public class TriggerShootReload extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(pistonRaised||timeSinceInitialized()>.5) {
+        if(pistonRaised || timeSinceInitialized() > 0.5) {
             Ballrus.shooter.setTrigger(true);
             isFinished = Ballrus.shooter.reload();
         }

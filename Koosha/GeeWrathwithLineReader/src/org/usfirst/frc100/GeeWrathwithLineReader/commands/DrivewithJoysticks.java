@@ -47,9 +47,9 @@ public class  DrivewithJoysticks extends Command {
         if(!(oi.getDualshock().getZ() < -0.8))
         {
             if(!driveTrain.getReverse())
-                driveTrain.tankDrive(-0.75*oi.getDualshock().getY(), -0.75*oi.getDualshock().getRawAxis(5));
+                driveTrain.tankDrive(oi.getDualshock().getY(), oi.getDualshock().getRawAxis(5));
             else
-                driveTrain.tankDrive(0.75*oi.getDualshock().getRawAxis(5), 0.75*oi.getDualshock().getY());
+                driveTrain.tankDrive(oi.getDualshock().getRawAxis(5), oi.getDualshock().getY());
         }
         else
         {
