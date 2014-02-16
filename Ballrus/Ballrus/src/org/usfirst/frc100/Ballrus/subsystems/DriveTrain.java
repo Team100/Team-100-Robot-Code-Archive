@@ -82,10 +82,11 @@ public class DriveTrain extends Subsystem {
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
         double minVal;
-        if(shifter.get()){//low gear
+        if(shifter.get()) { //low gear
             if (Preferences.driveTrainTuningMode) {
                 minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
-            } else {
+            }
+            else {
                 minVal = Preferences.driveLowGearMotorMinValue;
             }
         }
@@ -239,7 +240,7 @@ public class DriveTrain extends Subsystem {
             return -1;
         }
     }
-
+    
     // Resets both encoders to zero
     public void resetEncoders() {
         leftEncoder.reset();
@@ -304,6 +305,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("DriveAngleValue", getGyroDegrees());
         SmartDashboard.putNumber("DriveRangeValue", getRangeInches());
         SmartDashboard.putNumber("DriveDistanceValue", getEncoderInches());
+        SmartDashboard.putBoolean("DriveShifterIsLow", shifter.get());
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveDistOutput", distOutput);
             SmartDashboard.putNumber("DriveAngleOutput", angleOutput);
