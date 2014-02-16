@@ -82,10 +82,11 @@ public class DriveTrain extends Subsystem {
     // Sets the robot drives to arcadedrive
     public void arcadeDrive(double speed, double turn) {
         double minVal;
-        if(shifter.get()){//low gear
+        if(shifter.get()) { //low gear
             if (Preferences.driveTrainTuningMode) {
                 minVal = SmartDashboard.getNumber("DriveLowGearMotorMinValue");
-            } else {
+            }
+            else {
                 minVal = Preferences.driveLowGearMotorMinValue;
             }
         }
@@ -239,7 +240,24 @@ public class DriveTrain extends Subsystem {
             return -1;
         }
     }
-
+    
+//    //UNTESTED
+//      // Returns rangefinder distance in inches. Spikes and out-of-range distances return -1
+//    public double getRangeInchesIR() {
+//        if(IRrange.getVoltage() <= 0.1)
+//        {
+//            return -1;
+//        }
+//        double currentValue = (1/((0.0073*IRrange.getVoltage())-0.0082))/2.54; // Sharp IR rangefinder (the huge one rated to 550cm)
+//        /*if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
+//            lastRangeFinderValue = currentValue;
+//            return (currentValue);
+//        } else {
+//            return -1;
+//        }*/
+//        return currentValue;
+//    }
+    
     // Resets both encoders to zero
     public void resetEncoders() {
         leftEncoder.reset();
@@ -304,6 +322,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("DriveAngleValue", getGyroDegrees());
         SmartDashboard.putNumber("DriveRangeValue", getRangeInches());
         SmartDashboard.putNumber("DriveDistanceValue", getEncoderInches());
+        SmartDashboard.putBoolean("DriveShifterIsLow", shifter.get());
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveDistOutput", distOutput);
             SmartDashboard.putNumber("DriveAngleOutput", angleOutput);

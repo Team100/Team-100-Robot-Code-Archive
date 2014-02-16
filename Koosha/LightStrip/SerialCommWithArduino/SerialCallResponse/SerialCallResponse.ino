@@ -39,12 +39,11 @@ void setup()
 
 void loop()
 {
-  // if we get a valid byte, read analog ins:
   if (Serial.available() > 0) {
     // get incoming byte:
     inByte = Serial.read();
-    Serial.write(inByte++);
-    delay(125);
+    Serial.print(inByte++);
+    delay(10);
   }
   else {
     Serial.print("bebebebBEBEbebebeb");
@@ -53,7 +52,9 @@ void loop()
 
 void establishContact() {
   int count = 0;
-  while (Serial.available() <= 0) {
+  Serial.println("TRYING TO ESTABLISH CONTACT");
+  //while (Serial.available() <= 0) {
+   while(1) {
     Serial.println(count%10);   // send a capital A
     count++;
     delay(300);

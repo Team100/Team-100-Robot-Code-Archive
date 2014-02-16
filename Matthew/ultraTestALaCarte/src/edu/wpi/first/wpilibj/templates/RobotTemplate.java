@@ -28,7 +28,7 @@ public class RobotTemplate extends IterativeRobot {
     private AnalogChannel ultra1;
     
     public void robotInit() {
-         ultra1 = new AnalogChannel(4);
+         ultra1 = new AnalogChannel(5);
     }
 
     /**
@@ -43,8 +43,11 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void teleopPeriodic() {
         
-        //double range = ultra1.getVoltage()/5*512/2.54;
-        double range = ultra1.getVoltage();
+        //double range = ultra1.getVoltage()/5*512/2.54; //if MB1023 ultrasonic sensor
+        double range = (ultra1.getVoltage()*1024/12.7); //if MB1220 ultrasonic sensor 
+        double RAWrange = ultra1.getVoltage();
+        System.out.println("RAW-Voltage: " + RAWrange);
+        SmartDashboard.putNumber("RAW-Voltage: ", RAWrange);
         System.out.println("Inches: " + range);
         SmartDashboard.putNumber("Inches: ", range);
         
