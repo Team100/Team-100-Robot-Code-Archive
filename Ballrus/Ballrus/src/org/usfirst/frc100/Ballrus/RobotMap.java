@@ -15,8 +15,10 @@ import java.util.Vector;
  */
 public class RobotMap {
 
+    // Initial declarations of sensors/actuators
+    //<editor-fold>
     public static Vector motors = new Vector();
-
+    
     public static RobotDrive driveTrainMainDrive;
     public static SpeedController driveTrainLeftMotor;
     public static SpeedController driveTrainLeftMotor2;//for other robots
@@ -33,7 +35,7 @@ public class RobotMap {
     public static AnalogTrigger driveTrainRightLineTrigger;
     public static Counter driveTrainLeftCounter;
     public static Counter driveTrainRightCounter;
-
+    
     public static SpeedController shooterMotor;
     public static DigitalInput shooterForwardLimit;
     public static DigitalInput shooterBackLimit;
@@ -41,24 +43,24 @@ public class RobotMap {
     public static Solenoid shooterRelease;
     public static Encoder shooterEncoder;
     public static Relay shooterReadyIndicator;
-
+    
     public static SpeedController intakeTopMotor;
     public static SpeedController intakeSideMotor;
     public static Solenoid intakeTopPiston;
     public static Solenoid intakeSparePiston;
     public static DigitalInput intakeBallDetector;
-
+    
     public static SpeedController tilterMotor;
     public static DigitalInput tilterTopLimit;
     public static DigitalInput tilterBottomLimit;
     public static AnalogChannel tilterPotentiometer;
-
+    
     public static Compressor compressor;
     public static Relay cameraLights;
-
+    //</editor-fold>
 
     // Initializes actuators and sensors, adds them to livewindow
-   public static void init() {
+    public static void init() {
        if (Preferences.practiceBot) {
            Preferences.setPracticeBotPrefs();
        }

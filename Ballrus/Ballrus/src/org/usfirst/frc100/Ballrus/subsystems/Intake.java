@@ -97,6 +97,7 @@ public class Intake extends Subsystem {
         return bottomPiston.get();
     }
 
+    // Puts values on the smart dashboard
     public void updateDashboard() {
         SmartDashboard.putBoolean("IntakeBallDetector", ballDetector.get());
     }

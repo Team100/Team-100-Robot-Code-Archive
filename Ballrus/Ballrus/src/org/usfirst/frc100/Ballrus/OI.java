@@ -71,6 +71,9 @@ public class OI {
             SmartDashboard.putData("AutoDriveStraight", new AutoDriveTest(true));
             SmartDashboard.putData("AutoTurn", new AutoDriveTest(false));
         }
+        if (Preferences.tilterTuningMode) {
+            SmartDashboard.putData("TiltToTestAngle", new TiltToTestAngle());
+        }
         SmartDashboard.putData("ResetGyro", new ResetGyro());
         SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
     }

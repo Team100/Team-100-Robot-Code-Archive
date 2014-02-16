@@ -42,7 +42,7 @@ public class Shooter extends Subsystem {
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        if(getPosition()<=0){
+        if(getPosition()<=0||forwardLimit.get()){
             motor.set(0);
             return true;
         }
@@ -85,6 +85,7 @@ public class Shooter extends Subsystem {
         }
     }
 
+    // Puts values on dashboard
     public void updateDashboard() {
         SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){

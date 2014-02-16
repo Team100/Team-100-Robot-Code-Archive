@@ -1,7 +1,6 @@
 //ready
 package org.usfirst.frc100.Ballrus.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
