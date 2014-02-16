@@ -1,0 +1,33 @@
+Default robotInit() method running, consider providing your own
+[cRIO] Default disabled() method running, consider providing your own
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@9 entered connection state: GOT_CONNECTION_FROM_CLIENT
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@9 entered connection state: CONNECTED_TO_CLIENT
+[cRIO] Entered operatorControl
+[cRIO] java.io.IOException: ConnectException: 60
+[cRIO]     in virtual method #12 of com.sun.squawk.platform.posix.GCFSocketsImpl(bci=233)
+[cRIO]     at com.sun.squawk.io.j2me.socket.Protocol.open(bci=104)
+[cRIO]     in static method #4 of javax.microedition.io.Connector(bci=125)
+[cRIO]     at javax.microedition.io.Connector.open(231)
+[cRIO]     at javax.microedition.io.Connector.open(193)
+[cRIO]     at javax.microedition.io.Connector.open(177)
+[cRIO]     at edu.wpi.first.wpilibj.templates.ArduinoConnection.connect(ArduinoConnection.java:154)
+[cRIO]     at edu.wpi.first.wpilibj.templates.ArduinoConnection.<init>(ArduinoConnection.java:144)
+[cRIO]     at edu.wpi.first.wpilibj.templates.DummyRobot.operatorControl(DummyRobot.java:34)
+[cRIO]     at edu.wpi.first.wpilibj.SimpleRobot.startCompetition(SimpleRobot.java:145)
+[cRIO]     at edu.wpi.first.wpilibj.RobotBase.startApp(RobotBase.java:235)
+[cRIO]     in virtual method #10 of javax.microedition.midlet.MIDlet(bci=17)
+[cRIO]     at javax.microedition.midlet.MIDletTunnelImpl.callStartApp(64)
+[cRIO]     at com.sun.squawk.imp.MIDletMainWrapper.main(110)
+[cRIO]     in virtual method #95 of com.sun.squawk.Klass(bci=25)
+[cRIO]     at com.sun.squawk.Isolate.run(1506)
+[cRIO]     at java.lang.Thread.run(231)
+[cRIO]     in virtual method #47 of com.sun.squawk.VMThread(bci=42)
+[cRIO]     in static method #3 of com.sun.squawk.VM(bci=6)
+[cRIO] ConnectException: 60
+[cRIO] Started operatorControl loop
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@c entered connection state: GOT_CONNECTION_FROM_CLIENT
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@c entered connection state: CONNECTED_TO_CLIENT
+
+
+
+
