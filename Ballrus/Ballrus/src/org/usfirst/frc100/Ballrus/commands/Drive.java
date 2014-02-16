@@ -24,13 +24,13 @@ public class  Drive extends Command {
         double rightY=Ballrus.oi.getDriverRight().getY();
         double rightX=Ballrus.oi.getDriverRight().getX();
         if(Math.abs(leftY)<Preferences.driveJoystickDeadband){
-            leftY = 0;
+            leftY = 0.0;
         }
         if(Math.abs(rightY)<Preferences.driveJoystickDeadband){
-            rightY = 0;
+            rightY = 0.0;
         }
         if(Math.abs(rightX)<Preferences.driveJoystickDeadband){
-            rightX = 0;
+            rightX = 0.0;
         }
         if(Preferences.tankDriveMode){
             Ballrus.driveTrain.tankDrive(leftY, rightY);

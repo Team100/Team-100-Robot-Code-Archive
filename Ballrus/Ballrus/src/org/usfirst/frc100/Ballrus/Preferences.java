@@ -8,7 +8,7 @@ public class Preferences {
 
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
-    public static boolean displayIO = false;
+    public static boolean displayIO = true;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -22,7 +22,7 @@ public class Preferences {
     public static double autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     public static double driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
-    public static double driveJoystickDeadband = 0.1; //the absolute value below which the motor cannot move the robot
+    public static double driveJoystickDeadband = 0.15; //the absolute value below which the motor cannot move the robot
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0; 
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
