@@ -317,7 +317,7 @@ public class DriveTrain extends Subsystem {
         shifter.set(false);
     }
 
-    // Puts values on dashboard if in tuning mode
+    // Puts values on dashboard
     public void updateDashboard() {
         SmartDashboard.putNumber("DriveAngleValue", getGyroDegrees());
         SmartDashboard.putNumber("DriveRangeValue", getRangeInches());

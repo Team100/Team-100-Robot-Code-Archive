@@ -28,6 +28,7 @@ public class Tilter extends Subsystem {
     public Tilter(){
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("Tilter_kP", Preferences.tilter_kP);
+            SmartDashboard.putNumber("TilterTestAngle", Preferences.shootHighAngle);
         }
         angleError = 0.0;
         inPosition = true;
