@@ -6,6 +6,8 @@ package org.usfirst.frc100.Ballrus;
  */
 public class Preferences {
 
+    // Initial preference declarations for competition robot
+    //<editor-fold>
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
     public static boolean displayIO = true;
@@ -24,7 +26,7 @@ public class Preferences {
     public static double driveLowGearMotorMinValue = 0.0; //the absolute value below which the motor cannot move the robot
     public static double driveJoystickDeadband = 0.15; //the absolute value below which the motor cannot move the robot
     // Distance sensing
-    public static double ultraInitialStopDistance = 112.0; 
+    public static double ultraInitialStopDistance = 112.0;
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20.0;
     public static int inPositionCounter = 20;
@@ -62,19 +64,18 @@ public class Preferences {
     
     ning
     public static boolean shooterTuningMode = true;
-    public static double shooterPotToInchRatio = 1.0; // pot / ratio = inches
-    public static double shooterPotZeroPosition = 0.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
-//    public static double shooterEncoderToInchRatio = 1; // encoder / ratio = inches
+    public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
+    public static double shooterPotZeroPosition = -940.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
     public static double shooterDistanceBuffer = 0.0; // inches shooter can be off by
     public static double shooterPullBackSpeed = 0.0;
     public static double shooterPullForwardSpeed = 0.0;
     // Shooter positions (in inches)
-    public static double shootHighPosition = 220.0;
-    public static double shootLowPosition = 220.0;
-    public static double shootTrussPosition = 100.0;
-    public static double intakePosition = 220.0;
-    public static double stowedPosition = 220.0;
-    public static double shootQuickPosition = 220.0;
+    public static double shootHighPosition = 190.0;
+    public static double shootLowPosition = 190.0;
+    public static double shootTrussPosition = 190.0;
+    public static double intakePosition = 190.0;
+    public static double stowedPosition = 190.0;
+    public static double shootQuickPosition = 190.0;
     
     // Intake
     public static boolean intakeTuningMode = true;
@@ -87,7 +88,8 @@ public class Preferences {
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
-    public static boolean practiceBot = true;
+    public static boolean practiceBot = false;
+    //</editor-fold>
     
     // Changes preferences to those for the practice bot
     public static void setPracticeBotPrefs(){
@@ -116,6 +118,9 @@ public class Preferences {
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
+        shootHighPosition = 220.0;
+        shootLowPosition = 220.0;
+        intakePosition = 220.0;
     }
     
     // Changes preferences to those for hammerhead
