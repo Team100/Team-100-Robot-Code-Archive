@@ -53,7 +53,8 @@ void loop()
 void establishContact() {
   int count = 0;
   Serial.println("TRYING TO ESTABLISH CONTACT");
-  while (Serial.available() <= 0) {
+  //while (Serial.available() <= 0) {
+   while(1) {
     Serial.println(count%10);   // send a capital A
     count++;
     delay(300);
