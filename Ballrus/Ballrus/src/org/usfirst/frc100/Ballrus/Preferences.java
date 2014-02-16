@@ -69,6 +69,9 @@ public class Preferences {
     public static double intakeInSpeed = 0.75;
     public static double intakeOutSpeed = 1.0; // absolute value
     
+    // Camera
+    public static double cameraAngle = 30; // degrees to turn by for camera aim
+    
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
@@ -97,7 +100,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -246.0; // inches + offset = position
+        shooterPotZeroPosition = -520.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
