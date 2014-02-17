@@ -10,7 +10,7 @@ public class Preferences {
     //<editor-fold>
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
-    public static boolean displayIO = false;
+    public static boolean displayIO = true;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -77,7 +77,7 @@ public class Preferences {
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
-    public static boolean practiceBot = false;
+    public static boolean practiceBot = true;
     //</editor-fold>
     
     // Changes preferences to those for the practice bot
@@ -109,7 +109,7 @@ public class Preferences {
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches1
-        shooterPotZeroPosition = -516.0; // inches + offset = position
+        shooterPotZeroPosition = -600.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;

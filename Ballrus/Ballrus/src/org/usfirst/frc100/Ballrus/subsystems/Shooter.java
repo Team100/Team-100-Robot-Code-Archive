@@ -52,6 +52,17 @@ public class Shooter extends Subsystem {
         }
     }
     
+     public boolean releaseTension(){
+        if(getPosition()<=50 || forwardLimit.get()){
+            motor.set(0);
+            return true;
+        }
+        else{
+            motor.set(-Preferences.shooterPullForwardSpeed);
+            return false;
+        }
+    }
+    
     // Returns the pullback distance
     public double getPosition(){
         return potentiometer.getValue()/Preferences.shooterPotToInchRatio-Preferences.shooterPotZeroPosition;

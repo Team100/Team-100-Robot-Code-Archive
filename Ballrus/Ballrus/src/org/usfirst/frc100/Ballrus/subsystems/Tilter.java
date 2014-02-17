@@ -38,7 +38,7 @@ public class Tilter extends Subsystem {
     public void setPosition(double angle){
         angleError = angle-getAngle();
         inPosition = false;
-        if((topLimit.get()&&angleError>0)||(bottomLimit.get()&&angleError<0)){
+        if((Preferences.practiceBot^topLimit.get()&&angleError>0)||(bottomLimit.get()&&angleError<0)){
             motor.set(0);
             return;
         }
@@ -72,7 +72,7 @@ public class Tilter extends Subsystem {
     
     // Directly controls motor speed
     public void manualControl(double speed){
-        if((topLimit.get()&&speed>0)||(bottomLimit.get()&&speed<0)){
+        if((Preferences.practiceBot^topLimit.get()&&speed>0)||(bottomLimit.get()&&speed<0)){
             motor.set(0);
         }
         else{
@@ -86,7 +86,7 @@ public class Tilter extends Subsystem {
             SmartDashboard.putNumber("TilterSensorValue", potentiometer.getValue());
             SmartDashboard.putNumber("TilterError", angleError);
             SmartDashboard.putNumber("TilterOutput", motor.get());
-            SmartDashboard.putBoolean("TilterTopLimit", topLimit.get());
+            SmartDashboard.putBoolean("TilterTopLimit", Preferences.practiceBot^topLimit.get());
             SmartDashboard.putBoolean("TilterBottomLimit", bottomLimit.get());
         }
     }
