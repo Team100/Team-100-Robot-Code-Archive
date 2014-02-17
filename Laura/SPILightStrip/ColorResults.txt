@@ -1,0 +1,219 @@
+ant -f C:\\Users\\Laura\\Documents\\NetBeansProjects\\SPILightStrip deploy run
+clean:
+Deleting directory C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build
+Created dir: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build
+Created dir: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\classes
+[crio-compile] ./src, C:/Users/Laura/sunspotfrcsdk\lib\wpilibj.jar;C:/Users/Laura/sunspotfrcsdk\lib\networktables-crio.jar;C:/Users/Laura/sunspotfrcsdk\lib\wpilibj.project\dist\lib\wpilibj.jar, C:/Users/Laura/sunspotfrcsdk\lib\squawk.jar -> ./build/classes
+Compiling 1 source file to C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\classes
+compile:
+preverify:
+Created dir: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\preverify
+Created dir: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\preverify.raw.util
+[crio-preverify] ./build/classes, , C:/Users/Laura/sunspotfrcsdk\lib\wpilibj.jar;C:/Users/Laura/sunspotfrcsdk\lib\networktables-crio.jar;C:/Users/Laura/sunspotfrcsdk\lib\wpilibj.project\dist\lib\wpilibj.jar, C:/Users/Laura/sunspotfrcsdk\lib\squawk.jar -> ./build/preverify
+Expanding: C:\Users\Laura\sunspotfrcsdk\lib\wpilibj.jar into C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\preverify
+Expanding: C:\Users\Laura\sunspotfrcsdk\lib\networktables-crio.jar into C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\preverify
+Expanding: C:\Users\Laura\sunspotfrcsdk\lib\wpilibj.project\dist\lib\wpilibj.jar into C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\preverify
+jar:
+[crio-jar] ./build/preverify, ./resources -> ./build/app.jar
+Building jar: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\app.jar
+suite:
+Created dir: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\suite
+[crio-suite] ./build/app.jar -> ./build/suite/image
+CompilerOracle: exclude com/sun/squawk/Method.getParameterTypes
+CompilerOracle: exclude com/sun/squawk/SymbolParser.getSignatureTypeAt
+CompilerOracle: exclude com/sun/squawk/SymbolParser.stripMethods
+[translating suite image [closed: false, parent: squawk] ...]
+### Excluding compile: com.sun.squawk.Method::getParameterTypes
+### Excluding compile: com.sun.squawk.SymbolParser::getSignatureTypeAt
+[Including resource: META-INF/MANIFEST.MF]
+[Including resource: META-INF/maven/edu.wpi.first.wpilib.networktables.java/NetworkTablesAzalea/pom.properties]
+[Including resource: META-INF/maven/edu.wpi.first.wpilib.networktables.java/NetworkTablesAzalea/pom.xml]
+Romizer processed 389 classes and generated 4 files.
+Expanding: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\app.jar into C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\suite
+Moving 1 file to C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\suite
+Moving 1 file to C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\suite
+Moving 1 file to C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\build\suite
+Deleting: C:\Users\Laura\Documents\NetBeansProjects\SPILightStrip\image.suite.api
+deploy:
+[crio-configure] Configuration files not included in this version of the sdk
+[crio-configure] Checking that crio is configured for Java
+Host OS: Windows 7 6.1, 6.1
+Host JVM: Java HotSpot(TM) Client VM 23.6-b04
+Target IP: 10.1.0.2
+Network interfaces on host:
+    Realtek RTL8168B/8111B Family PCI-E Gigabit Ethernet NIC (NDIS 6.20):  address: 10.1.0.15 netmask: 255.0.0.0 <--- on robot's subnet
+    Intel(R) Wireless WiFi Link 4965AGN:  address: 10.7.48.42 netmask: 255.255.255.254
+Connecting FTP @10.1.0.2
+[crio-deploy] ./build/suite/image.suite -> 10.1.0.2
+Sending local file image.suite
+run:
+[cRIO] [OTA Server] ********* REBOOTING cRIO *********
+[cRIO] 
+   Waiting for cRIO to reboot (1s)
+   Waiting for cRIO to reboot (2s)
+   Waiting for cRIO to reboot (3s)
+   Waiting for cRIO to reboot (4s)
+   Waiting for cRIO to reboot (5s)
+   Waiting for cRIO to reboot (6s)
+   Waiting for cRIO to reboot (7s)
+   Waiting for cRIO to reboot (8s)
+   Waiting for cRIO to reboot (9s)
+   Waiting for cRIO to reboot (10s)
+   Waiting for cRIO to reboot (11s)
+[cRIO] 
+[cRIO] -> * Loading debug.o: debug
+[cRIO] Debugging is up, target server mounted at /tsfs
+[cRIO] 
+[cRIO] 
+[cRIO]                 VxWorks
+[cRIO] 
+[cRIO] Copyright 1984-2006  Wind River Systems, Inc.
+[cRIO] 
+[cRIO]              CPU: MPC5200 -- Wind River Lite5200 BSP.
+[cRIO]     Runtime Name: VxWorks
+[cRIO]  Runtime Version: 6.3
+[cRIO]      BSP version: 2.0/10
+[cRIO]          Created: May 23 2013, 16:04:29
+[cRIO] ED&R Policy Mode: Deployed
+[cRIO]    WDB Comm Type: WDB_COMM_END
+[cRIO]              WDB: Ready.
+[cRIO] 
+[cRIO] * Loading nisysrpc.out: nisysrpc
+[cRIO] * Loading NiRioRpc.out: NiRioRpc
+[cRIO] * Loading nivissvc.out: nivissvc
+[cRIO] * Loading nivision.out: nivision
+[cRIO] task 0xe1bba8 (Service Locator Thread 4) deleted: errno=0 (0) status=0 (0)
+[cRIO] NI-RIO Server 13.0 started successfully.
+[cRIO] task 0xe0d7c8 (NiRioRpc) deleted: errno=0 (0) status=0 (0)
+[cRIO] * Loading visa32.out: visa32
+[cRIO] * Loading niserial.out: niserial
+[cRIO] * Loading NiFpgaLv.out: NiFpgaLv
+[cRIO] * Loading FRC_FPGA_ChipObject.out: FRC_FPGA_ChipObject
+[cRIO] * Loading FRC_NetworkCommunication.out: FRC_NetworkCommunication
+[cRIO] FRC_NetworkCommunication version: p4-1.4.0a18
+[cRIO] FPGA Hardware GUID: 0xA14C11BDE4BB64AEF6A86FC52A294CD9
+[cRIO] FPGA Software GUID: 0xA14C11BDE4BB64AEF6A86FC52A294CD9
+[cRIO] FPGA Hardware Version: 2012
+[cRIO] FPGA Software Version: 2012
+[cRIO] FPGA Hardware Revision: 1.6.4
+[cRIO] FPGA Software Revision: 1.6.4
+[cRIO] * Loading FRC_JavaVM.out: FRC_JavaVM
+[cRIO] 
+[cRIO] 
+[cRIO] [OTA Server] Version: 2012 FRC, Jan  5 2012, 17:20:48
+[cRIO] 
+[cRIO] 
+[cRIO] Welcome to LabVIEW Real-Time 13.0
+[cRIO] task 0xce8c28 (sysapi-rpc) deleted: errno=0 (0) status=0 (0)
+[cRIO] 
+[cRIO] [Squawk VM] Version: 2011 FRC, Nov  5 2011, 14:34:13
+[cRIO] FPGA Hardware GUID: 0xa14c11bde4bb64aef6a86fc52a294cd9
+[cRIO] FPGA Software GUID: 0xa14c11bde4bb64aef6a86fc52a294cd9
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@8 entered connection state: GOT_CONNECTION_FROM_CLIENT
+[cRIO] Default robotInit() method running, consider providing your own
+[cRIO] edu.wpi.first.wpilibj.networktables2.server.ServerConnectionAdapter@8 entered connection state: CONNECTED_TO_CLIENT
+[cRIO] Default disabled() method running, consider providing your own
+[cRIO] Sending Color: Black 0 Start: 112.390052 End: 112.414747Delta: 0.02469500000000835
+[cRIO] Sending Color: Red ff0000 Start: 114.42763 End: 114.453154Delta: 0.02552400000000432
+[cRIO] Sending Color: Black 0 Start: 116.461841 End: 116.489296Delta: 0.027454999999989127
+[cRIO] Sending Color: Yellow ffffff Start: 118.498764 End: 118.527259Delta: 0.0284950000000066
+[cRIO] Sending Color: Black 0 Start: 120.535273 End: 120.560216Delta: 0.024942999999993276
+[cRIO] Sending Color: Green ff00 Start: 122.568589 End: 122.594547Delta: 0.025958000000002812
+[cRIO] Sending Color: Black 0 Start: 124.604112 End: 124.632106Delta: 0.027993999999992525
+[cRIO] Sending Color: Blue ff Start: 126.640414 End: 126.669344Delta: 0.028929999999988354
+[cRIO] Sending Color: Black 0 Start: 128.677329 End: 128.706214Delta: 0.028885000000002492
+[cRIO] Sending Color: White ffffff Start: 130.714864 End: 130.740102Delta: 0.025238000000001648
+[cRIO] Sending Color: Black 0 Start: 132.749522 End: 132.774912Delta: 0.025389999999987367
+[cRIO] Sending Color: Red ff0000 Start: 134.784496 End: 134.812304Delta: 0.027808000000021593
+[cRIO] Sending Color: Black 0 Start: 136.820559 End: 136.849364Delta: 0.02880500000000552
+[cRIO] Sending Color: Yellow ffffff Start: 138.857903 End: 138.887202Delta: 0.029299000000008846
+[cRIO] Sending Color: Black 0 Start: 140.895766 End: 140.925697Delta: 0.029931000000004815
+[cRIO] Sending Color: Green ff00 Start: 142.933894 End: 142.959107Delta: 0.025212999999979502
+[cRIO] Sending Color: Black 0 Start: 144.96871 End: 144.993996Delta: 0.025286000000022568
+[cRIO] Sending Color: Blue ff Start: 147.00348 End: 147.03187Delta: 0.02839000000000169
+[cRIO] Sending Color: Black 0 Start: 149.039811 End: 149.068469Delta: 0.028658000000007178
+[cRIO] Sending Color: White ffffff Start: 151.077032 End: 151.10536Delta: 0.028327999999987696
+[cRIO] Sending Color: Black 0 Start: 153.113829 End: 153.138903Delta: 0.025073999999989383
+[cRIO] Sending Color: Red ff0000 Start: 155.147929 End: 155.173315Delta: 0.025385999999997466
+[cRIO] Sending Color: Black 0 Start: 157.182466 End: 157.210046Delta: 0.027580000000000382
+[cRIO] Sending Color: Yellow ffffff Start: 159.219372 End: 159.247963Delta: 0.028591000000005806
+[cRIO] Sending Color: Black 0 Start: 161.256809 End: 161.285572Delta: 0.028762999999997874
+[cRIO] Sending Color: Green ff00 Start: 163.294343 End: 163.319405Delta: 0.025061999999991258
+[cRIO] Sending Color: Black 0 Start: 165.329298 End: 165.354827Delta: 0.025529000000005908
+[cRIO] Sending Color: Blue ff Start: 167.366386 End: 167.391245Delta: 0.024858999999992193
+[cRIO] Sending Color: Black 0 Start: 169.40022 End: 169.428728Delta: 0.02850800000001641
+[cRIO] Sending Color: White ffffff Start: 171.437316 End: 171.466177Delta: 0.02886099999997782
+[cRIO] Sending Color: Black 0 Start: 173.475123 End: 173.504095Delta: 0.028972000000010212
+[cRIO] Sending Color: Red ff0000 Start: 175.512372 End: 175.537697Delta: 0.025325000000009368
+[cRIO] Sending Color: Black 0 Start: 177.547048 End: 177.572297Delta: 0.025249000000002297
+[cRIO] Sending Color: Yellow ffffff Start: 179.582282 End: 179.610115Delta: 0.027833000000015318
+[cRIO] Sending Color: Black 0 Start: 181.618112 End: 181.64655Delta: 0.02843799999999419
+[cRIO] Sending Color: Green ff00 Start: 183.65449 End: 183.679466Delta: 0.024975999999981013
+[cRIO] Sending Color: Black 0 Start: 185.689308 End: 185.71477Delta: 0.025461999999976115
+[cRIO] Sending Color: Blue ff Start: 187.725575 End: 187.750602Delta: 0.02502699999999436
+[cRIO] Sending Color: Black 0 Start: 189.75937 End: 189.787789Delta: 0.02841900000001374
+[cRIO] Sending Color: White ffffff Start: 191.796714 End: 191.825279Delta: 0.028564999999986185
+[cRIO] Sending Color: Black 0 Start: 193.833287 End: 193.858657Delta: 0.02536999999998102
+[cRIO] Sending Color: Red ff0000 Start: 195.867762 End: 195.893388Delta: 0.02562599999998838
+[cRIO] Sending Color: Black 0 Start: 197.904998 End: 197.929908Delta: 0.02491000000000554
+[cRIO] Sending Color: Yellow ffffff Start: 199.938799 End: 199.96756Delta: 0.028761000000002923
+[cRIO] Sending Color: Black 0 Start: 201.975548 End: 202.004015Delta: 0.028467000000006237
+[cRIO] Sending Color: Green ff00 Start: 204.012654 End: 204.037833Delta: 0.0251790000000085
+[cRIO] Sending Color: Black 0 Start: 206.046962 End: 206.072232Delta: 0.02527000000000612
+[cRIO] Sending Color: Blue ff Start: 208.081327 End: 208.108709Delta: 0.027382000000017115
+[cRIO] Sending Color: Black 0 Start: 210.117521 End: 210.14649Delta: 0.028968999999989364
+[cRIO] Sending Color: White ffffff Start: 212.15505 End: 212.183529Delta: 0.028479000000004362
+[cRIO] Sending Color: Black 0 Start: 214.191684 End: 214.216986Delta: 0.025301999999982172
+[cRIO] Sending Color: Red ff0000 Start: 216.225986 End: 216.250976Delta: 0.02499000000000251
+[cRIO] Sending Color: Black 0 Start: 218.258667 End: 218.286855Delta: 0.028188000000000102
+[cRIO] Sending Color: Yellow ffffff Start: 220.295097 End: 220.323849Delta: 0.028751999999997224
+[cRIO] Sending Color: Black 0 Start: 222.331856 End: 222.356951Delta: 0.025095000000021628
+[cRIO] Sending Color: Green ff00 Start: 224.366121 End: 224.39104Delta: 0.024919000000011238
+[cRIO] Sending Color: Black 0 Start: 226.398783 End: 226.427642Delta: 0.02885899999998287
+[cRIO] Sending Color: Blue ff Start: 228.43592 End: 228.464121Delta: 0.0282009999999957
+[cRIO] Sending Color: Black 0 Start: 230.471965 End: 230.497507Delta: 0.025542000000001508
+[cRIO] Sending Color: White ffffff Start: 232.507363 End: 232.532584Delta: 0.025221000000016147
+[cRIO] Sending Color: Black 0 Start: 234.544173 End: 234.569431Delta: 0.025258000000007996
+[cRIO] Sending Color: Red ff0000 Start: 236.578228 End: 236.606787Delta: 0.028559000000001333
+[cRIO] Sending Color: Black 0 Start: 238.615121 End: 238.643951Delta: 0.028829999999999245
+[cRIO] Sending Color: Yellow ffffff Start: 240.652843 End: 240.677991Delta: 0.025148000000001502
+[cRIO] Sending Color: Black 0 Start: 242.687126 End: 242.711933Delta: 0.02480699999998137
+[cRIO] Sending Color: Green ff00 Start: 244.721259 End: 244.748775Delta: 0.027515999999991436
+[cRIO] Sending Color: Black 0 Start: 246.75723 End: 246.786465Delta: 0.0292349999999999
+[cRIO] Sending Color: Blue ff Start: 248.795097 End: 248.82364Delta: 0.028543000000013308
+[cRIO] Sending Color: Black 0 Start: 250.83229 End: 250.85751Delta: 0.02521999999999025
+[cRIO] Sending Color: White ffffff Start: 252.866654 End: 252.891658Delta: 0.025003999999995585
+[cRIO] Sending Color: Black 0 Start: 254.901031 End: 254.92891Delta: 0.027879000000012866
+[cRIO] Sending Color: Red ff0000 Start: 256.937585 End: 256.966112Delta: 0.02852699999999686
+[cRIO] Sending Color: Black 0 Start: 258.974254 End: 259.002534Delta: 0.02828000000005204
+[cRIO] Sending Color: Yellow ffffff Start: 261.010699 End: 261.036125Delta: 0.025426000000038584
+[cRIO] Sending Color: Black 0 Start: 263.045518 End: 263.070763Delta: 0.025244999999983975
+[cRIO] Sending Color: Green ff00 Start: 265.080281 End: 265.107855Delta: 0.027573999999958687
+[cRIO] Sending Color: Black 0 Start: 267.116493 End: 267.14565Delta: 0.02915699999999788
+[cRIO] Sending Color: Blue ff Start: 269.154421 End: 269.182696Delta: 0.02827500000000782
+[cRIO] Sending Color: Black 0 Start: 271.190432 End: 271.215959Delta: 0.025527000000010958
+[cRIO] Sending Color: White ffffff Start: 273.225965 End: 273.251311Delta: 0.02534600000001319
+[cRIO] Sending Color: Black 0 Start: 275.260229 End: 275.288438Delta: 0.028209000000003925
+[cRIO] Sending Color: Red ff0000 Start: 277.29687 End: 277.325262Delta: 0.028391999999996642
+[cRIO] Sending Color: Black 0 Start: 279.333673 End: 279.362057Delta: 0.02838400000001684
+[cRIO] Sending Color: Yellow ffffff Start: 281.371017 End: 281.396499Delta: 0.025482000000010885
+[cRIO] Sending Color: Black 0 Start: 283.405591 End: 283.431776Delta: 0.026184999999998126
+[cRIO] Sending Color: Green ff00 Start: 285.442819 End: 285.468797Delta: 0.02597800000000916
+[cRIO] Sending Color: Black 0 Start: 287.476827 End: 287.505113Delta: 0.02828599999998005
+[cRIO] Sending Color: Blue ff Start: 289.513905 End: 289.542377Delta: 0.028471999999965192
+[cRIO] Sending Color: Black 0 Start: 291.550726 End: 291.57568Delta: 0.024953999999979715
+[cRIO] Sending Color: White ffffff Start: 293.583816 End: 293.608776Delta: 0.024959999999964566
+[cRIO] Sending Color: Black 0 Start: 295.618582 End: 295.646194Delta: 0.027611999999976433
+[cRIO] Sending Color: Red ff0000 Start: 297.655045 End: 297.683377Delta: 0.02833200000003444
+[cRIO] Sending Color: Black 0 Start: 299.691978 End: 299.717062Delta: 0.025083999999992557
+[cRIO] Default disabled() method running, consider providing your own
+[cRIO] Sending Color: Black 0 Start: 319.163273 End: 319.187878Delta: 0.024605000000008204
+[cRIO] Sending Color: Red ff0000 Start: 321.196404 End: 321.225445Delta: 0.029041000000006534
+[cRIO] Sending Color: Black 0 Start: 323.234487 End: 323.263359Delta: 0.02887199999997847
+[cRIO] Sending Color: Yellow ffffff Start: 325.271686 End: 325.296504Delta: 0.024818000000038865
+[cRIO] Sending Color: Black 0 Start: 327.305359 End: 327.330189Delta: 0.024830000000008567
+[cRIO] Sending Color: Green ff00 Start: 329.339473 End: 329.366931Delta: 0.027458000000024185
+[cRIO] Sending Color: Black 0 Start: 331.375404 End: 331.404428Delta: 0.02902399999999261
+[cRIO] Sending Color: Blue ff Start: 333.412349 End: 333.440867Delta: 0.028518000000019583
+[cRIO] Sending Color: Black 0 Start: 335.449531 End: 335.474463Delta: 0.02493200000003526
+[cRIO] Default disabled() method running, consider providing your own
