@@ -7,9 +7,8 @@ import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Moves arm to position for quickShoot and pulls back the shooter to the 
- * correct distance. Command is when pressed. Do not terminate until another 
- * tilt command takes over the tilter subsystem.
+ * Moves arm to a position from the dashboard and pulls back the shooter to the 
+ * shoot high distance. Command is when pressed.
  */
 public class TiltToTestAngle extends Command {
 

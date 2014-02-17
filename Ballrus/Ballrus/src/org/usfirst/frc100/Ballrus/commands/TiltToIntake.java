@@ -6,8 +6,8 @@ import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Lowers arm to intaking position. Command is when pressed. Do not terminate
- * until another tilt command takes over the tilter subsystem.
+ * Lowers arm to intaking position and pulls back shooter. Command is when 
+ * pressed.
  */
 public class TiltToIntake extends Command {
 

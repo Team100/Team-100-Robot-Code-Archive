@@ -7,8 +7,7 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
  * Moves arm to position for truss shot and pulls back the shooter to the
- * correct distance. Command is when pressed. Do not terminate until another
- * tilt command takes over the tilter subsystem.
+ * correct distance. Command is when pressed.
  */
 public class TiltToShootTruss extends Command {
 
