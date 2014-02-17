@@ -3,6 +3,7 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
+import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
  * Gives manipulator left joystick control of tilter and manipulator right 
@@ -28,8 +29,18 @@ public class FullManualControl extends Command {
         else{
             Ballrus.shooter.setTrigger(false);
         }
-        Ballrus.tilter.manualControl(Ballrus.oi.getManipulator().getY());
-        Ballrus.shooter.manualControl(Ballrus.oi.getManipulator().getThrottle());
+        if(!(Math.abs(Ballrus.oi.getManipulator().getY()) < Preferences.driveJoystickDeadband)) {
+            Ballrus.tilter.manualControl(Ballrus.oi.getManipulator().getY());
+        }
+        else {
+            Ballrus.tilter.manualControl(0.0);
+        }
+        if(!(Math.abs(Ballrus.oi.getManipulator().getThrottle()) < Preferences.driveJoystickDeadband)) {
+            Ballrus.shooter.manualControl(Ballrus.oi.getManipulator().getThrottle());
+        }
+        else {
+            Ballrus.shooter.manualControl(0.0);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -37,7 +37,7 @@ public class Preferences {
     public static double width = 24.5; // length between line readers in inches
     
     // Tilter PID
-    public static boolean tilterTuningMode = true;
+    public static boolean tilterTuningMode = false;
     public static double tilterPotToDegreeRatio = 1.0; // pot / ratio = degrees
     public static double tilterPotOffsetDegrees = 0.0; // degrees + offset = angle
     public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
@@ -58,7 +58,7 @@ public class Preferences {
     public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
     public static double shooterPotZeroPosition = -940.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
     public static double shooterDistanceBuffer = 0.0; // inches shooter can be off by
-    public static double shooterPullBackSpeed = 0.0;
+    public static double shooterPullBackSpeed = 0.75;
     public static double shooterPullForwardSpeed = 0.0;
     // Shooter positions (in inches)
     public static double shootHighPosition = 190.0;
@@ -104,8 +104,8 @@ public class Preferences {
         tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
         
         // Shooter tuning
-        shooterPotToInchRatio = -1.0; // pot / ratio = inches
-        shooterPotZeroPosition = -381.0; // inches + offset = position
+        shooterPotToInchRatio = -1.0; // pot / ratio = inches1
+        shooterPotZeroPosition = -516.0; // inches + offset = position
         shooterDistanceBuffer = 5.0; // inches shooter can be off by
         shooterPullBackSpeed = 1.0;
         shooterPullForwardSpeed = 1.0;
