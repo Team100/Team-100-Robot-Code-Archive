@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.Preferences;
 
+
 /**
  * Starts an autoTurn command to an angle determined by the camera to be the hot
  * goal. Command is whenPressed, and terminates after the angle is calculated.
@@ -14,6 +15,7 @@ public class CameraAim extends Command {
     private double targetAngle = Preferences.cameraAngle;
 
     public CameraAim() {
+        requires(Ballrus.camera);
     }
 
     // Called just before this Command runs the first time
@@ -36,6 +38,7 @@ public class CameraAim extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return timeSinceInitialized() > .4;
+        // return timeSinceInitialized() > .2;
     }
 
     // Called once after isFinished returns true
