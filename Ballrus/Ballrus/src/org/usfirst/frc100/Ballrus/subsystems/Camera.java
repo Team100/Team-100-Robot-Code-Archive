@@ -1,4 +1,4 @@
-//vision processing is not yet implemented
+
 package org.usfirst.frc100.Ballrus.subsystems;
 
 import edu.wpi.first.wpilibj.Relay;
@@ -22,7 +22,7 @@ public class Camera extends Subsystem {
     private AxisCamera camera;
     private final Relay cameraLights = RobotMap.cameraLights;
     private ColorImage image;
-    private boolean leftTargetHot = true;
+    private boolean leftTargetHot;
     
     
     
@@ -49,6 +49,14 @@ public class Camera extends Subsystem {
 
     //Maximum number of particles to process
     final int MAX_PARTICLES = 8;
+    
+    //HSV Threshold Values
+    final int HUE_MIN = 90;
+    final int HUE_MAX = 140;
+    final int SAT_MIN = 0;
+    final int SAT_MAX = 255;
+    final int VALUE_MIN = 0;
+    final int VALUE_MAX = 255;
 
     CriteriaCollection cc;      // the criteria for doing the particle filter operation
     
@@ -79,9 +87,14 @@ public class Camera extends Subsystem {
   
 
     // Tests if there is a camera
-    public void Camera(){
-        if(AxisCamera.getInstance()!=null){
-            camera = AxisCamera.getInstance();
+    public Camera(){
+        System.out.println("Got into Camera Constructor");
+        camera = AxisCamera.getInstance("10.1.0.12");
+        if(camera != null){        
+            // camera = AxisCamera.getInstance("10.1.0.12");
+            System.out.println("getInstance of camera succeeded");
+            cc = new CriteriaCollection();      // create the criteria for the particle filter
+            cc.addCriteria(NIVision.MeasurementType.IMAQ_MT_AREA, AREA_MINIMUM, 65535, false);
         } else {
             System.out.println("No axis camera!");
         }
@@ -118,8 +131,9 @@ public class Camera extends Subsystem {
      
         try{
             
-        BinaryImage thresholdImage = image.thresholdHSV(90, 140, 0, 255, 0, 255); // keep only green objects
-                
+        //BinaryImage thresholdImage = image.thresholdHSV(90, 140, 0, 255, 0, 255); // keep only green objects
+        BinaryImage thresholdImage = image.thresholdHSV(HUE_MIN, HUE_MAX, SAT_MIN, SAT_MAX, VALUE_MIN, VALUE_MAX); // keep only green objects
+            
         BinaryImage filteredImage = thresholdImage.particleFilter(cc);    // filter out small particles
                 
         //iterate through each particle and score to see if it is a target
@@ -152,7 +166,23 @@ public class Camera extends Subsystem {
             // System.out.println("rect: " + scores[i].rectangularity + "ARHoriz: " + scores[i].aspectRatioHorizontal);
             // System.out.println("ARVert: " + scores[i].aspectRatioVertical);	
             }
+            
+            filteredImage.free();
+            thresholdImage.free();
+            image.free();
+            
+            if(horizontalTargetCount > 0)  // We found at least one horizontal target that has valid rectangularity and aspect ratio
+            { 
+               System.out.println("Found Horizontal Target");
+                return true;
+            } else {
+                System.out.println("Found a Target, but it didn't meet Horizontal Criteria");
+               return false;
+            }
+      
+             /*   
 
+            
             //Zero out scores and set verticalIndex to first target in case there are no horizontal targets
             target.totalScore = target.leftScore = target.rightScore = target.tapeWidthScore = target.verticalScore = 0;
             target.verticalIndex = verticalTargets[0];
@@ -214,7 +244,10 @@ public class Camera extends Subsystem {
                         System.out.println("Distance: " + distance);
                    }
             }
+           
+           */
        }
+        
 
        /**
        * all images in Java must be freed after they are used since they are allocated out
@@ -224,14 +257,17 @@ public class Camera extends Subsystem {
        filteredImage.free();
        thresholdImage.free();
        image.free();
-                
-                
+       
+       System.out.println("Did not find Horizontal or Vertical Particles");
+       return false;  // Did not find Horizontal or Vertical Particles 
+   
 
-        } catch (NIVisionException ex) {
+       } catch (NIVisionException ex) {
             System.out.println("Vision processing failed!");
-            return true;
-        }
-        return leftTargetHot;
+            return true;   // Really should be error indication
+            
+       }             
+        
     }
                 
         
@@ -269,10 +305,10 @@ public class Camera extends Subsystem {
      * to the left or right. The equivalent rectangle is the rectangle with sides x and y where particle area= x*y
      * and particle perimeter= 2x+2y
      * 
-     * @param image The image containing the particle to score, needed to perform additional measurements
-     * @param report The Particle Analysis Report for the particle, used for the width, height, and particle number
-     * @param outer	Indicates whether the particle aspect ratio should be compared to the ratio for the inner target or the outer
-     * @return The aspect ratio score (0-100)
+     *  @param image The image containing the particle to score, needed to perform additional measurements
+     *  @param report The Particle Analysis Report for the particle, used for the width, height, and particle number
+     *  @param outer	Indicates whether the particle aspect ratio should be compared to the ratio for the inner target or the outer
+     *  @param return: The aspect ratio score (0-100)
      */
     public double scoreAspectRatio(BinaryImage image, ParticleAnalysisReport report, int particleNumber, boolean vertical) throws NIVisionException
     {
@@ -305,13 +341,13 @@ public class Camera extends Subsystem {
 	boolean isTarget = true;
 
 	isTarget &= scores.rectangularity > RECTANGULARITY_LIMIT;
-        System.out.println("rectangularity = " + scores.rectangularity);
+        //System.out.println("rectangularity = " + scores.rectangularity);
 	if(vertical){
             isTarget &= scores.aspectRatioVertical > ASPECT_RATIO_LIMIT;
-            System.out.println("aspectRatioVertical = " + scores.aspectRatioVertical);
+            //System.out.println("aspectRatioVertical = " + scores.aspectRatioVertical);
 	} else {
             isTarget &= scores.aspectRatioHorizontal > ASPECT_RATIO_LIMIT;
-            System.out.println("aspectRatioHorizontal = " + scores.aspectRatioHorizontal);
+            //System.out.println("aspectRatioHorizontal = " + scores.aspectRatioHorizontal);
 	}
 
 	return isTarget;
@@ -351,8 +387,8 @@ public class Camera extends Subsystem {
 	{
 		boolean isHot = true;
 		
-                System.out.println("Left and Right Scores:" + " " + target.leftScore + " " + target.rightScore);
-		System.out.println("tapeWidthScore and VertScore: " + target.tapeWidthScore + " " + target.verticalScore);
+                //System.out.println("Left and Right Scores:" + " " + target.leftScore + " " + target.rightScore);
+		//System.out.println("tapeWidthScore and VertScore: " + target.tapeWidthScore + " " + target.verticalScore);
                 isHot &= target.tapeWidthScore >= TAPE_WIDTH_LIMIT;
 		isHot &= target.verticalScore >= VERTICAL_SCORE_LIMIT;
 		isHot &= (target.leftScore > LR_SCORE_LIMIT) | (target.rightScore > LR_SCORE_LIMIT);
