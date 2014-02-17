@@ -30,7 +30,7 @@ public class Preferences {
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20.0;
     public static int inPositionCounter = 20;
-    public static int ultraActualShootDistance = 80;
+    public static int ultraActualShootDistance = 150;
     // LineReader
     public static int lowerLimit = 895;
     public static int upperLimit = 920;
@@ -53,7 +53,7 @@ public class Preferences {
     // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
-    public static double shooterPotZeroPosition = -400.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
+    public static double shooterPotZeroPosition = -420.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
     public static double shooterDistanceBuffer = 3.0; // inches shooter can be off by
     public static double shooterPullBackSpeed = 1.0;
     public static double shooterPullForwardSpeed = 1.0;
