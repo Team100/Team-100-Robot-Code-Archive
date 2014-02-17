@@ -1,28 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//ready
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- *
- * @author Team100
+ * Releases the tension on the shooter without shooting it. Command is while 
+ * held.
  */
 public class ReleaseShooter extends Command {
 
     private boolean isFinished;
 
     public ReleaseShooter() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(Ballrus.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        isFinished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run

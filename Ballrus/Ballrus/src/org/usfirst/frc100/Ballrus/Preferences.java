@@ -10,7 +10,7 @@ public class Preferences {
     //<editor-fold>
     // DriveTrain modes
     public static boolean tankDriveMode = false; // false = arcadeDrive
-    public static boolean displayIO = true;
+    public static boolean displayIO = false;
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
     public static double driveEncoderToInchRatio = 1.0; // encoder / ratio = inches
@@ -37,26 +37,26 @@ public class Preferences {
     public static double width = 24.5; // length between line readers in inches
     
     // Tilter PID
-    public static boolean tilterTuningMode = false;
+    public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = 0.8667; // pot / ratio = degrees
-    public static double tilterPotOffsetDegrees = -703.0; // degrees + offset = angle
-    public static double tilterAngleBuffer = 1.0; // degrees tilter can be off by
+    public static double tilterPotOffsetDegrees = -440.0; // degrees + offset = angle
+    public static double tilterAngleBuffer = 2.0; // degrees tilter can be off by
     public static double tilter_kP = 0.09; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 137.0; // button 4
     public static double shootLowAngle = 125.5; // button 1
     public static double shootTrussAngle = 155.0; // button 3
-    public static double intakeAngle = 70.0; // button 2
+    public static double intakeAngle = 65.0; // button 2
     public static double stowedAngle = 180.0; // button 9
     public static double shootQuickAngle = 0.0; // used by quickshoot
     
     // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
-    public static double shooterPotZeroPosition = -940.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
-    public static double shooterDistanceBuffer = 0.0; // inches shooter can be off by
-    public static double shooterPullBackSpeed = 0.0;
-    public static double shooterPullForwardSpeed = 0.0;
+    public static double shooterPotZeroPosition = -400.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
+    public static double shooterDistanceBuffer = 3.0; // inches shooter can be off by
+    public static double shooterPullBackSpeed = 1.0;
+    public static double shooterPullForwardSpeed = 1.0;
     // Shooter positions (in inches)
     public static double shootHighPosition = 190.0;
     public static double shootLowPosition = 190.0;
@@ -64,6 +64,7 @@ public class Preferences {
     public static double intakePosition = 190.0;
     public static double stowedPosition = 190.0;
     public static double shootQuickPosition = 190.0;
+    public static double shootGrabDelay = .5;
     
     // Intake
     public static boolean intakeTuningMode = true;
@@ -71,7 +72,7 @@ public class Preferences {
     public static double intakeOutSpeed = 1.0; // absolute value
     
     // Camera
-    public static double cameraAngle = 30; // degrees to turn by for camera aim
+    public static double cameraAngle = 30.0; // degrees to turn by for camera aim
     
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
