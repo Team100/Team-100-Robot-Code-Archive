@@ -23,7 +23,7 @@ public class ReleaseShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(Ballrus.shooter.reload()) {
+        if(Ballrus.shooter.releaseTension()) {
             Ballrus.shooter.setTrigger(true);
             isFinished = true;
         }
@@ -31,7 +31,7 @@ public class ReleaseShooter extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isFinished;
+        return isFinished || timeSinceInitialized() > 5.0;
     }
 
     // Called once after isFinished returns true
