@@ -46,6 +46,8 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
             SmartDashboard.putNumber("DriveLowGearMotorMinValue", Preferences.driveLowGearMotorMinValue);
+            SmartDashboard.putNumber("Drive Left",RobotMap.driveTrainLeftMotor.get() );
+            SmartDashboard.putNumber("Drive Right", RobotMap.driveTrainRightMotor.get());
         }
     }
 

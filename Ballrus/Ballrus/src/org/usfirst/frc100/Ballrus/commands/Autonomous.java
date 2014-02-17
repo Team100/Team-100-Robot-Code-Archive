@@ -38,11 +38,11 @@ public class Autonomous extends CommandGroup {
             case 3: //2nd ball in front (shoot-drive-intake-driveback-shoot)
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addSequential(new Pause(3.0));//wait for shooter to arm and raise
+                addSequential(new Pause(2.0));//wait for shooter to arm and raise
                 addParallel(new TriggerShootReload());
                 addSequential(new Pause(1.0));//wait for shot
-                addSequential(new DeArmShooter());
-                addSequential(new Pause(4.0));//wait for arm to lower
+                addParallel(new DeArmShooter());
+                addSequential(new Pause(2.0));//wait for arm to lower
                 addParallel(new RunIntakeIn());
                 addSequential(new AutoDriveStraight(48.0, 3.0));
                 addParallel(new StopIntake());

@@ -2,6 +2,7 @@
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
@@ -38,6 +39,8 @@ public class  Drive extends Command {
         else{
             Ballrus.driveTrain.arcadeDrive(leftY, rightX);
         }
+    SmartDashboard.putNumber("Left Joystick", Ballrus.oi.getDriverLeft().getY());
+    SmartDashboard.putNumber("Right Joystick", Ballrus.oi.getDriverRight().getX());
     }
 
     // Make this return true when this Command no longer needs to run execute()
