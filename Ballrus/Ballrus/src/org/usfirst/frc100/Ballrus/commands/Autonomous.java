@@ -56,10 +56,10 @@ public class Autonomous extends CommandGroup {
                 addSequential(new TriggerShootReload());
                 break;
             case 4: //vision (drive-turn-shoot-drive)
-                addParallel(new TiltToShootHigh());
-                addParallel(new ArmShooter());
-                addSequential(new AutoDriveStraight(48.0, 3.0));//drive to close shooting position
-                addSequential(new AutoTurn(-30.0, true, 0.5));
+//                addParallel(new TiltToShootHigh());
+//                addParallel(new ArmShooter());
+//                addSequential(new AutoDriveStraight(48.0, 3.0));//drive to close shooting position
+//                addSequential(new AutoTurn(-30.0, true, 0.5));
                 addSequential(new CameraAim());//will have terminated at 4.5 seconds
                 addSequential(new Pause(2.0));//wait for camera aim to turn
                 addSequential(new TriggerShootReload());//shoots at 6.5 seconds
