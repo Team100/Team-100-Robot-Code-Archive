@@ -38,10 +38,10 @@ public class Preferences {
     
     // Tilter PID
     public static boolean tilterTuningMode = true;
-    public static double tilterPotToDegreeRatio = 1.0; // pot / ratio = degrees
-    public static double tilterPotOffsetDegrees = 0.0; // degrees + offset = angle
-    public static double tilterAngleBuffer = 0.0; // degrees tilter can be off by
-    public static double tilter_kP = 0.0; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+    public static double tilterPotToDegreeRatio = 0.8667; // pot / ratio = degrees
+    public static double tilterPotOffsetDegrees = -703.0; // degrees + offset = angle
+    public static double tilterAngleBuffer = 1.0; // degrees tilter can be off by
+    public static double tilter_kP = 0.09; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
     // Tilter angles (in degrees)
     public static double shootHighAngle = 137.0; // button 4
     public static double shootLowAngle = 125.5; // button 1
@@ -50,19 +50,7 @@ public class Preferences {
     public static double stowedAngle = 180.0; // button 9
     public static double shootQuickAngle = 0.0; // used by quickshoot
     
-    
-    
-    
-    // Shooter 
-    
-    
-    
-    
-    
-    
-    
-    
-    ning
+    // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static double shooterPotToInchRatio = -1.0; // pot / ratio = inches
     public static double shooterPotZeroPosition = -940.0; // inches - offset = position, offset = -1 * "zero position" (all the way forward)
@@ -72,7 +60,7 @@ public class Preferences {
     // Shooter positions (in inches)
     public static double shootHighPosition = 190.0;
     public static double shootLowPosition = 190.0;
-    public static double shootTrussPosition = 190.0;
+    public static double shootTrussPosition = 100.0;
     public static double intakePosition = 190.0;
     public static double stowedPosition = 190.0;
     public static double shootQuickPosition = 190.0;
@@ -111,6 +99,12 @@ public class Preferences {
         tilterPotOffsetDegrees = 30.0; // degrees + offset = angle
         tilterAngleBuffer = 2.0; // degrees tilter can be off by
         tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+        shootHighAngle = 137.0; // button 4
+        shootLowAngle = 125.5; // button 1
+        shootTrussAngle = 155.0; // button 3
+        intakeAngle = 70.0; // button 2
+        stowedAngle = 180.0; // button 9
+        shootQuickAngle = 0.0; // used by quickshoot
         
         // Shooter tuning
         shooterPotToInchRatio = -1.0; // pot / ratio = inches
@@ -120,6 +114,7 @@ public class Preferences {
         shooterPullForwardSpeed = 1.0;
         shootHighPosition = 220.0;
         shootLowPosition = 220.0;
+        shootTrussPosition = 100.0;
         intakePosition = 220.0;
     }
     

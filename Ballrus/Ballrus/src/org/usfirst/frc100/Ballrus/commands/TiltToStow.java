@@ -7,8 +7,7 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
  * Moves arm to start of match position and pulls back the shooter to the 
- * initial distance. Command is when pressed. Do not terminate until another 
- * tilt command takes over the tilter subsystem.
+ * initial distance. Command is when pressed.
  */
 public class TiltToStow extends Command {
 
