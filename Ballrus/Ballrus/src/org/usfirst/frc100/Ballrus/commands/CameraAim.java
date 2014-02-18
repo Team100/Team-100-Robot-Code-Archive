@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.Preferences;
 
-
 /**
  * Starts an autoTurn command to an angle determined by the camera to be the hot
  * goal. Command is whenPressed, and terminates after the angle is calculated.

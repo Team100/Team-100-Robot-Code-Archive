@@ -39,7 +39,9 @@ public class Ballrus extends IterativeRobot {
         intake = new Intake();
         tilter = new Tilter();
         compressor = new Compressor();
-        camera = new Camera();
+        if(Preferences.cameraEnabled){
+            camera = new Camera();
+        }
         oi = new OI();
         
         SmartDashboard.putData(driveTrain);

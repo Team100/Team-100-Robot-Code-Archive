@@ -46,7 +46,7 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
             SmartDashboard.putNumber("DriveLowGearMotorMinValue", Preferences.driveLowGearMotorMinValue);
-            SmartDashboard.putNumber("Drive Left",RobotMap.driveTrainLeftMotor.get() );
+            SmartDashboard.putNumber("DriveLeftOffset", Preferences.driveLeftOffset);
             SmartDashboard.putNumber("Drive Right", RobotMap.driveTrainRightMotor.get());
         }
     }
@@ -109,7 +109,12 @@ public class DriveTrain extends Subsystem {
         if (turn > 0) {
             turn += minVal;
         }
-        drive.arcadeDrive(speed, turn);
+        if(Preferences.driveTrainTuningMode){
+            drive.arcadeDrive(speed, turn+SmartDashboard.getNumber("DriveLeftOffset"));
+        }
+        else{
+            drive.arcadeDrive(speed, turn+Preferences.driveLeftOffset);
+        }
     }
 
     // Drives straight for a distance in inches, returns true when distance reached
