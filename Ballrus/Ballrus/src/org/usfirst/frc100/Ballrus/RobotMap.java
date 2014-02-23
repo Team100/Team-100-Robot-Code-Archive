@@ -64,6 +64,9 @@ public class RobotMap {
        if (Preferences.practiceBot) {
            Preferences.setPracticeBotPrefs();
        }
+       if (Preferences.PracticeBotCompShooter) {
+           Preferences.setPracticeBotCompShooterPrefs();
+       }
        if (Preferences.hammerHeadRobotMap) {
            initHammerHead();
        } else if (Preferences.gwrathRobotMap) {
