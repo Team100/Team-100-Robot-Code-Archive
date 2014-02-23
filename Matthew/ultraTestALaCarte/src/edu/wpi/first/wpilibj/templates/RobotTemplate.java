@@ -26,9 +26,11 @@ public class RobotTemplate extends IterativeRobot {
      */
     
     private AnalogChannel ultra1;
+    private AnalogChannel IRrange;
     
     public void robotInit() {
          ultra1 = new AnalogChannel(5);
+         IRrange = new AnalogChannel(4);
     }
 
     /**
@@ -50,6 +52,14 @@ public class RobotTemplate extends IterativeRobot {
         SmartDashboard.putNumber("RAW-Voltage: ", RAWrange);
         System.out.println("Inches: " + range);
         SmartDashboard.putNumber("Inches: ", range);
+        
+        double tempIR = ((IRrange.getVoltage()*0.0073)-0.0082); //if sharp IR long dist.
+        double IRval = (1/tempIR)/2.54; //if sharp IR long dist.
+        double RAWrangeIR = IRrange.getVoltage();
+        System.out.println("RAW-Voltage IR: " + RAWrangeIR);
+        SmartDashboard.putNumber("RAW-Voltage IR: ", RAWrangeIR);
+        System.out.println("Inches IR: " + IRval);
+        SmartDashboard.putNumber("Inches IR: ", IRval);
         
     }
     
