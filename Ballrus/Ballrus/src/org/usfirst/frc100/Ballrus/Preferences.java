@@ -77,7 +77,8 @@ public class Preferences {
     // RobotMap
     public static boolean hammerHeadRobotMap  = false;
     public static boolean gwrathRobotMap = false;
-    public static boolean practiceBot = true;
+    public static boolean practiceBot = false;
+    public static boolean PracticeBotCompShooter = true;
     //</editor-fold>
     
     // Changes preferences to those for the practice bot
@@ -117,6 +118,43 @@ public class Preferences {
         shootLowPosition = 220.0;
         shootTrussPosition = 100.0;
         intakePosition = 220.0;
+    }
+    public static void setPracticeBotCompShooterPrefs(){
+        // Drivetrain PID
+        driveEncoderToInchRatio = -64.11; // encoder / ratio = inches
+        driveGyroToDegreeRatio = 1.0; // gyro / ratio = degrees
+        driveStraight_kP = 0.005; // error * kP = motor speed
+        autoTurn_kP = 0.001; // error * kP = motor speed
+        autoTurnLowGear_kP = 0.0005; // error * kP = motor speed
+        driveStraightLowGear_kP = 0.003; // error * kP = motor speed
+        driveDistBuffer = 2.0; // inches robot can be off by
+        driveAngleBuffer = 2.0; // degrees robot can be off by
+        autoDriveDelay = 20.0; // time to wait to make sure robot has stopped moving
+        driveMotorMinValue = 0.45; //the absolute value below which the motor cannot move the robot
+        driveLowGearMotorMinValue = 0.4; //the absolute value below which the motor cannot move the robot
+        
+        // Tilter PID // FOR ANGLE OF SHOT
+        tilterPotToDegreeRatio = 0.8778; // pot / ratio = degrees
+        tilterPotOffsetDegrees = -45; // degrees + offset = angle
+        tilterAngleBuffer = 2.0; // degrees tilter can be off by
+        tilter_kP = 0.092; // error * kP = motor speed, neg if tilter motor reversed (positive=down)
+        shootHighAngle = 140.0; // button 4
+        shootLowAngle = 128.0; // button 1
+        shootTrussAngle = 155.0; // button 3
+        intakeAngle = 70.0; // button 2
+        stowedAngle = 180.0; // button 9
+        shootQuickAngle = 0.0; // used before using FastestShotInTheWest
+        
+        // Shooter tuning // FOR POWER OF SHOT
+        shooterPotToInchRatio = -1.0; // pot / ratio = inches1
+        shooterPotZeroPosition = -180; // inches + offset = position
+        shooterDistanceBuffer = 5.0; // inches shooter can be off by
+        shooterPullBackSpeed = 1.0;
+        shooterPullForwardSpeed = 1.0;
+        shootHighPosition = 147.0;
+        shootLowPosition = 185.0;
+        shootTrussPosition = 117.0;
+        intakePosition = 185.0;
     }
     
     // Changes preferences to those for hammerhead
