@@ -28,7 +28,7 @@ public class Tilter extends Subsystem {
     public Tilter(){
         if(Preferences.tilterTuningMode){
             SmartDashboard.putNumber("Tilter_kP", Preferences.tilter_kP);
-            SmartDashboard.putNumber("TilterTestAngle", Preferences.shootHighAngle);
+            SmartDashboard.putNumber("TilterTestAngle", Preferences.tilterShootHighAngle);
         }
         angleError = 0.0;
         inPosition = true;
@@ -57,7 +57,7 @@ public class Tilter extends Subsystem {
     
     // Returns the current angle above the floor in degrees
     public double getAngle(){
-        return (((double)potentiometer.getValue())/Preferences.tilterPotToDegreeRatio+Preferences.tilterPotOffsetDegrees);
+        return (((double)potentiometer.getValue()-Preferences.tilterPot180DegreePosition)/Preferences.tilterPotToDegreeRatio-180);
     }
     
     // Returns whether the tilter has reached the correct position

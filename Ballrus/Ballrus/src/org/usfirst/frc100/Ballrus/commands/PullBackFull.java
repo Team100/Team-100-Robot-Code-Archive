@@ -1,3 +1,4 @@
+//untested
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -5,8 +6,8 @@ import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- *
- * @author Student
+ * Pulls the shooter all the way back to intake position without tilting. 
+ * Command is when pressed.
  */
 public class PullBackFull extends Command {
     
@@ -16,11 +17,13 @@ public class PullBackFull extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Ballrus.tilter.stop();
+        Ballrus.shooter.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.shooter.setPosition(Preferences.intakePosition);
+        Ballrus.shooter.setPosition(Preferences.shooterIntakePullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

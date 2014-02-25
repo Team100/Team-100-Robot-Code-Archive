@@ -22,8 +22,8 @@ public class TiltToShootHigh extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.shootHighAngle);
-        Ballrus.shooter.setPosition(Preferences.shootHighPosition);
+        Ballrus.tilter.setPosition(Preferences.tilterShootHighAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterShootHighPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -65,7 +65,7 @@ public class Shooter extends Subsystem {
     
     // Returns the pullback distance
     public double getPosition(){
-        return potentiometer.getValue()/Preferences.shooterPotToInchRatio-Preferences.shooterPotZeroPosition;
+        return ((double)potentiometer.getValue()-Preferences.shooterPotZeroPosition)/Preferences.shooterPotToInchRatio;
     }
     
     // Returns whether the shooter is ready to shoot

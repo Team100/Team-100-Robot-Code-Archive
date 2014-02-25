@@ -22,8 +22,8 @@ public class TiltToStow extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.stowedAngle);
-        Ballrus.shooter.setPosition(Preferences.stowedPosition);
+        Ballrus.tilter.setPosition(Preferences.tilterStowedAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterStowedPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()
