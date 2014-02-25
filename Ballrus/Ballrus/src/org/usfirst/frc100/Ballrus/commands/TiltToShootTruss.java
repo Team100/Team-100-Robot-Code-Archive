@@ -22,8 +22,8 @@ public class TiltToShootTruss extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.shootTrussAngle);
-        Ballrus.shooter.setPosition(Preferences.shootTrussPosition);
+        Ballrus.tilter.setPosition(Preferences.tilterShootTrussAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterShootTrussPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -61,13 +61,9 @@ public class RobotMap {
 
     // Initializes actuators and sensors, adds them to livewindow
     public static void init() {
-       if (Preferences.practiceBot) {
+       if (Preferences.practiceBot||Preferences.practiceBotCompShooter) {
            Preferences.setPracticeBotPrefs();
-       }
-       if (Preferences.PracticeBotCompShooter) {
-           Preferences.setPracticeBotCompShooterPrefs();
-       }
-       if (Preferences.hammerHeadRobotMap) {
+       } else if (Preferences.hammerHeadRobotMap) {
            initHammerHead();
        } else if (Preferences.gwrathRobotMap) {
            initGwrath();

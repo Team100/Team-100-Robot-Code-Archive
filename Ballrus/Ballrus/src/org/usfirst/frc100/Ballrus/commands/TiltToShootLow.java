@@ -22,8 +22,8 @@ public class TiltToShootLow extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.shootLowAngle);
-        Ballrus.shooter.setPosition(Preferences.shootLowPosition);
+        Ballrus.tilter.setPosition(Preferences.tilterShootLowAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterShootLowPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

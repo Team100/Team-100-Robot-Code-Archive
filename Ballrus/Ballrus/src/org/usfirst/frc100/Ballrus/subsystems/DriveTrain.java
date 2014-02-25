@@ -46,8 +46,6 @@ public class DriveTrain extends Subsystem {
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
             SmartDashboard.putNumber("DriveLowGearMotorMinValue", Preferences.driveLowGearMotorMinValue);
-            SmartDashboard.putNumber("DriveLeftOffset", Preferences.driveLeftOffset);
-            SmartDashboard.putNumber("Drive Right", RobotMap.driveTrainRightMotor.get());
         }
     }
 
@@ -110,10 +108,10 @@ public class DriveTrain extends Subsystem {
             turn += minVal;
         }
         if(Preferences.driveTrainTuningMode){
-            drive.arcadeDrive(speed, turn+SmartDashboard.getNumber("DriveLeftOffset"));
+            drive.arcadeDrive(speed, turn);
         }
         else{
-            drive.arcadeDrive(speed, turn+Preferences.driveLeftOffset);
+            drive.arcadeDrive(speed, turn);
         }
     }
 

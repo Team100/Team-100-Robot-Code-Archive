@@ -22,8 +22,8 @@ public class TiltToShootQuick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.shootQuickAngle);
-        Ballrus.shooter.setPosition(Preferences.shootQuickPosition);
+        Ballrus.tilter.setPosition(Preferences.tilterShootQuickAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterShootQuickPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

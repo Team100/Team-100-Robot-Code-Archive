@@ -40,7 +40,7 @@ public class  Drive extends Command {
             Ballrus.driveTrain.arcadeDrive(leftY, rightX);
         }
     SmartDashboard.putNumber("Left Joystick", Ballrus.oi.getDriverLeft().getY());
-    SmartDashboard.putNumber("Right Joystick", Ballrus.oi.getDriverRight().getX());
+    SmartDashboard.putNumber("Right Joystick", Ballrus.oi.getDriverRight().getX()+Preferences.driveLeftOffset);
     }
 
     // Make this return true when this Command no longer needs to run execute()

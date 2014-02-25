@@ -22,8 +22,8 @@ public class TiltToIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.intakeAngle);
-        Ballrus.shooter.setPosition(Preferences.intakePosition);
+        Ballrus.tilter.setPosition(Preferences.tilterIntakeAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterIntakePullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()
