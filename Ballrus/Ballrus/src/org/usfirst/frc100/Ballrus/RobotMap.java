@@ -63,13 +63,14 @@ public class RobotMap {
     public static void init() {
        if (Preferences.practiceBot||Preferences.practiceBotCompShooter) {
            Preferences.setPracticeBotPrefs();
-       } else if (Preferences.hammerHeadRobotMap) {
+       }
+       if (Preferences.hammerHeadRobotMap) {
            initHammerHead();
        } else if (Preferences.gwrathRobotMap) {
            initGwrath();
        } else {
-           driveTrainLeftMotor = new Talon(1, 1);
-           LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Talon) driveTrainLeftMotor);
+            driveTrainLeftMotor = new Talon(1, 1);
+            LiveWindow.addActuator("DriveTrain", "LeftMotorMain", (Talon) driveTrainLeftMotor);
 
             driveTrainRightMotor = new Talon(1, 2);
             LiveWindow.addActuator("DriveTrain", "RightMotorMain", (Talon) driveTrainRightMotor);
