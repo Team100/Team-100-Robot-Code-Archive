@@ -70,6 +70,21 @@ public class Tilter extends Subsystem {
         motor.set(0);
     }
     
+    // Returns the value of the forward limit switch
+    public boolean getForwardLimit(){
+        return topLimit.get();
+    }
+    
+    // Returns the value of the back limit switch
+    public boolean getBackLimit(){
+        return bottomLimit.get();
+    }
+    
+    // Returns the value of the potentiometer
+    public double getSensorValue(){
+        return potentiometer.getValue();
+    }
+    
     // Directly controls motor speed
     public void manualControl(double speed){
         if((Preferences.practiceBot^topLimit.get()&&speed>0)||(bottomLimit.get()&&speed<0)){

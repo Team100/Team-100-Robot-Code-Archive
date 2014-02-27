@@ -53,7 +53,7 @@ public class Shooter extends Subsystem {
     }
     
      public boolean releaseTension(){
-        if(getPosition()<=50 || forwardLimit.get()){
+        if(getPosition()<=1 || forwardLimit.get()){
             motor.set(0);
             return true;
         }
@@ -81,6 +81,21 @@ public class Shooter extends Subsystem {
     // Stops the shooter motor
     public void stop(){
         motor.set(0);
+    }
+    
+    // Returns the value of the forward limit switch
+    public boolean getForwardLimit(){
+        return forwardLimit.get();
+    }
+    
+    // Returns the value of the back limit switch
+    public boolean getBackLimit(){
+        return backLimit.get();
+    }
+    
+    // Returns the value of the potentiometer
+    public double getSensorValue(){
+        return potentiometer.getValue();
     }
     
     // Directly controls motor speed
