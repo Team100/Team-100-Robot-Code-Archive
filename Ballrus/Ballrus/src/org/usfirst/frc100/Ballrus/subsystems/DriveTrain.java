@@ -29,6 +29,7 @@ public class DriveTrain extends Subsystem {
     private double angleOutput = 0;
     private double direction = 0;
     private double lastRangeFinderValue = 0;
+    private int rangeErrorCount = 0;
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
@@ -238,10 +239,14 @@ public class DriveTrain extends Subsystem {
         //double currentValue = rangeFinder.getVoltage() / 5 * 512 / 2.4; //if MB1023 ultrasonic sensor
         //double currentValue = rangeFinder.getVoltage()*84.252 +3.664 ; //if MB1220 ultrasonic sensor, equation from testing, works OK but not great
         double currentValue = rangeFinder.getVoltage()*1024/12.7; //if if MB1220 ultrasonic sensor, equation from datasheet, works pretty good, better than the other one
+        if(rangeErrorCount > 10) {
+            resetRangefinder();
+        }
         if (Math.abs(lastRangeFinderValue - currentValue) < Preferences.ultraAcceptableSpike) {
             lastRangeFinderValue = currentValue;
             return (currentValue);
         } else {
+            rangeErrorCount++;
             return -1;
         }
     }

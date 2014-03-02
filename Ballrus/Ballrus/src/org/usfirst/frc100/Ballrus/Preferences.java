@@ -28,14 +28,14 @@ public class Preferences {
     public static double autoDriveDelay = 20.0; // code cycles to wait to make sure robot has stopped moving
     public static double driveMotorMinValue = 0.38; // the absolute value below which the motors cannot move the robot
     public static double driveLowGearMotorMinValue = 0.0; // the absolute value below which the motors cannot move the robot
-    public static double driveJoystickDeadband = 0.15; // the absolute value below which the motors cannot move the robot
+    public static double driveJoystickDeadband = 0.1; // the absolute value below which the motors cannot move the robot
     public static double driveLeftOffset = 0.0; // bias towards left side of drivetrain, only used in arcade drive
     // Distance sensing
     public static double ultraInitialStopDistance = 112.0;
     public static double ultraActualStopDistance = 100.0; // inches away from target that we want to stop
     public static double ultraAcceptableSpike = 20.0;
     public static int inPositionCounter = 20;
-    public static int ultraActualShootDistance = 150;
+    public static int ultraActualShootDistance = 120; //used by FastestShotInTheWest //Inches (from shooting from around 10 feet)
     // LineReader
     public static int lowerLimit = 895;
     public static int upperLimit = 920;
@@ -43,10 +43,12 @@ public class Preferences {
     
     // Tilter PID
     public static boolean tilterTuningMode = true;
-    public static double tilterPotToDegreeRatio = 0.8778; // (change in "TilterSensorValue")/(change in actual angle in degrees)
-    public static double tilterPot180DegreePosition = -45.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
+    public static double tilterPotToDegreeRatio = 0.8889; // (change in "TilterSensorValue")/(change in actual angle in degrees)
+    public static double tilterPot180DegreePosition = 228.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
     public static double tilterAngleBuffer = 2.0; // angle in degrees tilter angle can be off by
     public static double tilter_kP = 0.092; // error * kP = motor speed
+    public static double tilterMinAngle = 70.0; // lowest angle in degrees that tilter can reach
+    public static double tilterMaxAngle = 180.0; // highest angle in degrees that tilter can reach
     // Tilter angles (in degrees)
     public static double tilterShootHighAngle = 140.0; // tilter angle in degrees when shooting from close range (button 4)
     public static double tilterShootLowAngle = 128.0; // tilter angle in degrees when shooting from long range (button 1)
@@ -57,19 +59,20 @@ public class Preferences {
     
     // Shooter tuning
     public static boolean shooterTuningMode = true;
-    public static double shooterPotToInchRatio = 30.34; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
-    public static double shooterPotZeroPosition = 509.0; // "ShooterSensorValue" when shooter is all the way forward
-    public static double shooterDistanceBuffer = 5.0; // distance in inches shooter position can be off by
+    public static double shooterPotToInchRatio = 31.31; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
+    public static double shooterPotZeroPosition = 508.0; // "ShooterSensorValue" when shooter is all the way forward
+    public static double shooterDistanceBuffer = 0.1; // distance in inches shooter position can be off by
     public static double shooterPullBackSpeed = 1.0; // speed at which shooter pulls back
     public static double shooterPullForwardSpeed = 1.0; // speed at which shooter moves forward to home position (use absolute value)
-    public static double shootGrabDelay = 0.5; // time in seconds to wait after shooter reattaches before pulling back
+    public static double shooterGrabDelay = 0.5; // time in seconds to wait after shooter reattaches before pulling back
+    public static double shooterFullRange = 7.25; // distance in inches between all the way forward and all the way pulled back
     // Shooter positions (in inches)
-    public static double shooterShootHighPullback = 147.0; // shooter pullback in inches when shooting from close range (button 4)
-    public static double shooterShootLowPullback = 185.0; // shooter pullback in inches when shooting from long range (button 1)
-    public static double shooterShootTrussPullback = 117.0; // shooter pullback in inches when shooting over the truss (button 3)
-    public static double shooterIntakePullback = 185.0; // shooter pullback in inches when intaking (button 2)
-    public static double shooterStowedPullback = 215.0; // shooter pullback in inches at start of match (button 9)
-    public static double shooterShootQuickPullback = 215.0; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
+    public static double shooterShootHighPullback = 5.0; // shooter pullback in inches when shooting from close range (button 4)
+    public static double shooterShootLowPullback = 7.0; // shooter pullback in inches when shooting from long range (button 1)
+    public static double shooterShootTrussPullback = 3.737; // shooter pullback in inches when shooting over the truss (button 3)
+    public static double shooterIntakePullback = 5.909; // shooter pullback in inches when intaking (button 2)
+    public static double shooterStowedPullback = 6.867; // shooter pullback in inches at start of match (button 9)
+    public static double shooterShootQuickPullback = 6.867; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
     
     // Intake
     public static boolean intakeTuningMode = true;
@@ -77,7 +80,7 @@ public class Preferences {
     public static double intakeOutSpeed = 1.0; // roller speed when expelling the ball (use absolute value)
     
     // Camera
-    public static boolean cameraEnabled = false;
+    public static boolean cameraEnabled = true;
     public static double cameraAngle = 30.0; // degrees to turn by for camera aim
     
     // RobotMap

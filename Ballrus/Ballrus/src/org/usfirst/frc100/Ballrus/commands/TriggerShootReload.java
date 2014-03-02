@@ -44,7 +44,7 @@ public class TriggerShootReload extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return grabDelay.get()>Preferences.shootGrabDelay || timeSinceInitialized() > 5.0;
+        return grabDelay.get()>Preferences.shooterGrabDelay || timeSinceInitialized() > 5.0;
         
     }
 

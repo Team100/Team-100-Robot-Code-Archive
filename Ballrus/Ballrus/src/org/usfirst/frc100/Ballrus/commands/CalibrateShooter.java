@@ -27,7 +27,7 @@ public class CalibrateShooter extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(!forwardTriggered&&!Ballrus.shooter.getForwardLimit()){ // moving forward
-            Ballrus.shooter.manualControl(-.5);
+            Ballrus.shooter.manualControl(-0.5);
         }
         else if(!forwardTriggered&&Ballrus.shooter.getForwardLimit()){ // all the way forward
             Ballrus.shooter.manualControl(0);
@@ -35,13 +35,13 @@ public class CalibrateShooter extends Command {
             forwardTriggered = true;
         }
         else if(forwardTriggered&&!Ballrus.shooter.getBackLimit()){ // pulling backward
-            Ballrus.shooter.manualControl(.5);
+            Ballrus.shooter.manualControl(0.5);
         }
         else if(forwardTriggered&&Ballrus.shooter.getBackLimit()){ // all the way pulled back
             Ballrus.shooter.manualControl(0);
             backValue = Ballrus.shooter.getSensorValue();
             Preferences.shooterPotZeroPosition = forwardValue;
-            Preferences.shooterPotToInchRatio = (backValue - forwardValue)/7.25;
+            Preferences.shooterPotToInchRatio = (backValue - forwardValue)/Preferences.shooterFullRange;
             System.out.println("ShooterPotZeroPosition = " + Preferences.shooterPotZeroPosition);
             System.out.println("ShooterPotToInchRatio = " + Preferences.shooterPotToInchRatio);
             isFinished = true;

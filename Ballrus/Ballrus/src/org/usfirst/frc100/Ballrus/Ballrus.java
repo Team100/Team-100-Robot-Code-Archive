@@ -84,7 +84,6 @@ public class Ballrus extends IterativeRobot {
 //        Scheduler.getInstance().removeAll();
         compressor.startCompressor();
         LiveWindow.run();
-        System.out.println("QFDSFTHDGFAMTHG");
     }
     
     // Puts all of the I/O on smartDashboard, but causes lag
