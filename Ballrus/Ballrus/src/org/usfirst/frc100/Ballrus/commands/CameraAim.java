@@ -11,7 +11,7 @@ import org.usfirst.frc100.Ballrus.Preferences;
  */
 public class CameraAim extends Command {
 
-    private double targetAngle = Preferences.cameraAngle;
+    private double targetAngle = 0;
 
     public CameraAim() {
         requires(Ballrus.camera);
@@ -24,25 +24,28 @@ public class CameraAim extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (timeSinceInitialized() < .2||!Ballrus.camera.hasFreshImage()) { // wait for light ring to turn on
+        if (!Ballrus.camera.hasFreshImage()||timeSinceInitialized() < .2) { // wait for light ring to turn on
+            System.out.println("Camera not ready");
             return;
         }
-        if (Ballrus.camera.leftTargetHot()) { // hot target will change before we shoot
-            targetAngle = Preferences.cameraAngle;
+        if (Ballrus.camera.detectTarget()) { // hot target will change before we shoot
+            targetAngle = 2*Preferences.cameraAngle;
+            System.out.println("Target Detected");
         } else {
-            targetAngle = -Preferences.cameraAngle;
+            targetAngle = 0;
+            System.out.println("No Target Detected");
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return timeSinceInitialized() > .4;
-        // return timeSinceInitialized() > .2;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        new AutoTurn(targetAngle,true, 2).start();
+        //new AutoTurn(targetAngle,true, 2).start();
+        System.out.println("Target Angle: " + targetAngle);
         Ballrus.camera.setCameraLights(false);
     }
 

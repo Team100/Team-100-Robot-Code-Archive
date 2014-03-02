@@ -3,6 +3,7 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
  * Chooses from a variety of autonomous modes.
@@ -13,6 +14,9 @@ public class Autonomous extends CommandGroup {
         int mode = (int)DriverStation.getInstance().getAnalogIn(1);
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
+        if((!Preferences.cameraEnabled)&&mode == 4){
+            mode = 1;
+        }
         switch (mode) {
             case 0: //shoot
                 addSequential(new TriggerShootReload());
@@ -61,11 +65,11 @@ public class Autonomous extends CommandGroup {
 //                addSequential(new AutoDriveStraight(48.0, 3.0));//drive to close shooting position
 //                addSequential(new AutoTurn(-30.0, true, 0.5));
                 addSequential(new CameraAim());//will have terminated at 4.5 seconds
-                addSequential(new Pause(2.0));//wait for camera aim to turn
-                addSequential(new TriggerShootReload());//shoots at 6.5 seconds
-                addSequential(new Pause(1.0));//wait for shot
-                addSequential(new AutoTurn(0.0, true, 2.0));
-                addSequential(new AutoDriveStraight(36.0, 5.0));//drive to wall
+//                addSequential(new Pause(2.0));//wait for camera aim to turn
+//                addParallel(new TriggerShootReload());//shoots at 6.5 seconds
+//                addSequential(new Pause(1.0));//wait for shot
+//                addSequential(new AutoTurn(0.0, true, 2.0));
+//                addSequential(new AutoDriveStraight(36.0, 5.0));//drive to wall
                 break;
         }
     }

@@ -57,7 +57,7 @@ public class Tilter extends Subsystem {
     
     // Returns the current angle above the floor in degrees
     public double getAngle(){
-        return (((double)potentiometer.getValue()-Preferences.tilterPot180DegreePosition)/Preferences.tilterPotToDegreeRatio-180);
+        return (((double)potentiometer.getValue()-Preferences.tilterPot180DegreePosition)/Preferences.tilterPotToDegreeRatio+180);
     }
     
     // Returns whether the tilter has reached the correct position
@@ -71,12 +71,12 @@ public class Tilter extends Subsystem {
     }
     
     // Returns the value of the forward limit switch
-    public boolean getForwardLimit(){
+    public boolean getTopLimit(){
         return topLimit.get();
     }
     
     // Returns the value of the back limit switch
-    public boolean getBackLimit(){
+    public boolean getBottomLimit(){
         return bottomLimit.get();
     }
     
