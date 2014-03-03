@@ -6,12 +6,12 @@ import org.usfirst.frc100.Ballrus.Preferences;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
- * Moves arm to position for quickShoot and pulls back the shooter to the 
- * correct distance. Command is when pressed.
+ * Moves arm to position for passing over the truss to the human player and 
+ * pulls back the shooter to the correct distance. Command is when pressed.
  */
-public class TiltToShootQuick extends Command {
+public class TiltToTrussPass extends Command {
 
-    public TiltToShootQuick() {
+    public TiltToTrussPass() {
         requires(Ballrus.shooter);
         requires(Ballrus.tilter);
     }
@@ -22,8 +22,8 @@ public class TiltToShootQuick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Ballrus.tilter.setPosition(Preferences.tilterShootQuickAngle);
-        Ballrus.shooter.setPosition(Preferences.shooterShootQuickPullback);
+        Ballrus.tilter.setPosition(Preferences.tilterTrussPassAngle);
+        Ballrus.shooter.setPosition(Preferences.shooterTrussPassPullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -44,7 +44,7 @@ public class Preferences {
     // Tilter PID
     public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = 0.8889; // (change in "TilterSensorValue")/(change in actual angle in degrees)
-    public static double tilterPot180DegreePosition = 228.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
+    public static double tilterPot180DegreePosition = 248.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
     public static double tilterAngleBuffer = 2.0; // angle in degrees tilter angle can be off by
     public static double tilter_kP = 0.092; // error * kP = motor speed
     public static double tilterMinAngle = 70.0; // lowest angle in degrees that tilter can reach
@@ -55,7 +55,7 @@ public class Preferences {
     public static double tilterShootTrussAngle = 155.0; // tilter angle in degrees when shooting over the truss (button 3)
     public static double tilterIntakeAngle = 70.0; // tilter angle in degrees when intaking (button 2)
     public static double tilterStowedAngle = 180.0; // tilter angle in degrees at start of match (button 9)
-    public static double tilterShootQuickAngle = 0.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
+    public static double tilterTrussPassAngle = 155.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
     
     // Shooter tuning
     public static boolean shooterTuningMode = true;
@@ -67,12 +67,12 @@ public class Preferences {
     public static double shooterGrabDelay = 0.5; // time in seconds to wait after shooter reattaches before pulling back
     public static double shooterFullRange = 7.25; // distance in inches between all the way forward and all the way pulled back
     // Shooter positions (in inches)
-    public static double shooterShootHighPullback = 5.0; // shooter pullback in inches when shooting from close range (button 4)
+    public static double shooterShootHighPullback = 4.2; // shooter pullback in inches when shooting from close range (button 4)
     public static double shooterShootLowPullback = 7.0; // shooter pullback in inches when shooting from long range (button 1)
-    public static double shooterShootTrussPullback = 3.737; // shooter pullback in inches when shooting over the truss (button 3)
-    public static double shooterIntakePullback = 5.909; // shooter pullback in inches when intaking (button 2)
-    public static double shooterStowedPullback = 6.867; // shooter pullback in inches at start of match (button 9)
-    public static double shooterShootQuickPullback = 6.867; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
+    public static double shooterShootTrussPullback = 4.5; // shooter pullback in inches when shooting over the truss (button 3)
+    public static double shooterIntakePullback = 6.5; // shooter pullback in inches when intaking (button 2)
+    public static double shooterStowedPullback = 6.5; // shooter pullback in inches at start of match (button 9)
+    public static double shooterTrussPassPullback = 5.5; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
     
     // Intake
     public static boolean intakeTuningMode = true;
@@ -81,7 +81,7 @@ public class Preferences {
     
     // Camera
     public static boolean cameraEnabled = true;
-    public static double cameraAngle = 30.0; // degrees to turn by for camera aim
+    public static double cameraAngle = 40.0; // degrees to turn by for camera aim
     
     // RobotMap
     //</editor-fold>
@@ -112,7 +112,7 @@ public class Preferences {
             tilterShootTrussAngle = 155.0; // tilter angle in degrees when shooting over the truss (button 3)
             tilterIntakeAngle = 70.0; // tilter angle in degrees when intaking (button 2)
             tilterStowedAngle = 180.0; // tilter angle in degrees at start of match (button 9)
-            tilterShootQuickAngle = 0.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
+            tilterTrussPassAngle = 0.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
 
             // Shooter tuning
             shooterPotToInchRatio = -1.0; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)

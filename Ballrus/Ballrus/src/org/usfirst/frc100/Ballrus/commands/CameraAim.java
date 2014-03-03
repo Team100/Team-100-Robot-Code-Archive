@@ -29,10 +29,10 @@ public class CameraAim extends Command {
             return;
         }
         if (Ballrus.camera.detectTarget()) { // hot target will change before we shoot
-            targetAngle = 2*Preferences.cameraAngle;
+            targetAngle = Preferences.cameraAngle;
             System.out.println("Target Detected");
         } else {
-            targetAngle = 0;
+            targetAngle = -Preferences.cameraAngle;
             System.out.println("No Target Detected");
         }
     }
@@ -44,7 +44,7 @@ public class CameraAim extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        //new AutoTurn(targetAngle,true, 2).start();
+        new AutoTurn(targetAngle, true, 2).start();
         System.out.println("Target Angle: " + targetAngle);
         Ballrus.camera.setCameraLights(false);
     }
