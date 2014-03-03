@@ -52,8 +52,8 @@ public class TriggerShootReload extends Command {
     protected void end() {
         Ballrus.shooter.setTrigger(false);
         new DeArmShooter().start();
-        //new PullBackFull().start();
-        new TiltToIntake().start();
+        new PullBackFull().start();
+        //new TiltToIntake().start();
     }
 
     // Called when another command which requires one or more of the same

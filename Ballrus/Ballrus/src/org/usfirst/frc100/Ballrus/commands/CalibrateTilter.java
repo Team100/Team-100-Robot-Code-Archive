@@ -1,4 +1,4 @@
-//incomplete
+//will probably not be used
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.command.Command;

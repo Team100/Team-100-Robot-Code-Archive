@@ -24,12 +24,12 @@ public class Autonomous extends CommandGroup {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addSequential(new AutoDriveStraight(48.0, 5));//drive to close shooting position
+                addSequential(new AutoDriveStraight(60.0, 3));//drive to close shooting position
                 addSequential(new AutoTurn(0.0, true, 2));
                 addSequential(new Pause(1.5));//wait for shooter to lower
                 addParallel(new TriggerShootReload());
                 addSequential(new Pause(0.5));//wait for shot
-                addSequential(new AutoDriveStraight(36.0, 5.0));//drive to wall
+                addSequential(new AutoDriveStraight(0.0, 5.0));//drive to wall
                 break;
             case 2: //shoot and drive
                 addParallel(new TiltToShootLow());
@@ -60,16 +60,16 @@ public class Autonomous extends CommandGroup {
                 addSequential(new TriggerShootReload());
                 break;
             case 4: //vision (drive-turn-shoot-drive)
-//                addParallel(new TiltToShootHigh());
-//                addParallel(new ArmShooter());
-//                addSequential(new AutoDriveStraight(48.0, 3.0));//drive to close shooting position
-//                addSequential(new AutoTurn(-30.0, true, 0.5));
+                addParallel(new TiltToShootHigh());
+                addParallel(new ArmShooter());
+                addSequential(new AutoDriveStraight(96.0, 2.5));//drive to close shooting position
+                addSequential(new AutoTurn(-Preferences.cameraAngle, true, 1));
                 addSequential(new CameraAim());//will have terminated at 4.5 seconds
-//                addSequential(new Pause(2.0));//wait for camera aim to turn
-//                addParallel(new TriggerShootReload());//shoots at 6.5 seconds
-//                addSequential(new Pause(1.0));//wait for shot
-//                addSequential(new AutoTurn(0.0, true, 2.0));
-//                addSequential(new AutoDriveStraight(36.0, 5.0));//drive to wall
+                addSequential(new Pause(2.0));//wait for camera aim to turn
+                addParallel(new TriggerShootReload());//shoots at 6.5 seconds
+                addSequential(new Pause(1.0));//wait for shot
+                addSequential(new AutoTurn(0.0, true, 2.0));
+//                addSequential(new AutoDriveStraight(0.0, 5.0));//drive to wall
                 break;
         }
     }
