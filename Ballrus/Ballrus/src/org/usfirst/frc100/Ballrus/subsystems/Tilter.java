@@ -44,10 +44,10 @@ public class Tilter extends Subsystem {
         }
         if (Math.abs(angleError)>Preferences.tilterAngleBuffer){ // incorrect angle
             if(Preferences.tilterTuningMode){
-                motor.set(angleError*SmartDashboard.getNumber("Tilter_kP", 0));
+                motor.set(-angleError*SmartDashboard.getNumber("Tilter_kP", 0));
             }
             else{
-                motor.set(angleError*Preferences.tilter_kP);
+                motor.set(-angleError*Preferences.tilter_kP);
             }
         } else{ // correct angle
             motor.set(0);
@@ -91,7 +91,7 @@ public class Tilter extends Subsystem {
             motor.set(0);
         }
         else{
-            motor.set(speed);
+            motor.set(-speed);
         }
     }
 

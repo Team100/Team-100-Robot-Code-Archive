@@ -14,7 +14,7 @@ public class Autonomous extends CommandGroup {
         int mode = (int)DriverStation.getInstance().getAnalogIn(1);
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
-        if((!Preferences.cameraEnabled)&&mode == 4){
+        if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5)){ //if camera is off, don't use camera modes
             mode = 1;
         }
         switch (mode) {
@@ -24,12 +24,9 @@ public class Autonomous extends CommandGroup {
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addSequential(new AutoDriveStraight(60.0, 3));//drive to close shooting position
-                addSequential(new AutoTurn(0.0, true, 2));
-                addSequential(new Pause(1.5));//wait for shooter to lower
-                addParallel(new TriggerShootReload());
-                addSequential(new Pause(0.5));//wait for shot
-                addSequential(new AutoDriveStraight(0.0, 5.0));//drive to wall
+                addSequential(new AutoDriveStraight(60.0, 2.5));//drive to close shooting position
+                addSequential(new AutoTurn(0.0, true, 1.5));
+                addSequential(new TriggerShootReload());
                 break;
             case 2: //shoot and drive
                 addParallel(new TiltToShootLow());
@@ -69,7 +66,14 @@ public class Autonomous extends CommandGroup {
                 addParallel(new TriggerShootReload());//shoots at 6.5 seconds
                 addSequential(new Pause(1.0));//wait for shot
                 addSequential(new AutoTurn(0.0, true, 2.0));
-//                addSequential(new AutoDriveStraight(0.0, 5.0));//drive to wall
+                break;
+            case 5: //vision (drive-delay-shoot)
+                addParallel(new TiltToCameraAim());//0 sec
+                addParallel(new CameraDelay(3.5, 6.0));//0 sec
+                addSequential(new Pause(1.0));//0 sec
+                addParallel(new ArmShooter());//0 sec
+                addParallel(new TiltToShootHigh());//0.5 sec
+                addSequential(new AutoDriveStraight(60.0, 2.5));//drive to close shooting position,0.5 sec
                 break;
         }
     }
