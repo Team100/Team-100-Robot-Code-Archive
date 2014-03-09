@@ -81,7 +81,6 @@ public class Ballrus extends IterativeRobot {
     
     // This function is called periodically during test mode
     public void testPeriodic() {
-//        Scheduler.getInstance().removeAll();
         compressor.startCompressor();
         LiveWindow.run();
     }

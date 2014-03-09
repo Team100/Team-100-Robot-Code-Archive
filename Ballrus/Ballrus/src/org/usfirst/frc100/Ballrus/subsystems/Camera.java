@@ -34,7 +34,7 @@ public class Camera extends Subsystem {
 
     //Score limits used for target identification
     final int RECTANGULARITY_LIMIT = 40;
-    final int ASPECT_RATIO_LIMIT = 50;  // rff original value = 55
+    final int ASPECT_RATIO_LIMIT = 65;  // rff original value = 55
 
     //Score limits used for hot target determination
     final int TAPE_WIDTH_LIMIT = 50;
@@ -48,12 +48,12 @@ public class Camera extends Subsystem {
     final int MAX_PARTICLES = 8;
 
     //HSV Threshold Values
-    final int HUE_MIN = 90;
+    final int HUE_MIN = 110;
     final int HUE_MAX = 140;
-    final int SAT_MIN = 0;
+    final int SAT_MIN = 10;
     final int SAT_MAX = 255;
-    final int VALUE_MIN = 0;
-    final int VALUE_MAX = 255;
+    final int VALUE_MIN = 50;
+    final int VALUE_MAX = 160;
 
     CriteriaCollection cc;      // the criteria for doing the particle filter operation
 
@@ -101,7 +101,7 @@ public class Camera extends Subsystem {
     public void initDefaultCommand() {
     }
 
-    // Returns whether the left target is lit up. Returns true by default.
+    // Returns whether the target is lit up. Returns true by default.
     public boolean detectTarget() {
         if (camera == null) {
             System.out.println("No axis camera!");
