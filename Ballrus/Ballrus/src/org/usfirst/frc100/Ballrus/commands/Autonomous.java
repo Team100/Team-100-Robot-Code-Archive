@@ -1,4 +1,4 @@
-//figure out correct distances
+//fix 2-ball mode
 package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -7,24 +7,33 @@ import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
  * Chooses from a variety of autonomous modes.
+ * Mode key:
+ * 0: None
+ * 1: Drive and shoot
+ * 2: Shoot and drive
+ * 3: 2-ball
+ * 4: Turning vision
+ * 5: Waiting vision
+ * 6: Test light ring
+ * 7: Test vision
  */
 public class Autonomous extends CommandGroup {
 
     public Autonomous() {
-        int mode = (int)DriverStation.getInstance().getAnalogIn(1);
+        int mode = (int)DriverStation.getInstance().getAnalogIn(1)+(int)DriverStation.getInstance().getAnalogIn(2);
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
-        if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5)){ //if camera is off, don't use camera modes
+        System.out.println("Mode: "+mode);
+        if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5 || mode == 7)){ //if camera is off, don't use camera modes
             mode = 1;
         }
         switch (mode) {
             case 0: //shoot
-                addSequential(new TriggerShootReload());
                 break;
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
                 addParallel(new ArmShooter());
-                addSequential(new AutoDriveStraight(60.0, 2.5));//drive to close shooting position
+                addSequential(new AutoDriveStraight(120.0, 2.5));//drive to close shooting position
                 addSequential(new AutoTurn(0.0, true, 1.5));
                 addSequential(new TriggerShootReload());
                 break;
@@ -73,7 +82,13 @@ public class Autonomous extends CommandGroup {
                 addSequential(new Pause(1.0));//0 sec
                 addParallel(new ArmShooter());//0 sec
                 addParallel(new TiltToShootHigh());//0.5 sec
-                addSequential(new AutoDriveStraight(60.0, 2.5));//drive to close shooting position,0.5 sec
+                addSequential(new AutoDriveStraight(120.0, 2.5));//drive to close shooting position,0.5 sec
+                break;
+            case 6: //light ring test
+                addSequential(new ActivateLightRing());
+                break;
+            case 7: //camera only, no motion
+                addSequential(new CameraTest(3,6));
                 break;
         }
     }

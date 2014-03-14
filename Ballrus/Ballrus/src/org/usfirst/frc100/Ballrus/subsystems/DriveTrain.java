@@ -1,13 +1,13 @@
 //ready, except for rangefinder and line reader code
 package org.usfirst.frc100.Ballrus.subsystems;
 
-import org.usfirst.frc100.Ballrus.commands.Drive;
-import org.usfirst.frc100.Ballrus.RobotMap;
-import org.usfirst.frc100.Ballrus.Preferences;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Ballrus;
+import org.usfirst.frc100.Ballrus.Preferences;
+import org.usfirst.frc100.Ballrus.RobotMap;
+import org.usfirst.frc100.Ballrus.commands.Drive;
 
 /**
  * Controls the drive motors and shifters, and reads numerous sensors.
@@ -23,13 +23,15 @@ public class DriveTrain extends Subsystem {
     private final Counter leftCounter = RobotMap.driveTrainLeftCounter; // counts if the left line reader is over the line or not
     private final Counter rightCounter = RobotMap.driveTrainRightCounter; // counts if the right line reader is over the line or not
 
-    private double distError = 0;
-    private double angleError = 0;
+    private Timer period = new Timer();
+    private double distError = 0, lastDistError = 0, totalDistError = 0, lastDistSetpoint = 0;
+    private double angleError = 0, lastAngleError = 0, totalAngleError = 0, lastAngleSetpoint = 0;
     private double distOutput = 0;
     private double angleOutput = 0;
     private double direction = 0;
     private double lastRangeFinderValue = 0;
     private int rangeErrorCount = 0;
+    
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
@@ -39,10 +41,14 @@ public class DriveTrain extends Subsystem {
     // Adds preferences to dashboard during tuning mode
     public DriveTrain() {
         if (Preferences.driveTrainTuningMode) {
-            SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveStraight_kP);
-            SmartDashboard.putNumber("DriveStraightLowGear_kP", Preferences.driveStraightLowGear_kP);
-            SmartDashboard.putNumber("AutoTurn_kP", Preferences.autoTurn_kP);
-            SmartDashboard.putNumber("AutoTurnLowGear_kP", Preferences.autoTurnLowGear_kP);
+            SmartDashboard.putNumber("DriveStraight_kP", Preferences.driveDistance_kP);
+            SmartDashboard.putNumber("DriveStraight_kI", Preferences.driveDistance_kI);
+            SmartDashboard.putNumber("DriveStraight_kD", Preferences.driveDistance_kD);
+            SmartDashboard.putNumber("DriveStraightLowGear_kP", Preferences.driveDistanceLowGear_kP);
+            SmartDashboard.putNumber("AutoTurn_kP", Preferences.driveAngle_kP);
+            SmartDashboard.putNumber("AutoTurn_kI", Preferences.driveAngle_kI);
+            SmartDashboard.putNumber("AutoTurn_kD", Preferences.driveAngle_kD);
+            SmartDashboard.putNumber("AutoTurnLowGear_kP", Preferences.driveAngleLowGear_kP);
             SmartDashboard.putNumber("AutoDriveTestDistance", 0);
             SmartDashboard.putNumber("AutoDriveTestAngle", 0);
             SmartDashboard.putNumber("DriveMotorMinValue", Preferences.driveMotorMinValue);
@@ -118,6 +124,17 @@ public class DriveTrain extends Subsystem {
 
     // Drives straight for a distance in inches, returns true when distance reached
     public boolean autoDriveStraight(double distance) {
+        if(distance!=lastDistSetpoint){
+            lastDistSetpoint = distance;
+            period.reset();
+            period.start();
+            lastDistError = distError;
+            totalDistError = 0;
+            lastAngleSetpoint = 1000;
+            lastAngleError = angleError;
+            totalAngleError = 0;
+            return false;
+        }
         // Distance output
         distError = getEncoderInches() - distance;
         if (Math.abs(distError) > Preferences.driveDistBuffer) { // incorrect distance
@@ -125,18 +142,22 @@ public class DriveTrain extends Subsystem {
                 if (Preferences.driveTrainTuningMode) {
                     distOutput = distError * SmartDashboard.getNumber("DriveStraightLowGear_kP", 0);
                 } else {
-                    distOutput = distError * Preferences.driveStraightLowGear_kP;
+                    distOutput = distError * Preferences.driveDistanceLowGear_kP;
                 }
             } else if (Preferences.driveTrainTuningMode) {
-                distOutput = distError * SmartDashboard.getNumber("DriveStraight_kP", 0);
+                distOutput = distError*SmartDashboard.getNumber("DriveStraight_kP", 0)+SmartDashboard.getNumber("DriveStraight_kI")*totalDistError+SmartDashboard.getNumber("DriveStraight_kD", 0)*(distError-lastDistError)/period.get();
             } else {
-                distOutput = distError * Preferences.driveStraight_kP;
+                distOutput = distError*Preferences.driveDistance_kP+Preferences.driveDistance_kI*totalDistError+Preferences.driveDistance_kD*(distError-lastDistError)/period.get();
             }
+            totalDistError+=distError;
+            lastDistError=distError;
         } else { // correct distance
             distOutput = 0;
             if (Math.abs(angleError) < Preferences.driveAngleBuffer) {
                 stop();
                 angleOutput = 0;
+                period.reset();
+                period.start();
                 return true;
             }
         }
@@ -150,13 +171,17 @@ public class DriveTrain extends Subsystem {
             if (Preferences.driveTrainTuningMode) {
                 angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
             } else {
-                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+                angleOutput = angleError * Preferences.driveAngleLowGear_kP;
             }
         } else if (Preferences.driveTrainTuningMode) {
-            angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
+            angleOutput = angleError*SmartDashboard.getNumber("AutoTurn_kP", 0)+SmartDashboard.getNumber("AutoTurn_kI")*totalAngleError+SmartDashboard.getNumber("AutoTurn_kD", 0)*(angleError-lastAngleError)/period.get();
         } else {
-            angleOutput = angleError * Preferences.autoTurn_kP;
+            angleOutput = angleError*Preferences.driveAngle_kP+Preferences.driveAngle_kI*totalAngleError+Preferences.driveAngle_kD*(angleError-lastAngleError)/period.get();
         }
+        totalAngleError += angleError;
+        lastAngleError = angleError;
+        period.reset();
+        period.start();
         // Setting motors
         arcadeDrive(distOutput, angleOutput);
         return false;
@@ -174,12 +199,12 @@ public class DriveTrain extends Subsystem {
             if (Preferences.driveTrainTuningMode) {
                 angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
             } else {
-                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+                angleOutput = angleError * Preferences.driveAngleLowGear_kP;
             }
         } else if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
         } else {
-            angleOutput = angleError * Preferences.autoTurn_kP;
+            angleOutput = angleError * Preferences.driveAngle_kP;
         }
         // Setting motors
         arcadeDrive(speed, angleOutput);
@@ -192,6 +217,15 @@ public class DriveTrain extends Subsystem {
 
     // Rotates to a specified angle in degrees relative to starting position, returns true when angle reached
     public boolean autoTurnToAngle(double angle) {
+        if(angle!=lastAngleSetpoint){
+            lastDistSetpoint = 1000;
+            lastAngleSetpoint = angle;
+            period.reset();
+            period.start();
+            lastAngleError = angleError;
+            totalAngleError = 0;
+            return false;
+        }
         distOutput = distError = 0;
         angleError = angle - getGyroDegrees();
         while (angleError < 0) {
@@ -201,20 +235,26 @@ public class DriveTrain extends Subsystem {
         if (Math.abs(angleError) < Preferences.driveAngleBuffer) {
             stop();
             angleOutput = 0;
+            period.reset();
+            period.start();
             return true;
         }
         if (shifter.get()) {//low gear
             if (Preferences.driveTrainTuningMode) {
                 angleOutput = angleError * SmartDashboard.getNumber("AutoTurnLowGear_kP", 0);
             } else {
-                angleOutput = angleError * Preferences.autoTurnLowGear_kP;
+                angleOutput = angleError * Preferences.driveAngleLowGear_kP;
             }
         } else if (Preferences.driveTrainTuningMode) {
             angleOutput = angleError * SmartDashboard.getNumber("AutoTurn_kP", 0);
         } else {
-            angleOutput = angleError * Preferences.autoTurn_kP;
+            angleOutput = angleError * Preferences.driveAngle_kP;
         }
         arcadeDrive(0, angleOutput);
+        totalAngleError += angleError;
+        lastAngleError = angleError;
+        period.reset();
+        period.start();
         return false;
     }
 
