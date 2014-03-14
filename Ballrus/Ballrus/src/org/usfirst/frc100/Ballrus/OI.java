@@ -43,7 +43,7 @@ public class OI {
             
         driverRight = new Joystick(2);
             shootWhileMovingButton = new JoystickButton(driverRight, 1);
-            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
+//            shootWhileMovingButton.whileHeld(new FastestShotInTheWest());
             shiftButton = new JoystickButton(driverRight, 2);
             shiftButton.whileHeld(new ShiftLow());
             resetGyroButton = new JoystickButton(driverRight, 11);// click left joystick, for testing only
