@@ -51,8 +51,8 @@ public class Preferences {
     
     // Tilter PID
     public static boolean tilterTuningMode = true;
-    public static double tilterPotToDegreeRatio = 0.8333; // (change in "TilterSensorValue")/(change in actual angle in degrees)
-    public static double tilterPot180DegreePosition = 554.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
+    public static double tilterPotToDegreeRatio = 0.8222; // (change in "TilterSensorValue")/(change in actual angle in degrees)
+    public static double tilterPot180DegreePosition = 556.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
     public static double tilterAngleBuffer = 2.0; // angle in degrees tilter angle can be off by
     public static double tilter_kP = 0.02; // error * kP = motor speed
     public static double tilter_kI = 0.0;
@@ -60,27 +60,28 @@ public class Preferences {
     public static double tilterMinAngle = 70.0; // lowest angle in degrees that tilter can reach
     public static double tilterMaxAngle = 180.0; // highest angle in degrees that tilter can reach
     // Tilter angles (in degrees)
-    public static double tilterShootHighAngle = 140.0; // tilter angle in degrees when shooting from close range (button 4)
+    public static double tilterShootHighAngle = 144.0; // tilter angle in degrees when shooting from close range (button 4)
     public static double tilterShootLowAngle = 128.0; // tilter angle in degrees when shooting from long range (button 1)
-    public static double tilterShootTrussAngle = 155.0; // tilter angle in degrees when shooting over the truss (button 3)
-    public static double tilterIntakeAngle = 70.0; // tilter angle in degrees when intaking (button 2)
+    public static double tilterShootTrussAngle = 153.0; // tilter angle in degrees when shooting over the truss (button 3)
+    public static double tilterIntakeAngle = 67.0; // tilter angle in degrees when intaking (button 2)
     public static double tilterStowedAngle = 178.0; // tilter angle in degrees at start of match (button 9)
     public static double tilterTrussPassAngle = 155.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
     public static double tilterCameraAngle = 105.0; // tilter angle in degrees when using the camera
     
     // Shooter tuning
     public static boolean shooterTuningMode = true;
-    public static double shooterPotToInchRatio = 32.62; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
-    public static double shooterPotZeroPosition = 272.0; // "ShooterSensorValue" when shooter is all the way forward
+    public static boolean shooterDisabled = false;
+    public static double shooterPotToInchRatio = 27.86; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
+    public static double shooterPotZeroPosition = 275.0; // "ShooterSensorValue" when shooter is all the way forward
     public static double shooterDistanceBuffer = 0.1; // distance in inches shooter position can be off by
     public static double shooterPullBackSpeed = 1.0; // speed at which shooter pulls back
     public static double shooterPullForwardSpeed = 1.0; // speed at which shooter moves forward to home position (use absolute value)
     public static double shooterGrabDelay = 0.5; // time in seconds to wait after shooter reattaches before pulling back
     public static double shooterFullRange = 7.25; // distance in inches between all the way forward and all the way pulled back
     // Shooter positions (in inches)
-    public static double shooterShootHighPullback = 4.0; // shooter pullback in inches when shooting from close range (button 4)
+    public static double shooterShootHighPullback = 4.23; // shooter pullback in inches when shooting from close range (button 4)
     public static double shooterShootLowPullback = 6.0; // shooter pullback in inches when shooting from long range (button 1)
-    public static double shooterShootTrussPullback = 4.5; // shooter pullback in inches when shooting over the truss (button 3)
+    public static double shooterShootTrussPullback = 4.7; // shooter pullback in inches when shooting over the truss (button 3)
     public static double shooterIntakePullback = 6.5; // shooter pullback in inches when intaking (button 2)
     public static double shooterStowedPullback = 6.0; // shooter pullback in inches at start of match (button 9)
     public static double shooterTrussPassPullback = 5.5; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)

@@ -28,6 +28,10 @@ public class Shooter extends Subsystem {
     
     // Pulls the shooter back to a given amount of inches
     public void setPosition(double position){
+        if(Preferences.shooterDisabled){
+            motor.set(0);
+            return;
+        }
         positionError = position-getPosition();
         inPosition = false;
         if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!backLimit.get()){ // too close

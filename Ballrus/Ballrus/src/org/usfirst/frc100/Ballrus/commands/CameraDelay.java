@@ -7,6 +7,8 @@ import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
  * Shoots after an amount of time based on whether the camera sees a target.
+ * Parameters: t0 = the initial delay, t1 = time at which to fire if target is 
+ * detected, t2 = time at which to fire if target is not detected.
  */
 public class CameraDelay extends Command {
 
@@ -14,11 +16,13 @@ public class CameraDelay extends Command {
     private boolean done = false;
     private final double minTime;
     private final double maxTime;
+    private final double initialDelay;
     
-    public CameraDelay(double t1, double t2) {
+    public CameraDelay(double t0, double t1, double t2) {
         requires(Ballrus.camera);
         minTime = t1;
         maxTime = t2;
+        initialDelay = t0;
     }
 
     // Called just before this Command runs the first time
@@ -30,7 +34,7 @@ public class CameraDelay extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (!Ballrus.camera.hasFreshImage()||timeSinceInitialized() < 1.0||done) { // wait for light ring to turn on
+        if (!Ballrus.camera.hasFreshImage()||timeSinceInitialized() < initialDelay||done) { // wait for light ring to turn on
             System.out.println("Camera not ready");
             return;
         }
