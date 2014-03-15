@@ -16,6 +16,7 @@ import org.usfirst.frc100.Ballrus.Preferences;
  * 5: Waiting vision
  * 6: Test light ring
  * 7: Test vision
+ * 8: Drive only
  */
 public class Autonomous extends CommandGroup {
 
@@ -77,18 +78,22 @@ public class Autonomous extends CommandGroup {
                 addSequential(new AutoTurn(0.0, true, 2.0));
                 break;
             case 5: //vision (drive-delay-shoot)
+                double lowerCamera = 2.0, takePic = 0.1, raiseShooter = 1.5;
                 addParallel(new TiltToCameraAim());//0 sec
-                addParallel(new CameraDelay(3.5, 6.0));//0 sec
-                addSequential(new Pause(1.0));//0 sec
-                addParallel(new ArmShooter());//0 sec
-                addParallel(new TiltToShootHigh());//0.5 sec
-                addSequential(new AutoDriveStraight(120.0, 2.5));//drive to close shooting position,0.5 sec
+                addParallel(new CameraDelay(lowerCamera, lowerCamera+takePic+raiseShooter, 6.0));//0 sec
+                addSequential(new Pause(lowerCamera+takePic));//time for camera to tilt down and take a picture
+                addParallel(new ArmShooter());//3 sec
+                addParallel(new TiltToShootHigh());//3 sec
+                addSequential(new AutoDriveStraight(120.0, 7));//drive to close shooting position, 3 sec
                 break;
             case 6: //light ring test
                 addSequential(new ActivateLightRing());
                 break;
             case 7: //camera only, no motion
                 addSequential(new CameraTest(3,6));
+                break;
+            case 8: //drive only
+                addSequential(new AutoDriveStraight(120.0, 2.5));
                 break;
         }
     }
