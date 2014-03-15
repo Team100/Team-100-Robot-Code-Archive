@@ -1,0 +1,10 @@
+Davis Robot Problems/Causes/Solutions:
+Nothing moves, still have comms, all DIOs turn green: Digital sidecar broken, check cable or replace
+Drives full speed into a wall during auto: encoder unplugged/broken, plug in/replace
+Slowly drifts off course during auto: gyro initialized incorrectly/drifting, keep the robot still and power cycle, check cable
+Potentiometer value equals zero: unplugged/badly wired, plug in/replace wire
+Potentiometer positions change values: potentiometer is loose, tighten set-screw
+Camera giving errors (EHOSTDOWN): you are plugged into cRIO directly, go through the wireless router
+No comms when tethered: router in wrong mode, change switch to "up" position (AP mode?)
+No comms when wireless: router in wrong mode, change switch to "down" position (bridge mode)
+Deploying code waits forever for cRIO: problem unknown, power cycle
