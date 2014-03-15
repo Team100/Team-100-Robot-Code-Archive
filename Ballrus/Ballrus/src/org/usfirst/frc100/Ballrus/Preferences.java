@@ -52,7 +52,7 @@ public class Preferences {
     // Tilter PID
     public static boolean tilterTuningMode = true;
     public static double tilterPotToDegreeRatio = 0.8222; // (change in "TilterSensorValue")/(change in actual angle in degrees)
-    public static double tilterPot180DegreePosition = 556.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
+    public static double tilterPot180DegreePosition = 653.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
     public static double tilterAngleBuffer = 2.0; // angle in degrees tilter angle can be off by
     public static double tilter_kP = 0.02; // error * kP = motor speed
     public static double tilter_kI = 0.0;
@@ -79,7 +79,7 @@ public class Preferences {
     public static double shooterGrabDelay = 0.5; // time in seconds to wait after shooter reattaches before pulling back
     public static double shooterFullRange = 7.25; // distance in inches between all the way forward and all the way pulled back
     // Shooter positions (in inches)
-    public static double shooterShootHighPullback = 4.23; // shooter pullback in inches when shooting from close range (button 4)
+    public static double shooterShootHighPullback = 4.35; // shooter pullback in inches when shooting from close range (button 4)
     public static double shooterShootLowPullback = 6.0; // shooter pullback in inches when shooting from long range (button 1)
     public static double shooterShootTrussPullback = 4.7; // shooter pullback in inches when shooting over the truss (button 3)
     public static double shooterIntakePullback = 6.5; // shooter pullback in inches when intaking (button 2)
