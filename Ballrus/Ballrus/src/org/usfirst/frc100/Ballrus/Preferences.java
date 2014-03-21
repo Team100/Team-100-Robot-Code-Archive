@@ -1,10 +1,18 @@
 //ready, unless more prefs are needed
 package org.usfirst.frc100.Ballrus;
 
+import com.sun.squawk.microedition.io.FileConnection;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import javax.microedition.io.Connector;
+
 /**
  * This class stores the values of the robot's preferences.
  */
 public class Preferences {
+    
+    private static String file = "";
 
     // Initial preference declarations for competition robot, many are used on all robots
     //<editor-fold>
@@ -92,7 +100,7 @@ public class Preferences {
     public static double intakeOutSpeed = 1.0; // roller speed when expelling the ball (use absolute value)
     
     // Camera
-    public static boolean cameraEnabled = true;
+    public static boolean cameraEnabled = false;
     public static double cameraAngle = 40.0; // degrees to turn by for camera aim
     
     // RobotMap
@@ -149,7 +157,6 @@ public class Preferences {
         driveAngleBuffer = 2; // degrees robot can be off by
         autoDriveDelay = 10; // code cycles to wait to make sure robot has stopped moving
         driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
-        
     }
 
     // Changes preferences to those for gwrath
@@ -161,7 +168,49 @@ public class Preferences {
         driveDistBuffer = 5; // inches robot can be off by
         driveAngleBuffer = 5; // degrees robot can be off by
         autoDriveDelay = 10; // code cycles to wait to make sure robot has stopped moving
-        driveMotorMinValue = 0; //the absolute value below which the motor cannot move the robot
-        
+        driveMotorMinValue = 0; // the absolute value below which the motor cannot move the robot
+    }
+    
+    // Updates the values of the preferences to match the file
+    public static void readFromFile(){
+        DataInputStream actualFile = null;
+        FileConnection fc;
+        file = "";
+        try {
+            fc = (FileConnection) Connector.open("file:///output.txt", Connector.READ);
+            actualFile = fc.openDataInputStream();
+            for(int i=0; i<10000; i++){
+                file = file + actualFile.readChar();
+            }
+        } catch (IOException e) {
+            System.out.println("File Reading Terminated");
+        }
+        for(int i=0; i<file.length(); i++){
+            System.out.println(file.charAt(i));
+        }
+        //TODO: assign pref values
+        //TODO: no extra spaces in file
+    }
+    
+    // Changes the contents of the preferences file to the current values in the code
+    public static void writeToFile(){
+        DataOutputStream actualFile;
+        FileConnection fc;
+        try {
+            fc = (FileConnection) Connector.open("file:///output.txt", Connector.WRITE);
+            fc.create();
+            actualFile = fc.openDataOutputStream();
+            for (int i = 0; i < file.length(); i++) {
+                actualFile.writeChar(file.charAt(i));
+            }
+        } catch (IOException e) {
+            System.out.println("File Writing Failed");
+        }
+    }
+    
+    // Changes the value of a single preference in the cRIO file, but NOT the value in the code
+    public static void changePreferenceInFile (String name, String value) {
+        //TODO: change value of preference in file
+        writeToFile();
     }
 }
