@@ -73,6 +73,8 @@ public class Ballrus extends IterativeRobot {
         new Drive().start();
         updateDashboard.start();
         compressor.startCompressor();
+        Preferences.readFromFile();
+        Preferences.writeToFile();
     }
 
     // This function is called periodically during operator control
