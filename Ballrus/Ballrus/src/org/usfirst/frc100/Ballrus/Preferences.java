@@ -13,6 +13,7 @@ import javax.microedition.io.Connector;
 public class Preferences {
     
     private static String file = "";
+    public static double testPref = 42;
 
     // Initial preference declarations for competition robot, many are used on all robots
     //<editor-fold>
@@ -180,28 +181,37 @@ public class Preferences {
             fc = (FileConnection) Connector.open("file:///output.txt", Connector.READ);
             actualFile = fc.openDataInputStream();
             for(int i=0; i<10000; i++){
-                file = file + actualFile.readChar();
+                int nextChar = actualFile.read();
+                if(nextChar == -1) {
+                    break;
+                }
+                file = file + (char)nextChar;
             }
         } catch (IOException e) {
             System.out.println("File Reading Terminated");
+            file = "";
+            return;
         }
-        for(int i=0; i<file.length(); i++){
-            System.out.println(file.charAt(i));
-        }
+        
         //TODO: assign pref values
-        //TODO: no extra spaces in file
+        
+        testPref = Double.parseDouble(getPref("testPref"));
+        System.out.println(testPref);
     }
     
     // Changes the contents of the preferences file to the current values in the code
     public static void writeToFile(){
         DataOutputStream actualFile;
         FileConnection fc;
+        if ("".equals(file)) {
+            return;
+        }
         try {
             fc = (FileConnection) Connector.open("file:///output.txt", Connector.WRITE);
             fc.create();
             actualFile = fc.openDataOutputStream();
             for (int i = 0; i < file.length(); i++) {
-                actualFile.writeChar(file.charAt(i));
+                actualFile.write(file.charAt(i));
             }
         } catch (IOException e) {
             System.out.println("File Writing Failed");
@@ -210,7 +220,18 @@ public class Preferences {
     
     // Changes the value of a single preference in the cRIO file, but NOT the value in the code
     public static void changePreferenceInFile (String name, String value) {
-        //TODO: change value of preference in file
+        int startIndex = file.indexOf("\n"+name+" ", 0)+1;
+        String subString = file.substring(startIndex);
+        int endIndex = startIndex + subString.indexOf("\n")-1;
+        file = file.substring(0, startIndex) + name + " " + value + file.substring(endIndex, file.length());
         writeToFile();
+    }
+
+    // Finds a preference in the file
+    public static String getPref(String name) {
+        int startIndex = file.indexOf("\n"+name+" ", 0)+1;
+        String subString = file.substring(startIndex);
+        int endIndex = startIndex + subString.indexOf("\n")-1;
+        return file.substring(startIndex+name.length()+1, endIndex);
     }
 }
