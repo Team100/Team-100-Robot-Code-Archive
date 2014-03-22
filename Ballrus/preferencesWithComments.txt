@@ -1,0 +1,92 @@
+General Preferences:
+hammerHeadRobotMap false
+gwrathRobotMap false
+practiceBot false
+practiceBotCompShooter false
+tankDriveMode false // false = arcadeDrive
+displayIO true // puts all I/O on the SmartDashboard
+
+DriveTrain:
+PID:
+driveTrainTuningMode true
+driveEncoderToInchRatio -64.545 // (change in "DriveAverageEncoderValue")/(change in actual distance in inches)
+driveGyroToDegreeRatio 1.0 // (change in "DriveGyroValue")/(change in actual angle in degrees)
+driveDistance_kP 0.05 // error * kP motor speed
+driveAngle_kP 0.02 // error * kP motor speed
+driveDistanceLowGear_kP 0.00 // error * kP motor speed
+driveAngleLowGear_kP 0.00 // error * kP motor speed
+driveDistance_kI 0.0
+driveAngle_kI 0.0
+driveDistanceLowGear_kI 0.0
+driveAngleLowGear_kI 0.0
+driveDistance_kD 0.0
+driveAngle_kD 0.0
+driveDistanceLowGear_kD 0.0
+driveAngleLowGear_kD 0.0
+driveDistBuffer 2.0 // distance in inches autoDriveStraight can be off by
+driveAngleBuffer 2.0 // angle in degrees autoTurn can be off by
+autoDriveDelay 20.0 // code cycles to wait to make sure robot has stopped moving
+driveMotorMinValue 0.38 // the absolute value below which the motors cannot move the robot
+driveLowGearMotorMinValue 0.00 // the absolute value below which the motors cannot move the robot
+driveJoystickDeadband 0.1 // the absolute value below which the motors cannot move the robot
+driveLeftOffset 0.0 // bias towards left side of drivetrain, only used in arcade drive
+Distance sensing:
+ultraInitialStopDistance 112.0
+ultraActualStopDistance 100.0 // inches away from target that we want to stop
+ultraAcceptableSpike 20.0
+inPositionCounter 20
+ultraActualShootDistance 120 //used by FastestShotInTheWest //Inches (from shooting from around 10 feet)
+LineReader:
+lowerLimit 895
+upperLimit 920
+width 24.5 // distance between line readers in inches
+
+Tilter:
+PID:
+tilterTuningMode true
+tilterPotToDegreeRatio 0.82222222222222222 // (change in "TilterSensorValue")/(change in actual angle in degrees)
+tilterPot180DegreePosition 653.0 // "TilterSensorValue" when tilter is straight up (180 degrees)
+tilterPot90DegreePosition 579.0 // "TilterSensorValue" when tilter is straight forward (90 degrees)
+tilterAngleBuffer 2.0 // angle in degrees tilter angle can be off by
+tilter_kP 0.02 // error * kP motor speed
+tilter_kI 0.0
+tilter_kD 7.0E-4
+tilterMinAngle 70.0 // lowest angle in degrees that tilter can reach
+tilterMaxAngle 180.0 // highest angle in degrees that tilter can reach
+Tilter angles (in degrees):
+tilterShootHighAngle 144.0 // tilter angle in degrees when shooting from close range (button 4)
+tilterShootLowAngle 128.0 // tilter angle in degrees when shooting from long range (button 1)
+tilterShootTrussAngle 153.0 // tilter angle in degrees when shooting over the truss (button 3)
+tilterIntakeAngle 67.0 // tilter angle in degrees when intaking (button 2)
+tilterStowedAngle 178.0 // tilter angle in degrees at start of match (button 9)
+tilterTrussPassAngle 155.0 // tilter angle in degrees when using quickshoot (AKA fastestShotInTheWest)
+tilterCameraAngle 105.0 // tilter angle in degrees when using the camera
+
+Shooter:
+Tuning:
+shooterTuningMode true
+shooterDisabled false
+shooterPotToInchRatio 28.0555555555555546 // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
+shooterPotZeroPosition 275.0 // "ShooterSensorValue" when shooter is all the way forward
+shooterPotBackPosition 477.0 // "ShooterSensorValue" when shooter is all the way back
+shooterDistanceBuffer 0.1 // distance in inches shooter position can be off by
+shooterPullBackSpeed 1.0 // speed at which shooter pulls back
+shooterPullForwardSpeed 1.0 // speed at which shooter moves forward to home position (use absolute value)
+shooterGrabDelay 0.5 // time in seconds to wait after shooter reattaches before pulling back
+shooterFullRange 7.25 // distance in inches between all the way forward and all the way pulled back
+Shooter positions (in inches):
+shooterShootHighPullback 4.35 // shooter pullback in inches when shooting from close range (button 4)
+shooterShootLowPullback 6.0 // shooter pullback in inches when shooting from long range (button 1)
+shooterShootTrussPullback 4.7 // shooter pullback in inches when shooting over the truss (button 3)
+shooterIntakePullback 6.5 // shooter pullback in inches when intaking (button 2)
+shooterStowedPullback 6.0 // shooter pullback in inches at start of match (button 9)
+shooterTrussPassPullback 5.5 // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
+
+Intake:
+intakeTuningMode true
+intakeInSpeed 0.75 // roller speed when intaking the ball
+intakeOutSpeed 1.00 // roller speed when expelling the ball (use absolute value)
+
+Camera:
+cameraEnabled false
+cameraAngle 40.0 // degrees to turn by for camera aim

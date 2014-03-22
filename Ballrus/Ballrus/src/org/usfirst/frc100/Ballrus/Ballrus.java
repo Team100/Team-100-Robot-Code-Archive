@@ -3,9 +3,7 @@ package org.usfirst.frc100.Ballrus;
 
 import edu.wpi.first.wpilibj.AnalogModule;
 import edu.wpi.first.wpilibj.DigitalModule;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +19,6 @@ import org.usfirst.frc100.Ballrus.subsystems.*;
  */
 public class Ballrus extends IterativeRobot {
 
-    Command autonomousCommand;
-    Command updateDashboard = new UpdateDashboard();
     public static OI oi;
     public static DriveTrain driveTrain;
     public static Shooter shooter;
@@ -34,13 +30,14 @@ public class Ballrus extends IterativeRobot {
     // This function is run when the robot is first started up and should be
     // used for any initialization code.
     public void robotInit() {
+        Preferences.readFromFile();
         RobotMap.init();
         driveTrain = new DriveTrain();
         shooter = new Shooter();
         intake = new Intake();
         tilter = new Tilter();
         compressor = new Compressor();
-        if(Preferences.cameraEnabled){
+        if(Preferences.cameraEnabled) {
             camera = new Camera();
         }
         oi = new OI();
@@ -55,10 +52,10 @@ public class Ballrus extends IterativeRobot {
     // This function is called at the beginning of autonomous
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
-        autonomousCommand = new Autonomous();
-        autonomousCommand.start();
+        RobotMap.stopAllMotors();
+        new Autonomous().start();
+        new UpdateDashboard().start();
         compressor.startCompressor();
-        updateDashboard.start();
     }
 
     // This function is called periodically during autonomous
@@ -71,10 +68,8 @@ public class Ballrus extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         RobotMap.stopAllMotors();
         new Drive().start();
-        updateDashboard.start();
+        new UpdateDashboard().start();
         compressor.startCompressor();
-        Preferences.readFromFile();
-        Preferences.writeToFile();
     }
 
     // This function is called periodically during operator control
