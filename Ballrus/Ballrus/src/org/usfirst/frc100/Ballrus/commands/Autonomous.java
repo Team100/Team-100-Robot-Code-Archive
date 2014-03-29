@@ -28,9 +28,10 @@ public class Autonomous extends CommandGroup {
         System.out.println("Mode: "+mode);
         if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5 || mode == 7)){ //if camera is off, don't use camera modes
             mode = 1;
+            System.out.println("Mode changed to 1 due to lack of camera!");
         }
         switch (mode) {
-            case 0: //shoot
+            case 0: //none
                 break;
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());

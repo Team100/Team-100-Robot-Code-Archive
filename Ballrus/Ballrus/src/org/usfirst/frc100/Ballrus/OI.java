@@ -79,11 +79,12 @@ public class OI {
         }
         if (Preferences.tilterTuningMode) {
             SmartDashboard.putData("TiltToTestAngle", new TiltToTestAngle());
-        }            
+        }
         SmartDashboard.putData("UpdatePreferences", new UpdatePreferences());
         SmartDashboard.putData("CalibrateShooter", new CalibrateShooter());
         SmartDashboard.putData("CalibrateTilter", new CalibrateTilter());
         SmartDashboard.putData("ResetGyro", new ResetGyro());
+        SmartDashboard.putData("CalibrateGyro", new CalibrateGyro(.5));
         SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
     }
 

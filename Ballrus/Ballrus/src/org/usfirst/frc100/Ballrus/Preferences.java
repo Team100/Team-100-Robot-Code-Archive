@@ -9,6 +9,12 @@ import javax.microedition.io.Connector;
 
 /**
  * This class stores the values of the robot's preferences.
+ * 
+ * To add a new preference:
+ * 1. Add its declaration to the class.
+ * 2. Assign its value in the readFromFile method.
+ * 3. Add it to the preferences file on the cRIO.
+ * 4. Add it to the preferences file backup in the repository.
  */
 public class Preferences {
 
