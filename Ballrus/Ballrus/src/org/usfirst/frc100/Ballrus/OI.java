@@ -81,11 +81,15 @@ public class OI {
             SmartDashboard.putData("TiltToTestAngle", new TiltToTestAngle());
         }
         SmartDashboard.putData("UpdatePreferences", new UpdatePreferences());
+        SmartDashboard.putData("ChangePreference", new ChangePreference());
+        SmartDashboard.putData("ViewPreference", new ViewPreference());
         SmartDashboard.putData("CalibrateShooter", new CalibrateShooter());
         SmartDashboard.putData("CalibrateTilter", new CalibrateTilter());
         SmartDashboard.putData("ResetGyro", new ResetGyro());
         SmartDashboard.putData("CalibrateGyro", new CalibrateGyro(.5));
         SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
+        SmartDashboard.putString("PreferenceName", "");
+        SmartDashboard.putString("PreferenceValue", "");
     }
 
     public Joystick getDriverLeft() {

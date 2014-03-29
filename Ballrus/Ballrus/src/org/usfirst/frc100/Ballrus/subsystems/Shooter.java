@@ -46,7 +46,7 @@ public class Shooter extends Subsystem {
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        if(getPosition()<=0 || forwardLimit.get()){
+        if(getPosition()<=Preferences.shooterReloadPullback || forwardLimit.get()){
             motor.set(0);
             return true;
         }

@@ -80,6 +80,7 @@ shooterShootLowPullback 6.0
 shooterShootTrussPullback 4.7
 shooterIntakePullback 6.5
 shooterStowedPullback 6.0
+shooterReloadPullback -0.2
 shooterTrussPassPullback 5.5
 
 Intake:

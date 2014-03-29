@@ -80,6 +80,7 @@ shooterShootLowPullback 6.0 // shooter pullback in inches when shooting from lon
 shooterShootTrussPullback 4.7 // shooter pullback in inches when shooting over the truss (button 3)
 shooterIntakePullback 6.5 // shooter pullback in inches when intaking (button 2)
 shooterStowedPullback 6.0 // shooter pullback in inches at start of match (button 9)
+shooterReloadPullback = -0.2; // shooter pullback in inches to reload after shooting
 shooterTrussPassPullback 5.5 // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
 
 Intake:
