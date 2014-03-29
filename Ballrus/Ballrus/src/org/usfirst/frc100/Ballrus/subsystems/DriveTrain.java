@@ -3,6 +3,7 @@ package org.usfirst.frc100.Ballrus.subsystems;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.Preferences;
@@ -23,7 +24,7 @@ public class DriveTrain extends Subsystem {
     private final Counter leftCounter = RobotMap.driveTrainLeftCounter; // counts if the left line reader is over the line or not
     private final Counter rightCounter = RobotMap.driveTrainRightCounter; // counts if the right line reader is over the line or not
 
-    private Timer period = new Timer();
+    private final Timer period = new Timer();
     private double distError = 0, lastDistError = 0, totalDistError = 0, lastDistSetpoint = 0;
     private double angleError = 0, lastAngleError = 0, totalAngleError = 0, lastAngleSetpoint = 0;
     private double distOutput = 0;
@@ -31,7 +32,8 @@ public class DriveTrain extends Subsystem {
     private double direction = 0;
     private double lastRangeFinderValue = 0;
     private int rangeErrorCount = 0;
-    
+    private final Timer gyroDriftTimer = new Timer();
+    private double gyroDrift = 0.0; // Drift in gyro value per second
 
     // Sets the default command to Drive
     public void initDefaultCommand() {
@@ -258,9 +260,17 @@ public class DriveTrain extends Subsystem {
         return false;
     }
 
+    // Sets the amount of drift to compensate for
+    public void setGyroDrift(double drift){
+        gyroDrift = drift;
+    }
+    
     // Returns robot angle relative to starting position
     public double getGyroDegrees() {
-        return gyro.getAngle() / Preferences.driveGyroToDegreeRatio;
+        double totalGyroDrift = gyroDriftTimer.get()*gyroDrift;
+//        SmartDashboard.putNumber("DriveGyroDriftOffset", totalGyroDrift);
+//        SmartDashboard.putNumber("DriveGyroRaw", gyro.getAngle());
+        return (gyro.getAngle()-totalGyroDrift) / Preferences.driveGyroToDegreeRatio;
     }
 
     // Returns distance traveled in inches since last reset
@@ -288,10 +298,8 @@ public class DriveTrain extends Subsystem {
         } else {
             rangeErrorCount++;
             return -1;
-        }
-    }
-    
-//    //UNTESTED
+        }//    
+//UNTESTED
 //      // Returns rangefinder distance in inches. Spikes and out-of-range distances return -1
 //    public double getRangeInchesIR() {
 //        if(IRrange.getVoltage() <= 0.1)
@@ -307,6 +315,7 @@ public class DriveTrain extends Subsystem {
 //        }*/
 //        return currentValue;
 //    }
+    }
     
     // Resets both encoders to zero
     public void resetEncoders() {
@@ -323,6 +332,8 @@ public class DriveTrain extends Subsystem {
     // Resets the gyro so that the current angle is 0
     public void resetGyro() {
         gyro.reset();
+        gyroDriftTimer.reset();
+        gyroDriftTimer.start();
     }
 
     // Call once before drive straight or turn by angle
