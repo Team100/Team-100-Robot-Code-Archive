@@ -102,6 +102,7 @@ public class Preferences {
     public static double shooterShootTrussPullback = 4.7; // shooter pullback in inches when shooting over the truss (button 3)
     public static double shooterIntakePullback = 6.5; // shooter pullback in inches when intaking (button 2)
     public static double shooterStowedPullback = 6.0; // shooter pullback in inches at start of match (button 9)
+    public static double shooterReloadPullback = -0.2; // shooter pullback in inches to reload after shooting
     public static double shooterTrussPassPullback = 5.5; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
 
     // Intake
@@ -276,6 +277,7 @@ public class Preferences {
         shooterShootTrussPullback = Double.parseDouble(getPref("shooterShootTrussPullback"));
         shooterIntakePullback = Double.parseDouble(getPref("shooterIntakePullback"));
         shooterStowedPullback = Double.parseDouble(getPref("shooterStowedPullback"));
+        shooterReloadPullback = Double.parseDouble(getPref("shooterReloadPullback"));
         shooterTrussPassPullback = Double.parseDouble(getPref("shooterTrussPassPullback"));
         intakeTuningMode = "true".equals(getPref("intakeTuningMode"));
         intakeInSpeed = Double.parseDouble(getPref("intakeInSpeed"));
