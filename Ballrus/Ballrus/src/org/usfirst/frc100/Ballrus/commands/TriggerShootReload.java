@@ -34,12 +34,14 @@ public class TriggerShootReload extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if((pistonRaised || timeSinceInitialized() > 0.5)&&!isFinished) {
+        if((pistonRaised || timeSinceInitialized() > 0.2)&&!isFinished) {
             Ballrus.shooter.setTrigger(true);
             isFinished = Ballrus.shooter.reload();
             grabDelay.reset();
             grabDelay.start();
         }
+        System.out.println("isFinished: "+isFinished);
+        System.out.println("grabDelay: "+grabDelay.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -50,6 +52,7 @@ public class TriggerShootReload extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("End");
         Ballrus.shooter.setTrigger(false);
         new DeArmShooter().start();
         new PullBackFull().start();

@@ -18,11 +18,13 @@ import org.usfirst.frc100.Ballrus.Preferences;
  * 7: Test vision
  * 8: Drive only
  * 9: Dead reckoning drive only
+ * 10: Shoot only
+ * 11: Dead reckoning drive and shoot
  */
 public class Autonomous extends CommandGroup {
 
     public Autonomous() {
-        int mode = (int)DriverStation.getInstance().getAnalogIn(1)+(int)DriverStation.getInstance().getAnalogIn(2);
+        int mode = (int)DriverStation.getInstance().getAnalogIn(1)+(int)DriverStation.getInstance().getAnalogIn(2)+(int)DriverStation.getInstance().getAnalogIn(3);
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
         System.out.println("Mode: "+mode);
@@ -99,6 +101,18 @@ public class Autonomous extends CommandGroup {
                 break;
             case 9: //dead reckoning drive only
                 addSequential(new DeadReckoningDrive(0.5));
+                break;
+            case 10: //shoot only
+                addParallel(new TiltToShootHigh());
+                addParallel(new ArmShooter());
+                addSequential(new Pause(1.5));
+                addSequential(new TriggerShootReload());
+                break;
+            case 11: //dead reckoning drive and shoot
+                addParallel(new TiltToShootHigh());
+                addSequential(new DeadReckoningDriveStraight(-.5, 1.2));//drive to close shooting position
+                addSequential(new AutoTurn(0.0, true, 1.5));
+                addSequential(new TriggerShootReload());
                 break;
         }
     }
