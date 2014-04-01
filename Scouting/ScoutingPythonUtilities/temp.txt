@@ -1,0 +1,46 @@
+1. ds program: c - add in dsnumber from config file
+2. finalize configuration script			<<pretty much done
+3. python 3 script for resizing/translate image files 	<<done
+4. python/java script for match scedule 		<< done
+5. translate ds file.out for the gui
+
+
+
+get rid of kinect - done
+add bridge to tabs - done
+change text excel file to new format - done
+add bridge data importation - semidone, decide format - done
+add range data  importation - done
+add penalty data importation - done
+fix python script to be compatible with new data format - done
+add text(for the written info) support in display - done
+add text clip support in remaining tabs - done
+fiddle with delete function
+work score config in python script - done
+cleanup things
+bugfix
+
+offensive - averagescore +autoscore+ bridgepoints + rating/2+pickup/3
+10-(10/|(averagescore+autoscore+bridgepoints + rating/2+pickup/3)|)
+
+
+defensive - Pickup + manuev + defense*2-penalties*10
+10-(10/|(Pickup + manuev + defense*2-penalties*10)|)
+
+manuev-10-10/(Manuev + pickup)
+
+Pickup - pickup
+
+Range - farthest distance as long as they shot it at least twice
+
+Penalty - penalty
+
+Bridge - percent they are on the bridge
+
+
+
+
+
+
+
+
