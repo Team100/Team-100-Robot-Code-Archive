@@ -34,9 +34,9 @@ public class Shooter extends Subsystem {
         }
         positionError = position-getPosition();
         inPosition = false;
-        if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!backLimit.get()){ // too close
+        if (positionError>org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!getBackLimit()){ // too close
             motor.set(Preferences.shooterPullBackSpeed);
-        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!forwardLimit.get()){ // too far
+        } else if (positionError<-org.usfirst.frc100.Ballrus.Preferences.shooterDistanceBuffer&&!getForwardLimit()){ // too far
             motor.set(-Preferences.shooterPullForwardSpeed);
         } else { // correct distance
             motor.set(0);
@@ -46,7 +46,9 @@ public class Shooter extends Subsystem {
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        if(getPosition()<=Preferences.shooterReloadPullback || forwardLimit.get()){
+        System.out.println("ForwardLimit: "+getForwardLimit());
+        System.out.println("Position: "+getPosition());
+        if(getPosition()<=Preferences.shooterReloadPullback || getForwardLimit()){
             motor.set(0);
             return true;
         }
@@ -57,7 +59,7 @@ public class Shooter extends Subsystem {
     }
     
      public boolean releaseTension(){
-        if(getPosition()<=1 || forwardLimit.get()){
+        if(getPosition()<=1 || getForwardLimit()){
             motor.set(0);
             return true;
         }
@@ -89,12 +91,12 @@ public class Shooter extends Subsystem {
     
     // Returns the value of the forward limit switch
     public boolean getForwardLimit(){
-        return forwardLimit.get();
+        return !forwardLimit.get();
     }
     
     // Returns the value of the back limit switch
     public boolean getBackLimit(){
-        return backLimit.get();
+        return !backLimit.get();
     }
     
     // Returns the value of the potentiometer
@@ -104,10 +106,10 @@ public class Shooter extends Subsystem {
     
     // Directly controls motor speed
     public void manualControl(double speed){
-        if(speed>0&&!backLimit.get()){
+        if(speed>0&&!getBackLimit()){
             motor.set(speed);
         }
-        else if(speed<0&&!forwardLimit.get()){
+        else if(speed<0&&!getForwardLimit()){
             motor.set(speed);
         }
         else{
@@ -120,11 +122,10 @@ public class Shooter extends Subsystem {
         SmartDashboard.putNumber("ShooterPosition", getPosition());
         if(Preferences.shooterTuningMode){
             SmartDashboard.putNumber("ShooterSensorValue", potentiometer.getValue());
-            SmartDashboard.putBoolean("ShooterForwardHallEffect", forwardLimit.get());
-            SmartDashboard.putBoolean("ShooterBackHallEffect", backLimit.get());
+            SmartDashboard.putBoolean("ShooterForwardHallEffect", getForwardLimit());
+            SmartDashboard.putBoolean("ShooterBackHallEffect", getBackLimit());
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
-            SmartDashboard.getBoolean("ShooterBackLimit", backLimit.get());
         }
     }
 }
