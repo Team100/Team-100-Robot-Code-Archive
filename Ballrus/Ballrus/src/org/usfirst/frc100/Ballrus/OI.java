@@ -80,7 +80,8 @@ public class OI {
         if (Preferences.tilterTuningMode) {
             SmartDashboard.putData("TiltToTestAngle", new TiltToTestAngle());
         }
-        SmartDashboard.putData("UpdatePreferences", new UpdatePreferences());
+        SmartDashboard.putData("UpdateAllPreferences", new UpdatePreferences(true));
+        SmartDashboard.putData("UpdateFastPreferences", new UpdatePreferences(false));
         SmartDashboard.putData("ChangePreference", new ChangePreference());
         SmartDashboard.putData("ViewPreference", new ViewPreference());
         SmartDashboard.putData("CalibrateShooter", new CalibrateShooter());

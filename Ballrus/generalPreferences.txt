@@ -1,0 +1,69 @@
+General Preferences:
+hammerHeadRobotMap false
+gwrathRobotMap false
+practiceBot false
+practiceBotCompShooter false
+tankDriveMode false
+displayIO true
+
+DriveTrain:
+PID:
+driveTrainTuningMode true
+driveEncoderToInchRatio -64.545
+driveGyroToDegreeRatio 1.0
+driveDistance_kP 0.05
+driveAngle_kP 0.02
+driveDistanceLowGear_kP 0.0
+driveAngleLowGear_kP 0.0
+driveDistance_kI 0.0
+driveAngle_kI 0.0
+driveDistanceLowGear_kI 0.0
+driveAngleLowGear_kI 0.0
+driveDistance_kD 0.0
+driveAngle_kD 0.0
+driveDistanceLowGear_kD 0.0
+driveAngleLowGear_kD 0.0
+driveDistBuffer 2.0
+driveAngleBuffer 2.0
+autoDriveDelay 20.0
+driveMotorMinValue 0.38
+driveLowGearMotorMinValue 0.0
+driveJoystickDeadband 0.1
+driveLeftOffset 0.0
+Distance sensing:
+ultraInitialStopDistance 112.0
+ultraActualStopDistance 100.0
+ultraAcceptableSpike 20.0
+inPositionCounter 20
+ultraActualShootDistance 120
+LineReader:
+lowerLimit 895
+upperLimit 920
+width 24.5
+
+Tilter:
+tilterTuningMode true
+tilterAngleBuffer 2.0
+tilter_kP 0.02
+tilter_kI 0.0
+tilter_kD 7.0E-4
+tilterMinAngle 70.0
+tilterMaxAngle 180.0
+
+Shooter:
+shooterTuningMode true
+shooterDisabled false
+shooterDistanceBuffer 0.1
+shooterPullBackSpeed 1.0
+shooterPullForwardSpeed 1.0
+shooterGrabDelay 0.5
+shooterFullRange 6.5
+
+Intake:
+intakeTuningMode true
+intakeInSpeed 0.75
+intakeOutSpeed 1.0
+
+Camera:
+cameraEnabled false
+cameraAngle 40.0

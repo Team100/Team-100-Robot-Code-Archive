@@ -3,6 +3,7 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
@@ -19,7 +20,7 @@ import org.usfirst.frc100.Ballrus.Preferences;
  * 8: Drive only
  * 9: Dead reckoning drive only
  * 10: Shoot only
- * 11: Dead reckoning drive and shoot
+ * 11: Dead reckoning drive straight and shoot
  */
 public class Autonomous extends CommandGroup {
 
@@ -31,6 +32,11 @@ public class Autonomous extends CommandGroup {
         if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5 || mode == 7)){ //if camera is off, don't use camera modes
             mode = 1;
             System.out.println("Mode changed to 1 due to lack of camera!");
+        }
+        if(Math.abs(Ballrus.driveTrain.getGyroRate())>.5&&(mode==1||mode==2||mode==3||mode==4||mode==5||mode==8||mode==11)){//degrees per second
+            mode = 9;//dead reckoning drive only
+            System.out.println("Mode changed to 9 due to broken gyro!");
+            System.out.println("Gyro rate = " + Ballrus.driveTrain.getGyroRate());
         }
         switch (mode) {
             case 0: //none
@@ -108,9 +114,9 @@ public class Autonomous extends CommandGroup {
                 addSequential(new Pause(1.5));
                 addSequential(new TriggerShootReload());
                 break;
-            case 11: //dead reckoning drive and shoot
+            case 11: //dead reckoning drivestraight and shoot
                 addParallel(new TiltToShootHigh());
-                addSequential(new DeadReckoningDriveStraight(-.5, 1.2));//drive to close shooting position
+                addSequential(new DeadReckoningDriveStraight(-.5, DriverStation.getInstance().getAnalogIn(4)));//drive to close shooting position
                 addSequential(new AutoTurn(0.0, true, 1.5));
                 addSequential(new TriggerShootReload());
                 break;

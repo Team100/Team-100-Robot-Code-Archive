@@ -14,7 +14,7 @@ public class ChangePreference extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Preferences.changePreferenceInFile(SmartDashboard.getString("PreferenceName"), SmartDashboard.getString("PreferenceValue"));
+        Preferences.changePreferenceInGeneralFile(SmartDashboard.getString("PreferenceName"), SmartDashboard.getString("PreferenceValue"));
     }
 
     // Called repeatedly when this Command is scheduled to run
