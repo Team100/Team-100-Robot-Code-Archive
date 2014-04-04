@@ -32,7 +32,7 @@ public class DeadReckoningDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(driveTime.get() < time) {
-            Ballrus.driveTrain.tankDrive(-0.5, -0.6);
+            Ballrus.driveTrain.tankDrive(-0.5, -0.5);
         } else {
             driveTime.stop();
 

@@ -42,15 +42,15 @@ public class CalibrateShooter extends Command {
             backValue = Ballrus.shooter.getSensorValue();
             
             Preferences.shooterPotZeroPosition = forwardValue;
-            Preferences.changePreferenceInFile("shooterPotZeroPosition", forwardValue+"");
+            Preferences.changePreferenceInFastFile("shooterPotZeroPosition", forwardValue+"");
             System.out.println("ShooterPotZeroPosition = " + Preferences.shooterPotZeroPosition);
             
             Preferences.shooterPotBackPosition = backValue;
-            Preferences.changePreferenceInFile("shooterPotBackPosition", backValue+"");
+            Preferences.changePreferenceInFastFile("shooterPotBackPosition", backValue+"");
             System.out.println("ShooterPotBackPosition = " + Preferences.shooterPotBackPosition);
             
             Preferences.shooterPotToInchRatio = (backValue - forwardValue)/Preferences.shooterFullRange;
-            Preferences.changePreferenceInFile("shooterPotToInchRatio", (backValue - forwardValue)/Preferences.shooterFullRange+"");
+            Preferences.changePreferenceInFastFile("shooterPotToInchRatio", (backValue - forwardValue)/Preferences.shooterFullRange+"");
             System.out.println("ShooterPotToInchRatio = " + Preferences.shooterPotToInchRatio);
             
             Preferences.writeToFile();

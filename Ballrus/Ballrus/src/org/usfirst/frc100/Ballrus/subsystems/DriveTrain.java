@@ -273,6 +273,11 @@ public class DriveTrain extends Subsystem {
         return (gyro.getAngle()-totalGyroDrift) / Preferences.driveGyroToDegreeRatio;
     }
 
+    // Returns the gyro's rate
+    public double getGyroRate(){
+        return gyro.getRate();
+    }
+    
     // Returns distance traveled in inches since last reset
     public double getEncoderInches() {
         return (leftEncoder.getDistance()+ rightEncoder.getDistance()) / 2;

@@ -21,6 +21,7 @@ public class Shooter extends Subsystem {
     
     private double positionError = 0; // positive = too close, negative = too far
     private boolean inPosition = true;
+    private boolean reloading = false;
     
     // No default command
     public void initDefaultCommand() {
@@ -28,6 +29,9 @@ public class Shooter extends Subsystem {
     
     // Pulls the shooter back to a given amount of inches
     public void setPosition(double position){
+        if(reloading){
+            return;
+        }
         if(Preferences.shooterDisabled){
             motor.set(0);
             return;
@@ -46,8 +50,6 @@ public class Shooter extends Subsystem {
     
     // Reattaches the two parts of the shooter after a shot using the hall effect
     public boolean reload(){
-        System.out.println("ForwardLimit: "+getForwardLimit());
-        System.out.println("Position: "+getPosition());
         if(getPosition()<=Preferences.shooterReloadPullback || getForwardLimit()){
             motor.set(0);
             return true;
@@ -71,6 +73,11 @@ public class Shooter extends Subsystem {
     
     // Returns the pullback distance
     public double getPosition(){
+        if((double)potentiometer.getValue()-Preferences.shooterPotZeroPosition<-1){
+            SmartDashboard.putBoolean("ShooterPotWorking", false);
+            return 0;//if pot is broken
+        }
+        SmartDashboard.putBoolean("ShooterPotWorking", true);
         return ((double)potentiometer.getValue()-Preferences.shooterPotZeroPosition)/Preferences.shooterPotToInchRatio;
     }
     
@@ -106,6 +113,9 @@ public class Shooter extends Subsystem {
     
     // Directly controls motor speed
     public void manualControl(double speed){
+        if(reloading){
+            return;
+        }
         if(speed>0&&!getBackLimit()){
             motor.set(speed);
         }
@@ -127,5 +137,9 @@ public class Shooter extends Subsystem {
             SmartDashboard.putNumber("ShooterError", positionError);
             SmartDashboard.putNumber("ShooterOutput", motor.get());
         }
+    }
+
+    public void setReloading(boolean b) {
+        reloading = b;
     }
 }

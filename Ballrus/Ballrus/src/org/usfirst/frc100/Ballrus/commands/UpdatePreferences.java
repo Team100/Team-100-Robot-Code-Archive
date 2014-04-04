@@ -6,37 +6,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
- * Refreshes preference values to and from the cRIO.
- * WARNING: DO NOT UPDATE PREFERENCES ITERATIVELY!!!
+ * Refreshes preference values to and from the cRIO. WARNING: DO NOT UPDATE
+ * PREFERENCES ITERATIVELY!!!
  */
-public class  UpdatePreferences extends Command {
-    
-    public UpdatePreferences() {
+public class UpdatePreferences extends Command {
+
+    boolean allPrefs;
+
+    public UpdatePreferences(boolean allPrefs) {
+        this.allPrefs = allPrefs;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Preferences.readFromFile();
-        if(Preferences.driveTrainTuningMode) {
-            Preferences.changePreferenceInFile("driveDistance_kP", SmartDashboard.getNumber("DriveStraight_kP")+"");
-            Preferences.changePreferenceInFile("driveDistance_kI", SmartDashboard.getNumber("DriveStraight_kI")+"");
-            Preferences.changePreferenceInFile("driveDistance_kD", SmartDashboard.getNumber("DriveStraight_kD")+"");
-            Preferences.changePreferenceInFile("driveDistanceLowGear_kP", SmartDashboard.getNumber("DriveStraightLowGear_kP")+"");
-            Preferences.changePreferenceInFile("driveAngle_kP", SmartDashboard.getNumber("AutoTurn_kP")+"");
-            Preferences.changePreferenceInFile("driveAngle_kI", SmartDashboard.getNumber("AutoTurn_kI")+"");
-            Preferences.changePreferenceInFile("driveAngle_kD", SmartDashboard.getNumber("AutoTurn_kD")+"");
-            Preferences.changePreferenceInFile("driveAngleLowGear_kP", SmartDashboard.getNumber("AutoTurnLowGear_kP")+"");
-            Preferences.changePreferenceInFile("driveMotorMinValue", SmartDashboard.getNumber("DriveMotorMinValue")+"");
-            Preferences.changePreferenceInFile("driveLowGearMotorMinValue", SmartDashboard.getNumber("DriveLowGearMotorMinValue")+"");
+        if (allPrefs) {
+            Preferences.readFromFile(true);
         }
-        if(Preferences.tilterTuningMode) {
-            Preferences.changePreferenceInFile("tilter_kP", SmartDashboard.getNumber("Tilter_kP")+"");
-            Preferences.changePreferenceInFile("tilter_kI", SmartDashboard.getNumber("Tilter_kI")+"");
-            Preferences.changePreferenceInFile("tilter_kD", SmartDashboard.getNumber("Tilter_kD")+"");
+        else{
+            Preferences.readFromFile(false);
         }
-        if(Preferences.intakeTuningMode) {
-            Preferences.changePreferenceInFile("intakeInSpeed", SmartDashboard.getNumber("IntakeInSpeed")+"");
-            Preferences.changePreferenceInFile("intakeOutSpeed", SmartDashboard.getNumber("IntakeOutSpeed")+"");
+        if (Preferences.driveTrainTuningMode) {
+            Preferences.changePreferenceInGeneralFile("driveDistance_kP", SmartDashboard.getNumber("DriveStraight_kP") + "");
+            Preferences.changePreferenceInGeneralFile("driveDistance_kI", SmartDashboard.getNumber("DriveStraight_kI") + "");
+            Preferences.changePreferenceInGeneralFile("driveDistance_kD", SmartDashboard.getNumber("DriveStraight_kD") + "");
+            Preferences.changePreferenceInGeneralFile("driveDistanceLowGear_kP", SmartDashboard.getNumber("DriveStraightLowGear_kP") + "");
+            Preferences.changePreferenceInGeneralFile("driveAngle_kP", SmartDashboard.getNumber("AutoTurn_kP") + "");
+            Preferences.changePreferenceInGeneralFile("driveAngle_kI", SmartDashboard.getNumber("AutoTurn_kI") + "");
+            Preferences.changePreferenceInGeneralFile("driveAngle_kD", SmartDashboard.getNumber("AutoTurn_kD") + "");
+            Preferences.changePreferenceInGeneralFile("driveAngleLowGear_kP", SmartDashboard.getNumber("AutoTurnLowGear_kP") + "");
+            Preferences.changePreferenceInGeneralFile("driveMotorMinValue", SmartDashboard.getNumber("DriveMotorMinValue") + "");
+            Preferences.changePreferenceInGeneralFile("driveLowGearMotorMinValue", SmartDashboard.getNumber("DriveLowGearMotorMinValue") + "");
+        }
+        if (Preferences.tilterTuningMode) {
+            Preferences.changePreferenceInGeneralFile("tilter_kP", SmartDashboard.getNumber("Tilter_kP") + "");
+            Preferences.changePreferenceInGeneralFile("tilter_kI", SmartDashboard.getNumber("Tilter_kI") + "");
+            Preferences.changePreferenceInGeneralFile("tilter_kD", SmartDashboard.getNumber("Tilter_kD") + "");
+        }
+        if (Preferences.intakeTuningMode) {
+            Preferences.changePreferenceInGeneralFile("intakeInSpeed", SmartDashboard.getNumber("IntakeInSpeed") + "");
+            Preferences.changePreferenceInGeneralFile("intakeOutSpeed", SmartDashboard.getNumber("IntakeOutSpeed") + "");
         }
         Preferences.writeToFile();
     }
