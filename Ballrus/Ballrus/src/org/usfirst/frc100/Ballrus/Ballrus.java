@@ -65,9 +65,6 @@ public class Ballrus extends IterativeRobot {
 
     // This function is called at the beginning of operator control
     public void teleopInit() {
-        System.out.println();
-        System.out.println("TELEOP INIT!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println();
         Scheduler.getInstance().removeAll();
         RobotMap.stopAllMotors();
         new Drive().start();
