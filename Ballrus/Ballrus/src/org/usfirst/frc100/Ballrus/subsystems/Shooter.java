@@ -73,7 +73,7 @@ public class Shooter extends Subsystem {
     
     // Returns the pullback distance
     public double getPosition(){
-        if((double)potentiometer.getValue()-Preferences.shooterPotZeroPosition<-1){
+        if(((double)potentiometer.getValue()-Preferences.shooterPotZeroPosition)/Preferences.shooterPotToInchRatio<-2){
             SmartDashboard.putBoolean("ShooterPotWorking", false);
             return 0;//if pot is broken
         }

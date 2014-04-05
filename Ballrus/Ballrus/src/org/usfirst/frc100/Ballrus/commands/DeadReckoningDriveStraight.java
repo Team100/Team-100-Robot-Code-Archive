@@ -11,7 +11,6 @@ import org.usfirst.frc100.Ballrus.Ballrus;
  */
 public class DeadReckoningDriveStraight extends Command {
 
-    private int inPositionCounter;
     private final double speed;
     private final double timeOut;
     
