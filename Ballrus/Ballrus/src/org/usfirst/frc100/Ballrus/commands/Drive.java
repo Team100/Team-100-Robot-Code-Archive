@@ -33,11 +33,18 @@ public class  Drive extends Command {
         if(Math.abs(rightX)<Preferences.driveJoystickDeadband){
             rightX = 0.0;
         }
-        if(Preferences.tankDriveMode){
-            Ballrus.driveTrain.tankDrive(leftY, rightY);
-        }
-        else{
-            Ballrus.driveTrain.arcadeDrive(leftY, rightX);
+        if (!Preferences.guestMode) {
+            if (Preferences.tankDriveMode) {
+                Ballrus.driveTrain.tankDrive(leftY, rightY);
+            } else {
+                Ballrus.driveTrain.arcadeDrive(leftY, rightX);
+            }
+        } else {
+            if (Preferences.tankDriveMode) {
+                Ballrus.driveTrain.tankDrive(leftY / 3, rightY / 3);
+            } else {
+                Ballrus.driveTrain.arcadeDrive(leftY / 3, rightX / 3);
+            }
         }
     SmartDashboard.putNumber("Left Joystick", Ballrus.oi.getDriverLeft().getY());
     SmartDashboard.putNumber("Right Joystick", Ballrus.oi.getDriverRight().getX()+Preferences.driveLeftOffset);

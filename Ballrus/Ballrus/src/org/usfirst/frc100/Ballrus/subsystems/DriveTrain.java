@@ -389,6 +389,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("DriveRangeValue", getRangeInches());
         SmartDashboard.putNumber("DriveDistanceValue", getEncoderInches());
         SmartDashboard.putBoolean("DriveShifterIsLow", shifter.get());
+        SmartDashboard.putBoolean("GuestMode", Preferences.guestMode);
         if (Preferences.driveTrainTuningMode) {
             SmartDashboard.putNumber("DriveDistOutput", distOutput);
             SmartDashboard.putNumber("DriveAngleOutput", angleOutput);

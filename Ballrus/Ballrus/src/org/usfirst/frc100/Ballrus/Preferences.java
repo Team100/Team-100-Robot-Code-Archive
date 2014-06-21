@@ -27,6 +27,7 @@ public class Preferences {
     public static boolean practiceBot = false;
     public static boolean practiceBotCompShooter = false;
     public static boolean tankDriveMode = false; // false = arcadeDrive
+    public static boolean guestMode = false; // 1/3 speed
     public static boolean displayIO = true; // puts all I/O on the SmartDashboard
     // DriveTrain PID
     public static boolean driveTrainTuningMode = true;
@@ -294,7 +295,8 @@ public class Preferences {
             intakeOutSpeed = Double.parseDouble(getPref("intakeOutSpeed"));
             cameraEnabled = "true".equals(getPref("cameraEnabled"));
             cameraAngle = Double.parseDouble(getPref("cameraAngle"));
-
+            guestMode = "true".equals(getPref("guestMode"));
+            
             if (shooterFullRange != 0) {
                 shooterPotToInchRatio = (shooterPotBackPosition - shooterPotZeroPosition) / shooterFullRange;
             }

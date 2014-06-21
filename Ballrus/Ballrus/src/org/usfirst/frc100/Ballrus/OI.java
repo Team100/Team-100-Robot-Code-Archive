@@ -73,7 +73,7 @@ public class OI {
             tiltToTrussPassButton = new JoystickButton(manipulator, 11);
             tiltToTrussPassButton.whenPressed(new TiltToTrussPass());
             toggleGuestModeButton = new JoystickButton(manipulator, 12);
-            toggleGuestModeButton.toggleWhenPressed(new GuestMode());
+            toggleGuestModeButton.whenPressed(new ToggleGuestMode());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {
