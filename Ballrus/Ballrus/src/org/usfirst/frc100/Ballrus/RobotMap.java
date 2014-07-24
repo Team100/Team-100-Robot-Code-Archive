@@ -97,7 +97,7 @@ public class RobotMap {
             driveTrainShifter = new Solenoid(1);
             LiveWindow.addActuator("DriveTrain", "Shifter", driveTrainShifter);
 
-            driveTrainLeftLineReader = new AnalogChannel(1, 5);
+            driveTrainLeftLineReader = new AnalogChannel(1, 3);
             LiveWindow.addSensor("DriveTrain", "LeftLineReader", driveTrainLeftLineReader);
 
             driveTrainRightLineReader = new AnalogChannel(1, 6);
@@ -126,7 +126,7 @@ public class RobotMap {
             shooterBackLimit = new DigitalInput(1, 6);
             LiveWindow.addSensor("Shooter", "HallEffectBack", shooterBackLimit);
 
-            shooterPotentiometer = new AnalogChannel(1, 3);
+            shooterPotentiometer = new AnalogChannel(1, 5);
             LiveWindow.addSensor("Shooter", "Potentiometer", shooterPotentiometer);
 
             shooterRelease = new Solenoid(2);

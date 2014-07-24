@@ -30,7 +30,7 @@ public class Ballrus extends IterativeRobot {
     // This function is run when the robot is first started up and should be
     // used for any initialization code.
     public void robotInit() {
-        Preferences.readFromFile();
+        Preferences.readFromFile(true);
         RobotMap.init();
         driveTrain = new DriveTrain();
         shooter = new Shooter();

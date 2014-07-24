@@ -2,6 +2,7 @@ package org.usfirst.frc100.Ballrus.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc100.Ballrus.Ballrus;
 
 /**
@@ -32,7 +33,7 @@ public class DeadReckoningDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(driveTime.get() < time) {
-            Ballrus.driveTrain.tankDrive(-0.5, -0.6);
+            Ballrus.driveTrain.arcadeDrive(-0.5, SmartDashboard.getNumber("DeadReckoningOffset",0));
         } else {
             driveTime.stop();
 

@@ -10,6 +10,7 @@ import org.usfirst.frc100.Ballrus.Preferences;
  */
 public class  UpdateDashboard extends Command {
 
+    private int skip=0;
     public UpdateDashboard() {
     }
 
@@ -19,6 +20,7 @@ public class  UpdateDashboard extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        if(++skip%10!=0)return;//added to fix cpu usage issues, change to only occur with preference
         Ballrus.driveTrain.updateDashboard();
         Ballrus.shooter.updateDashboard();
         Ballrus.intake.updateDashboard();

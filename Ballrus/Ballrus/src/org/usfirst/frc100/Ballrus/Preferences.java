@@ -9,11 +9,16 @@ import javax.microedition.io.Connector;
 
 /**
  * This class stores the values of the robot's preferences.
+ *
+ * To add a new preference: 1. Add its declaration to the class. 2. Assign its
+ * value in the readFromFile method. 3. Add it to the preferences file on the
+ * cRIO. 4. Add it to the preferences file backup in the repository.
  */
 public class Preferences {
 
-    private static String file = "";
-
+    private static String generalFile = "";
+    private static String fastFile = "";
+    private static String combinedFile = "";
     // Initial preference declarations for competition robot, many are used on all robots
     //<editor-fold>
     // General preferences
@@ -56,12 +61,11 @@ public class Preferences {
     public static int lowerLimit = 895;
     public static int upperLimit = 920;
     public static double width = 24.5; // distance between line readers in inches
-
     // Tilter PID
     public static boolean tilterTuningMode = true;
     public static double tilterPot180DegreePosition = 653.0; // "TilterSensorValue" when tilter is straight up (180 degrees)
     public static double tilterPot90DegreePosition = 579.0; // "TilterSensorValue" when tilter is straight forwards (90 degrees)
-    public static double tilterPotToDegreeRatio = (tilterPot180DegreePosition - tilterPot90DegreePosition)/90; // (change in "TilterSensorValue")/(change in actual angle in degrees)
+    public static double tilterPotToDegreeRatio = (tilterPot180DegreePosition - tilterPot90DegreePosition) / 90; // (change in "TilterSensorValue")/(change in actual angle in degrees)
 //    public static double tilterPotToDegreeRatio = 0.8222; // (change in "TilterSensorValue")/(change in actual angle in degrees)
     public static double tilterAngleBuffer = 2.0; // angle in degrees tilter angle can be off by
     public static double tilter_kP = 0.02; // error * kP = motor speed
@@ -77,14 +81,13 @@ public class Preferences {
     public static double tilterStowedAngle = 178.0; // tilter angle in degrees at start of match (button 9)
     public static double tilterTrussPassAngle = 155.0; // tilter angle in degrees when using quickshoot (AKA FastestShotInTheWest)
     public static double tilterCameraAngle = 105.0; // tilter angle in degrees when using the camera
-
     // Shooter tuning
     public static boolean shooterTuningMode = true;
     public static boolean shooterDisabled = false;
     public static double shooterPotZeroPosition = 275.0; // "ShooterSensorValue" when shooter is all the way forward
     public static double shooterPotBackPosition = 477.0; // "ShooterSensorValue" when shooter is all the way back
     public static double shooterFullRange = 7.25; // distance in inches between all the way forward and all the way pulled back
-    public static double shooterPotToInchRatio = (shooterPotBackPosition - shooterPotZeroPosition)/shooterFullRange; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
+    public static double shooterPotToInchRatio = (shooterPotBackPosition - shooterPotZeroPosition) / shooterFullRange; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
 //    public static double shooterPotToInchRatio = 27.86; // (change in "ShooterSensorValue")/(change in actual distance pulled back in inches)
     public static double shooterDistanceBuffer = 0.1; // distance in inches shooter position can be off by
     public static double shooterPullBackSpeed = 1.0; // speed at which shooter pulls back
@@ -96,21 +99,19 @@ public class Preferences {
     public static double shooterShootTrussPullback = 4.7; // shooter pullback in inches when shooting over the truss (button 3)
     public static double shooterIntakePullback = 6.5; // shooter pullback in inches when intaking (button 2)
     public static double shooterStowedPullback = 6.0; // shooter pullback in inches at start of match (button 9)
+    public static double shooterReloadPullback = -0.2; // shooter pullback in inches to reload after shooting
     public static double shooterTrussPassPullback = 5.5; // shooter pullback in inches when using quickshoot (AKA FastestShotInTheWest)
-
     // Intake
     public static boolean intakeTuningMode = true;
     public static double intakeInSpeed = 0.75; // roller speed when intaking the ball
     public static double intakeOutSpeed = 1.0; // roller speed when expelling the ball (use absolute value)
     public static double intakeSideRollerSpeed = 0.75;
-
     // Camera
     public static boolean cameraEnabled = false;
     public static double cameraAngle = 40.0; // degrees to turn by for camera aim
 
     // RobotMap
     //</editor-fold>
-    
     // Changes preferences to those for the practice bot, if practice bot has the competition shooter then tilter/shooter preferences will not be changed
     public static void setPracticeBotPrefs() {
         // Drivetrain PID
@@ -177,12 +178,26 @@ public class Preferences {
     }
 
     // Updates the values of the preferences to match the file
-    public static void readFromFile() {
+    public static void readFromFile(boolean all) {
         DataInputStream actualFile;
         FileConnection fc;
-        file = "";
+        String file = "";
         try {
-            fc = (FileConnection) Connector.open("file:///preferences.txt", Connector.READ);
+            if (all) {
+                fc = (FileConnection) Connector.open("file:///generalPreferences.txt", Connector.READ);
+                actualFile = fc.openDataInputStream();
+                for (int i = 0; i < 10000; i++) {
+                    RobotMap.stopAllMotors();
+                    int nextChar = actualFile.read();
+                    if (nextChar == -1) {
+                        break;
+                    }
+                    file = file + (char) nextChar;
+                }
+                generalFile = file;
+                file="";
+            }
+            fc = (FileConnection) Connector.open("file:///fastPreferences.txt", Connector.READ);
             actualFile = fc.openDataInputStream();
             for (int i = 0; i < 10000; i++) {
                 RobotMap.stopAllMotors();
@@ -192,119 +207,131 @@ public class Preferences {
                 }
                 file = file + (char) nextChar;
             }
+            fastFile = file;
         } catch (IOException e) {
             System.out.println("File Reading Failed");
-            file = "";
             return;
         }
+        combinedFile = generalFile + fastFile;
         hammerHeadRobotMap = "true".equals(getPref("hammerHeadRobotMap"));
         gwrathRobotMap = "true".equals(getPref("gwrathRobotMap"));
         practiceBot = "true".equals(getPref("practiceBot"));
         practiceBotCompShooter = "true".equals(getPref("practiceBotCompShooter"));
-        
-        if(hammerHeadRobotMap||gwrathRobotMap||practiceBot){
+
+        if (hammerHeadRobotMap || gwrathRobotMap || practiceBot) {
             return;
         }
-        if (!practiceBotCompShooter) {
-            tankDriveMode = "true".equals(getPref("tankDriveMode"));
-            displayIO = "true".equals(getPref("displayIO"));
-            driveTrainTuningMode = "true".equals(getPref("driveTrainTuningMode"));
-            driveEncoderToInchRatio = Double.parseDouble(getPref("driveEncoderToInchRatio"));
-            driveGyroToDegreeRatio = Double.parseDouble(getPref("driveGyroToDegreeRatio"));
-            driveDistance_kP = Double.parseDouble(getPref("driveDistance_kP"));
-            driveAngle_kP = Double.parseDouble(getPref("driveAngle_kP"));
-            driveDistanceLowGear_kP = Double.parseDouble(getPref("driveDistanceLowGear_kP"));
-            driveAngleLowGear_kP = Double.parseDouble(getPref("driveAngleLowGear_kP"));
-            driveDistance_kI = Double.parseDouble(getPref("driveDistance_kI"));
-            driveAngle_kI = Double.parseDouble(getPref("driveAngle_kI"));
-            driveDistanceLowGear_kI = Double.parseDouble(getPref("driveDistanceLowGear_kI"));
-            driveAngleLowGear_kI = Double.parseDouble(getPref("driveAngleLowGear_kI"));
-            driveDistance_kD = Double.parseDouble(getPref("driveDistance_kD"));
-            driveAngle_kD = Double.parseDouble(getPref("driveAngle_kD"));
-            driveDistanceLowGear_kD = Double.parseDouble(getPref("driveDistanceLowGear_kD"));
-            driveAngleLowGear_kD = Double.parseDouble(getPref("driveAngleLowGear_kD"));
-            driveDistBuffer = Double.parseDouble(getPref("driveDistBuffer"));
-            driveAngleBuffer = Double.parseDouble(getPref("driveAngleBuffer"));
-            autoDriveDelay = Double.parseDouble(getPref("autoDriveDelay"));
-            driveMotorMinValue = Double.parseDouble(getPref("driveMotorMinValue"));
-            driveLowGearMotorMinValue = Double.parseDouble(getPref("driveLowGearMotorMinValue"));
-            driveJoystickDeadband = Double.parseDouble(getPref("driveJoystickDeadband"));
-            driveLeftOffset = Double.parseDouble(getPref("driveLeftOffset"));
-            ultraInitialStopDistance = Double.parseDouble(getPref("ultraInitialStopDistance"));
-            ultraActualStopDistance = Double.parseDouble(getPref("ultraActualStopDistance"));
-            ultraAcceptableSpike = Double.parseDouble(getPref("ultraAcceptableSpike"));
-            inPositionCounter = Integer.parseInt(getPref("inPositionCounter"));
-            ultraActualShootDistance = Integer.parseInt(getPref("ultraActualShootDistance"));
-            lowerLimit = Integer.parseInt(getPref("lowerLimit"));
-            upperLimit = Integer.parseInt(getPref("upperLimit"));
-            width = Double.parseDouble(getPref("width"));
-        }
-        tilterTuningMode = "true".equals(getPref("tilterTuningMode"));
-        tilterPotToDegreeRatio = Double.parseDouble(getPref("tilterPotToDegreeRatio"));
-        tilterPot180DegreePosition = Double.parseDouble(getPref("tilterPot180DegreePosition"));
-        tilterPot90DegreePosition = Double.parseDouble(getPref("tilterPot90DegreePosition"));
-        tilterAngleBuffer = Double.parseDouble(getPref("tilterAngleBuffer"));
-        tilter_kP = Double.parseDouble(getPref("tilter_kP"));
-        tilter_kI = Double.parseDouble(getPref("tilter_kI"));
-        tilter_kD = Double.parseDouble(getPref("tilter_kD"));
-        tilterMinAngle = Double.parseDouble(getPref("tilterMinAngle"));
-        tilterMaxAngle = Double.parseDouble(getPref("tilterMaxAngle"));
-        tilterShootHighAngle = Double.parseDouble(getPref("tilterShootHighAngle"));
-        tilterShootLowAngle = Double.parseDouble(getPref("tilterShootLowAngle"));
-        tilterShootTrussAngle = Double.parseDouble(getPref("tilterShootTrussAngle"));
-        tilterIntakeAngle = Double.parseDouble(getPref("tilterIntakeAngle"));
-        tilterStowedAngle = Double.parseDouble(getPref("tilterStowedAngle"));
-        tilterTrussPassAngle = Double.parseDouble(getPref("tilterTrussPassAngle"));
-        tilterCameraAngle = Double.parseDouble(getPref("tilterCameraAngle"));
-        shooterTuningMode = "true".equals(getPref("shooterTuningMode"));
-        shooterDisabled = "true".equals(getPref("shooterDisabled"));
-        shooterPotToInchRatio = Double.parseDouble(getPref("shooterPotToInchRatio"));
-        shooterPotZeroPosition = Double.parseDouble(getPref("shooterPotZeroPosition"));
-        shooterPotBackPosition = Double.parseDouble(getPref("shooterPotBackPosition"));
-        shooterDistanceBuffer = Double.parseDouble(getPref("shooterDistanceBuffer"));
-        shooterPullBackSpeed = Double.parseDouble(getPref("shooterPullBackSpeed"));
-        shooterPullForwardSpeed = Double.parseDouble(getPref("shooterPullForwardSpeed"));
-        shooterGrabDelay = Double.parseDouble(getPref("shooterGrabDelay"));
-        shooterFullRange = Double.parseDouble(getPref("shooterFullRange"));
-        shooterShootHighPullback = Double.parseDouble(getPref("shooterShootHighPullback"));
-        shooterShootLowPullback = Double.parseDouble(getPref("shooterShootLowPullback"));
-        shooterShootTrussPullback = Double.parseDouble(getPref("shooterShootTrussPullback"));
-        shooterIntakePullback = Double.parseDouble(getPref("shooterIntakePullback"));
-        shooterStowedPullback = Double.parseDouble(getPref("shooterStowedPullback"));
-        shooterTrussPassPullback = Double.parseDouble(getPref("shooterTrussPassPullback"));
-        intakeTuningMode = "true".equals(getPref("intakeTuningMode"));
-        intakeInSpeed = Double.parseDouble(getPref("intakeInSpeed"));
-        intakeOutSpeed = Double.parseDouble(getPref("intakeOutSpeed"));
+        try {
+            if (!practiceBotCompShooter) {
+                tankDriveMode = "true".equals(getPref("tankDriveMode"));
+                displayIO = "true".equals(getPref("displayIO"));
+                driveTrainTuningMode = "true".equals(getPref("driveTrainTuningMode"));
+                driveEncoderToInchRatio = Double.parseDouble(getPref("driveEncoderToInchRatio"));
+                driveGyroToDegreeRatio = Double.parseDouble(getPref("driveGyroToDegreeRatio"));
+                driveDistance_kP = Double.parseDouble(getPref("driveDistance_kP"));
+                driveAngle_kP = Double.parseDouble(getPref("driveAngle_kP"));
+                driveDistanceLowGear_kP = Double.parseDouble(getPref("driveDistanceLowGear_kP"));
+                driveAngleLowGear_kP = Double.parseDouble(getPref("driveAngleLowGear_kP"));
+                driveDistance_kI = Double.parseDouble(getPref("driveDistance_kI"));
+                driveAngle_kI = Double.parseDouble(getPref("driveAngle_kI"));
+                driveDistanceLowGear_kI = Double.parseDouble(getPref("driveDistanceLowGear_kI"));
+                driveAngleLowGear_kI = Double.parseDouble(getPref("driveAngleLowGear_kI"));
+                driveDistance_kD = Double.parseDouble(getPref("driveDistance_kD"));
+                driveAngle_kD = Double.parseDouble(getPref("driveAngle_kD"));
+                driveDistanceLowGear_kD = Double.parseDouble(getPref("driveDistanceLowGear_kD"));
+                driveAngleLowGear_kD = Double.parseDouble(getPref("driveAngleLowGear_kD"));
+                driveDistBuffer = Double.parseDouble(getPref("driveDistBuffer"));
+                driveAngleBuffer = Double.parseDouble(getPref("driveAngleBuffer"));
+                autoDriveDelay = Double.parseDouble(getPref("autoDriveDelay"));
+                driveMotorMinValue = Double.parseDouble(getPref("driveMotorMinValue"));
+                driveLowGearMotorMinValue = Double.parseDouble(getPref("driveLowGearMotorMinValue"));
+                driveJoystickDeadband = Double.parseDouble(getPref("driveJoystickDeadband"));
+                driveLeftOffset = Double.parseDouble(getPref("driveLeftOffset"));
+                ultraInitialStopDistance = Double.parseDouble(getPref("ultraInitialStopDistance"));
+                ultraActualStopDistance = Double.parseDouble(getPref("ultraActualStopDistance"));
+                ultraAcceptableSpike = Double.parseDouble(getPref("ultraAcceptableSpike"));
+                inPositionCounter = Integer.parseInt(getPref("inPositionCounter"));
+                ultraActualShootDistance = Integer.parseInt(getPref("ultraActualShootDistance"));
+                lowerLimit = Integer.parseInt(getPref("lowerLimit"));
+                upperLimit = Integer.parseInt(getPref("upperLimit"));
+                width = Double.parseDouble(getPref("width"));
+            }
+            tilterTuningMode = "true".equals(getPref("tilterTuningMode"));
+            tilterPotToDegreeRatio = Double.parseDouble(getPref("tilterPotToDegreeRatio"));
+            tilterPot180DegreePosition = Double.parseDouble(getPref("tilterPot180DegreePosition"));
+            tilterPot90DegreePosition = Double.parseDouble(getPref("tilterPot90DegreePosition"));
+            tilterAngleBuffer = Double.parseDouble(getPref("tilterAngleBuffer"));
+            tilter_kP = Double.parseDouble(getPref("tilter_kP"));
+            tilter_kI = Double.parseDouble(getPref("tilter_kI"));
+            tilter_kD = Double.parseDouble(getPref("tilter_kD"));
+            tilterMinAngle = Double.parseDouble(getPref("tilterMinAngle"));
+            tilterMaxAngle = Double.parseDouble(getPref("tilterMaxAngle"));
+            tilterShootHighAngle = Double.parseDouble(getPref("tilterShootHighAngle"));
+            tilterShootLowAngle = Double.parseDouble(getPref("tilterShootLowAngle"));
+            tilterShootTrussAngle = Double.parseDouble(getPref("tilterShootTrussAngle"));
+            tilterIntakeAngle = Double.parseDouble(getPref("tilterIntakeAngle"));
+            tilterStowedAngle = Double.parseDouble(getPref("tilterStowedAngle"));
+            tilterTrussPassAngle = Double.parseDouble(getPref("tilterTrussPassAngle"));
+            tilterCameraAngle = Double.parseDouble(getPref("tilterCameraAngle"));
+            shooterTuningMode = "true".equals(getPref("shooterTuningMode"));
+            shooterDisabled = "true".equals(getPref("shooterDisabled"));
+            shooterPotToInchRatio = Double.parseDouble(getPref("shooterPotToInchRatio"));
+            shooterPotZeroPosition = Double.parseDouble(getPref("shooterPotZeroPosition"));
+            shooterPotBackPosition = Double.parseDouble(getPref("shooterPotBackPosition"));
+            shooterDistanceBuffer = Double.parseDouble(getPref("shooterDistanceBuffer"));
+            shooterPullBackSpeed = Double.parseDouble(getPref("shooterPullBackSpeed"));
+            shooterPullForwardSpeed = Double.parseDouble(getPref("shooterPullForwardSpeed"));
+            shooterGrabDelay = Double.parseDouble(getPref("shooterGrabDelay"));
+            shooterFullRange = Double.parseDouble(getPref("shooterFullRange"));
+            shooterShootHighPullback = Double.parseDouble(getPref("shooterShootHighPullback"));
+            shooterShootLowPullback = Double.parseDouble(getPref("shooterShootLowPullback"));
+            shooterShootTrussPullback = Double.parseDouble(getPref("shooterShootTrussPullback"));
+            shooterIntakePullback = Double.parseDouble(getPref("shooterIntakePullback"));
+            shooterStowedPullback = Double.parseDouble(getPref("shooterStowedPullback"));
+            shooterReloadPullback = Double.parseDouble(getPref("shooterReloadPullback"));
+            shooterTrussPassPullback = Double.parseDouble(getPref("shooterTrussPassPullback"));
+            intakeTuningMode = "true".equals(getPref("intakeTuningMode"));
+            intakeInSpeed = Double.parseDouble(getPref("intakeInSpeed"));
+            intakeOutSpeed = Double.parseDouble(getPref("intakeOutSpeed"));
         intakeSideRollerSpeed = Double.parseDouble(getPref("intakeSideRollerSpeed"));
-        cameraEnabled = "true".equals(getPref("cameraEnabled"));
-        cameraAngle = Double.parseDouble(getPref("cameraAngle"));
-        
-        if(shooterFullRange!=0) {
-            shooterPotToInchRatio = (shooterPotBackPosition - shooterPotZeroPosition)/shooterFullRange;
+            cameraEnabled = "true".equals(getPref("cameraEnabled"));
+            cameraAngle = Double.parseDouble(getPref("cameraAngle"));
+
+            if (shooterFullRange != 0) {
+                shooterPotToInchRatio = (shooterPotBackPosition - shooterPotZeroPosition) / shooterFullRange;
+            }
+            tilterPotToDegreeRatio = (tilterPot180DegreePosition - tilterPot90DegreePosition) / 90;
+            changePreferenceInFastFile("shooterPotToInchRatio", shooterPotToInchRatio + "");
+            changePreferenceInFastFile("tilterPotToDegreeRatio", tilterPotToDegreeRatio + "");
+            writeToFile();
+        } catch (java.lang.NumberFormatException e) {
+            e.printStackTrace();
         }
-        tilterPotToDegreeRatio = (tilterPot180DegreePosition - tilterPot90DegreePosition)/90;
-        changePreferenceInFile("shooterPotToInchRatio", shooterPotToInchRatio+"");
-        changePreferenceInFile("tilterPotToDegreeRatio", tilterPotToDegreeRatio+"");
-        writeToFile();
     }
 
     // Changes the contents of the preferences file to the current values in the code
     public static void writeToFile() {
-        if(hammerHeadRobotMap||gwrathRobotMap||practiceBot){
+        if (hammerHeadRobotMap || gwrathRobotMap || practiceBot) {
             return;
         }
         DataOutputStream actualFile;
         FileConnection fc;
-        if ("".equals(file)) {
+        if ("".equals(generalFile) || "".equals(fastFile)) {
             System.out.println("File is empty");
             return;
         }
         try {
-            fc = (FileConnection) Connector.open("file:///preferences.txt", Connector.WRITE);
+            fc = (FileConnection) Connector.open("file:///generalPreferences.txt", Connector.WRITE);
             fc.create();
             actualFile = fc.openDataOutputStream();
-            for (int i = 0; i < file.length(); i++) {
-                actualFile.write(file.charAt(i));
+            for (int i = 0; i < generalFile.length(); i++) {
+                actualFile.write(generalFile.charAt(i));
+            }
+            fc = (FileConnection) Connector.open("file:///fastPreferences.txt", Connector.WRITE);
+            fc.create();
+            actualFile = fc.openDataOutputStream();
+            for (int i = 0; i < fastFile.length(); i++) {
+                actualFile.write(fastFile.charAt(i));
             }
         } catch (IOException e) {
             System.out.println("File Writing Failed");
@@ -312,37 +339,58 @@ public class Preferences {
     }
 
     // Changes the value of a single preference in the code file, but NOT the value of the actual preference or in the actual file
-    public static void changePreferenceInFile(String name, String value) {
-        if(hammerHeadRobotMap||gwrathRobotMap||practiceBot){
+    public static void changePreferenceInGeneralFile(String name, String value) {
+        if (hammerHeadRobotMap || gwrathRobotMap || practiceBot) {
             return;
         }
-        if ("".equals(file)) {
+        if ("".equals(generalFile)) {
             System.out.println("File is empty");
             return;
         }
-        int startIndex = file.indexOf("\n" + name + " ", 0) + 1;
-        String subString = file.substring(startIndex);
+        int startIndex = generalFile.indexOf("\n" + name + " ", 0) + 1;
+        String subString = generalFile.substring(startIndex);
         int endIndex = startIndex + subString.indexOf("\n") - 1;
-        if (startIndex<0||endIndex<0){
+        if (startIndex < 0 || endIndex < 0) {
             System.out.println(name + " not found");
             return;
         }
-        file = file.substring(0, startIndex) + name + " " + value + file.substring(endIndex, file.length());
+        generalFile = generalFile.substring(0, startIndex) + name + " " + value + generalFile.substring(endIndex, generalFile.length());
+        combinedFile = generalFile + fastFile;
+    }
+
+    // Changes the value of a single preference in the code file, but NOT the value of the actual preference or in the actual file
+    public static void changePreferenceInFastFile(String name, String value) {
+        if (hammerHeadRobotMap || gwrathRobotMap || practiceBot) {
+            return;
+        }
+        if ("".equals(fastFile)) {
+            System.out.println("File is empty");
+            return;
+        }
+        int startIndex = fastFile.indexOf("\n" + name + " ", 0) + 1;
+        String subString = fastFile.substring(startIndex);
+        int endIndex = startIndex + subString.indexOf("\n") - 1;
+        if (startIndex < 0 || endIndex < 0) {
+            System.out.println(name + " not found");
+            return;
+        }
+        fastFile = fastFile.substring(0, startIndex) + name + " " + value + fastFile.substring(endIndex, fastFile.length());
+        combinedFile = generalFile + fastFile;
     }
 
     // Finds a preference in the file
     public static String getPref(String name) {
-        if ("".equals(file)) {
+        if ("".equals(combinedFile)) {
             System.out.println("File is empty");
             return "0";
         }
-        int startIndex = file.indexOf("\n" + name + " ", 0) + 1;
-        String subString = file.substring(startIndex);
+        int startIndex = combinedFile.indexOf("\n" + name + " ", 0) + 1;
+        String subString = combinedFile.substring(startIndex);
         int endIndex = startIndex + subString.indexOf("\n") - 1;
-        if (startIndex<0||endIndex<0||startIndex>=endIndex){
+        if (startIndex < 0 || endIndex < 0 || startIndex >= endIndex) {
             System.out.println(name + " not found");
             return "0";
         }
-        return file.substring(startIndex + name.length() + 1, endIndex);
+        return combinedFile.substring(startIndex + name.length() + 1, endIndex);
     }
 }
