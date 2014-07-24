@@ -1,8 +1,12 @@
 //fix 2-ball mode
 package org.usfirst.frc100.Ballrus.commands;
 
+import edu.wpi.first.wpilibj.AnalogModule;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc100.Ballrus.Ballrus;
 import org.usfirst.frc100.Ballrus.Preferences;
 
 /**
@@ -18,25 +22,41 @@ import org.usfirst.frc100.Ballrus.Preferences;
  * 7: Test vision
  * 8: Drive only
  * 9: Dead reckoning drive only
+ * 10: Shoot only
+ * 11: Dead reckoning drive straight and shoot
+ * 12: Pure dead reckoning drive and shoot
  */
 public class Autonomous extends CommandGroup {
 
     public Autonomous() {
-        int mode = (int)DriverStation.getInstance().getAnalogIn(1)+(int)DriverStation.getInstance().getAnalogIn(2);
+        int mode = (int)DriverStation.getInstance().getAnalogIn(1)+(int)DriverStation.getInstance().getAnalogIn(2)+(int)DriverStation.getInstance().getAnalogIn(3);
         addSequential(new ResetGyro());
         addSequential(new Pause(0.1));//allows gyro time to reset
         System.out.println("Mode: "+mode);
         if((!Preferences.cameraEnabled)&&(mode == 4 || mode == 5 || mode == 7)){ //if camera is off, don't use camera modes
             mode = 1;
+            System.out.println("Mode changed to 1 due to lack of camera!");
         }
+        if(Math.abs(Ballrus.driveTrain.getGyroRate())>10&&(mode==1||mode==2||mode==3||mode==4||mode==5||mode==8||mode==11)){//degrees per second
+            mode = 9;//dead reckoning drive only
+            System.out.println("Mode changed to 9 due to broken gyro!");
+            System.out.println("Gyro rate = " + Ballrus.driveTrain.getGyroRate());
+        }
+        SmartDashboard.putNumber("GyroAutoRate", Ballrus.driveTrain.getGyroRate());
+        SmartDashboard.putNumber("GyroAutoVoltage", AnalogModule.getInstance(1).getVoltage(1));
+        SmartDashboard.putNumber("AutoMode", mode);
+        SmartDashboard.putNumber("AutoAnalogJumper", AnalogModule.getInstance(1).getVoltage(8));
         switch (mode) {
-            case 0: //shoot
+            case 0: //none
                 break;
             case 1: //drive and shoot
                 addParallel(new TiltToShootHigh());
-                addParallel(new ArmShooter());
                 addSequential(new AutoDriveStraight(120.0, 2.5));//drive to close shooting position
                 addSequential(new AutoTurn(0.0, true, 1.5));
+                addParallel(new RunIntakeIn());
+                addSequential(new Pause(.5));
+                addSequential(new StopIntake());
+                addSequential(new Pause(1.0));//wait for shot
                 addSequential(new TriggerShootReload());
                 break;
             case 2: //shoot and drive
@@ -99,6 +119,30 @@ public class Autonomous extends CommandGroup {
             case 9: //dead reckoning drive only
                 addSequential(new DeadReckoningDrive(0.5));
                 break;
+            case 10: //shoot only
+                addParallel(new TiltToShootHigh());
+                addParallel(new ArmShooter());
+                addSequential(new Pause(1.5));
+                addSequential(new TriggerShootReload());
+                break;
+            case 11: //dead reckoning drivestraight and shoot
+                addParallel(new TiltToShootHigh());
+                addSequential(new DeadReckoningDriveStraight(-.5, DriverStation.getInstance().getAnalogIn(4)));//drive to close shooting position
+                addSequential(new AutoTurn(0.0, true, 1.5));
+                addSequential(new Pause(0.5));
+                addSequential(new TriggerShootReload());
+                break;//1.9
+            case 12: //dead reckoning and shoot
+                addParallel(new TiltToShootHigh());
+                addSequential(new DeadReckoningDrive(DriverStation.getInstance().getAnalogIn(4)));//drive to close shooting position
+                addSequential(new TriggerShootReload());
+                break;
+            case 13: //shoot hard dead reckoning
+                addParallel(new TiltToShootLow());
+                addSequential(new DeadReckoningDriveStraight(-.5, DriverStation.getInstance().getAnalogIn(4)));//drive to close shooting position
+                addSequential(new AutoTurn(0.0, true, 1.5));
+                addSequential(new Pause(0.5));
+                addSequential(new TriggerShootReload());               
         }
     }
 }

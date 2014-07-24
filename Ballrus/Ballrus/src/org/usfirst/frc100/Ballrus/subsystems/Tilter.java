@@ -43,6 +43,7 @@ public class Tilter extends Subsystem {
         angleError = angle-getAngle();
         if((Preferences.practiceBot^topLimit.get()&&angleError>0)||(bottomLimit.get()&&angleError<0)){
             motor.set(0);
+            
             return;
         }
         if(angle!=lastSetpoint){

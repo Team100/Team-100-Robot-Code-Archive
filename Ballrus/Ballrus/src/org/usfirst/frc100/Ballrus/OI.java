@@ -33,6 +33,7 @@ public class OI {
         public JoystickButton tiltToStowButton;
         public JoystickButton toggleManualControlButton;
         public JoystickButton tiltToTrussPassButton;
+        public JoystickButton toggleGuestModeButton;
 
     public OI() {
         driverLeft = new Joystick(1);
@@ -71,6 +72,8 @@ public class OI {
             toggleManualControlButton.toggleWhenPressed(new FullManualControl());
             tiltToTrussPassButton = new JoystickButton(manipulator, 11);
             tiltToTrussPassButton.whenPressed(new TiltToTrussPass());
+            toggleGuestModeButton = new JoystickButton(manipulator, 12);
+            toggleGuestModeButton.toggleWhenPressed(new GuestMode());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {
@@ -79,12 +82,18 @@ public class OI {
         }
         if (Preferences.tilterTuningMode) {
             SmartDashboard.putData("TiltToTestAngle", new TiltToTestAngle());
-        }            
-        SmartDashboard.putData("UpdatePreferences", new UpdatePreferences());
+        }
+        SmartDashboard.putData("UpdateAllPreferences", new UpdatePreferences(true));
+        SmartDashboard.putData("UpdateFastPreferences", new UpdatePreferences(false));
+        SmartDashboard.putData("ChangePreference", new ChangePreference());
+        SmartDashboard.putData("ViewPreference", new ViewPreference());
         SmartDashboard.putData("CalibrateShooter", new CalibrateShooter());
         SmartDashboard.putData("CalibrateTilter", new CalibrateTilter());
         SmartDashboard.putData("ResetGyro", new ResetGyro());
+        SmartDashboard.putData("CalibrateGyro", new CalibrateGyro(.5));
         SmartDashboard.putData("ResetRangefinder", new ResetRangefinder());
+        SmartDashboard.putString("PreferenceName", "");
+        SmartDashboard.putString("PreferenceValue", "");
     }
 
     public Joystick getDriverLeft() {
