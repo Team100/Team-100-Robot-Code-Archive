@@ -1,0 +1,25 @@
+dead: check
+low:1
+lowhot:2
+high:3
+highh:4
+mobility:no check
+low missed:1
+high missed:2
+
+low:1
+high:2
+2 assist:3
+3 assist:4
+possession:4
+truss:1
+catch:2
+job:off and def
+
+pass: check
+goal: no check
+fouls: 5
+techfouls: 6
+driver:9
+defense:7
+pickup:5
