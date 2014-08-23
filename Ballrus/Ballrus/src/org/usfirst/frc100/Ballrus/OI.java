@@ -33,6 +33,7 @@ public class OI {
         public JoystickButton tiltToStowButton;
         public JoystickButton toggleManualControlButton;
         public JoystickButton tiltToTrussPassButton;
+        public JoystickButton toggleGuestModeButton;
 
     public OI() {
         driverLeft = new Joystick(1);
@@ -71,6 +72,8 @@ public class OI {
             toggleManualControlButton.toggleWhenPressed(new FullManualControl());
             tiltToTrussPassButton = new JoystickButton(manipulator, 11);
             tiltToTrussPassButton.whenPressed(new TiltToTrussPass());
+            toggleGuestModeButton = new JoystickButton(manipulator, 12);
+            toggleGuestModeButton.toggleWhenPressed(new GuestMode());
 
         // SmartDashboard Buttons
         if (Preferences.driveTrainTuningMode) {

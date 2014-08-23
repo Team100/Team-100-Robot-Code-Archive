@@ -30,6 +30,7 @@ public class Intake extends Subsystem {
         if(Preferences.intakeTuningMode){
             SmartDashboard.putNumber("IntakeInSpeed", Preferences.intakeInSpeed);
             SmartDashboard.putNumber("IntakeOutSpeed", Preferences.intakeOutSpeed);
+            SmartDashboard.putNumber("IntakeSideRollerSpeed", Preferences.intakeSideRollerSpeed);
         }
     }
     
@@ -38,10 +39,10 @@ public class Intake extends Subsystem {
         if(ballDetector.get()){
             if(Preferences.intakeTuningMode){
                 topMotor.set(SmartDashboard.getNumber("IntakeInSpeed"));
-                sideMotor.set(SmartDashboard.getNumber("IntakeInSpeed"));
+                sideMotor.set(SmartDashboard.getNumber("IntakeSideRollerSpeed"));
             } else {
                 topMotor.set(Preferences.intakeInSpeed);
-                sideMotor.set(Preferences.intakeInSpeed);
+                sideMotor.set(Preferences.intakeSideRollerSpeed);
             }
         } else {
             topMotor.set(0);
@@ -54,10 +55,10 @@ public class Intake extends Subsystem {
         topPiston.set(false);
         if (Preferences.intakeTuningMode) {
             topMotor.set(-SmartDashboard.getNumber("IntakeOutSpeed"));
-            sideMotor.set(-SmartDashboard.getNumber("IntakeOutSpeed"));
+            sideMotor.set(0);
         } else {
             topMotor.set(-Preferences.intakeOutSpeed);
-            sideMotor.set(-Preferences.intakeOutSpeed);
+            sideMotor.set(0);
         }
     }
     
