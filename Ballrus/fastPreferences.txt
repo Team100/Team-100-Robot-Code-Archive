@@ -1,0 +1,25 @@
+
+tilterPotToDegreeRatio 2.811111111111111
+tilterPot180DegreePosition 397.0
+tilterPot90DegreePosition 142.0
+
+tilterShootHighAngle 140.0
+tilterShootLowAngle 128.0
+tilterShootTrussAngle 140.0
+tilterIntakeAngle 67.0
+tilterStowedAngle 178.0
+tilterTrussPassAngle 151.0
+tilterCameraAngle 105.0
+
+shooterPotToInchRatio 22.76923076923077
+shooterPotZeroPosition 401
+shooterPotBackPosition 557
+
+shooterShootHighPullback 5.3
+(really only 5.5)
+shooterShootLowPullback 5.7
+shooterShootTrussPullback 7.2
+shooterIntakePullback 6.5
+shooterStowedPullback 6.0
+shooterReloadPullback -0.6
+shooterTrussPassPullback 5.5
