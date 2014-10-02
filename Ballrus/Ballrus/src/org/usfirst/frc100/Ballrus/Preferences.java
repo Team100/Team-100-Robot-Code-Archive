@@ -106,6 +106,7 @@ public class Preferences {
     public static boolean intakeTuningMode = true;
     public static double intakeInSpeed = 0.75; // roller speed when intaking the ball
     public static double intakeOutSpeed = 1.0; // roller speed when expelling the ball (use absolute value)
+    public static double intakeSideRollerSpeed = 0.75;
     // Camera
     public static boolean cameraEnabled = false;
     public static double cameraAngle = 40.0; // degrees to turn by for camera aim
@@ -293,6 +294,7 @@ public class Preferences {
             intakeTuningMode = "true".equals(getPref("intakeTuningMode"));
             intakeInSpeed = Double.parseDouble(getPref("intakeInSpeed"));
             intakeOutSpeed = Double.parseDouble(getPref("intakeOutSpeed"));
+        intakeSideRollerSpeed = Double.parseDouble(getPref("intakeSideRollerSpeed"));
             cameraEnabled = "true".equals(getPref("cameraEnabled"));
             cameraAngle = Double.parseDouble(getPref("cameraAngle"));
             guestMode = "true".equals(getPref("guestMode"));

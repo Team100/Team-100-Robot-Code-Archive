@@ -19,7 +19,7 @@ class MazeRunner {
         {1, 1, 1, 1, 1, 1, 1, 1}
     };
     
-    private byte[][] maze2 = {
+    private final byte[][] maze2 = {
         {1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 1, 1},
         {1, 0, 1, 1, 1, 2, 1, 1},
