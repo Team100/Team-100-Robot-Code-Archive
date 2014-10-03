@@ -23,7 +23,7 @@ public class PullBackFull extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Ballrus.tilter.stop();
-        Ballrus.shooter.setPosition(Preferences.shooterShootHighPullback);
+        Ballrus.shooter.setPosition(Preferences.shooterIntakePullback);
     }
 
     // Make this return true when this Command no longer needs to run execute()
