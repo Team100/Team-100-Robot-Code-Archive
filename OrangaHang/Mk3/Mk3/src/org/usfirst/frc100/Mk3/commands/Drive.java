@@ -34,7 +34,7 @@ public class Drive extends CommandBase {
 //            shifter.shiftHighGear(); //Shifts back up when the driver stops turning
 //            isTurning = false;
 //        }
-          driveTrain.arcadeDrive(OI.driverLeft.getY(), OI.driverRight.getX());
+          driveTrain.arcadeDrive(OI.manipulator.getY(), -OI.manipulator.getTwist());
 //        driveTrain.tankDrive(OI.driverLeft.getY(), OI.driverRight.getY()); //Double joystick arcade drive
     }
 
