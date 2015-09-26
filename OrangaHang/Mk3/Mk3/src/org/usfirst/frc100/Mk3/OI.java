@@ -11,6 +11,7 @@ import org.usfirst.frc100.Mk3.commands.*;
 public class OI {
 
     // Manipulator declarations
+	// This is where changes will have to be made
     public static final Joystick manipulator = new Joystick(1);
         public static final JoystickButton useIntakeButton = new JoystickButton(manipulator, 1);
         public static final JoystickButton lowerIntakeButton = new JoystickButton(manipulator, 2);
