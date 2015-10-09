@@ -1,5 +1,6 @@
 package org.usfirst.frc100.Mk3.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc100.Mk3.OI;
@@ -34,9 +35,17 @@ public class Drive extends CommandBase {
 //            shifter.shiftHighGear(); //Shifts back up when the driver stops turning
 //            isTurning = false;
 //        }
+        boolean drivingWithTwo = DriverStation.getInstance().getDigitalIn(1);
+        if(drivingWithTwo == true)
+        {
           driveTrain.arcadeDrive(OI.manipulator.getY(), -OI.manipulator.getTwist());
-//        driveTrain.tankDrive(OI.driverLeft.getY(), OI.driverRight.getY()); //Double joystick arcade drive
-    }
+        }
+        else
+        {
+          driveTrain.tankDrive(OI.driverLeft.getY(), OI.driverRight.getY()); //Double joystick arcade drive
+        }
+        }
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
